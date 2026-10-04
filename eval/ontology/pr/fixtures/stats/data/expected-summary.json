@@ -1,0 +1,483 @@
+{
+ "reps": 400,
+ "draws": 100,
+ "results": {
+  "good": {
+   "counts": {
+    "runs": 200,
+    "positives": 80,
+    "items": 160,
+    "item_failure_share": 0
+   },
+   "observed": {
+    "m2s": {
+     "F": 120,
+     "TP": 80,
+     "precision": 0.6666666666666666,
+     "recall": 1
+    },
+    "prov": {
+     "F": 132,
+     "TP": 52,
+     "precision": 0.3939393939393939,
+     "recall": 0.65
+    },
+    "untyped": {
+     "F": 92,
+     "TP": 52,
+     "precision": 0.5652173913043478,
+     "recall": 0.65
+    },
+    "otp": {
+     "F": 120,
+     "TP": 80,
+     "precision": 0.6666666666666666,
+     "recall": 1
+    }
+   },
+   "rand_precision_mean": 0.6937827605435837,
+   "p": {
+    "a": 0.0024937655860349127,
+    "b": 0.0024937655860349127,
+    "c1": 0.007481296758104738,
+    "c2": 0.0024937655860349127,
+    "d": 0.6336633663366337
+   },
+   "ci": {
+    "recall_vs_prov": [
+     0.1842105263157895,
+     0.5256410256410257
+    ],
+    "precision_vs_prov": [
+     0.12411347517730498,
+     0.5165945165945167
+    ],
+    "precision_vs_untyped": [
+     0.03535353535353536,
+     0.1717171717171717
+    ],
+    "recall_vs_untyped": [
+     0.1842105263157895,
+     0.5256410256410257
+    ]
+   },
+   "p_H14": 0.6336633663366337,
+   "verdict": "not supported",
+   "redraws": 0,
+   "secondary": {
+    "overlap": {
+     "m2s": {
+      "F": 120,
+      "TP": 120,
+      "precision": 1,
+      "recall": 1
+     },
+     "prov": {
+      "F": 132,
+      "TP": 92,
+      "precision": 0.696969696969697,
+      "recall": 0.7666666666666667
+     },
+     "untyped": {
+      "F": 92,
+      "TP": 92,
+      "precision": 1,
+      "recall": 0.7666666666666667
+     },
+     "otp": {
+      "F": 120,
+      "TP": 80,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "m2s": {
+       "F": 120,
+       "TP": 80
+      },
+      "prov": {
+       "F": 132,
+       "TP": 52
+      },
+      "untyped": {
+       "F": 92,
+       "TP": 52
+      },
+      "otp": {
+       "F": 120,
+       "TP": 80
+      }
+     },
+     "other": {
+      "m2s": {
+       "F": 0,
+       "TP": 0
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0
+      },
+      "untyped": {
+       "F": 0,
+       "TP": 0
+      },
+      "otp": {
+       "F": 0,
+       "TP": 0
+      }
+     }
+    },
+    "ablations": {
+     "stage1_only": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     },
+     "route_P_only": {
+      "F": 80,
+      "TP": 80,
+      "precision": 1,
+      "recall": 1
+     },
+     "route_V_only": {
+      "F": 120,
+      "TP": 80,
+      "precision": 0.6666666666666666,
+      "recall": 1
+     },
+     "threshold_0_3": {
+      "F": 120,
+      "TP": 80,
+      "precision": 0.6666666666666666,
+      "recall": 1
+     },
+     "threshold_0_7": {
+      "F": 120,
+      "TP": 80,
+      "precision": 0.6666666666666666,
+      "recall": 1
+     },
+     "source_trust": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     }
+    }
+   }
+  },
+  "small": {
+   "counts": {
+    "runs": 30,
+    "positives": 12,
+    "items": 24,
+    "item_failure_share": 0
+   },
+   "observed": {
+    "m2s": {
+     "F": 12,
+     "TP": 12,
+     "precision": 1,
+     "recall": 1
+    },
+    "prov": {
+     "F": 24,
+     "TP": 12,
+     "precision": 0.5,
+     "recall": 1
+    },
+    "untyped": {
+     "F": 12,
+     "TP": 12,
+     "precision": 1,
+     "recall": 1
+    },
+    "otp": {
+     "F": 24,
+     "TP": 12,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "rand_precision_mean": 1,
+   "p": {
+    "a": null,
+    "b": null,
+    "c1": null,
+    "c2": null,
+    "d": null
+   },
+   "ci": {
+    "recall_vs_prov": null,
+    "precision_vs_prov": null,
+    "precision_vs_untyped": null,
+    "recall_vs_untyped": null
+   },
+   "p_H14": 1,
+   "verdict": "inconclusive",
+   "redraws": 0,
+   "secondary": {
+    "overlap": {
+     "m2s": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "prov": {
+      "F": 24,
+      "TP": 12,
+      "precision": 0.5,
+      "recall": 1
+     },
+     "untyped": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "otp": {
+      "F": 24,
+      "TP": 12,
+      "precision": 0.5,
+      "recall": 1
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "m2s": {
+       "F": 12,
+       "TP": 12
+      },
+      "prov": {
+       "F": 24,
+       "TP": 12
+      },
+      "untyped": {
+       "F": 12,
+       "TP": 12
+      },
+      "otp": {
+       "F": 24,
+       "TP": 12
+      }
+     },
+     "other": {
+      "m2s": {
+       "F": 0,
+       "TP": 0
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0
+      },
+      "untyped": {
+       "F": 0,
+       "TP": 0
+      },
+      "otp": {
+       "F": 0,
+       "TP": 0
+      }
+     }
+    },
+    "ablations": {
+     "stage1_only": {
+      "F": 24,
+      "TP": 12,
+      "precision": 0.5,
+      "recall": 1
+     },
+     "route_P_only": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "route_V_only": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "threshold_0_3": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "threshold_0_7": {
+      "F": 12,
+      "TP": 12,
+      "precision": 1,
+      "recall": 1
+     },
+     "source_trust": {
+      "F": 24,
+      "TP": 12,
+      "precision": 0.5,
+      "recall": 1
+     }
+    }
+   }
+  },
+  "failing": {
+   "counts": {
+    "runs": 200,
+    "positives": 80,
+    "items": 160,
+    "item_failure_share": 0.1
+   },
+   "observed": {
+    "m2s": {
+     "F": 72,
+     "TP": 72,
+     "precision": 1,
+     "recall": 0.9
+    },
+    "prov": {
+     "F": 160,
+     "TP": 80,
+     "precision": 0.5,
+     "recall": 1
+    },
+    "untyped": {
+     "F": 72,
+     "TP": 72,
+     "precision": 1,
+     "recall": 0.9
+    },
+    "otp": {
+     "F": 160,
+     "TP": 80,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "rand_precision_mean": 1,
+   "p": {
+    "a": null,
+    "b": null,
+    "c1": null,
+    "c2": null,
+    "d": null
+   },
+   "ci": {
+    "recall_vs_prov": null,
+    "precision_vs_prov": null,
+    "precision_vs_untyped": null,
+    "recall_vs_untyped": null
+   },
+   "p_H14": 1,
+   "verdict": "inconclusive",
+   "redraws": 0,
+   "secondary": {
+    "overlap": {
+     "m2s": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "prov": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     },
+     "untyped": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "otp": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "m2s": {
+       "F": 72,
+       "TP": 72
+      },
+      "prov": {
+       "F": 160,
+       "TP": 80
+      },
+      "untyped": {
+       "F": 72,
+       "TP": 72
+      },
+      "otp": {
+       "F": 160,
+       "TP": 80
+      }
+     },
+     "other": {
+      "m2s": {
+       "F": 0,
+       "TP": 0
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0
+      },
+      "untyped": {
+       "F": 0,
+       "TP": 0
+      },
+      "otp": {
+       "F": 0,
+       "TP": 0
+      }
+     }
+    },
+    "ablations": {
+     "stage1_only": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     },
+     "route_P_only": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "route_V_only": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "threshold_0_3": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "threshold_0_7": {
+      "F": 72,
+      "TP": 72,
+      "precision": 1,
+      "recall": 0.9
+     },
+     "source_trust": {
+      "F": 160,
+      "TP": 80,
+      "precision": 0.5,
+      "recall": 1
+     }
+    }
+   }
+  }
+ }
+}
