@@ -1,0 +1,92 @@
+[
+ {
+  "pipeline": "claude-3-haiku-20240307",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "claude-3-sonnet-20240229",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-3.5-turbo-0125",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gemini-1.5-flash-001",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gemini-2.0-flash-exp",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13-tool_filter",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "direct",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "ignore_previous",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "tool_knowledge",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "injecagent",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "important_instructions_no_model_name",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "important_instructions_no_names",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "important_instructions_no_user_name",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "important_instructions_wrong_model_name",
+  "clean": false
+ },
+ {
+  "pipeline": "gpt-4o-2024-05-13",
+  "attack": "important_instructions_wrong_user_name",
+  "clean": false
+ }
+]
