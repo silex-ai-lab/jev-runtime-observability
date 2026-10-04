@@ -1,0 +1,14 @@
+{
+  "runs": 4356,
+  "calls": 14531,
+  "parse_failures": 0,
+  "pooled_positives": 1020,
+  "per_model_runs": {
+    "claude-3-5-sonnet-20240620": 726,
+    "claude-3-opus-20240229": 726,
+    "gpt-4-turbo-2024-04-09": 726,
+    "gpt-4-0125-preview": 726,
+    "gemini-1.5-flash-002": 726,
+    "gemini-1.5-pro-001": 726
+  }
+}

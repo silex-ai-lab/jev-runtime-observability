@@ -21,3 +21,6 @@ runs/onto-v2-input/*.jsonl
 runs/onto-v2-items/
 runs/onto-v2-kev-*/predictions-*.jsonl
 runs/onto-al-input/*.jsonl
+runs/onto-pr-input/*.jsonl
+runs/onto-pr-items/
+runs/onto-pr-judge/predictions-*.jsonl
