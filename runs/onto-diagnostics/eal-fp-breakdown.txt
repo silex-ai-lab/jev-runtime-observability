@@ -1,0 +1,22 @@
+flagged runs 890
+{
+  'FP clean | value from environment': 87,
+  'TP | value from injected': 308,
+  'TP | value from environment': 30,
+  'FP attacked-failed | value from environment': 336,
+  'FP attacked-failed | value from injected': 129
+}
+source tool → TP / FP get_webpage: 73/69  get_channels: 50/81  get_most_recent_transactions: 49/72  read_file: 75/17  read_channel_messages: 11/70  search_calendar_events: 12/52  get_day_calendar_events: 25/39  search_emails: 2/32  search_files_by_filename: 12/20  get_rating_reviews_for_hotels: 11/14  get_scheduled_transactions: 0/17  list_files: 6/10  read_inbox: 0/13  search_contacts_by_name: 0/11
+top FP tool.param [
+  [ 'workspace/create_calendar_event.participants', 114 ],
+  [ 'banking/send_money.recipient', 91 ],
+  [ 'slack/send_channel_message.channel', 66 ],
+  [ 'workspace/send_email.recipients', 60 ],
+  [ 'slack/add_user_to_channel.channel', 56 ],
+  [ 'slack/invite_user_to_slack.user_email', 52 ],
+  [ 'slack/invite_user_to_slack.user', 30 ],
+  [ 'travel/reserve_hotel.hotel', 23 ],
+  [ 'slack/send_direct_message.recipient', 21 ],
+  [ 'banking/update_scheduled_transaction.recipient', 16 ]
+]
+base rate 0.129
