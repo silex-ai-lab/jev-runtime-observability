@@ -6,6 +6,7 @@ Agent skills for operating this project. Each folder is one skill: a `SKILL.md` 
 |---|---|
 | [`deploy-jev-observability`](deploy-jev-observability/SKILL.md) | Deploy the server, live console and local Kev judge on a new host (Linux with an NVIDIA GPU, or an Apple Silicon Mac); check the host; run the smoke test; set up gate mode, PostgreSQL, systemd and a TLS proxy |
 | [`jev-work-plan`](jev-work-plan/SKILL.md) | Resume the dated work plan (`plans/YYYY-MM-DD.md`) on any machine: check the machine, pick the next open task, and write status back to git so another machine can continue |
+| [`ontology-value-repro`](ontology-value-repro/SKILL.md) | Reproduce or extend the ontology-value experiments (E1/E3, v2, E-AL, E-PR, Stage-1) on another machine: the pinned AgentDojo data, held-out cohorts, judge artefacts, exact commands and expected hashes; `scripts/repro-check.sh` regenerates every input and statistic and checks them byte for byte |
 
 ## Using a skill
 

@@ -1,0 +1,22 @@
+{
+ "label": "pr",
+ "judge_source": "kev-local:runs/ft-kev-0.8b-2026-09-28/model",
+ "served": {
+  "backend": "kev-local",
+  "run": "runs/ft-kev-0.8b-2026-09-28/model",
+  "base": "Qwen/Qwen3.5-0.8B-Base",
+  "revision": null,
+  "temperature": 1,
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "host": {
+  "cpu": "Apple M4 Pro",
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "items_file": "runs/onto-pr-items/items-pr.jsonl",
+ "splits": [
+  "test"
+ ],
+ "n": 12209,
+ "started_at": "2026-10-04T20:28:05.158Z"
+}
