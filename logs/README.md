@@ -2,6 +2,12 @@
 
 Newest first. The plan and its review record live in this folder.
 
+## 2026-10-04 — Ontology v2: diagnosis of the v1 null and a held-out provenance-graph test (null)
+
+- **New:** `eval/ontology/diagnostics/` (why-null.ts, independent rederive.py); `eval/ontology/v2/` (typing and provenance proxy, monitors, `stats-v2.ts` + independent `recheck_v2.py` that agree exactly, judge fingerprint, A0 item builder, run script, report); converter `--models/--out` (v1 output byte-identical).
+- **Realistic judge baseline:** Kev-0.8B-ft 0.741 stratified run-level AUROC on 3 544 held-out real trajectories (released 0.588), replacing v1's format-separable E1 split as the judge-quality figure.
+- **Result:** H10–H12 not supported. Report: [`2026-10-04_ONTOLOGY_V2_REPORT.md`](2026-10-04_ONTOLOGY_V2_REPORT.md). Plan: `silex-mockup/logs/2026-10-04_ONTOLOGY_NULL_DIAGNOSIS_AND_V2_PLAN.md`.
+
 ## 2026-10-04 — Ontology value for runtime observability: E1 / E5 / E1b (null result)
 
 - **New:** `eval/ontology/` — arm builder (A0 baseline, A1 ontology context, A2 length-matched tool description, A3 another tool's ontology context) feeding the unchanged `eval/run/run.ts`; an AgentDojo run converter (2 092 runs, 7 649 calls); E5 monitors (max over calls, ontology-typed and write-impact gates, random gates); `stats.ts` with an independent Python reimplementation `recheck.py` that agrees exactly; E1b training sets and run scripts; the report generator.
