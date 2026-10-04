@@ -578,6 +578,38 @@
        "precision": 0.3939393939393939,
        "recall": 0.65
       }
+     },
+     "X1": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     },
+     "X2": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
      }
     },
     "overlap": {

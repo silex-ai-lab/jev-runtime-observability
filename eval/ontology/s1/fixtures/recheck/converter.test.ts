@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import { cohort, convertRun, convertSelectedRun, selectedCohort, validateCohorts } from '../../../runs-convert.ts';
+const entries = validateCohorts([{ pipeline: 'synthetic', attack: 'first', clean: true }, { pipeline: 'synthetic', attack: 'second', clean: false }]);
+const path = (attack: string, tail = 'injection_task_7') => `archive/runs/synthetic/banking/user_task_2/${attack}/${tail}.json`;
+const run = { messages: [{ role: 'user', content: 'Do the approved task' },
+  { role: 'assistant', tool_calls: [{ id: 'a', function: 'send_money', args: { recipient: 'candidate-value' } }] }],
+  injections: { x: 'candidate-value' }, security: true };
+const a = convertSelectedRun(run, selectedCohort(path('first'), entries)!);
+const b = convertSelectedRun(run, selectedCohort(path('second'), entries)!);
+assert.equal(a.label.run_id, 'synthetic/first/banking/user_task_2/injection_task_7');
+assert.equal(b.label.run_id, 'synthetic/second/banking/user_task_2/injection_task_7');
+assert.notEqual(a.observations[0].obs_id, b.observations[0].obs_id);
+assert.equal(a.label.cohort, 'synthetic/first');
+assert.equal(b.label.cohort, 'synthetic/second');
+assert.equal(a.label.pipeline, 'synthetic');
+assert.equal(a.label.attack, 'first');
+assert.equal(Object.hasOwn(a.observations[0], 'cohort'), false);
+assert.equal(Object.hasOwn(a.observations[0], 'attack'), false);
+const clean = convertSelectedRun(run, selectedCohort(path('none', 'none'), entries)!);
+assert.equal(clean.label.cohort, 'synthetic/first');
+assert.equal(clean.label.attack, null);
+assert.equal(clean.label.attacked, false);
+assert.equal(clean.label.run_id, 'synthetic/none/banking/user_task_2/none');
+assert.equal(selectedCohort(path('third'), entries), null);
+assert.equal(selectedCohort(path('none', 'none'), [{ ...entries[1], clean: false }]), null);
+assert.throws(() => validateCohorts([]), /invalid cohort/);
+assert.throws(() => validateCohorts([entries[0], entries[0]]), /duplicate cohort/);
+assert.throws(() => validateCohorts([entries[0], { ...entries[1], clean: true }]), /multiple cohorts/);
+assert.throws(() => validateCohorts([{ ...entries[0], attack: 'none' }]), /invalid cohort/);
+const legacy = convertRun(run, cohort('archive/runs/synthetic/banking/user_task_2/important_instructions/injection_task_7.json', ['synthetic']));
+assert.equal(legacy.label.run_id, 'synthetic/banking/user_task_2/injection_task_7');
+assert.equal(Object.hasOwn(legacy.label, 'pipeline'), false);
+console.log('S1 converter synthetic selection/identity fixtures PASS');

@@ -80,9 +80,95 @@ export function injectionOverlap(run: any, converted: ReturnType<typeof convertR
   return false;
 }
 
+export interface SelectedCohort { pipeline: string; attack: string; clean: boolean }
+export function validateCohorts(value: unknown): SelectedCohort[] {
+  if (!Array.isArray(value) || !value.length) throw new Error('empty or invalid cohort list');
+  const keys = new Set<string>(), clean = new Set<string>();
+  for (const entry of value) {
+    if (!entry || typeof entry.pipeline !== 'string' || !/^[\w.-]+$/.test(entry.pipeline) ||
+        typeof entry.attack !== 'string' || !/^[\w.-]+$/.test(entry.attack) || entry.attack === 'none' ||
+        typeof entry.clean !== 'boolean') throw new Error('invalid cohort entry');
+    const key = `${entry.pipeline}/${entry.attack}`;
+    if (keys.has(key)) throw new Error('duplicate cohort entry');
+    keys.add(key);
+    if (entry.clean && clean.has(entry.pipeline)) throw new Error('clean runs assigned to multiple cohorts');
+    if (entry.clean) clean.add(entry.pipeline);
+  }
+  return value;
+}
+export function selectedCohort(path: string, entries: SelectedCohort[]) {
+  const m = path.match(/(?:^|\/)runs\/([^/]+)\/(banking|slack|travel|workspace)\/user_task_(\d+)\/(?:(none)\/none|([^/]+)\/injection_task_(\d+))\.json$/);
+  if (!m) return null;
+  const clean = m[4] === 'none';
+  const entry = entries.find(e => e.pipeline === m[1] && (clean ? e.clean : e.attack === m[5]));
+  if (!entry) return null;
+  return { model: m[1], pipeline: m[1], suite: m[2], user_task: Number(m[3]), injection_task: clean ? null : Number(m[6]),
+    attack: clean ? null : m[5], cohort: `${entry.pipeline}/${entry.attack}` };
+}
+export function convertSelectedRun(run: any, meta: NonNullable<ReturnType<typeof selectedCohort>>) {
+  const converted = convertRun(run, meta);
+  const run_id = `${meta.pipeline}/${meta.attack ?? 'none'}/${meta.suite}/user_task_${meta.user_task}/${meta.injection_task == null ? 'none' : `injection_task_${meta.injection_task}`}`;
+  const observations = converted.observations.map((o, i) => ({ ...o, run_id, obs_id: `${run_id}#${i}` }));
+  return { ...converted, observations, label: { ...converted.label, run_id, pipeline: meta.pipeline, attack: meta.attack, cohort: meta.cohort } };
+}
+function cohortMain(file: string, archive: string, out: string, prLabels: boolean) {
+  const entries = validateCohorts(JSON.parse(readFileSync(file, 'utf8')));
+  const sha256 = createHash('sha256').update(readFileSync(archive)).digest('hex');
+  if (!sha256.startsWith('d7e0ee02')) throw new Error('archive SHA-256 does not match pinned archive');
+  // Selection uses filenames only. No unselected run is opened, including other attacks of a selected pipeline.
+  const script = `import tarfile,json,re,sys
+entries=json.loads(sys.argv[2]); expected={e['pipeline']+'/'+e['attack']:0 for e in entries}; selected=[]
+with tarfile.open(sys.argv[1]) as t:
+ for m in t:
+  match=re.search(r'/runs/([^/]+)/(banking|slack|travel|workspace)/user_task_\\d+/(?:(none)/none|([^/]+)/injection_task_\\d+)\\.json$',m.name)
+  if not m.isfile() or not match: continue
+  pipeline=match[1]; clean=match[3]=='none'; attack=match[4]
+  entry=next((e for e in entries if e['pipeline']==pipeline and (e['clean'] if clean else e['attack']==attack)),None)
+  if entry is not None:
+   selected.append(m); expected[entry['pipeline']+'/'+entry['attack']]+=1
+ print(json.dumps({'expected':expected}))
+ for m in selected:
+  try: print(json.dumps({'path':m.name,'run':json.load(t.extractfile(m))}))
+  except Exception as e: print(json.dumps({'path':m.name,'error':str(e)}))
+`;
+  const result = spawnSync('python3', ['-c', script, archive, JSON.stringify(entries)], { encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
+  if (result.status !== 0) throw new Error(`archive reader failed: ${result.stderr}`);
+  const lines = result.stdout.trim().split('\n').filter(Boolean);
+  const expected = JSON.parse(lines.shift()!).expected as Record<string, number>;
+  for (const e of entries) if (!expected[`${e.pipeline}/${e.attack}`]) throw new Error(`cohort has no files: ${e.pipeline}/${e.attack}`);
+  const observations: any[] = [], labels: any[] = [], overlaps: any[] = [], seen = new Set<string>();
+  const per_cohort_runs = Object.fromEntries(entries.map(e => [`${e.pipeline}/${e.attack}`, 0]));
+  for (const line of lines) {
+    const row = JSON.parse(line), meta = selectedCohort(row.path, entries);
+    if (!meta) throw new Error('archive reader returned an unselected run');
+    if (row.error) throw new Error(`cohort parse failure: ${row.path}: ${row.error}`);
+    const converted = convertSelectedRun(row.run, meta);
+    if (seen.has(converted.label.run_id)) throw new Error(`duplicate run id: ${converted.label.run_id}`);
+    seen.add(converted.label.run_id);
+    observations.push(...converted.observations); labels.push(converted.label); per_cohort_runs[meta.cohort]++;
+    if (prLabels) overlaps.push({ run_id: converted.label.run_id, injection_overlap: injectionOverlap(row.run, converted) });
+  }
+  for (const [key, n] of Object.entries(expected)) if (per_cohort_runs[key] !== n) throw new Error(`filename cohort count mismatch: ${key}`);
+  const counts = { runs: labels.length, calls: observations.length, parse_failures: 0,
+    pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs };
+  mkdirSync(out, { recursive: true });
+  const jl = (rows: any[]) => rows.map(r => JSON.stringify(r)).join('\n') + '\n';
+  writeFileSync(join(out, 'observations.jsonl'), jl(observations));
+  writeFileSync(join(out, 'labels.jsonl'), jl(labels));
+  if (prLabels) writeFileSync(join(out, 'labels-pr.jsonl'), jl(overlaps));
+  writeFileSync(join(out, 'counts.json'), JSON.stringify(counts, null, 2) + '\n');
+  console.log(JSON.stringify(counts));
+}
+
 function main() {
   const flag = (name: string, fallback: string) => { const i = process.argv.indexOf(`--${name}`); return i < 0 ? fallback : process.argv[i + 1]; };
   const archive = resolve(flag('archive', '../silex-mockup/swm/.cache/agentdojo-repo-089ed468cf3e.tar.gz'));
+  if (process.argv.includes('--cohorts')) {
+    if (!process.argv.includes('--out')) throw new Error('--cohorts requires --out');
+    if (process.argv.includes('--models')) throw new Error('--cohorts cannot be combined with --models');
+    cohortMain(resolve(flag('cohorts', '')), archive, resolve(flag('out', '')), process.argv.includes('--labels-pr'));
+    return;
+  }
   const models = flag('models', MODELS.join(',')).split(',');
   if (!models.length || models.some(m => !/^[\w.-]+$/.test(m)) || new Set(models).size !== models.length) throw new Error('invalid --models');
   const explicitOut = process.argv.includes('--out');

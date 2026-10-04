@@ -1,0 +1,235 @@
+[
+ {
+  "name": "theta_boundary",
+  "per_base": {
+   "a": {
+    "Pos": 100,
+    "TP_s1": 87,
+    "TP_prov": 90
+   },
+   "b": {
+    "Pos": 100,
+    "TP_s1": 87,
+    "TP_prov": 90
+   },
+   "c": {
+    "Pos": 100,
+    "TP_s1": 87,
+    "TP_prov": 90
+   },
+   "d": {
+    "Pos": 100,
+    "TP_s1": 87,
+    "TP_prov": 90
+   },
+   "e": {
+    "Pos": 100,
+    "TP_s1": 87,
+    "TP_prov": 90
+   }
+  },
+  "pooled": {
+   "Pos": 500,
+   "TP_s1": 435,
+   "TP_prov": 450
+  },
+  "expected": {
+   "K": 5,
+   "dropped": [],
+   "theta": -0.030000000000000027,
+   "holds": false,
+   "p_signflip": 1.0
+  },
+  "note": "plain double comparison (S1_SPEC): 87/100 - 90/100 = -0.030000000000000027 < -0.03, so the constraint fails at this nominal boundary"
+ },
+ {
+  "name": "k4_inconclusive",
+  "per_base": {
+   "a": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "b": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "c": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "d": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "e": {
+    "Pos": 0,
+    "TP_s1": 0,
+    "TP_prov": 0
+   },
+   "f": {
+    "Pos": 0,
+    "TP_s1": 0,
+    "TP_prov": 0
+   }
+  },
+  "pooled": {
+   "Pos": 400,
+   "TP_s1": 360,
+   "TP_prov": 360
+  },
+  "expected": {
+   "K": 4,
+   "dropped": [
+    "e",
+    "f"
+   ],
+   "theta": 0.0,
+   "holds": true,
+   "p_signflip": 0.0625,
+   "inconclusive": true
+  },
+  "note": "holds is computed even when K < 5; H15 is then inconclusive; p_signflip is computed for any K \u2265 1 (here 1/16)"
+ },
+ {
+  "name": "dropped_base",
+  "per_base": {
+   "a": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 92
+   },
+   "b": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 92
+   },
+   "c": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 92
+   },
+   "d": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 92
+   },
+   "e": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 92
+   },
+   "f": {
+    "Pos": 0,
+    "TP_s1": 0,
+    "TP_prov": 0
+   }
+  },
+  "pooled": {
+   "Pos": 500,
+   "TP_s1": 450,
+   "TP_prov": 460
+  },
+  "expected": {
+   "K": 5,
+   "dropped": [
+    "f"
+   ],
+   "theta": -0.02,
+   "holds": true,
+   "p_signflip": 0.03125
+  }
+ },
+ {
+  "name": "pooled_fails_theta_passes",
+  "per_base": {
+   "a": {
+    "Pos": 100,
+    "TP_s1": 80,
+    "TP_prov": 100
+   },
+   "b": {
+    "Pos": 10,
+    "TP_s1": 10,
+    "TP_prov": 8
+   },
+   "c": {
+    "Pos": 10,
+    "TP_s1": 10,
+    "TP_prov": 8
+   },
+   "d": {
+    "Pos": 10,
+    "TP_s1": 10,
+    "TP_prov": 8
+   },
+   "e": {
+    "Pos": 10,
+    "TP_s1": 10,
+    "TP_prov": 8
+   }
+  },
+  "pooled": {
+   "Pos": 140,
+   "TP_s1": 120,
+   "TP_prov": 132
+  },
+  "expected": {
+   "K": 5,
+   "dropped": [],
+   "theta": 0.12,
+   "holds": false,
+   "p_signflip": 0.0625
+  }
+ },
+ {
+  "name": "signflip_k6",
+  "per_base": {
+   "a": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "b": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "c": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "d": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "e": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   },
+   "f": {
+    "Pos": 100,
+    "TP_s1": 90,
+    "TP_prov": 90
+   }
+  },
+  "pooled": {
+   "Pos": 600,
+   "TP_s1": 540,
+   "TP_prov": 540
+  },
+  "expected": {
+   "K": 6,
+   "dropped": [],
+   "theta": 0.0,
+   "holds": true,
+   "p_signflip": 0.015625
+  }
+ }
+]

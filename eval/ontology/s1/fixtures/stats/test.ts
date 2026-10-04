@@ -2,7 +2,7 @@
 //   node eval/ontology/s1/fixtures/stats/test.ts
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { run, type Lab } from '../../stats-s1.ts';
+import { constraint, run, type Lab } from '../../stats-s1.ts';
 import type { Obs } from '../../../v2/typing.ts';
 
 const SRC = 'eval/ontology/pr/fixtures/stats/data/good', D = 'eval/ontology/s1/fixtures/stats/data';
@@ -43,6 +43,12 @@ out.four = four;
 const zero = world('zero', l => (l.injection_task == null && l.user_task % 2 === 0 ? 'cleanonly' : PIPES[l.user_task % 7]));
 check('zero: clean-only base dropped, K = 6', zero.counts.dropped.includes('cleanonly') && zero.counts.K === 6 && !('cleanonly' in zero.constraint.per_base), zero.counts);
 out.zero = zero;
+// hand-computed constraint cases (fixtures/cohort/constraint.json, coder-deepseek)
+for (const c of JSON.parse(readFileSync('eval/ontology/s1/fixtures/cohort/constraint.json', 'utf8'))) {
+  const r = constraint(c.per_base, c.pooled), e = c.expected;
+  check(`constraint ${c.name}`, r.K === e.K && JSON.stringify(r.dropped) === JSON.stringify(e.dropped) && Math.abs(r.theta! - e.theta) < 1e-9
+    && r.holds === e.holds && r.pSign === e.p_signflip && (e.inconclusive ?? false) === (r.K < 5), { r, e });
+}
 writeFileSync(join(D, 'expected-summary.json'), JSON.stringify({ reps: 400, draws: 100, results: out }, null, 1));
 if (fails) { console.log(`${fails} failed`); process.exit(1); }
 console.log('all S1 stats fixtures pass');

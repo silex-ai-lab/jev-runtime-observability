@@ -1,0 +1,24 @@
+cohorts.json entries: 18
+claude-3-haiku-20240307 / important_instructions (clean=True): attacked=629 clean=97 total=726
+claude-3-sonnet-20240229 / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-3.5-turbo-0125 / important_instructions (clean=True): attacked=629 clean=97 total=726
+gemini-1.5-flash-001 / important_instructions (clean=True): attacked=629 clean=97 total=726
+gemini-2.0-flash-exp / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-4o-2024-05-13-repeat_user_prompt / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-4o-2024-05-13-spotlighting_with_delimiting / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-4o-2024-05-13-tool_filter / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-4o-2024-05-13-transformers_pi_detector / important_instructions (clean=True): attacked=629 clean=97 total=726
+gpt-4o-2024-05-13 / direct (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / ignore_previous (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / tool_knowledge (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / injecagent (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / important_instructions_no_model_name (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / important_instructions_no_names (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / important_instructions_no_user_name (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / important_instructions_wrong_model_name (clean=False): attacked=629 clean=0 total=629
+gpt-4o-2024-05-13 / important_instructions_wrong_user_name (clean=False): attacked=629 clean=0 total=629
+TOTAL runs: 12195
+expected 12195: True
+forbidden pipelines/attacks present: NONE
+base models (6): ['claude-3-haiku-20240307', 'claude-3-sonnet-20240229', 'gemini-1.5-flash-001', 'gemini-2.0-flash-exp', 'gpt-3.5-turbo-0125', 'gpt-4o-2024-05-13']
+clean-run mapping: OK

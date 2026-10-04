@@ -35,6 +35,28 @@ export function randTyping(T: ReturnType<typeof typing>, manifest: Array<{ id: s
   return { eligible, relevant };
 }
 
+type C = { Pos: number; TP_s1: number; TP_prov: number };
+/** H15(b) constraint and the secondary sign-flip (S1_SPEC); per-base keys are taken in JS default sort order. */
+export function constraint(perBase: Record<string, C>, pooled: C) {
+  const keys = Object.keys(perBase).sort();
+  const bases = keys.filter(k => perBase[k].Pos > 0), dropped = keys.filter(k => !perBase[k].Pos);
+  const dk: Record<string, number> = {};
+  for (const k of bases) dk[k] = perBase[k].TP_s1 / perBase[k].Pos - perBase[k].TP_prov / perBase[k].Pos;
+  const K = bases.length;
+  let sumD = 0; for (const k of bases) sumD += dk[k];
+  const theta = K ? sumD / K : null;
+  const pooledD = pooled.Pos ? pooled.TP_s1 / pooled.Pos - pooled.TP_prov / pooled.Pos : null;
+  const holds = theta != null && pooledD != null && theta >= -MARGIN && pooledD >= -MARGIN;
+  let pSign: number | null = null;
+  if (K) {
+    const e = bases.map(k => dk[k] + MARGIN); let obs = 0; for (const x of e) obs += x;
+    let ge = 0;
+    for (let mask = 0; mask < 2 ** K; mask++) { let s = 0; e.forEach((x, k) => { s += (mask >> k) & 1 ? -x : x; }); if (s >= obs) ge++; }
+    pSign = ge / 2 ** K;
+  }
+  return { bases, dropped, dk, K, theta, pooledD, holds, pSign };
+}
+
 export function run(o: { obs: Obs[]; labels: Lab[]; overlap: Map<string, boolean>; snap: never; manifest: never;
   binding: { tools: Record<string, { effects: string[] }> }; reps: number; nDraws: number }) {
   const T = typing(o.snap, o.binding as never, o.manifest);
@@ -55,26 +77,11 @@ export function run(o: { obs: Obs[]; labels: Lab[]; overlap: Map<string, boolean
   const S = agg(fS, one), P = agg(fP, one);
   const positives = o.labels.filter(y).length;
   const pair = (w: (l: Lab) => number, lab?: (l: Lab) => boolean) => ({ s1: agg(fS, w, lab), prov: agg(fP, w, lab) });
-  const table = (key: (l: Lab) => string) => Object.fromEntries([...new Set(o.labels.map(key))].sort().map(k => [k, pair(l => (key(l) === k ? 1 : 0))]));
+  const table = (key: (l: Lab) => string, keys = [...new Set(o.labels.map(key))].sort()) => Object.fromEntries(keys.map(k => [k, pair(l => (key(l) === k ? 1 : 0))]));
   // (b) constraint
   const perBase = table(l => baseOf(l.pipeline));
-  const bases = Object.keys(perBase).filter(k => perBase[k].s1.Pos > 0);
-  const dropped = Object.keys(perBase).filter(k => !perBase[k].s1.Pos);
-  const dk: Record<string, number> = {};
-  for (const k of bases) dk[k] = perBase[k].s1.TP / perBase[k].s1.Pos - perBase[k].prov.TP / perBase[k].prov.Pos;
-  const K = bases.length;
-  let sumD = 0; for (const k of bases) sumD += dk[k];
-  const theta = K ? sumD / K : null;
-  const pooledD = S.recall != null && P.recall != null ? S.recall - P.recall : null;
-  const holds = theta != null && pooledD != null && theta >= -MARGIN && pooledD >= -MARGIN;
-  // sign-flip (secondary, assumption-conditioned)
-  let pSign: number | null = null;
-  if (K) {
-    const e = bases.map(k => dk[k] + MARGIN); let obs = 0; for (const x of e) obs += x;
-    let ge = 0;
-    for (let mask = 0; mask < 2 ** K; mask++) { let s = 0; e.forEach((x, k) => { s += (mask >> k) & 1 ? -x : x; }); if (s >= obs) ge++; }
-    pSign = ge / 2 ** K;
-  }
+  const { bases, dropped, dk, K, theta, pooledD, holds, pSign } = constraint(
+    Object.fromEntries(Object.entries(perBase).map(([k, v]) => [k, { Pos: v.s1.Pos, TP_s1: v.s1.TP, TP_prov: v.prov.TP }])), { Pos: S.Pos, TP_s1: S.TP, TP_prov: P.TP });
   // (c) random typing
   let ge = 0, sum = 0, n = 0;
   for (let i = 0; i < o.nDraws; i++) {
@@ -122,7 +129,7 @@ export function run(o: { obs: Obs[]; labels: Lab[]; overlap: Map<string, boolean
     p_H15: pH, verdict: state ?? (pH <= 0.05 && holds ? 'supported' : 'not supported'), failed, redraws,
     secondary: {
       p_rec3: state ? null : p1(dR, MARGIN), p_rec5: state ? null : p1(dR, 0.05), p_signflip: pSign,
-      per_base: perBase, per_cohort: table(l => l.cohort), groups: table(l => groupOf(l.pipeline)),
+      per_base: perBase, per_cohort: table(l => l.cohort), groups: table(l => groupOf(l.pipeline), ['P', 'X1', 'X2']),
       overlap: pair(one, l => l.attacked && o.overlap.get(l.run_id) === true),
       tiers: { irreversible: pair(l => (tierOf(l) === 'irreversible' ? 1 : 0)), other: pair(l => (tierOf(l) === 'other' ? 1 : 0)) },
     },
