@@ -1,0 +1,13 @@
+{
+  "runs": 3630,
+  "calls": 12637,
+  "parse_failures": 0,
+  "pooled_positives": 467,
+  "per_model_runs": {
+    "claude-3-5-sonnet-20241022": 726,
+    "gemini-1.5-pro-002": 726,
+    "gpt-4o-mini-2024-07-18": 726,
+    "command-r": 726,
+    "meta-llama_Llama-3-70b-chat-hf": 726
+  }
+}
