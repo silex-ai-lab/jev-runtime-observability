@@ -20,3 +20,4 @@ runs/onto-e5-kev-*/predictions-*.jsonl
 runs/onto-v2-input/*.jsonl
 runs/onto-v2-items/
 runs/onto-v2-kev-*/predictions-*.jsonl
+runs/onto-al-input/*.jsonl
