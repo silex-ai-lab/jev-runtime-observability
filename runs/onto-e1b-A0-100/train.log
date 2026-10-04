@@ -1,0 +1,38 @@
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:   0%|          | 1/320 [00:01<07:13,  1.36s/it]Loading weights: 100%|██████████| 320/320 [00:01<00:00, 234.71it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 4153.23it/s]
+delta: warm start from /Users/bytedance/.cache/huggingface/hub/models--jaredpalmer--kev-0.8b/snapshots/bf75a6a8848ea6960ff2ed108d9ed44c2941174f: 372 lora tensors and the pointer head loaded
+device=mps world=1 trainable params=11.3M
+dropped 40 of 1223 records that exceed the training context (384 state / 1024 branch / 2048 packed tokens)
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+1183 training requests (holdout=[]), questions by type {'noul': 1884, 'score': 95}
+ep0 step 10/296 loss 0.828 kl 0.000 anchor 0.000 1.681s/rec
+ep0 step 20/296 loss 0.433 kl 0.000 anchor 0.000 1.561s/rec
+ep0 step 30/296 loss 0.317 kl 0.000 anchor 0.000 1.530s/rec
+ep0 step 40/296 loss 0.186 kl 0.000 anchor 0.000 1.520s/rec
+ep0 step 50/296 loss 0.193 kl 0.000 anchor 0.000 1.544s/rec
+ep0 step 60/296 loss 0.071 kl 0.000 anchor 0.000 1.545s/rec
+ep0 step 70/296 loss 0.170 kl 0.000 anchor 0.000 1.569s/rec
+ep0 step 80/296 loss 0.193 kl 0.000 anchor 0.000 1.567s/rec
+ep0 step 90/296 loss 0.054 kl 0.000 anchor 0.000 1.565s/rec
+ep0 step 100/296 loss 0.057 kl 0.000 anchor 0.000 1.570s/rec
+ep0 step 110/296 loss 0.037 kl 0.000 anchor 0.000 1.555s/rec
+ep0 step 120/296 loss 0.076 kl 0.000 anchor 0.000 1.550s/rec
+ep0 step 130/296 loss 0.060 kl 0.000 anchor 0.000 1.542s/rec
+ep0 step 140/296 loss 0.084 kl 0.000 anchor 0.000 1.542s/rec
+ep1 step 150/296 loss 0.106 kl 0.000 anchor 0.000 1.531s/rec
+ep1 step 160/296 loss 0.074 kl 0.000 anchor 0.000 1.513s/rec
+ep1 step 170/296 loss 0.063 kl 0.000 anchor 0.000 1.503s/rec
+ep1 step 180/296 loss 0.041 kl 0.000 anchor 0.000 1.499s/rec
+ep1 step 190/296 loss 0.056 kl 0.000 anchor 0.000 1.487s/rec
+ep1 step 200/296 loss 0.034 kl 0.000 anchor 0.000 1.480s/rec
+ep1 step 210/296 loss 0.027 kl 0.000 anchor 0.000 1.478s/rec
+ep1 step 220/296 loss 0.005 kl 0.000 anchor 0.000 1.468s/rec
+ep1 step 230/296 loss 0.014 kl 0.000 anchor 0.000 1.464s/rec
+ep1 step 240/296 loss 0.056 kl 0.000 anchor 0.000 1.460s/rec
+ep1 step 250/296 loss 0.016 kl 0.000 anchor 0.000 1.451s/rec
+ep1 step 260/296 loss 0.048 kl 0.000 anchor 0.000 1.448s/rec
+ep1 step 270/296 loss 0.059 kl 0.000 anchor 0.000 1.442s/rec
+ep1 step 280/296 loss 0.040 kl 0.000 anchor 0.000 1.438s/rec
+ep1 step 290/296 loss 0.045 kl 0.000 anchor 0.000 1.431s/rec
+saved /Users/bytedance/workplace/Silex/jev-runtime-observability/runs/onto-e1b-A0-100/model

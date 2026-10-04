@@ -15,3 +15,5 @@ runs/onto-e5-items/
 runs/onto-e1b-data/*.jsonl
 runs/onto-e5-input/observations.jsonl
 runs/onto-e1b-*/model/
+runs/onto-e5-kev-*/predictions-*.jsonl
+!runs/onto-e1b-*/train.log

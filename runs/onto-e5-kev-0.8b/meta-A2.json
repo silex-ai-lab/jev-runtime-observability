@@ -1,0 +1,22 @@
+{
+ "label": "A2",
+ "judge_source": "kev-local:jaredpalmer/kev-0.8b",
+ "served": {
+  "backend": "kev-local",
+  "run": "jaredpalmer/kev-0.8b",
+  "base": "Qwen/Qwen3.5-0.8B-Base",
+  "revision": null,
+  "temperature": 2.3510958125672174,
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "host": {
+  "cpu": "Apple M4 Pro",
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "items_file": "runs/onto-e5-items/items-A2.jsonl",
+ "splits": [
+  "test"
+ ],
+ "n": 7649,
+ "started_at": "2026-10-04T11:30:59.874Z"
+}

@@ -1,0 +1,24 @@
+{
+ "label": "A3",
+ "judge_source": "kev-local:runs/onto-e1b-A3-50/model",
+ "served": {
+  "backend": "kev-local",
+  "run": "runs/onto-e1b-A3-50/model",
+  "base": "Qwen/Qwen3.5-0.8B-Base",
+  "revision": null,
+  "temperature": 1,
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "host": {
+  "cpu": "Apple M4 Pro",
+  "runtime": "mlx/bfloat16/mps"
+ },
+ "items_file": "runs/onto-e1a-items/items-A3.jsonl",
+ "splits": [
+  "calibration",
+  "dev",
+  "test"
+ ],
+ "n": 708,
+ "started_at": "2026-10-04T12:18:01.856Z"
+}
