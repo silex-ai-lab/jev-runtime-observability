@@ -2,6 +2,13 @@
 
 Newest first. The plan and its review record live in this folder.
 
+## 2026-10-04 — Ontology value for runtime observability: E1 / E5 / E1b (null result)
+
+- **New:** `eval/ontology/` — arm builder (A0 baseline, A1 ontology context, A2 length-matched tool description, A3 another tool's ontology context) feeding the unchanged `eval/run/run.ts`; an AgentDojo run converter (2 092 runs, 7 649 calls); E5 monitors (max over calls, ontology-typed and write-impact gates, random gates); `stats.ts` with an independent Python reimplementation `recheck.py` that agrees exactly; E1b training sets and run scripts; the report generator.
+- **Result:** H1 (judge) and H7 (detection) not supported; H3 (label efficiency) not supported. Report: [`2026-10-04_ONTOLOGY_OBSERVABILITY_VALUE_REPORT.md`](2026-10-04_ONTOLOGY_OBSERVABILITY_VALUE_REPORT.md). Run outputs under `runs/onto-*` (E5 predictions gzipped).
+- **Untouched:** Kev's splits, labels, `eval/run/*`, `eval/convert/*`, threshold method, `learning-evidence.json`, the demo site. `train-A0-100` reproduces the published `kev-train.jsonl` byte for byte.
+- Plan and full review record: `silex-mockup/logs/2026-10-03_ONTOLOGY_OBSERVABILITY_VALUE_PLAN.md`.
+
 ## 2026-10-01 — Learning loop: promotion gate and model history
 
 - **Play the loop** now runs three scripted rounds into a **Model history**: NEAR-MISS (3 labels), KEEP → v2 (18 labels), DISCARD (careless batch raises false holds).
