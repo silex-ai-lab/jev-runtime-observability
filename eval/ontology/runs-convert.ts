@@ -11,9 +11,9 @@ const IMPACT_WRITE = /(send|update|schedule|add|delete|create|remove|post|transf
 export const textContent = (c: unknown): string => typeof c === 'string' ? c : Array.isArray(c)
   ? c.map(p => typeof p === 'string' ? p : String(p?.content ?? p?.text ?? '')).join(' ') : '';
 
-export function cohort(path: string) {
+export function cohort(path: string, models = MODELS) {
   const m = path.match(/(?:^|\/)runs\/([^/]+)\/(banking|slack|travel|workspace)\/user_task_(\d+)\/(?:important_instructions\/injection_task_(\d+)|none\/none)\.json$/);
-  if (!m || !MODELS.includes(m[1])) return null;
+  if (!m || !models.includes(m[1])) return null;
   return { model: m[1], suite: m[2], user_task: Number(m[3]), injection_task: m[4] == null ? null : Number(m[4]) };
 }
 
@@ -58,16 +58,19 @@ export function convertRun(run: any, meta: ReturnType<typeof cohort>) {
 function main() {
   const flag = (name: string, fallback: string) => { const i = process.argv.indexOf(`--${name}`); return i < 0 ? fallback : process.argv[i + 1]; };
   const archive = resolve(flag('archive', '../silex-mockup/swm/.cache/agentdojo-repo-089ed468cf3e.tar.gz'));
+  const models = flag('models', MODELS.join(',')).split(',');
+  if (!models.length || models.some(m => !/^[\w.-]+$/.test(m)) || new Set(models).size !== models.length) throw new Error('invalid --models');
+  const explicitOut = process.argv.includes('--out');
   const out = resolve(flag('out', 'runs/onto-e5-input'));
   const sha256 = createHash('sha256').update(readFileSync(archive)).digest('hex');
   if (!sha256.startsWith('d7e0ee02')) throw new Error('archive SHA-256 does not match pinned archive');
   // Python's stdlib handles PAX/long-name tar headers without extracting files to disk.
-  const script = `import tarfile,json,re,sys\nt=tarfile.open(sys.argv[1])\nfor m in t:\n if m.isfile() and re.search(r'/runs/(meta-llama_Llama-3.3-70B-Instruct|Meta-SecAlign-70B)/(banking|slack|travel|workspace)/user_task_\\d+/(important_instructions/injection_task_\\d+|none/none)\\.json$',m.name):\n  try: print(json.dumps({'path':m.name,'run':json.load(t.extractfile(m))}))\n  except Exception as e: print(json.dumps({'path':m.name,'error':str(e)}))\n`;
-  const extracted = spawnSync('python3', ['-c', script, archive], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  const script = `import tarfile,json,re,sys\nmodels=set(json.loads(sys.argv[2])); expected={}\nt=tarfile.open(sys.argv[1])\nselected=[]\nfor m in t:\n match=re.search(r'/runs/([^/]+)/(banking|slack|travel|workspace)/user_task_\\d+/(important_instructions/injection_task_\\d+|none/none)\\.json$',m.name)\n if m.isfile() and match and match[1] in models:\n  selected.append(m); expected[match[1]]=expected.get(match[1],0)+1\nprint(json.dumps({'expected':expected}))\nfor m in selected:\n try: print(json.dumps({'path':m.name,'run':json.load(t.extractfile(m))}))\n except Exception as e: print(json.dumps({'path':m.name,'error':str(e)}))\n`;
+  const extracted = spawnSync('python3', ['-c', script, archive, JSON.stringify(models)], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   if (extracted.status !== 0) throw new Error(`archive reader failed: ${extracted.stderr}`);
   const observations: any[] = [], labels: any[] = [], seen = new Set<string>();
   const counts: any = { archive_sha256: sha256, files: {}, calls: 0, usable_runs: 0, parse_failures: [], task_contains_injection_observations: 0, zero_call_runs: [], security: {} };
-  for (const model of MODELS) {
+  for (const model of models) {
     counts.files[model] = {};
     counts.security[model] = {};
     for (const suite of Object.keys(EXPECTED)) {
@@ -75,8 +78,10 @@ function main() {
       counts.security[model][suite] = { true: 0, false: 0, null: 0 };
     }
   }
-  for (const line of extracted.stdout.trim().split('\n').filter(Boolean)) {
-    const entry = JSON.parse(line), meta = cohort(entry.path)!;
+  const records = extracted.stdout.trim().split('\n').filter(Boolean);
+  const expected = JSON.parse(records.shift()!).expected as Record<string, number>;
+  for (const line of records) {
+    const entry = JSON.parse(line), meta = cohort(entry.path, models)!;
     counts.files[meta.model][meta.suite][meta.injection_task == null ? 'clean' : 'attacked']++;
     if (entry.error) { counts.parse_failures.push({ path: entry.path, error: entry.error }); continue; }
     try {
@@ -90,7 +95,12 @@ function main() {
       if (!converted.label.n_calls) counts.zero_call_runs.push(converted.label.run_id);
     } catch (error) { counts.parse_failures.push({ path: entry.path, error: String(error) }); }
   }
-  for (const model of MODELS) for (const [suite, [attacked, clean]] of Object.entries(EXPECTED)) {
+  if (models.some(m => !expected[m])) throw new Error('requested model absent from filename cohort');
+  for (const model of models) {
+    const actual = Object.values(counts.files[model] as Record<string, { attacked: number; clean: number }>).reduce((n, x) => n + x.attacked + x.clean, 0);
+    if (actual !== expected[model]) throw new Error(`filename cohort count mismatch: ${model}`);
+  }
+  for (const model of models.filter(m => MODELS.includes(m))) for (const [suite, [attacked, clean]] of Object.entries(EXPECTED)) {
     const actual = counts.files[model][suite];
     if (actual.attacked !== attacked || actual.clean !== clean) throw new Error(`cohort count mismatch: ${model}/${suite}`);
   }
@@ -98,8 +108,11 @@ function main() {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, 'observations.jsonl'), observations.map(x => JSON.stringify(x)).join('\n') + '\n');
   writeFileSync(join(out, 'labels.jsonl'), labels.map(x => JSON.stringify(x)).join('\n') + '\n');
-  writeFileSync(join(out, 'counts.json'), JSON.stringify(counts, null, 2) + '\n');
-  console.log(JSON.stringify({ usable_runs: labels.length, calls: observations.length, parse_failures: counts.parse_failures.length,
+  const publicCounts = { runs: labels.length, calls: observations.length, parse_failures: counts.parse_failures.length,
+    pooled_positives: labels.filter(l => l.attacked && l.security === true).length,
+    per_model_runs: Object.fromEntries(models.map(m => [m, labels.filter(l => l.model === m).length])) };
+  writeFileSync(join(out, 'counts.json'), JSON.stringify(explicitOut ? publicCounts : counts, null, 2) + '\n');
+  console.log(JSON.stringify(explicitOut ? publicCounts : { usable_runs: labels.length, calls: observations.length, parse_failures: counts.parse_failures.length,
     task_contains_injection_observations: counts.task_contains_injection_observations, zero_call_runs: counts.zero_call_runs.length }));
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();

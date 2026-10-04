@@ -1,0 +1,705 @@
+{
+ "tools": {
+  "agentdojo:banking/get_balance": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the balance of the account."
+  },
+  "agentdojo:banking/get_iban": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the IBAN of the current bank account."
+  },
+  "agentdojo:banking/get_most_recent_transactions": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "n": "none"
+   },
+   "reason": "Get the most recent transactions."
+  },
+  "agentdojo:banking/get_scheduled_transactions": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the list of scheduled transactions."
+  },
+  "agentdojo:banking/get_user_info": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the user information."
+  },
+  "agentdojo:banking/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "file_path": "core:core-resource"
+   },
+   "reason": "Reads the contents of the file at the given path."
+  },
+  "agentdojo:banking/schedule_transaction": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-account",
+    "recurring": "none",
+    "subject": "none"
+   },
+   "reason": "Schedule a transaction."
+  },
+  "agentdojo:banking/send_money": {
+   "effects": [
+    "core:financial-value-transfer",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-account",
+    "subject": "none"
+   },
+   "reason": "Sends a transaction (money) to the recipient."
+  },
+  "agentdojo:banking/update_password": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "password": "core:core-credential"
+   },
+   "reason": "Update the user password."
+  },
+  "agentdojo:banking/update_scheduled_transaction": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "id": "core:core-record",
+    "recipient": "core:core-account",
+    "recurring": "none",
+    "subject": "none"
+   },
+   "reason": "Update a scheduled transaction."
+  },
+  "agentdojo:banking/update_user_info": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "city": "none",
+    "first_name": "none",
+    "last_name": "none",
+    "street": "none"
+   },
+   "reason": "Update the user information."
+  },
+  "agentdojo:slack/add_user_to_channel": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {
+    "channel": "core:core-resource",
+    "user": "core:core-party"
+   },
+   "reason": "Add a user to a given channel."
+  },
+  "agentdojo:slack/get_channels": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the list of channels in the slack."
+  },
+  "agentdojo:slack/get_users_in_channel": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "channel": "core:core-resource"
+   },
+   "reason": "Get the list of users in the given channel."
+  },
+  "agentdojo:slack/get_webpage": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "url": "core:core-resource"
+   },
+   "reason": "Returns the content of the webpage at a given URL."
+  },
+  "agentdojo:slack/invite_user_to_slack": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {
+    "user": "core:core-party",
+    "user_email": "core:core-party"
+   },
+   "reason": "Invites a user to the Slack workspace."
+  },
+  "agentdojo:slack/post_webpage": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "url": "core:core-resource"
+   },
+   "reason": "Posts a webpage at a given URL with the given content."
+  },
+  "agentdojo:slack/read_channel_messages": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "channel": "core:core-resource"
+   },
+   "reason": "Read the messages from the given channel."
+  },
+  "agentdojo:slack/read_inbox": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user": "core:core-party"
+   },
+   "reason": "Read the messages from the given user inbox."
+  },
+  "agentdojo:slack/remove_user_from_slack": {
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "params": {
+    "user": "core:core-party"
+   },
+   "reason": "Remove a user from the Slack workspace."
+  },
+  "agentdojo:slack/send_channel_message": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "channel": "core:core-resource"
+   },
+   "reason": "Send a channel message with the given content."
+  },
+  "agentdojo:slack/send_direct_message": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "recipient": "core:core-party"
+   },
+   "reason": "Send a direct message to a recipient."
+  },
+  "agentdojo:travel/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "Cancels the event with the given event_id."
+  },
+  "agentdojo:travel/check_restaurant_opening_hours": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the opening hours of the given restaurants."
+  },
+  "agentdojo:travel/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "Creates a new calendar event with the given details."
+  },
+  "agentdojo:travel/get_all_car_rental_companies_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   },
+   "reason": "Get all car rental companies in the given city."
+  },
+  "agentdojo:travel/get_all_hotels_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   },
+   "reason": "Get all hotels in the given city."
+  },
+  "agentdojo:travel/get_all_restaurants_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   },
+   "reason": "Get all restaurants in the given city."
+  },
+  "agentdojo:travel/get_car_fuel_options": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   },
+   "reason": "Get the fuel options of the given car rental companies."
+  },
+  "agentdojo:travel/get_car_price_per_day": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   },
+   "reason": "Get the price per day of the given car rental companies."
+  },
+  "agentdojo:travel/get_car_rental_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   },
+   "reason": "Get the address of the given car rental companies."
+  },
+  "agentdojo:travel/get_car_types_available": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   },
+   "reason": "Get the car types available for the given car rental companies."
+  },
+  "agentdojo:travel/get_contact_information_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the contact information of the given restaurants."
+  },
+  "agentdojo:travel/get_cuisine_type_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the cuisine type of the given restaurants."
+  },
+  "agentdojo:travel/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   },
+   "reason": "Returns the appointments for the given day."
+  },
+  "agentdojo:travel/get_dietary_restrictions_for_all_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the dietary restrictions of the given restaurants."
+  },
+  "agentdojo:travel/get_flight_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "arrival_city": "none",
+    "departure_city": "none"
+   },
+   "reason": "Get the flight information from the departure city to the arrival city."
+  },
+  "agentdojo:travel/get_hotels_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_name": "core:core-party"
+   },
+   "reason": "Get the address of the given hotel."
+  },
+  "agentdojo:travel/get_hotels_prices": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_names": "core:core-party"
+   },
+   "reason": "Get all hotels within the given budget."
+  },
+  "agentdojo:travel/get_price_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the price per person of the given restaurants."
+  },
+  "agentdojo:travel/get_rating_reviews_for_car_rental": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   },
+   "reason": "Get the rating and reviews for the given car rental companies."
+  },
+  "agentdojo:travel/get_rating_reviews_for_hotels": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_names": "core:core-party"
+   },
+   "reason": "Get the rating and reviews for the given hotels."
+  },
+  "agentdojo:travel/get_rating_reviews_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the rating and reviews for the given restaurants."
+  },
+  "agentdojo:travel/get_restaurants_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   },
+   "reason": "Get the address of the given restaurants."
+  },
+  "agentdojo:travel/get_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Get the user information."
+  },
+  "agentdojo:travel/reserve_car_rental": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "company": "core:core-party",
+    "end_time": "none",
+    "start_time": "none"
+   },
+   "reason": "Makes a reservation for a car rental."
+  },
+  "agentdojo:travel/reserve_hotel": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "end_day": "none",
+    "hotel": "core:core-party",
+    "start_day": "none"
+   },
+   "reason": "Makes a reservation for a hotel."
+  },
+  "agentdojo:travel/reserve_restaurant": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "restaurant": "core:core-party",
+    "start_time": "none"
+   },
+   "reason": "Makes a reservation for a restaurant."
+  },
+  "agentdojo:travel/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   },
+   "reason": "Searches calendar events that match the given query."
+  },
+  "agentdojo:travel/send_email": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "Sends an email with the given body to the given address."
+  },
+  "agentdojo:workspace/add_calendar_event_participants": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "participants": "core:core-party"
+   },
+   "reason": "Adds the given participants to the event."
+  },
+  "agentdojo:workspace/append_to_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "file_id": "core:core-resource"
+   },
+   "reason": "Append content to a file in the cloud drive."
+  },
+  "agentdojo:workspace/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "Cancels the event with the given event_id."
+  },
+  "agentdojo:workspace/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "Creates a new calendar event with the given details."
+  },
+  "agentdojo:workspace/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "filename": "core:core-resource"
+   },
+   "reason": "Create a new file in the cloud drive."
+  },
+  "agentdojo:workspace/delete_email": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "email_id": "core:core-record"
+   },
+   "reason": "Deletes the email with the given email_id from the inbox."
+  },
+  "agentdojo:workspace/delete_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource"
+   },
+   "reason": "Delete a file from the cloud drive by its filename."
+  },
+  "agentdojo:workspace/get_current_day": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Returns the current day in ISO format."
+  },
+  "agentdojo:workspace/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   },
+   "reason": "Returns the appointments for the given day."
+  },
+  "agentdojo:workspace/get_draft_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Returns all the draft emails in the inbox."
+  },
+  "agentdojo:workspace/get_file_by_id": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "file_id": "core:core-resource"
+   },
+   "reason": "Get a file from a cloud drive by its ID."
+  },
+  "agentdojo:workspace/get_received_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Returns all the received emails in the inbox."
+  },
+  "agentdojo:workspace/get_sent_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Returns all the sent emails in the inbox."
+  },
+  "agentdojo:workspace/get_unread_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "Returns all the unread emails and marks them as read."
+  },
+  "agentdojo:workspace/list_files": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Retrieve all files in the cloud drive."
+  },
+  "agentdojo:workspace/reschedule_calendar_event": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "new_end_time": "none",
+    "new_start_time": "none"
+   },
+   "reason": "Reschedules the event with the given event_id."
+  },
+  "agentdojo:workspace/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   },
+   "reason": "Searches calendar events that match the given query."
+  },
+  "agentdojo:workspace/search_contacts_by_email": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none"
+   },
+   "reason": "Finds contacts in the inbox's contact list by email."
+  },
+  "agentdojo:workspace/search_contacts_by_name": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none"
+   },
+   "reason": "Finds contacts in the inbox's contact list by name."
+  },
+  "agentdojo:workspace/search_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none",
+    "sender": "core:core-party"
+   },
+   "reason": "Searches for emails in the inbox that contain the given query."
+  },
+  "agentdojo:workspace/search_files": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none"
+   },
+   "reason": "Search for files in the cloud drive by content."
+  },
+  "agentdojo:workspace/search_files_by_filename": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "filename": "core:core-resource"
+   },
+   "reason": "Get a file from a cloud drive by its filename."
+  },
+  "agentdojo:workspace/send_email": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "Sends an email with the given body to the given address."
+  },
+  "agentdojo:workspace/share_file": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "file_id": "core:core-resource",
+    "permission": "core:core-entitlement"
+   },
+   "reason": "Share a file with a user."
+  }
+ },
+ "version": 2
+}
