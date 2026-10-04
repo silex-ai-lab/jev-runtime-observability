@@ -1,0 +1,327 @@
+{
+ "counts": {
+  "runs": 3544,
+  "positives": 509,
+  "calls": 11093,
+  "kev_failed_share": 0
+ },
+ "typing": {
+  "HARM": [
+   "core:core-effect-authority-grant",
+   "core:core-effect-authority-removal",
+   "core:core-effect-configuration-change",
+   "core:core-effect-data-disclosure",
+   "core:core-effect-data-write",
+   "core:core-effect-record-alteration",
+   "core:core-effect-service-disruption",
+   "core:financial-value-transfer"
+  ],
+  "HC": [
+   "core:core-account",
+   "core:core-commitment",
+   "core:core-credential",
+   "core:core-entitlement",
+   "core:core-party",
+   "core:core-prospect",
+   "core:core-record",
+   "core:core-resource"
+  ],
+  "eligible_tools": [
+   "agentdojo:banking/schedule_transaction",
+   "agentdojo:banking/send_money",
+   "agentdojo:banking/update_password",
+   "agentdojo:banking/update_scheduled_transaction",
+   "agentdojo:banking/update_user_info",
+   "agentdojo:slack/add_user_to_channel",
+   "agentdojo:slack/invite_user_to_slack",
+   "agentdojo:slack/post_webpage",
+   "agentdojo:slack/remove_user_from_slack",
+   "agentdojo:slack/send_channel_message",
+   "agentdojo:slack/send_direct_message",
+   "agentdojo:travel/cancel_calendar_event",
+   "agentdojo:travel/create_calendar_event",
+   "agentdojo:travel/reserve_car_rental",
+   "agentdojo:travel/reserve_hotel",
+   "agentdojo:travel/reserve_restaurant",
+   "agentdojo:travel/send_email",
+   "agentdojo:workspace/add_calendar_event_participants",
+   "agentdojo:workspace/append_to_file",
+   "agentdojo:workspace/cancel_calendar_event",
+   "agentdojo:workspace/create_calendar_event",
+   "agentdojo:workspace/create_file",
+   "agentdojo:workspace/delete_email",
+   "agentdojo:workspace/delete_file",
+   "agentdojo:workspace/get_unread_emails",
+   "agentdojo:workspace/reschedule_calendar_event",
+   "agentdojo:workspace/send_email",
+   "agentdojo:workspace/share_file"
+  ]
+ },
+ "auroc": {
+  "M-OTP": 0.7710083714428965,
+  "B-prov": 0.7598261900059253,
+  "Kev": 0.740591622479831,
+  "F-OTP": 0.8247846366550692,
+  "F-prov": 0.8130479041006397,
+  "G-onto2": 0.804114313496103,
+  "G-impact": 0.8038484328233488
+ },
+ "rand_auroc_mean": {
+  "B-rand": 0.6437873866208851,
+  "F-rand": 0.7631754432610632,
+  "G-rand": 0.7172055713395823
+ },
+ "p": {
+  "M-OTP_vs_B-prov": 0.277972202779722,
+  "F-OTP_vs_Kev": 0.007799220077992201,
+  "F-OTP_vs_F-prov": 0.20337966203379662,
+  "G-onto2_vs_G-impact": 0.4774522547745225,
+  "M-OTP_vs_B-rand": 0.007992007992007992,
+  "F-OTP_vs_F-rand": 0.000999000999000999,
+  "G-onto2_vs_G-rand": 0.000999000999000999
+ },
+ "ci": {
+  "M-OTP_vs_B-prov": [
+   -0.037103574090347924,
+   0.061498132359591895
+  ],
+  "F-OTP_vs_Kev": [
+   0.014410409544785119,
+   0.15589872312561392
+  ],
+  "F-OTP_vs_F-prov": [
+   -0.02210596390685826,
+   0.04211565585331456
+  ],
+  "G-onto2_vs_G-impact": [
+   -0.009969849246231122,
+   0.011350288545018183
+  ]
+ },
+ "p_H": {
+  "H10": 0.277972202779722,
+  "H11": 0.20337966203379662,
+  "H12": 0.4774522547745225
+ },
+ "holm_rejected": {
+  "H11": false,
+  "H10": false,
+  "H12": false
+ },
+ "verdict": {
+  "H10": "not supported",
+  "H11": "not supported",
+  "H12": "not supported"
+ },
+ "per_stratum": {
+  "banking / claude-3-7-sonnet-20250219": {
+   "runs": 160,
+   "positives": 6,
+   "auroc": {
+    "M-OTP": 0.9545454545454546,
+    "B-prov": 0.8733766233766234,
+    "Kev": 0.8127705627705628,
+    "F-OTP": 0.9778138528138528,
+    "F-prov": 0.9393939393939394,
+    "G-onto2": 0.8133116883116883,
+    "G-impact": 0.8138528138528138
+   }
+  },
+  "banking / command-r-plus": {
+   "runs": 160,
+   "positives": 7,
+   "auroc": {
+    "M-OTP": 0.811391223155929,
+    "B-prov": 0.8081232492997199,
+    "Kev": 0.7390289449112979,
+    "F-OTP": 0.7791783380018674,
+    "F-prov": 0.7791783380018674,
+    "G-onto2": 0.7857142857142857,
+    "G-impact": 0.7857142857142857
+   }
+  },
+  "banking / gemini-2.0-flash-001": {
+   "runs": 160,
+   "positives": 32,
+   "auroc": {
+    "M-OTP": 0.9609375,
+    "B-prov": 0.953125,
+    "Kev": 0.9537353515625,
+    "F-OTP": 0.99072265625,
+    "F-prov": 0.9884033203125,
+    "G-onto2": 0.9405517578125,
+    "G-impact": 0.9605712890625
+   }
+  },
+  "banking / gpt-4o-2024-05-13": {
+   "runs": 160,
+   "positives": 90,
+   "auroc": {
+    "M-OTP": 0.9071428571428571,
+    "B-prov": 0.8285714285714286,
+    "Kev": 0.9368253968253968,
+    "F-OTP": 0.9588095238095238,
+    "F-prov": 0.9507936507936507,
+    "G-onto2": 0.9184126984126985,
+    "G-impact": 0.9365873015873016
+   }
+  },
+  "slack / claude-3-7-sonnet-20250219": {
+   "runs": 126,
+   "positives": 25,
+   "auroc": {
+    "M-OTP": 0.5435643564356436,
+    "B-prov": 0.5378217821782179,
+    "Kev": 0.6653465346534654,
+    "F-OTP": 0.7213861386138614,
+    "F-prov": 0.6697029702970297,
+    "G-onto2": 0.7493069306930693,
+    "G-impact": 0.7213861386138614
+   }
+  },
+  "slack / command-r-plus": {
+   "runs": 126,
+   "positives": 1,
+   "auroc": {
+    "M-OTP": 0.468,
+    "B-prov": 0.476,
+    "Kev": 0.42,
+    "F-OTP": 0.384,
+    "F-prov": 0.4,
+    "G-onto2": 0.472,
+    "G-impact": 0.496
+   }
+  },
+  "slack / gemini-2.0-flash-001": {
+   "runs": 126,
+   "positives": 70,
+   "auroc": {
+    "M-OTP": 0.8571428571428571,
+    "B-prov": 0.8607142857142858,
+    "Kev": 0.9623724489795918,
+    "F-OTP": 0.9584183673469387,
+    "F-prov": 0.9572704081632653,
+    "G-onto2": 0.9381377551020408,
+    "G-impact": 0.9255102040816326
+   }
+  },
+  "slack / gpt-4o-2024-05-13": {
+   "runs": 126,
+   "positives": 97,
+   "auroc": {
+    "M-OTP": 0.6038037682189833,
+    "B-prov": 0.614290792747956,
+    "Kev": 0.8274084607180946,
+    "F-OTP": 0.7948809100604337,
+    "F-prov": 0.7797724848915748,
+    "G-onto2": 0.873622467116957,
+    "G-impact": 0.8647351581940989
+   }
+  },
+  "travel / claude-3-7-sonnet-20250219": {
+   "runs": 160,
+   "positives": 1,
+   "auroc": {
+    "M-OTP": 0.5,
+    "B-prov": 0.2830188679245283,
+    "Kev": 0.7169811320754716,
+    "F-OTP": 0.7169811320754716,
+    "F-prov": 0.36477987421383645,
+    "G-onto2": 0.4937106918238994,
+    "G-impact": 0.4937106918238994
+   }
+  },
+  "travel / command-r-plus": {
+   "runs": 160,
+   "positives": 0,
+   "auroc": {
+    "M-OTP": null,
+    "B-prov": null,
+    "Kev": null,
+    "F-OTP": null,
+    "F-prov": null,
+    "G-onto2": null,
+    "G-impact": null
+   }
+  },
+  "travel / gemini-2.0-flash-001": {
+   "runs": 160,
+   "positives": 20,
+   "auroc": {
+    "M-OTP": 0.7642857142857142,
+    "B-prov": 0.75,
+    "Kev": 0.74625,
+    "F-OTP": 0.8696428571428572,
+    "F-prov": 0.8730357142857142,
+    "G-onto2": 0.5425,
+    "G-impact": 0.495
+   }
+  },
+  "travel / gpt-4o-2024-05-13": {
+   "runs": 160,
+   "positives": 16,
+   "auroc": {
+    "M-OTP": 0.6736111111111112,
+    "B-prov": 0.6076388888888888,
+    "Kev": 0.3817274305555556,
+    "F-OTP": 0.5859375,
+    "F-prov": 0.5993923611111112,
+    "G-onto2": 0.5555555555555556,
+    "G-impact": 0.5716145833333334
+   }
+  },
+  "workspace / claude-3-7-sonnet-20250219": {
+   "runs": 600,
+   "positives": 15,
+   "auroc": {
+    "M-OTP": 0.7948717948717948,
+    "B-prov": 0.7974358974358975,
+    "Kev": 0.8733333333333333,
+    "F-OTP": 0.924045584045584,
+    "F-prov": 0.9155555555555556,
+    "G-onto2": 0.9571509971509972,
+    "G-impact": 0.9598860398860399
+   }
+  },
+  "workspace / command-r-plus": {
+   "runs": 280,
+   "positives": 20,
+   "auroc": {
+    "M-OTP": 0.4346153846153846,
+    "B-prov": 0.425,
+    "Kev": 0.2326923076923077,
+    "F-OTP": 0.19230769230769232,
+    "F-prov": 0.19230769230769232,
+    "G-onto2": 0.49615384615384617,
+    "G-impact": 0.49615384615384617
+   }
+  },
+  "workspace / gemini-2.0-flash-001": {
+   "runs": 600,
+   "positives": 12,
+   "auroc": {
+    "M-OTP": 0.8622448979591837,
+    "B-prov": 0.9175170068027211,
+    "Kev": 0.9564200680272109,
+    "F-OTP": 0.9744897959183674,
+    "F-prov": 0.9851190476190477,
+    "G-onto2": 0.9845521541950113,
+    "G-impact": 0.9844812925170068
+   }
+  },
+  "workspace / gpt-4o-2024-05-13": {
+   "runs": 280,
+   "positives": 97,
+   "auroc": {
+    "M-OTP": 0.7754492704636359,
+    "B-prov": 0.7587459861416258,
+    "Kev": 0.6115993465156893,
+    "F-OTP": 0.8283476987211988,
+    "F-prov": 0.8009407920680525,
+    "G-onto2": 0.7213678102642105,
+    "G-impact": 0.7213678102642105
+   }
+  }
+ },
+ "redraws": 0
+}
