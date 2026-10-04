@@ -130,7 +130,7 @@ The fine-tuned weights are **not** transferred between machines. Rebuild them on
 git -C ~/workplace/Silex/third_party/kev checkout 3e1cd3bb588a388a06827443380befece23e68c7 && (cd ~/workplace/Silex/third_party/kev && uv sync --extra serve)
 shasum -a 256 eval/splits/kev-train.jsonl                # must equal 21b5902e…
 bash eval/finetune/finetune.sh 0.8b                      # writes runs/ft-kev-0.8b-<today>/{RUN.txt,train.log,model/}
-ln -sfn "$PWD/runs/ft-kev-0.8b-$(date +%Y-%m-%d)/model" runs/ft-kev-0.8b-2026-09-28/model   # run scripts expect this path
+cp -R "runs/ft-kev-0.8b-$(date +%Y-%m-%d)/model" runs/ft-kev-0.8b-2026-09-28/model   # run scripts expect this path (gitignored; a copy, not a symlink, so git ignores it)
 git -C ~/workplace/Silex/third_party/kev checkout 84847f0a883d900f7de5b7a57eaa341ca7f9a6b4   # the serving commit recorded by the fingerprint
 ```
 
