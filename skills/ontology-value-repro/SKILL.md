@@ -25,7 +25,7 @@ Reference state is jev `main` `7722e1b` plus this skill's commit, and silex-mock
 | Python ≥ 3.10, stdlib only | the independent rechecks (`recheck_*.py`) | |
 | `git`, `curl`, `tar`, `shasum`, `gunzip` | data and hash checks | |
 | Google Chrome | site probes only | headless via CDP (`tests/site/ontology-card/browser.mjs`) |
-| Apple Silicon + `uv` + Kev | **only** to re-score with the judge (v2, E-PR, E1/E5) | the frozen judge fingerprint records backend `mlx`; another backend fails the fingerprint check |
+| Apple Silicon + `uv` + Kev | **only** to re-score with the judge (v2, E-PR, E1/E5) | the Kev-0.8B-ft weights must be regenerated on the new machine (§ 4.5, about 40 min); the frozen fingerprint records backend `mlx` |
 | Herdr + Claude/DeepSeek/Codex | **only** to run a *new* gated experiment | see the `herdr-agent-fleet` skill |
 
 ## 2. Setup
@@ -113,7 +113,34 @@ Held-out inputs are gitignored and rebuilt deterministically; only their hashes 
 | Kev code | `~/workplace/Silex/third_party/kev` (`git clone https://github.com/jaredpalmer/kev`, then `uv sync --extra serve`) | commit `84847f0a883d900f7de5b7a57eaa341ca7f9a6b4` (the one the fingerprint records) |
 | released model | HF `jaredpalmer/kev-0.8b` | revision `bf75a6a8848ea6960ff2ed108d9ed44c2941174f` |
 | base model | HF `Qwen/Qwen3.5-0.8B-Base` | revision `dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68` |
-| fine-tuned adapter Kev-0.8B-ft | `runs/ft-kev-0.8b-2026-09-28/model/` (62 MB, gitignored) | **copy it from the original machine** (`rsync`); per-file hashes in `eval/ontology/v2/frozen/judge-fingerprint.txt`. Retraining (`runs/ft-kev-0.8b-2026-09-28/RUN.txt`: `kev.train --init_from jaredpalmer/kev-0.8b`, data `eval/splits/kev-train.jsonl` sha `21b5902e…`) does not reproduce the bytes |
+| fine-tuned adapter Kev-0.8B-ft | `runs/ft-kev-0.8b-2026-09-28/model/` (62 MB, gitignored) | **regenerate it on the new machine** (§ 4.5). The original bytes are not copied; per-file hashes of the original are in `eval/ontology/v2/frozen/judge-fingerprint.txt` |
+
+### 4.5 Regenerate Kev-0.8B-ft on the new machine
+
+The fine-tuned weights are **not** transferred between machines. Rebuild them on the new machine from committed inputs. This needs Apple Silicon (`--device mps`); it took about 39 min on an M4 Pro.
+
+| Input | Pin |
+|---|---|
+| training data | `eval/splits/kev-train.jsonl` (in git), sha256 `21b5902ebe1ac6837d15b54d070a18afe16cdf7fc464cd607532c36d1edf107d`, 1 223 records |
+| Kev code for training | commit `3e1cd3bb588a388a06827443380befece23e68c7` (the one `runs/ft-kev-0.8b-2026-09-28/RUN.txt` records) |
+| initial checkpoint / base | `jaredpalmer/kev-0.8b` / `Qwen/Qwen3.5-0.8B-Base` at the revisions in § 4.4 |
+| arguments | `--epochs 2 --lr 2e-5 --batch 1 --accum 8 --device mps --seed 20260928` (full config: `runs/ft-kev-0.8b-2026-09-28/training_config.json`) |
+
+```bash
+git -C ~/workplace/Silex/third_party/kev checkout 3e1cd3bb588a388a06827443380befece23e68c7 && (cd ~/workplace/Silex/third_party/kev && uv sync --extra serve)
+shasum -a 256 eval/splits/kev-train.jsonl                # must equal 21b5902e…
+bash eval/finetune/finetune.sh 0.8b                      # writes runs/ft-kev-0.8b-<today>/{RUN.txt,train.log,model/}
+ln -sfn "$PWD/runs/ft-kev-0.8b-$(date +%Y-%m-%d)/model" runs/ft-kev-0.8b-2026-09-28/model   # run scripts expect this path
+git -C ~/workplace/Silex/third_party/kev checkout 84847f0a883d900f7de5b7a57eaa341ca7f9a6b4   # the serving commit recorded by the fingerprint
+```
+
+Compare `runs/ft-kev-0.8b-<today>/training_metrics.json` with the original's (`records_seen` 2 366, `optimizer_steps` 296).
+
+What changes with regenerated weights:
+
+- **The adapter bytes differ from the original.** `judge-fingerprint.sh --check eval/ontology/v2/frozen/judge-fingerprint.txt` will fail on the `ft …` lines, and on the `:8021 served` line because the `run` path differs. Everything else in it should match. **Never overwrite the frozen fingerprint.** Record the new judge with `--write runs/judge-fingerprint-<machine>.txt`.
+- **Re-scored predictions are a new run, not a reproduction.** Their statistics can differ from the reports. The committed numbers are reproduced exactly from the committed predictions (§ 3), and that needs no weights at all.
+- **A new pre-registered test that uses the judge** must seal the new fingerprint at its freeze gate (§ 8).
 
 Committed judge outputs make re-scoring optional:
 
@@ -173,7 +200,7 @@ Exact arguments are in `scripts/repro-check.sh` and each test's `run-*.sh`.
 
 ## 6. Re-scoring with the judge (v2, E-PR, E1/E5 only)
 
-1. Install Kev at the pinned commit, pull both HF models at the pinned revisions, and copy the ft adapter (§ 4.4).
+1. Install Kev at the serving commit, pull both HF models at the pinned revisions, and regenerate the ft adapter (§ 4.5).
 2. Serve on **:8021 (ft)** and **:8022 (released)**. Never use :8009/:8010; they are the user's own Kev servers.
 
    ```bash
@@ -181,7 +208,8 @@ Exact arguments are in `scripts/repro-check.sh` and each test's `run-*.sh`.
    KEV_RUN=jaredpalmer/kev-0.8b KEV_PORT=8022 bash scripts/kev-serve.sh &
    ```
 
-3. Run `eval/ontology/v2/judge-fingerprint.sh --check eval/ontology/v2/frozen/judge-fingerprint.txt`. It must print `judge fingerprint OK`; that check covers code, weights and what both servers report.
+3. Run `eval/ontology/v2/judge-fingerprint.sh --check eval/ontology/v2/frozen/judge-fingerprint.txt`. With regenerated weights, expect differences **only** on the `ft …` lines and the `:8021` run path (§ 4.5). Any other difference (Kev code, HF revisions, backend, temperature) means the setup is wrong.
+   - The run scripts call this check and abort on any difference. For a re-scoring run, point them at your own fingerprint: write it with `--write runs/judge-fingerprint-<machine>.txt`, then edit the path locally. Never commit a change to the frozen file.
 4. Run `bash eval/ontology/v2/run-v2.sh`, `bash eval/ontology/pr/run-pr.sh` or `bash eval/ontology/run-e5.sh` (needs `runs/onto-e5-items`: `node eval/ontology/arms.ts --exp e5 --out runs/onto-e5-items`; E1a: `--exp e1 --out runs/onto-e1a-items`, then `run-e1a.sh`; item hashes are in `runs/onto-inputs-MANIFEST.json`).
    - Failed calls are retried by `eval/ontology/retry-failed.ts`, at most 3 passes.
    - The served temperature is 1.0 (ft) and 2.35 (released). New scores can differ slightly from the committed predictions. The exact reproduction path is § 3.
