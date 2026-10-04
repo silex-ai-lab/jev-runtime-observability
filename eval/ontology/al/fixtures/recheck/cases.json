@@ -1,0 +1,58 @@
+{
+  "more_alerts": {
+    "positives": 100,
+    "negatives": 100,
+    "otp_tp": 80,
+    "prov_tp": 50,
+    "otp_fp": 40,
+    "prov_fp": 50
+  },
+  "margin_equality": {
+    "positives": 100,
+    "negatives": 100,
+    "otp_tp": 95,
+    "prov_tp": 100,
+    "otp_fp": 0,
+    "prov_fp": 100
+  },
+  "zero_otp_flags": {
+    "positives": 100,
+    "negatives": 100,
+    "otp_tp": 0,
+    "prov_tp": 80,
+    "otp_fp": 0,
+    "prov_fp": 30
+  },
+  "zero_prov_flags": {
+    "positives": 100,
+    "negatives": 100,
+    "otp_tp": 80,
+    "prov_tp": 0,
+    "otp_fp": 30,
+    "prov_fp": 0
+  },
+  "zero_positives": {
+    "positives": 0,
+    "negatives": 100,
+    "otp_tp": 0,
+    "prov_tp": 0,
+    "otp_fp": 30,
+    "prov_fp": 50
+  },
+  "below_60": {
+    "positives": 59,
+    "negatives": 100,
+    "otp_tp": 50,
+    "prov_tp": 50,
+    "otp_fp": 0,
+    "prov_fp": 50
+  },
+  "no_flags_draw": {
+    "positives": 100,
+    "negatives": 100,
+    "otp_tp": 100,
+    "prov_tp": 100,
+    "otp_fp": 0,
+    "prov_fp": 0
+  }
+}

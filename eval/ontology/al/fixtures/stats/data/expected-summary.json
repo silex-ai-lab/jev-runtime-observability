@@ -1,0 +1,213 @@
+{
+ "reps": 400,
+ "draws": 100,
+ "results": {
+  "good": {
+   "counts": {
+    "runs": 200,
+    "positives": 80
+   },
+   "observed": {
+    "otp": {
+     "F": 80,
+     "TP": 80,
+     "precision": 1,
+     "recall": 1
+    },
+    "prov": {
+     "F": 160,
+     "TP": 80,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "alert_reduction": 0.5,
+   "rand_precision_mean": 0.010309278350515464,
+   "p": {
+    "a": 0.0024937655860349127,
+    "b": 0.0024937655860349127,
+    "c": 0.0024937655860349127,
+    "d": 0.039603960396039604
+   },
+   "ci": {
+    "alerts": [
+     68,
+     94
+    ],
+    "recall": [
+     0,
+     0
+    ],
+    "precision": [
+     0.42500000000000004,
+     0.5875
+    ]
+   },
+   "p_H13": 0.039603960396039604,
+   "verdict": "supported",
+   "redraws": 0
+  },
+  "more": {
+   "counts": {
+    "runs": 200,
+    "positives": 80
+   },
+   "observed": {
+    "otp": {
+     "F": 100,
+     "TP": 80,
+     "precision": 0.8,
+     "recall": 1
+    },
+    "prov": {
+     "F": 80,
+     "TP": 40,
+     "precision": 0.5,
+     "recall": 0.5
+    }
+   },
+   "alert_reduction": -0.25,
+   "rand_precision_mean": 0.3336666666666669,
+   "p": {
+    "a": 0.970074812967581,
+    "b": 0.0024937655860349127,
+    "c": 0.00997506234413965,
+    "d": 0.12871287128712872
+   },
+   "ci": {
+    "alerts": [
+     -52,
+     2
+    ],
+    "recall": [
+     0.13636363636363635,
+     0.858974358974359
+    ],
+    "precision": [
+     0.0803571428571429,
+     0.5625
+    ]
+   },
+   "p_H13": 0.970074812967581,
+   "verdict": "not supported",
+   "redraws": 0
+  },
+  "lossy": {
+   "counts": {
+    "runs": 200,
+    "positives": 80
+   },
+   "observed": {
+    "otp": {
+     "F": 60,
+     "TP": 60,
+     "precision": 1,
+     "recall": 0.75
+    },
+    "prov": {
+     "F": 160,
+     "TP": 80,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "alert_reduction": 0.625,
+   "rand_precision_mean": 0.2061855670103089,
+   "p": {
+    "a": 0.0024937655860349127,
+    "b": 0.9825436408977556,
+    "c": 0.0024937655860349127,
+    "d": 0.039603960396039604
+   },
+   "ci": {
+    "alerts": [
+     78,
+     122
+    ],
+    "recall": [
+     -0.4883720930232558,
+     -0.0625
+    ],
+    "precision": [
+     0.42500000000000004,
+     0.5875
+    ]
+   },
+   "p_H13": 0.9825436408977556,
+   "verdict": "not supported",
+   "redraws": 0
+  },
+  "zero": {
+   "counts": {
+    "runs": 200,
+    "positives": 80
+   },
+   "observed": {
+    "otp": {
+     "F": 0,
+     "TP": 0,
+     "precision": null,
+     "recall": 0
+    },
+    "prov": {
+     "F": 160,
+     "TP": 80,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "alert_reduction": 1,
+   "rand_precision_mean": 0.5,
+   "p": {
+    "a": null,
+    "b": null,
+    "c": null,
+    "d": null
+   },
+   "ci": {
+    "alerts": null,
+    "recall": null,
+    "precision": null
+   },
+   "p_H13": 1,
+   "verdict": "inconclusive",
+   "redraws": 0
+  },
+  "small": {
+   "counts": {
+    "runs": 30,
+    "positives": 12
+   },
+   "observed": {
+    "otp": {
+     "F": 12,
+     "TP": 12,
+     "precision": 1,
+     "recall": 1
+    },
+    "prov": {
+     "F": 24,
+     "TP": 12,
+     "precision": 0.5,
+     "recall": 1
+    }
+   },
+   "alert_reduction": 0.5,
+   "rand_precision_mean": 0.010309278350515464,
+   "p": {
+    "a": null,
+    "b": null,
+    "c": null,
+    "d": null
+   },
+   "ci": {
+    "alerts": null,
+    "recall": null,
+    "precision": null
+   },
+   "p_H13": 1,
+   "verdict": "inconclusive",
+   "redraws": 0
+  }
+ }
+}
