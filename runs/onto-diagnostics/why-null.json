@@ -1,0 +1,71 @@
+{
+ "D1_sensitivity_kev-0.8b-ft": {
+  "A1_bound": {
+   "n": 608,
+   "median": 0,
+   "p90": 0.007500000000000001,
+   "share_changed_over_0_01": 0.08552631578947369
+  },
+  "A1_unbound": {
+   "n": 7041,
+   "median": 0,
+   "p90": 0.0036999999999999997,
+   "share_changed_over_0_01": 0.0749893481039625
+  },
+  "A2_all": {
+   "n": 7649,
+   "median": 0,
+   "p90": 0.0029000000000000007,
+   "share_changed_over_0_01": 0.07321218459929403
+  },
+  "A3_all": {
+   "n": 7649,
+   "median": 0,
+   "p90": 0.0031000000000000003,
+   "share_changed_over_0_01": 0.06667538240292849
+  }
+ },
+ "D1_sensitivity_kev-0.8b": {
+  "A1_bound": {
+   "n": 608,
+   "median": 0.017800000000000038,
+   "p90": 0.0464,
+   "share_changed_over_0_01": 0.7335526315789473
+  },
+  "A1_unbound": {
+   "n": 7041,
+   "median": 0.017400000000000027,
+   "p90": 0.0378,
+   "share_changed_over_0_01": 0.7747479051271127
+  },
+  "A2_all": {
+   "n": 7649,
+   "median": 0.010199999999999987,
+   "p90": 0.029000000000000026,
+   "share_changed_over_0_01": 0.5122238201072036
+  },
+  "A3_all": {
+   "n": 7649,
+   "median": 0.017000000000000015,
+   "p90": 0.04519999999999996,
+   "share_changed_over_0_01": 0.7280690286311936
+  }
+ },
+ "D2_coverage": {
+  "calls": 7649,
+  "calls_on_bound_tools": 608,
+  "positive_runs_with_bound_call": 126,
+  "positives": 240
+ },
+ "D3_static_tool_prior_auroc": 0.783709418031963,
+ "D3_reference": {
+  "kev_A0": 0.7417579656246859,
+  "kev_A1": 0.7397602774148155
+ },
+ "D4_provenance_untyped": {
+  "auroc": 0.7766860991054377,
+  "fused_with_kev_A0": 0.8642074580359835
+ },
+ "D5_positive_runs_without_write_call": 13,
+ "D6_positive_calls_on_tools_also_in_negatives": 0.9862218999274837
+}
