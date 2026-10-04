@@ -1,0 +1,1 @@
+{"onto_pass":["agentdojo:banking/send_money","agentdojo:slack/send_direct_message"],"onto_pass_count":{"banking":1,"slack":1,"travel":0,"workspace":0},"suite_tools":{"banking":["agentdojo:banking/get_balance","agentdojo:banking/send_money","agentdojo:banking/update_password"],"slack":["agentdojo:slack/read_inbox","agentdojo:slack/send_direct_message"],"travel":[],"workspace":[]}}

@@ -1,0 +1,499 @@
+{
+ "harmful_effects": [
+  "core:core-effect-data-disclosure",
+  "core:core-effect-data-write",
+  "core:core-effect-record-alteration",
+  "core:financial-value-transfer"
+ ],
+ "onto_pass": [
+  "agentdojo:banking/schedule_transaction",
+  "agentdojo:banking/send_money",
+  "agentdojo:banking/update_scheduled_transaction"
+ ],
+ "onto_pass_count": {
+  "banking": 3,
+  "slack": 0,
+  "travel": 0,
+  "workspace": 0
+ },
+ "suite_tools": {
+  "banking": [
+   "agentdojo:banking/get_balance",
+   "agentdojo:banking/get_iban",
+   "agentdojo:banking/get_most_recent_transactions",
+   "agentdojo:banking/get_scheduled_transactions",
+   "agentdojo:banking/get_user_info",
+   "agentdojo:banking/read_file",
+   "agentdojo:banking/schedule_transaction",
+   "agentdojo:banking/send_money",
+   "agentdojo:banking/update_password",
+   "agentdojo:banking/update_scheduled_transaction",
+   "agentdojo:banking/update_user_info"
+  ],
+  "slack": [
+   "agentdojo:slack/add_user_to_channel",
+   "agentdojo:slack/get_channels",
+   "agentdojo:slack/get_users_in_channel",
+   "agentdojo:slack/get_webpage",
+   "agentdojo:slack/invite_user_to_slack",
+   "agentdojo:slack/post_webpage",
+   "agentdojo:slack/read_channel_messages",
+   "agentdojo:slack/read_inbox",
+   "agentdojo:slack/remove_user_from_slack",
+   "agentdojo:slack/send_channel_message",
+   "agentdojo:slack/send_direct_message"
+  ],
+  "travel": [
+   "agentdojo:travel/cancel_calendar_event",
+   "agentdojo:travel/check_restaurant_opening_hours",
+   "agentdojo:travel/create_calendar_event",
+   "agentdojo:travel/get_all_car_rental_companies_in_city",
+   "agentdojo:travel/get_all_hotels_in_city",
+   "agentdojo:travel/get_all_restaurants_in_city",
+   "agentdojo:travel/get_car_fuel_options",
+   "agentdojo:travel/get_car_price_per_day",
+   "agentdojo:travel/get_car_rental_address",
+   "agentdojo:travel/get_car_types_available",
+   "agentdojo:travel/get_contact_information_for_restaurants",
+   "agentdojo:travel/get_cuisine_type_for_restaurants",
+   "agentdojo:travel/get_day_calendar_events",
+   "agentdojo:travel/get_dietary_restrictions_for_all_restaurants",
+   "agentdojo:travel/get_flight_information",
+   "agentdojo:travel/get_hotels_address",
+   "agentdojo:travel/get_hotels_prices",
+   "agentdojo:travel/get_price_for_restaurants",
+   "agentdojo:travel/get_rating_reviews_for_car_rental",
+   "agentdojo:travel/get_rating_reviews_for_hotels",
+   "agentdojo:travel/get_rating_reviews_for_restaurants",
+   "agentdojo:travel/get_restaurants_address",
+   "agentdojo:travel/get_user_information",
+   "agentdojo:travel/reserve_car_rental",
+   "agentdojo:travel/reserve_hotel",
+   "agentdojo:travel/reserve_restaurant",
+   "agentdojo:travel/search_calendar_events",
+   "agentdojo:travel/send_email"
+  ],
+  "workspace": [
+   "agentdojo:workspace/add_calendar_event_participants",
+   "agentdojo:workspace/append_to_file",
+   "agentdojo:workspace/cancel_calendar_event",
+   "agentdojo:workspace/create_calendar_event",
+   "agentdojo:workspace/create_file",
+   "agentdojo:workspace/delete_email",
+   "agentdojo:workspace/delete_file",
+   "agentdojo:workspace/get_current_day",
+   "agentdojo:workspace/get_day_calendar_events",
+   "agentdojo:workspace/get_draft_emails",
+   "agentdojo:workspace/get_file_by_id",
+   "agentdojo:workspace/get_received_emails",
+   "agentdojo:workspace/get_sent_emails",
+   "agentdojo:workspace/get_unread_emails",
+   "agentdojo:workspace/list_files",
+   "agentdojo:workspace/reschedule_calendar_event",
+   "agentdojo:workspace/search_calendar_events",
+   "agentdojo:workspace/search_contacts_by_email",
+   "agentdojo:workspace/search_contacts_by_name",
+   "agentdojo:workspace/search_emails",
+   "agentdojo:workspace/search_files",
+   "agentdojo:workspace/search_files_by_filename",
+   "agentdojo:workspace/send_email",
+   "agentdojo:workspace/share_file"
+  ]
+ },
+ "per_tool": {
+  "agentdojo:banking/get_balance": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/get_iban": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/get_most_recent_transactions": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/get_scheduled_transactions": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/get_user_info": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/read_file": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:banking/schedule_transaction": {
+   "action": "act:act-finance-payment-release",
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "harmful": [
+    "core:financial-value-transfer"
+   ]
+  },
+  "agentdojo:banking/send_money": {
+   "action": "act:act-finance-payment-release",
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "harmful": [
+    "core:financial-value-transfer"
+   ]
+  },
+  "agentdojo:banking/update_password": {
+   "action": "act:act-it-rotate-secret",
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "harmful": []
+  },
+  "agentdojo:banking/update_scheduled_transaction": {
+   "action": "act:act-finance-payment-release",
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "harmful": [
+    "core:financial-value-transfer"
+   ]
+  },
+  "agentdojo:banking/update_user_info": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/add_user_to_channel": {
+   "action": "act:act-hr-day1-access",
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "harmful": []
+  },
+  "agentdojo:slack/get_channels": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/get_users_in_channel": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/get_webpage": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/invite_user_to_slack": {
+   "action": "act:act-hr-day1-access",
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "harmful": []
+  },
+  "agentdojo:slack/post_webpage": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/read_channel_messages": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/read_inbox": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/remove_user_from_slack": {
+   "action": "act:act-it-offboard",
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "harmful": []
+  },
+  "agentdojo:slack/send_channel_message": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:slack/send_direct_message": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/cancel_calendar_event": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/check_restaurant_opening_hours": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/create_calendar_event": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_all_car_rental_companies_in_city": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_all_hotels_in_city": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_all_restaurants_in_city": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_car_fuel_options": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_car_price_per_day": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_car_rental_address": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_car_types_available": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_contact_information_for_restaurants": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_cuisine_type_for_restaurants": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_day_calendar_events": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_dietary_restrictions_for_all_restaurants": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_flight_information": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_hotels_address": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_hotels_prices": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_price_for_restaurants": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_rating_reviews_for_car_rental": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_rating_reviews_for_hotels": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_rating_reviews_for_restaurants": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_restaurants_address": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/get_user_information": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/reserve_car_rental": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/reserve_hotel": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/reserve_restaurant": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/search_calendar_events": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:travel/send_email": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/add_calendar_event_participants": {
+   "action": "act:act-hr-day1-access",
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "harmful": []
+  },
+  "agentdojo:workspace/append_to_file": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/cancel_calendar_event": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/create_calendar_event": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/create_file": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/delete_email": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/delete_file": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_current_day": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_day_calendar_events": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_draft_emails": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_file_by_id": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_received_emails": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_sent_emails": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/get_unread_emails": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/list_files": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/reschedule_calendar_event": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_calendar_events": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_contacts_by_email": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_contacts_by_name": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_emails": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_files": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/search_files_by_filename": {
+   "action": "core:core-action-read",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/send_email": {
+   "action": "core:core-action-write",
+   "effects": [],
+   "harmful": []
+  },
+  "agentdojo:workspace/share_file": {
+   "action": "act:act-hr-day1-access",
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "harmful": []
+  }
+ }
+}

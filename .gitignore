@@ -8,3 +8,10 @@ runs/ft-*/model/
 # Batch 2 T6: label exports hold tenant data. Inside the repo they may only be written under runs/exports/
 # (the exporter refuses other in-repo paths); every JSONL there, at any depth, is ignored. Manifests are kept.
 runs/exports/**/*.jsonl
+
+# Ontology-value experiments: derived inputs are rebuilt deterministically; their hashes are in runs/onto-inputs-MANIFEST.json
+runs/onto-e1a-items/
+runs/onto-e5-items/
+runs/onto-e1b-data/*.jsonl
+runs/onto-e5-input/observations.jsonl
+runs/onto-e1b-*/model/

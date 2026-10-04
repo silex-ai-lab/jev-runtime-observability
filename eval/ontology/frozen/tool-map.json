@@ -1,0 +1,2960 @@
+{
+ "version": 1,
+ "tools": {
+  "agentdojo:banking/get_balance": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/get_iban": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/get_most_recent_transactions": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/get_scheduled_transactions": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/get_user_info": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/read_file": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:banking/schedule_transaction": {
+   "core": "core:core-action-transfer-value",
+   "action": "act:act-finance-payment-release",
+   "rule": "binding"
+  },
+  "agentdojo:banking/send_money": {
+   "core": "core:core-action-transfer-value",
+   "action": "act:act-finance-payment-release",
+   "rule": "binding"
+  },
+  "agentdojo:banking/update_password": {
+   "core": "core:core-action-write",
+   "action": "act:act-it-rotate-secret",
+   "rule": "binding"
+  },
+  "agentdojo:banking/update_scheduled_transaction": {
+   "core": "core:core-action-transfer-value",
+   "action": "act:act-finance-payment-release",
+   "rule": "binding"
+  },
+  "agentdojo:banking/update_user_info": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/add_user_to_channel": {
+   "core": "core:core-action-delegate",
+   "action": "act:act-hr-day1-access",
+   "rule": "binding"
+  },
+  "agentdojo:slack/get_channels": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/get_users_in_channel": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/get_webpage": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/invite_user_to_slack": {
+   "core": "core:core-action-delegate",
+   "action": "act:act-hr-day1-access",
+   "rule": "binding"
+  },
+  "agentdojo:slack/post_webpage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/read_channel_messages": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/read_inbox": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/remove_user_from_slack": {
+   "core": "core:core-action-revoke",
+   "action": "act:act-it-offboard",
+   "rule": "binding"
+  },
+  "agentdojo:slack/send_channel_message": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:slack/send_direct_message": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/cancel_calendar_event": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/check_restaurant_opening_hours": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/create_calendar_event": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_all_car_rental_companies_in_city": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_all_hotels_in_city": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_all_restaurants_in_city": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_car_fuel_options": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_car_price_per_day": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_car_rental_address": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_car_types_available": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_contact_information_for_restaurants": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_cuisine_type_for_restaurants": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_day_calendar_events": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_dietary_restrictions_for_all_restaurants": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_flight_information": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_hotels_address": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_hotels_prices": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_price_for_restaurants": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_rating_reviews_for_car_rental": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_rating_reviews_for_hotels": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_rating_reviews_for_restaurants": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_restaurants_address": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/get_user_information": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/reserve_car_rental": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/reserve_hotel": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/reserve_restaurant": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/search_calendar_events": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:travel/send_email": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/add_calendar_event_participants": {
+   "core": "core:core-action-delegate",
+   "action": "act:act-hr-day1-access",
+   "rule": "binding"
+  },
+  "agentdojo:workspace/append_to_file": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/cancel_calendar_event": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/create_calendar_event": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/create_file": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/delete_email": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/delete_file": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_current_day": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_day_calendar_events": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_draft_emails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_file_by_id": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_received_emails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_sent_emails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/get_unread_emails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/list_files": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/reschedule_calendar_event": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_calendar_events": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_contacts_by_email": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_contacts_by_name": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_emails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_files": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/search_files_by_filename": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/send_email": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "binding"
+  },
+  "agentdojo:workspace/share_file": {
+   "core": "core:core-action-delegate",
+   "action": "act:act-hr-day1-access",
+   "rule": "binding"
+  },
+  "asb:attack/AcademicInstitutionPortal": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AcademicIntegrityMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AcademicProfileManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessControlTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessEscalation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToClientRecords": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToFlightData": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToInstitutionalRepositories": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToMissionControl": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToStudentRecords": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccessToSupplierData": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccountAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccountCreation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccountCreationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccountSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AccuracyValidator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AntiMalwareGuard": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/AntiMoneyLaunderingTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/BackupManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/BackupTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/BiasDetectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/BillingVerificationTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/BrakingSystemMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/BrakingSystemSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CameraFeedDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CameraSystemMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CareDeprivation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CarePlanUpdate": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "asb:attack/CareQualityMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseDisclosure": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseDismissalManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseDismissalTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseReviewTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CaseSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CertificationVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CitationManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CitationTrackingSoftware": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ClientRecordAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ClientRepresentationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CodeInjectionProtection": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CollisionSystemSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CollisionWarningSystem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CommandInjection": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CommunicationDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CommunicationSecurityManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CommunicationSystemChecker": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ComponentAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ComponentAccessControl": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ComponentModification": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ComponentVerificationSystem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConferenceDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConferenceInformationHub": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/ConferenceWebsiteDefacement": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialDataAudit": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialDataHandler": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialDataProtector": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialDocumentTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialInformationLeak": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/ConfidentialityBreach": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialityManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialityProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConfidentialityShield": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConflictOfInterest": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ConflictOfInterestTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ContentQualityChecker": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ContractFraud": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ContractManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ControlSystemAccessManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ControlSystemValidator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ControlledShutdown": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CouponManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CouponUse": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CovertBackupTransfer": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/CovertCaseManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CovertDataExfiltration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CovertDataManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CovertFundReallocation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CovertTransactionDelay": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/CredentialHarvesting": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CredentialManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CredentialSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CredentialTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CredentialVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CreditCardFraud": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CreditTransactionVerificationTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/CustomerDataProtectionTool": {
+   "core": "core:core-action-write",
+   "action": "act:act-support-pii-disclose",
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CustomerDataTheft": {
+   "core": "core:core-action-write",
+   "action": "act:act-support-pii-disclose",
+   "rule": "fallback-impact"
+  },
+  "asb:attack/CustomerProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DNSManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DNSPoisoning": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataAnalysisTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataAnalyzerTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataBreach": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataBreachProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataCorruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataDestruction": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataExfiltration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataExfiltrationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataExportTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataFabrication": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataIntegrityAttack": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataIntegrityCheck": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/DataIntegrityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataRetentionSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataRetrieval": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataReviewTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataSecurityEnforcer": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataWiping": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DataWipingTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DatabaseManagementSystem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DesignDataTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DesignDataValidationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DestructiveMaintenance": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiagnosisDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiagnosisHandler": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiagnosisManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiagnosisManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiagnosisVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiscountApplication": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiscountManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DiscreteDataMove": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "asb:attack/DiscriminationAndBias": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DisputeResolutionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DocumentManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DocumentVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/DocumentationVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EmergencyShutdownManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EngineIntegrityMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EnginePerformanceDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EngineTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EvidenceFabrication": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EvidenceProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EvidenceReviewTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/EvidenceTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExamContentTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExamPreparationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExamSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExamSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExpenseManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ExpenseReportManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FakeAuthorProfiles": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FakeCertificates": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FakeMedicalReports": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FakeProductReviews": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FakeResearchResults": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FalseAccusations": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FalseDocumentation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FalseTherapyClaims": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FinancialBackupTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FinancialDataTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FinancialReportTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FinancialStatementFraud": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FinancialStatementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FirmwareInfection": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FirmwareUpdateTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "asb:attack/FlightControl": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightControlMonitoringTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightDataValidationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightPathAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightPathVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightSystemSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FlightSystemValidationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FraudulentGrantApplications": {
+   "core": "core:core-action-delegate",
+   "action": null,
+   "rule": "delegate"
+  },
+  "asb:attack/FraudulentOrders": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FraudulentTransaction": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/FundManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/FundWithdrawal": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GPSDataValidator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GPSDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GradeManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GradeManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GradeRelease": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GradeReleaseTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/GrantApplicationAssistance": {
+   "core": "core:core-action-delegate",
+   "action": null,
+   "rule": "delegate"
+  },
+  "asb:attack/GrantInformationDatabase": {
+   "core": "core:core-action-delegate",
+   "action": null,
+   "rule": "delegate"
+  },
+  "asb:attack/HealthRecordManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/HealthcareProviderDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/HealthcareProviderDataTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/HiddenDataExtraction": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/IdentityForgery": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InducedTrafficDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InformationProtectionTool": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/InformationSharingTool": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/InsiderInformationLeak": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "asb:attack/InsiderTrading": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InstitutionalAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InsuranceClaimsTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InsuranceFraud": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/IntegrityCompromise": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/IntegrityGuardian": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/IntellectualPropertyTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/IntellectualPropertyTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InventoryControlTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InventoryManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InventoryManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InventoryTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InvestmentDiversion": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InvestmentDiversionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InvestmentScam": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/InvestmentValidationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/JournalMetricsAnalyzer": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/JournalRankingsAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/JudicialBribery": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/JudicialCommunicationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalAdvice": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalAdviceManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalAdviceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalCaseManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalConsultationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalDocumentAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalDocumentAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalDocumentForgery": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LegalThreat": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LoanFraud": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LoanVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LogAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/LogManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MaintenanceDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MaintenanceLogSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MaliciousSoftwareUpdate": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "asb:attack/Malpractice": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MalwareInjection": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MalwareProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MarketAnalysisTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MarketManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MarketingDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MarketingDataProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicalAdviceManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicalAdviceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicalDocumentationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicalRecordAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicalRecordManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Medication": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicationErrors": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicationManagement": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicationManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicationValidator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MedicationVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Misdiagnosis": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Misrepresentation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MissionControlAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/MoneyLaundering": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/NavigationSystemDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/NetworkMonitoringTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/NetworkTrafficSniffing": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/OpenAccessPortal": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/OperationInterruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/OrderDataAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/OrderManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/OrderVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PaperRetraction": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PathPlanningValidator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientCareMonitoringTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientCareTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientConfidentialityBreach": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientDataManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientDataTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientNeglect": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientRecordAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PatientsNeglect": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PayloadSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PayloadTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PaymentGatewayAttack": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/PaymentGatewayManagementTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/PeerReviewManagement": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PeerReviewManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PerformanceDataSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PhishingAttack": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PhishingAwarenessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PhishingForAcademicCredentials": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Plagiarism": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PlagiarismDetectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PlagiarismInjection": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PlagiarismScandalCreation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PonziScheme": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PortfolioManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Prescription": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PrescriptionManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PriceManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PricingManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Procedure": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ProcedureAuthorizationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ProcessControlTool": {
+   "core": "core:core-action-execute",
+   "action": null,
+   "rule": "execute"
+  },
+  "asb:attack/ProcessInjection": {
+   "core": "core:core-action-execute",
+   "action": null,
+   "rule": "execute"
+  },
+  "asb:attack/ProductAuthenticityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ProductCounterfeiting": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ProfileManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PsychologicalProfileTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PublicationAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/PublicationReviewTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/Quackery": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RansomwareDeployment": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RansomwareProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RecommendationLetterTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RecommendationLetters": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RecordAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/RefundManagementTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/Refunds": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/RepositoryAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDataAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDataManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDataProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDataTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDataVerification": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchDatabaseCorruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchEspionage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearchGrantTheft": {
+   "core": "core:core-action-delegate",
+   "action": null,
+   "rule": "delegate"
+  },
+  "asb:attack/ResearchVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearcherIdentityTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResearcherProfileManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResourceAllocationHijack": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResourceAllocationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResourceManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ResourceTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ReviewManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SatelliteDataSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SatelliteDataTheft": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SchemeTransparencyTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ScholarshipFundDiversion": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ScholarshipManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SecureDataSharing": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SecureDataTransferManager": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/SensorCalibrationManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorDataLeak": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorDataTampering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorDataVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorIntegrityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorJamming": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SensorManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ServiceDisruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ServiceMaintenanceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ServiceOptimizationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SessionManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SessionRecording": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SessionRecordingTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SettlementDiversion": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SettlementManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/ShutdownManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SimulatedPhishing": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SoftwareInfiltration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SoftwareIntegrityChecker": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SoftwareUpdateManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "asb:attack/StealthBackup": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/StealthDataExport": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/StudentDataBreach": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/StudentDataProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/StudentRecordAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SupplierDataManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SurgicalErrors": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SurgicalProcedureTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SurveillanceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemAccess": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemAccessTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemControlOverride": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemCrash": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemMalwareDeployment": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemMonitoringTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemShutdown": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemShutdownController": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/SystemStabilityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TestOrdering": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TestOrderingTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TherapyAssessmentTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TherapySabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TherapySessionManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TherapySessionManipulation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TradingComplianceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TrafficFlowOptimizer": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TrafficSignInterference": {
+   "core": "core:core-action-approve",
+   "action": null,
+   "rule": "approve"
+  },
+  "asb:attack/TrafficSignRecognitionTool": {
+   "core": "core:core-action-approve",
+   "action": null,
+   "rule": "approve"
+  },
+  "asb:attack/TransactionDuplication": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/TransactionProcessingTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/TransactionTimingTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/TransactionVerificationTool": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "asb:attack/Treatment": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TreatmentAuthorizationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TreatmentPlanAlteration": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TreatmentPlanReviewTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TreatmentPlanTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/TreatmentVerificationTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/UnlawfulSurveillance": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/V2XCommunicationSabotage": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/VehicleControlCorruption": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/VehicleHijacking": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/VehicleIdentityProtectionTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/VehicleOperationMonitor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/VehicleSecurityTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/WebsiteDefacement": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/WebsiteMaintenanceTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/WebsiteManagementTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:attack/WitnessSupportTool": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/compliance_checker": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/course_selector": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/flight_simulator": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/inventory_manager": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/legal_doc_review": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/market_data_api": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/medical_database": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/mental_health_tracker": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/path_planner": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/performance_evaluator": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/portfolio_manager": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/prescription_manager": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/research_database": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/sales_analytics": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/sensor_fusion": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/summarizer": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/sys_monitor": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/system_analyzer": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/therapy_guide": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "asb:normal/update_manager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "injecagent:benign/AmazonGetProductDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/EvernoteManagerSearchNotes": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GitHubGetRepositoryDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GitHubGetUserDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GitHubSearchRepositories": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GmailReadEmail": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GmailSearchEmails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GoogleCalendarGetEventsFromSharedCalendar": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/GoogleCalendarReadEvents": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/ShopifyGetProductDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TeladocViewReviews": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TodoistSearchTasks": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TwilioGetReceivedSmsMessages": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TwitterManagerGetUserProfile": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TwitterManagerReadTweet": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/TwitterManagerSearchTweets": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:benign/WebBrowserNavigateTo": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/AugustSmartLockGrantGuestAccess": {
+   "core": "core:core-action-delegate",
+   "action": "act:act-hr-day1-access",
+   "rule": "delegate"
+  },
+  "injecagent:dh/AugustSmartLockUnlockDoor": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/BankManagerPayBill": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "injecagent:dh/BankManagerTransferFunds": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "injecagent:dh/BinanceDeposit": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "injecagent:dh/BinancePlaceOrder": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/BinanceWithdraw": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "injecagent:dh/CiscoUmbrellaCreatePolicy": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "injecagent:dh/CiscoUmbrellaUpdatePolicy": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "injecagent:dh/DropboxMoveItem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "injecagent:dh/EmergencyDispatchSystemCreateDispatchRequest": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "injecagent:dh/EpicFHIRManageAppointments": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/EpicFHIRManageClinicalDocuments": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/EpicFHIRManagePatientRecords": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:dh/EvernoteManagerManageNoteSharingLevel": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:ds/AmazonViewSavedAddresses": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/AmazonViewSavedPaymentMethods": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/AugustSmartLockViewAccessHistory": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/BankManagerGetAccountInformation": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/BankManagerSearchPayee": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/BinanceGetOrderHistory": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/CiscoUmbrellaGetLogDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/DeepfakeGeneratorGenerateAudioDeepfake": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:ds/DropboxGetItemMetadata": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/DropboxListFilesAndFolders": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/EpicFHIRDownloadFiles": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "injecagent:ds/EpicFHIRGetPatientDetails": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/ExpediaSearchReservations": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/FacebookManagerGetUserProfile": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "injecagent:ds/FacebookManagerSearchFriends": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "taubench:airline/book_reservation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:airline/cancel_reservation": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:airline/get_reservation_details": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "taubench:airline/get_user_details": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "taubench:airline/transfer_to_human_agents": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "taubench:airline/update_reservation_flights": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:retail/cancel_pending_order": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:retail/exchange_delivered_order_items": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "taubench:retail/find_user_id_by_email": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "taubench:retail/find_user_id_by_name_zip": {
+   "core": "core:core-action-read",
+   "action": null,
+   "rule": "read"
+  },
+  "taubench:retail/modify_pending_order_address": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:retail/modify_pending_order_items": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "write"
+  },
+  "taubench:retail/modify_pending_order_payment": {
+   "core": "core:core-action-transfer-value",
+   "action": null,
+   "rule": "transfer-value"
+  },
+  "taubench:retail/return_delivered_order_items": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Amazon/Amazon": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:AugustSmartLock/AugustSmartLock": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:BankManager/BankManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Binance/Binance": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:CiscoUmbrella/CiscoUmbrella": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:DeepfakeGenerator/DeepfakeGenerator": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Dropbox/Dropbox": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:EmergencyDispatchSystem/EmergencyDispatchSystem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:EpicFHIR/EpicFHIR": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:EthereumManager/EthereumManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:EvernoteManager/EvernoteManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Expedia/Expedia": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:FacebookManager/FacebookManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:FedExShipManager/FedExShipManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:GitHub/GitHub": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Gmail/Gmail": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:GoogleCalendar/GoogleCalendar": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:GoogleHome/GoogleHome": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:GoogleMap/GoogleMap": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:IFTTT/IFTTT": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:IndoorRobot/IndoorRobot": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:InventoryManagementSystem/InventoryManagementSystem": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:InvestmentManager/InvestmentManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Shopify/Shopify": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Slack/Slack": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Spokeo/Spokeo": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:TDAmeritrade/TDAmeritrade": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Teladoc/Teladoc": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Terminal/Terminal": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:The23andMe/The23andMe": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Todoist/Todoist": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:TrafficControl/TrafficControl": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Twilio/Twilio": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:TwitterManager/TwitterManager": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:Venmo/Venmo": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  },
+  "toolemu:WebBrowser/WebBrowser": {
+   "core": "core:core-action-write",
+   "action": null,
+   "rule": "fallback-impact"
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "source": "silex-mockup@4a564d7 swm/experiments/ontology-value/out/",
+ "files": {
+  "snapshot.json": "331eaa7b07d6a0be2a88e664e6f56c5b34e8ea8d46c5ba88a0f3a2e1ec95f853",
+  "tool-manifest.json": "66234ec5ca3310f26296aaae652fd61be103c8a7b91bc376ced3814b894895c4",
+  "tool-map.json": "e85c12e958e95f625979269b6a57c4707211858031b376c058c1d90f4130e90c",
+  "ontology-context.v1.json": "5f36be645f07c56e82bc5451ff8bab9ae049fccd140e844bb8eb36fd6dba228f"
+ }
+}

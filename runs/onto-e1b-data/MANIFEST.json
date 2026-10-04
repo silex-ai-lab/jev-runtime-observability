@@ -1,0 +1,26 @@
+{
+ "train-A0-100.jsonl": {
+  "records": 1223,
+  "sha256": "21b5902ebe1ac6837d15b54d070a18afe16cdf7fc464cd607532c36d1edf107d"
+ },
+ "train-A0-50.jsonl": {
+  "records": 614,
+  "sha256": "717301a993a7a413393427722075de92d288e50700f362cc42cb1c26ad5b8133"
+ },
+ "train-A1-100.jsonl": {
+  "records": 1223,
+  "sha256": "458ed5ca0640b6ccf03f2c2aa1cafc3880d8c0cacd61986e1f03ffefd429dce7"
+ },
+ "train-A1-50.jsonl": {
+  "records": 614,
+  "sha256": "438c4fb161db5ba0bc0d2f42797abac82af7b9a02275e5a22e4bc6e248235948"
+ },
+ "train-A3-100.jsonl": {
+  "records": 1223,
+  "sha256": "242a6204b6057f80f1db827ef45f2739d94587fbf4837e5da363c57df0a6c681"
+ },
+ "train-A3-50.jsonl": {
+  "records": 614,
+  "sha256": "0bdc52b79e5de2cf6fd0adaaa097aabe7ec66ae46f7965e4f79336b5b408da0a"
+ }
+}
