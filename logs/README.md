@@ -2,6 +2,10 @@
 
 Newest first. The plan and its review record live in this folder.
 
+## 2026-10-04 — E-AL alert-load test and the showcase data generator
+
+- `eval/ontology/al/` (spec, `stats-al.ts`, independent `recheck_al.py`, fail-closed `run-al.sh`, fault test, report) and `eval/ontology/showcase/` (card data generator with the fixed example rules). H13 not supported: fewer alerts and higher precision held, the recall bound was not established. Report: [`2026-10-04_ONTOLOGY_AL_REPORT.md`](2026-10-04_ONTOLOGY_AL_REPORT.md).
+
 ## 2026-10-04 — Ontology v2: diagnosis of the v1 null and a held-out provenance-graph test (null)
 
 - **New:** `eval/ontology/diagnostics/` (why-null.ts, independent rederive.py); `eval/ontology/v2/` (typing and provenance proxy, monitors, `stats-v2.ts` + independent `recheck_v2.py` that agree exactly, judge fingerprint, A0 item builder, run script, report); converter `--models/--out` (v1 output byte-identical).
