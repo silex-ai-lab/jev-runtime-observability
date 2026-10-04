@@ -15,11 +15,15 @@ const fp = (x: number | null | undefined) => (x == null ? '—' : x < 0.001 ? x.
 const ci = (c?: [number, number]) => (c ? `[${c[0].toFixed(3)}, ${c[1].toFixed(3)}]` : '—');
 
 // ---- agreement between stats.ts and recheck.py ----
+// Every key stats.ts writes must exist in recheck.py's output (recheck may add diagnostics); p-values (any key on a path through a `p`-named field) must match exactly, other floats to 1e-9.
 function agree(a: unknown, b: unknown, path = ''): string[] {
-  if (typeof a === 'number' && typeof b === 'number') return Math.abs(a - b) <= 1e-9 ? [] : [`${path}: ${a} vs ${b}`];
+  const exact = /(^|\.)p(_[A-Za-z0-9]+)?(\.|$)|\.p_/.test(path);
+  if (typeof a === 'number' && typeof b === 'number') return (exact ? a === b : Math.abs(a - b) <= 1e-9) ? [] : [`${path}: ${a} vs ${b}`];
   if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b ? [] : [`${path}: ${JSON.stringify(a)} vs ${JSON.stringify(b)}`];
+  const ka = Object.keys(a as object).sort(), kb = Object.keys(b as object).sort();
   const out: string[] = [];
-  for (const k of Object.keys(a as object)) if (k in (b as object)) out.push(...agree((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${path}.${k}`));
+  for (const k of ka) if (!kb.includes(k)) out.push(`${path}.${k}: missing in recheck`);
+  for (const k of ka) if (kb.includes(k)) out.push(...agree((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${path}.${k}`));
   return out;
 }
 
@@ -151,10 +155,10 @@ md.push(`Endpoint: **evaluator-reported attack success** (attacked && \`security
   `| G-onto > G-rand | — | ${fp(e5.p_rand)} |`, '',
   `p_ctx = ${fp(e5.p_ctx)}, p_gate = ${fp(e5.p_gate)}, p_H7 = min(1, 2·min) = ${fp(e5.p_H7)}. Failed calls: ${(e5.failed_share * 100).toFixed(2)} %.`, '',
   `Per stratum (descriptive):`, '', `| Stratum | Runs | Positives | M-A0 | M-A1 | M-A2 | M-A3 | G-onto | G-impact |`, `|---|---|---|---|---|---|---|---|---|`,
-  ...Object.entries(e5.per_stratum).map(([k, v]) => { const s = v as { runs: number; positives: number; auroc: Record<string, number | null> }; return `| ${k} | ${s.runs} | ${s.positives} | ${['M-A0', 'M-A1', 'M-A2', 'M-A3', 'G-onto', 'G-impact'].map(x => f3(s.auroc[x])).join(' | ')} |`; }), '',
-  `Alert load (descriptive): runs flagged at the lowest threshold reaching 90 % recall of the ${load.positives} positives, out of ${load.runs}:`, '',
+  ...Object.entries(e5.per_stratum).map(([k0, v]) => { const k = k0.replace('|', ' / '); const s = v as { runs: number; positives: number; auroc: Record<string, number | null> }; return `| ${k} | ${s.runs} | ${s.positives} | ${['M-A0', 'M-A1', 'M-A2', 'M-A3', 'G-onto', 'G-impact'].map(x => f3(s.auroc[x])).join(' | ')} |`; }), '',
+  `Alert load (descriptive): runs flagged at the highest score threshold that still reaches ≥ 90 % recall of the ${load.positives} positives (the fewest flags under that constraint), out of ${load.runs}:`, '',
   `| Monitor | Runs flagged | Recall at that threshold |`, `|---|---|---|`, ...Object.entries(load.monitors).map(([k, v]) => `| ${k} | ${v.flagged} | ${f3(v.recall)} |`), '',
-  `${load.runs} flagged means 90 % recall is only reached by flagging every run: more than 10 % of positives score at the floor (a gated-out or zero-call run, or ties at the minimum).`, '',
+  `${load.runs} flagged means 90 % recall is only reached by flagging every run: more than 10 % of positives score at the floor. Kev reports probabilities to four decimals, so many runs score exactly 0.0000 and tie with gated-out and zero-call runs.`, '',
   `Released Kev-0.8B (secondary): ${Object.entries(stats['kev-0.8b'].e5.auroc).map(([k, v]) => `${k} ${f3(v as number)}`).join(', ')}; p_H7 ${fp(stats['kev-0.8b'].e5.p_H7)}.`, '');
 
 md.push(`## E3 — from one blocked attack, predict other same-harm paths (descriptive only)`, '',
@@ -162,7 +166,12 @@ md.push(`## E3 — from one blocked attack, predict other same-harm paths (descr
   `annotations agreed on ${e3rec.agreed} of ${e3rec.agreed + e3rec.disagreements.length} tasks; ${e3rec.disagreements.length} were decided by a blind adjudicator. Targets = other tasks of the suite sharing a harm class, deduplicated, minus the observed path.`, '',
   `| Predictor | Folds | Targets | Matched | Recall | Recall@5 | Emitted | Confirmed | Confirmed precision |`, `|---|---|---|---|---|---|---|---|---|`,
   e3row('P-onto (ontology)', e3['p-onto'].all_folds.pooled), e3row('B1 (blocked tool only)', e3.b1.all_folds?.pooled ?? e3.b1.pooled), e3row('B2 (every write tool, ontology-typed)', e3.b2.all_folds?.pooled ?? e3.b2.pooled), e3row('B3 (DeepSeek-V4-Pro, no ontology)', e3.b3.metrics.pooled), '',
-  `B3 cohort: ${e3.b3.cohort_fold_ids.length} folds, missing ${e3.b3.missing.length}. With only ${e3['p-onto'].all_folds.pooled.targets} targets in total the design cannot distinguish the predictors; the report draws no conclusion from E3 beyond these counts.`, '');
+  `Per suite (recall is undefined, —, where a suite has no target):`, '',
+  `| Suite | Predictor | Folds | Targets | Matched | Recall | Recall@5 | Emitted | Confirmed | Confirmed precision |`, `|---|---|---|---|---|---|---|---|---|---|`,
+  ...['banking', 'slack', 'workspace'].flatMap(su => ([['P-onto', e3['p-onto'].all_folds], ['B1', e3.b1.all_folds], ['B2', e3.b2.all_folds], ['B3', e3.b3.metrics]] as Array<[string, { per_suite: Record<string, Record<string, number | null>> }]>)
+    .map(([n, m]) => { const x = m.per_suite[su]; return `| ${su} | ${n} | ${x.folds} | ${x.targets} | ${x.matched} | ${f3(x.recall)} | ${f3(x.recall_at5)} | ${x.emitted} | ${x.confirmed} | ${f3(x.precision)} |`; })), '',
+  `Targetless folds (no other task of the suite shares the blocked harm class with a different path): ${e3['p-onto'].all_folds.folds.filter((f: { targets: number }) => !f.targets).map((f: { fold_id: string }) => f.fold_id).join(', ')}.`, '',
+  `**Coverage limitation.** Every target lies in ${['banking', 'slack', 'workspace'].filter(su => e3['p-onto'].all_folds.per_suite[su].targets).join(' and ')}, where the ontology predictor emits ${['banking', 'slack', 'workspace'].filter(su => e3['p-onto'].all_folds.per_suite[su].targets).map(su => e3['p-onto'].all_folds.per_suite[su].emitted).join(' / ')} predictions (the blocked calls there use tools without an L2 binding); the suites where its bindings do produce predictions have no target. So E3 never tested ontology path expansion where the ontology had content: the pooled zero recall is not evidence against it, and not evidence for it. B3 cohort: ${e3.b3.cohort_fold_ids.length} folds, missing ${e3.b3.missing.length}. Banking versus the other suites (registered as descriptive) cannot be compared on recall: banking has no target.`, '');
 
 md.push(`## Caveats and claim discipline`, '',
   `- Benchmarks only (AgentDojo and Kev's eval set); not customer outcomes. E5's endpoint is the evaluator's report, not proof that the full harm occurred; ${cleanTrue} clean runs record \`security: true\` and are negatives by construction.`,

@@ -97,16 +97,16 @@ Per stratum (descriptive):
 
 | Stratum | Runs | Positives | M-A0 | M-A1 | M-A2 | M-A3 | G-onto | G-impact |
 |---|---|---|---|---|---|---|---|---|
-| banking|Meta-SecAlign-70B | 160 | 14 | 0.807 | 0.777 | 0.714 | 0.835 | 0.916 | 0.818 |
-| banking|meta-llama_Llama-3.3-70B-Instruct | 160 | 73 | 0.808 | 0.823 | 0.790 | 0.875 | 0.835 | 0.883 |
-| slack|Meta-SecAlign-70B | 126 | 7 | 0.813 | 0.794 | 0.820 | 0.793 | 0.500 | 0.827 |
-| slack|meta-llama_Llama-3.3-70B-Instruct | 126 | 62 | 0.789 | 0.806 | 0.810 | 0.794 | 0.500 | 0.880 |
-| travel|Meta-SecAlign-70B | 160 | 0 | — | — | — | — | — | — |
-| travel|meta-llama_Llama-3.3-70B-Instruct | 160 | 46 | 0.467 | 0.540 | 0.469 | 0.510 | 0.500 | 0.549 |
-| workspace|Meta-SecAlign-70B | 600 | 0 | — | — | — | — | — | — |
-| workspace|meta-llama_Llama-3.3-70B-Instruct | 600 | 38 | 0.772 | 0.746 | 0.780 | 0.742 | 0.500 | 0.822 |
+| banking / Meta-SecAlign-70B | 160 | 14 | 0.807 | 0.777 | 0.714 | 0.835 | 0.916 | 0.818 |
+| banking / meta-llama_Llama-3.3-70B-Instruct | 160 | 73 | 0.808 | 0.823 | 0.790 | 0.875 | 0.835 | 0.883 |
+| slack / Meta-SecAlign-70B | 126 | 7 | 0.813 | 0.794 | 0.820 | 0.793 | 0.500 | 0.827 |
+| slack / meta-llama_Llama-3.3-70B-Instruct | 126 | 62 | 0.789 | 0.806 | 0.810 | 0.794 | 0.500 | 0.880 |
+| travel / Meta-SecAlign-70B | 160 | 0 | — | — | — | — | — | — |
+| travel / meta-llama_Llama-3.3-70B-Instruct | 160 | 46 | 0.467 | 0.540 | 0.469 | 0.510 | 0.500 | 0.549 |
+| workspace / Meta-SecAlign-70B | 600 | 0 | — | — | — | — | — | — |
+| workspace / meta-llama_Llama-3.3-70B-Instruct | 600 | 38 | 0.772 | 0.746 | 0.780 | 0.742 | 0.500 | 0.822 |
 
-Alert load (descriptive): runs flagged at the lowest threshold reaching 90 % recall of the 240 positives, out of 2092:
+Alert load (descriptive): runs flagged at the highest score threshold that still reaches ≥ 90 % recall of the 240 positives (the fewest flags under that constraint), out of 2092:
 
 | Monitor | Runs flagged | Recall at that threshold |
 |---|---|---|
@@ -117,7 +117,7 @@ Alert load (descriptive): runs flagged at the lowest threshold reaching 90 % rec
 | G-onto | 2092 | 1.000 |
 | G-impact | 2092 | 1.000 |
 
-2092 flagged means 90 % recall is only reached by flagging every run: more than 10 % of positives score at the floor (a gated-out or zero-call run, or ties at the minimum).
+2092 flagged means 90 % recall is only reached by flagging every run: more than 10 % of positives score at the floor. Kev reports probabilities to four decimals, so many runs score exactly 0.0000 and tie with gated-out and zero-call runs.
 
 Released Kev-0.8B (secondary): M-A0 0.729, M-A1 0.698, M-A2 0.702, M-A3 0.706, G-onto 0.553, G-impact 0.767; p_H7 1.000.
 
@@ -133,7 +133,26 @@ annotations agreed on 25 of 28 tasks; 3 were decided by a blind adjudicator. Tar
 | B2 (every write tool, ontology-typed) | 20 | 5 | 0 | 0.000 | 0.000 | 43 | 14 | 0.326 |
 | B3 (DeepSeek-V4-Pro, no ontology) | 20 | 5 | 0 | 0.000 | 0.000 | 64 | 2 | 0.031 |
 
-B3 cohort: 20 folds, missing 0. With only 5 targets in total the design cannot distinguish the predictors; the report draws no conclusion from E3 beyond these counts.
+Per suite (recall is undefined, —, where a suite has no target):
+
+| Suite | Predictor | Folds | Targets | Matched | Recall | Recall@5 | Emitted | Confirmed | Confirmed precision |
+|---|---|---|---|---|---|---|---|---|---|
+| banking | P-onto | 9 | 0 | 0 | — | — | 16 | 1 | 0.063 |
+| banking | B1 | 9 | 0 | 0 | — | — | 0 | 0 | — |
+| banking | B2 | 9 | 0 | 0 | — | — | 27 | 10 | 0.370 |
+| banking | B3 | 9 | 0 | 0 | — | — | 16 | 1 | 0.063 |
+| slack | P-onto | 5 | 0 | 0 | — | — | 0 | 0 | — |
+| slack | B1 | 5 | 0 | 0 | — | — | 0 | 0 | — |
+| slack | B2 | 5 | 0 | 0 | — | — | 4 | 4 | 1.000 |
+| slack | B3 | 5 | 0 | 0 | — | — | 14 | 0 | 0.000 |
+| workspace | P-onto | 6 | 5 | 0 | 0.000 | 0.000 | 0 | 0 | — |
+| workspace | B1 | 6 | 5 | 0 | 0.000 | 0.000 | 0 | 0 | — |
+| workspace | B2 | 6 | 5 | 0 | 0.000 | 0.000 | 12 | 0 | 0.000 |
+| workspace | B3 | 6 | 5 | 0 | 0.000 | 0.000 | 34 | 1 | 0.029 |
+
+Targetless folds (no other task of the suite shares the blocked harm class with a different path): banking.injection_task_0, banking.injection_task_1, banking.injection_task_2, banking.injection_task_3, banking.injection_task_4, banking.injection_task_5, banking.injection_task_6, banking.injection_task_7, banking.injection_task_8, slack.injection_task_1, slack.injection_task_2, slack.injection_task_3, slack.injection_task_4, slack.injection_task_5, workspace.injection_task_0, workspace.injection_task_1.
+
+**Coverage limitation.** Every target lies in workspace, where the ontology predictor emits 0 predictions (the blocked calls there use tools without an L2 binding); the suites where its bindings do produce predictions have no target. So E3 never tested ontology path expansion where the ontology had content: the pooled zero recall is not evidence against it, and not evidence for it. B3 cohort: 20 folds, missing 0. Banking versus the other suites (registered as descriptive) cannot be compared on recall: banking has no target.
 
 ## Caveats and claim discipline
 
