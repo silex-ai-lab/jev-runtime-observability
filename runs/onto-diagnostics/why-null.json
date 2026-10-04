@@ -51,6 +51,21 @@
    "share_changed_over_0_01": 0.7280690286311936
   }
  },
+ "D1b_saturation_kev-0.8b-ft": {
+  "a0_exactly_zero_share": 0.49509739835272587,
+  "unsaturated_calls": 625,
+  "median_abs_a1_minus_a0_unsaturated": 0.035500000000000004
+ },
+ "D1b_saturation_kev-0.8b": {
+  "a0_exactly_zero_share": 0,
+  "unsaturated_calls": 7649,
+  "median_abs_a1_minus_a0_unsaturated": 0.017400000000000027
+ },
+ "D7_e1_vs_e5": {
+  "e1_test_auroc_A0": 0.9613953488372093,
+  "e5_stratified_run_auroc_M_A0": 0.7417579656246859,
+  "note": "different unit, endpoint and aggregation; not a measure of the shortcut"
+ },
  "D2_coverage": {
   "calls": 7649,
   "calls_on_bound_tools": 608,

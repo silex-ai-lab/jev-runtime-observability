@@ -31,6 +31,18 @@ for (const m of ['kev-0.8b-ft', 'kev-0.8b']) {
   const bound = (o: Obs) => !!binding[`agentdojo:${o.action.tool}`]?.action;
   out[`D1_sensitivity_${m}`] = { A1_bound: d('A1', bound), A1_unbound: d('A1', o => !bound(o)), A2_all: d('A2', () => true), A3_all: d('A3', () => true) };
 }
+// D1b saturation: share of A0 scores exactly 0, and median |A1 - A0| on unsaturated calls (0.01 <= p <= 0.99)
+for (const m of ['kev-0.8b-ft', 'kev-0.8b']) {
+  const a0 = p(m, 'A0'), a1 = p(m, 'A1');
+  const zero = obs.filter(o => a0.get(o.obs_id) === 0).length;
+  const uns = obs.filter(o => { const v = a0.get(o.obs_id)!; return v >= 0.01 && v <= 0.99; }).map(o => Math.abs(a1.get(o.obs_id)! - a0.get(o.obs_id)!)).sort((u, v) => u - v);
+  out[`D1b_saturation_${m}`] = { a0_exactly_zero_share: zero / obs.length, unsaturated_calls: uns.length, median_abs_a1_minus_a0_unsaturated: uns[uns.length >> 1] };
+}
+// D7 v1 E1 test AUROC (call level, format-separable split) next to the E5 stratified run-level AUROC, same judge, A0
+{
+  const st = JSON.parse(readFileSync('runs/onto-stats/stats-kev-0.8b-ft.json', 'utf8'));
+  out.D7_e1_vs_e5 = { e1_test_auroc_A0: st.e1.auroc.A0, e5_stratified_run_auroc_M_A0: st.e5.auroc['M-A0'], note: 'different unit, endpoint and aggregation; not a measure of the shortcut' };
+}
 // D2 coverage: calls on bound tools, and run-level AUROC restricted to runs containing a bound-tool call
 const P0 = p('kev-0.8b-ft', 'A0'), P1 = p('kev-0.8b-ft', 'A1');
 const boundCalls = obs.filter(o => binding[`agentdojo:${o.action.tool}`]?.action);
