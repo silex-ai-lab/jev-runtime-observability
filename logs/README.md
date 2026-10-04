@@ -2,6 +2,10 @@
 
 Newest first. The plan and its review record live in this folder.
 
+## 2026-10-04 — E-PR: two-stage precision/recall monitor (not confirmed)
+
+- `eval/ontology/pr/` (sanitizer, value recognisers, judge-item universe, `stats-pr.ts` + independent `recheck_pr.py`, fail-closed `run-pr.sh`, fault test, report); converter `--labels-pr`. H14 not supported (recall fell under the judge check). Report: [`2026-10-04_ONTOLOGY_PR_REPORT.md`](2026-10-04_ONTOLOGY_PR_REPORT.md).
+
 ## 2026-10-04 — E-AL alert-load test and the showcase data generator
 
 - `eval/ontology/al/` (spec, `stats-al.ts`, independent `recheck_al.py`, fail-closed `run-al.sh`, fault test, report) and `eval/ontology/showcase/` (card data generator with the fixed example rules). H13 not supported: fewer alerts and higher precision held, the recall bound was not established. Report: [`2026-10-04_ONTOLOGY_AL_REPORT.md`](2026-10-04_ONTOLOGY_AL_REPORT.md).
