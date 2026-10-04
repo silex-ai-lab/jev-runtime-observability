@@ -1,0 +1,33 @@
+kev_code 84847f0a883d900f7de5b7a57eaa341ca7f9a6b4 dirty=0
+ft 6e5499dcafd9a541503164c3a9f0ab5e8c181046139e8344801030342d12d132 README.md
+ft e697e81d47288061df87f4065b48d2003bae34a16abd594de889f777a6ec53a1 adapter_config.json
+ft 1852189e78b6184206329125ca111b9667ee3009d8b120f648a102cfde7da4ed adapter_model.safetensors
+ft 273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80 chat_template.jinja
+ft cf49d8238ba59e11fefb97548985121a5bf1aebb4634eced9cfc72a9022cae56 head.pt
+ft 06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523 tokenizer.json
+ft 8671bed7c852ce9e661be94f179a7b4ffd091c2a65aea0363e5501c20318ee45 tokenizer_config.json
+ft 68cf3d380c9f72199fe62681ad51fcc763f4c4880cfdda715309684511eea753 training_config.json
+ft 3d34c2695c815beaa698116783d0e6a6483f78b4c6b9c7540f31fcab44a9ce6c training_metrics.json
+models--jaredpalmer--kev-0.8b revision bf75a6a8848ea6960ff2ed108d9ed44c2941174f
+models--jaredpalmer--kev-0.8b 748acb2cda88454cb1ba69d745ba336f3fcb5486eac349e90960c8b8d8d3e854 adapter_config.json
+models--jaredpalmer--kev-0.8b 9b908623acb162118575f4e7a94524f9c139c335be4bfb74d6cfceca01e1885a adapter_model.safetensors
+models--jaredpalmer--kev-0.8b f400bd12802b2b105ae45d6b03774a158a3db4fccff42413734ddca2e5c920b6 head.pt
+models--jaredpalmer--kev-0.8b fce039fbda7de19451c9b5d3065aee2c5e063e1562a8bc18c72e297fbd15e9d8 provenance.json
+models--jaredpalmer--kev-0.8b 523770dbe04ad23bfdadd627d253273220fe8969a74b213e0fafb1e65093bc8c result.json
+models--jaredpalmer--kev-0.8b 06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523 tokenizer.json
+models--jaredpalmer--kev-0.8b 8671bed7c852ce9e661be94f179a7b4ffd091c2a65aea0363e5501c20318ee45 tokenizer_config.json
+models--jaredpalmer--kev-0.8b 3ec3d92146248265652d4387f8eb65ee8defaed4dd9173b049e7b5193045ece6 training_config.json
+models--jaredpalmer--kev-0.8b 5f94d869c3707c0efff9f2e893e288014bc88515ae04fe5f75c9d793c453cfc1 training_metrics.json
+models--Qwen--Qwen3.5-0.8B-Base revision dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68
+models--Qwen--Qwen3.5-0.8B-Base b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204 config.json
+models--Qwen--Qwen3.5-0.8B-Base a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d merges.txt
+models--Qwen--Qwen3.5-0.8B-Base c2b1e5a17d9c1e27685d92ed9b382911ebb99955ecd89052d1721241adfbab6c model.safetensors-00001-of-00001.safetensors
+models--Qwen--Qwen3.5-0.8B-Base ce9a885efdf27d3664fdef5d512ad365216f1074051ef840c7cd8e5431495d0a model.safetensors.index.json
+models--Qwen--Qwen3.5-0.8B-Base 27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516 preprocessor_config.json
+models--Qwen--Qwen3.5-0.8B-Base fe000e3ed39ed12b8d2481d527d44f93c65d37e87645d2dcc80d1bf9d50d2927 tokenizer.json
+models--Qwen--Qwen3.5-0.8B-Base e611fbccc7c29ef3b1cafb1cb7ea548d189968632901d678fd62be68c47885de tokenizer_config.json
+models--Qwen--Qwen3.5-0.8B-Base d039cd7d88b3502a99edd455496b75b44ecf7dd3b3669748bafac37e6cecc085 video_preprocessor_config.json
+models--Qwen--Qwen3.5-0.8B-Base ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003 vocab.json
+serve_env KEV_TRUNCATE_STATES=unset
+http://127.0.0.1:8021 served {'run': '/Users/bytedance/workplace/Silex/jev-runtime-observability/runs/ft-kev-0.8b-2026-09-28/model', 'base': 'Qwen/Qwen3.5-0.8B-Base', 'lora': 16, 'dtype': 'bfloat16', 'backend': 'mlx', 'temperature': 1.0, 'truncate_states': False, 'max_state_tokens': 65536}
+http://127.0.0.1:8022 served {'run': 'jaredpalmer/kev-0.8b', 'base': 'Qwen/Qwen3.5-0.8B-Base', 'lora': 16, 'dtype': 'bfloat16', 'backend': 'mlx', 'temperature': 2.3510958125672174, 'truncate_states': False, 'max_state_tokens': 65536}
