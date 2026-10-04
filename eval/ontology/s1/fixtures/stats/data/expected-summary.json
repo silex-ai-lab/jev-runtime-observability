@@ -1,0 +1,1046 @@
+{
+ "reps": 400,
+ "draws": 100,
+ "results": {
+  "six": {
+   "counts": {
+    "runs": 200,
+    "positives": 80,
+    "cohorts": 7,
+    "K": 6,
+    "dropped": []
+   },
+   "observed": {
+    "s1": {
+     "F": 160,
+     "TP": 80,
+     "Pos": 80,
+     "precision": 0.5,
+     "recall": 1
+    },
+    "prov": {
+     "F": 132,
+     "TP": 52,
+     "Pos": 80,
+     "precision": 0.3939393939393939,
+     "recall": 0.65
+    }
+   },
+   "constraint": {
+    "theta": 0.36111111111111116,
+    "pooled_d": 0.35,
+    "holds": true,
+    "per_base": {
+     "claude-a": 0.33333333333333337,
+     "claude-b": 0.33333333333333337,
+     "gemini-x": 0.33333333333333337,
+     "gpt-3.5": 0.33333333333333337,
+     "gpt-4o-2024-05-13": 0.33333333333333337,
+     "llm-z": 0.5
+    }
+   },
+   "rand_precision_mean": 0.5528138931372637,
+   "p": {
+    "a": 0.0024937655860349127,
+    "c": 0.6237623762376238
+   },
+   "ci": {
+    "precision_vs_prov": [
+     0.05034246575342466,
+     0.19131355932203392
+    ],
+    "recall_vs_prov": [
+     0.18292682926829273,
+     0.5609756097560976
+    ]
+   },
+   "p_H15": 0.6237623762376238,
+   "verdict": "not supported",
+   "failed": [
+    "c"
+   ],
+   "redraws": 0,
+   "secondary": {
+    "p_rec3": 0.0024937655860349127,
+    "p_rec5": 0.0024937655860349127,
+    "p_signflip": 0.015625,
+    "per_base": {
+     "claude-a": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "claude-b": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gemini-x": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-3.5": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13": {
+      "s1": {
+       "F": 48,
+       "TP": 24,
+       "Pos": 24,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 40,
+       "TP": 16,
+       "Pos": 24,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "llm-z": {
+      "s1": {
+       "F": 16,
+       "TP": 8,
+       "Pos": 8,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 12,
+       "TP": 4,
+       "Pos": 8,
+       "precision": 0.3333333333333333,
+       "recall": 0.5
+      }
+     }
+    },
+    "per_cohort": {
+     "claude-a/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "claude-b/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gemini-x/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-3.5/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13-tool_filter/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "llm-z/important_instructions": {
+      "s1": {
+       "F": 16,
+       "TP": 8,
+       "Pos": 8,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 12,
+       "TP": 4,
+       "Pos": 8,
+       "precision": 0.3333333333333333,
+       "recall": 0.5
+      }
+     }
+    },
+    "groups": {
+     "P": {
+      "s1": {
+       "F": 112,
+       "TP": 56,
+       "Pos": 56,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 92,
+       "TP": 36,
+       "Pos": 56,
+       "precision": 0.391304347826087,
+       "recall": 0.6428571428571429
+      }
+     },
+     "X1": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "X2": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     }
+    },
+    "overlap": {
+     "s1": {
+      "F": 160,
+      "TP": 120,
+      "Pos": 120,
+      "precision": 0.75,
+      "recall": 1
+     },
+     "prov": {
+      "F": 132,
+      "TP": 92,
+      "Pos": 120,
+      "precision": 0.696969696969697,
+      "recall": 0.7666666666666667
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "s1": {
+       "F": 160,
+       "TP": 80,
+       "Pos": 80,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 132,
+       "TP": 52,
+       "Pos": 80,
+       "precision": 0.3939393939393939,
+       "recall": 0.65
+      }
+     },
+     "other": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     }
+    }
+   }
+  },
+  "four": {
+   "counts": {
+    "runs": 200,
+    "positives": 80,
+    "cohorts": 4,
+    "K": 4,
+    "dropped": []
+   },
+   "observed": {
+    "s1": {
+     "F": 160,
+     "TP": 80,
+     "Pos": 80,
+     "precision": 0.5,
+     "recall": 1
+    },
+    "prov": {
+     "F": 132,
+     "TP": 52,
+     "Pos": 80,
+     "precision": 0.3939393939393939,
+     "recall": 0.65
+    }
+   },
+   "constraint": {
+    "theta": 0.35,
+    "pooled_d": 0.35,
+    "holds": true,
+    "per_base": {
+     "claude-a": 0.4,
+     "claude-b": 0.19999999999999996,
+     "gemini-x": 0.4,
+     "gpt-3.5": 0.4
+    }
+   },
+   "rand_precision_mean": 0.5528138931372637,
+   "p": {
+    "a": null,
+    "c": null
+   },
+   "ci": {
+    "precision_vs_prov": null,
+    "recall_vs_prov": null
+   },
+   "p_H15": 1,
+   "verdict": "inconclusive",
+   "failed": [],
+   "redraws": 0,
+   "secondary": {
+    "p_rec3": null,
+    "p_rec5": null,
+    "p_signflip": 0.0625,
+    "per_base": {
+     "claude-a": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     },
+     "claude-b": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 36,
+       "TP": 16,
+       "Pos": 20,
+       "precision": 0.4444444444444444,
+       "recall": 0.8
+      }
+     },
+     "gemini-x": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     },
+     "gpt-3.5": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     }
+    },
+    "per_cohort": {
+     "claude-a/important_instructions": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     },
+     "claude-b/important_instructions": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 36,
+       "TP": 16,
+       "Pos": 20,
+       "precision": 0.4444444444444444,
+       "recall": 0.8
+      }
+     },
+     "gemini-x/important_instructions": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     },
+     "gpt-3.5/important_instructions": {
+      "s1": {
+       "F": 40,
+       "TP": 20,
+       "Pos": 20,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 32,
+       "TP": 12,
+       "Pos": 20,
+       "precision": 0.375,
+       "recall": 0.6
+      }
+     }
+    },
+    "groups": {
+     "P": {
+      "s1": {
+       "F": 160,
+       "TP": 80,
+       "Pos": 80,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 132,
+       "TP": 52,
+       "Pos": 80,
+       "precision": 0.3939393939393939,
+       "recall": 0.65
+      }
+     }
+    },
+    "overlap": {
+     "s1": {
+      "F": 160,
+      "TP": 120,
+      "Pos": 120,
+      "precision": 0.75,
+      "recall": 1
+     },
+     "prov": {
+      "F": 132,
+      "TP": 92,
+      "Pos": 120,
+      "precision": 0.696969696969697,
+      "recall": 0.7666666666666667
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "s1": {
+       "F": 160,
+       "TP": 80,
+       "Pos": 80,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 132,
+       "TP": 52,
+       "Pos": 80,
+       "precision": 0.3939393939393939,
+       "recall": 0.65
+      }
+     },
+     "other": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     }
+    }
+   }
+  },
+  "zero": {
+   "counts": {
+    "runs": 200,
+    "positives": 80,
+    "cohorts": 8,
+    "K": 6,
+    "dropped": [
+     "cleanonly"
+    ]
+   },
+   "observed": {
+    "s1": {
+     "F": 160,
+     "TP": 80,
+     "Pos": 80,
+     "precision": 0.5,
+     "recall": 1
+    },
+    "prov": {
+     "F": 132,
+     "TP": 52,
+     "Pos": 80,
+     "precision": 0.3939393939393939,
+     "recall": 0.65
+    }
+   },
+   "constraint": {
+    "theta": 0.36111111111111116,
+    "pooled_d": 0.35,
+    "holds": true,
+    "per_base": {
+     "claude-a": 0.33333333333333337,
+     "claude-b": 0.33333333333333337,
+     "gemini-x": 0.33333333333333337,
+     "gpt-3.5": 0.33333333333333337,
+     "gpt-4o-2024-05-13": 0.33333333333333337,
+     "llm-z": 0.5
+    }
+   },
+   "rand_precision_mean": 0.5528138931372637,
+   "p": {
+    "a": 0.0024937655860349127,
+    "c": 0.6237623762376238
+   },
+   "ci": {
+    "precision_vs_prov": [
+     0.05034246575342466,
+     0.19131355932203392
+    ],
+    "recall_vs_prov": [
+     0.18292682926829273,
+     0.5609756097560976
+    ]
+   },
+   "p_H15": 0.6237623762376238,
+   "verdict": "not supported",
+   "failed": [
+    "c"
+   ],
+   "redraws": 0,
+   "secondary": {
+    "p_rec3": 0.0024937655860349127,
+    "p_rec5": 0.0024937655860349127,
+    "p_signflip": 0.015625,
+    "per_base": {
+     "claude-a": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "claude-b": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "cleanonly": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     },
+     "gemini-x": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-3.5": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13": {
+      "s1": {
+       "F": 48,
+       "TP": 24,
+       "Pos": 24,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 40,
+       "TP": 16,
+       "Pos": 24,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "llm-z": {
+      "s1": {
+       "F": 16,
+       "TP": 8,
+       "Pos": 8,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 12,
+       "TP": 4,
+       "Pos": 8,
+       "precision": 0.3333333333333333,
+       "recall": 0.5
+      }
+     }
+    },
+    "per_cohort": {
+     "claude-a/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "claude-b/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "cleanonly/important_instructions": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     },
+     "gemini-x/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-3.5/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13-tool_filter/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "gpt-4o-2024-05-13/important_instructions": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "llm-z/important_instructions": {
+      "s1": {
+       "F": 16,
+       "TP": 8,
+       "Pos": 8,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 12,
+       "TP": 4,
+       "Pos": 8,
+       "precision": 0.3333333333333333,
+       "recall": 0.5
+      }
+     }
+    },
+    "groups": {
+     "P": {
+      "s1": {
+       "F": 112,
+       "TP": 56,
+       "Pos": 56,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 92,
+       "TP": 36,
+       "Pos": 56,
+       "precision": 0.391304347826087,
+       "recall": 0.6428571428571429
+      }
+     },
+     "X1": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     },
+     "X2": {
+      "s1": {
+       "F": 24,
+       "TP": 12,
+       "Pos": 12,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 20,
+       "TP": 8,
+       "Pos": 12,
+       "precision": 0.4,
+       "recall": 0.6666666666666666
+      }
+     }
+    },
+    "overlap": {
+     "s1": {
+      "F": 160,
+      "TP": 120,
+      "Pos": 120,
+      "precision": 0.75,
+      "recall": 1
+     },
+     "prov": {
+      "F": 132,
+      "TP": 92,
+      "Pos": 120,
+      "precision": 0.696969696969697,
+      "recall": 0.7666666666666667
+     }
+    },
+    "tiers": {
+     "irreversible": {
+      "s1": {
+       "F": 160,
+       "TP": 80,
+       "Pos": 80,
+       "precision": 0.5,
+       "recall": 1
+      },
+      "prov": {
+       "F": 132,
+       "TP": 52,
+       "Pos": 80,
+       "precision": 0.3939393939393939,
+       "recall": 0.65
+      }
+     },
+     "other": {
+      "s1": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      },
+      "prov": {
+       "F": 0,
+       "TP": 0,
+       "Pos": 0,
+       "precision": null,
+       "recall": null
+      }
+     }
+    }
+   }
+  }
+ }
+}
