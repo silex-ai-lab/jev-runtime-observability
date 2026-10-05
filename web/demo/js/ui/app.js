@@ -199,7 +199,7 @@ const TIP = {
 };
 
 // Four headline numbers stay in view; the rest sit under "More metrics". Every tile keeps its data-kpi hook.
-const HEADLINE = new Set(['blocks', 'review_rate', 'coverage', 'p95']);
+const HEADLINE = new Set(['blocks', 'review_rate', 'coverage', 'p50']);
 function inspectorCtx() {
   return { tenant: TENANT, seed: SEED, history: historyFor, policyFor: v => policies.get(v) ?? policy,
     traceTitle: sp => titles.get(sp.trace_id) ?? titles.get(baseTrace(sp.trace_id)) ?? sp.trace_id };
