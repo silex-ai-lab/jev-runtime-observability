@@ -194,8 +194,9 @@
           <li><b>The judge.</b> No Jev (or any model) is called. <code>jev-sim</code> derives each probability from State Engine features
             (payee-name similarity, destination allowlist, injection markers, sensitive fields…) plus small seeded jitter.
             The Inspector lists the features behind every answer.</li>
-          <li><b>Latency.</b> Drawn per span from the report's POC budget (p.9): rules 5–15 ms, serialise/network 30–100 ms,
-            Jev 100–350 ms, policy 5–20 ms. The slow LLM path uses 1.66–2.83 s, the range of the report's external experiments (p.4).
+          <li><b>Latency.</b> Drawn per span. The Jev step follows Kev-0.8B's judge round trips measured on 708 held-out items
+            (Apple M4 Pro, p50 152 ms; slowest 2 % left out). Rules 5–15 ms and policy 5–20 ms follow the report's POC budget (p.9);
+            serialise/redact for a local judge 10–30 ms. The slow LLM path uses 1.66–2.83 s, the range of the report's external experiments (p.4).
             Not measured, not an SLA.</li>
           <li><b>Cost.</b> Jev $/1k uses the vendor list price quoted in the report ($0.042 per M input tokens, output free) with simulated
             token counts. No LLM price is sourced, so none is shown.</li>

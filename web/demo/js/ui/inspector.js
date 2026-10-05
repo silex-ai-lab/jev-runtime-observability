@@ -151,7 +151,7 @@ export function renderInspector(el, row, ctx) {
       <tr><td>LLM judge (simulated${env.escalation ? ', escalated' : ', comparison only'})</td><td>${esc(slow?.verdict ?? '—')}</td>
         <td class="num">${fmtMs(slow?.latency_ms)}</td><td class="num">${esc((slow?.tokens_in ?? 0) + (slow?.tokens_out ?? 0))}</td><td class="num" title="No LLM price is sourced in the report">n/a</td></tr>
     </table></div>
-    <p class="jv-meta" style="font-size:11px">Latencies simulated from the report's budget (Jev ${LATENCY_BUDGET.jev.join('–')} ms; LLM ${LATENCY_BUDGET.llm.map(v => (v / 1000).toFixed(2)).join('–')} s). ${
+    <p class="jv-meta" style="font-size:11px">Simulated latencies. Jev step: drawn from Kev-0.8B round trips measured on 708 items (${LATENCY_BUDGET.jev.join('–')} ms); rules, policy and the LLM (${LATENCY_BUDGET.llm.map(v => (v / 1000).toFixed(2)).join('–')} s) from the report's budget. ${
       env.jev_on_critical_path ? '' : 'Off the critical path here, so the Jev time was not added to the gate.'}</p>
 
     <details><summary>Verdict envelope (JSON)</summary><pre class="json" data-envelope>${esc(JSON.stringify(env, null, 2))}</pre></details>

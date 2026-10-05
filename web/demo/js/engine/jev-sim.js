@@ -4,7 +4,7 @@
 // (the battery question's `features` list) plus seeded jitter ≤ ±0.04, rounded
 // to 3 dp. No span id, name or label is read here (CONTRACT §3).
 
-import { JEV_SIM_VERSION, LATENCY_BUDGET, PRICES } from './types.js';
+import { JEV_SIM_VERSION, LATENCY_BUDGET, KEV_RTT_QUANTILES_MS, PRICES } from './types.js';
 import { rngFor } from './rng.js';
 
 const JITTER = 0.04;
@@ -12,6 +12,11 @@ const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 const round3 = x => Math.round(x * 1000) / 1000;
 const draw = (seed, spanId, purpose, [lo, hi]) =>
   Math.round(rngFor(seed, spanId, purpose).uniform(lo, hi));
+// Inverse of the measured Kev round-trip distribution, linear between quantile knots.
+function drawMeasured(seed, spanId, purpose, q = KEV_RTT_QUANTILES_MS) {
+  const x = rngFor(seed, spanId, purpose).uniform(0, q.length - 1), i = Math.min(q.length - 2, Math.floor(x));
+  return Math.round(q[i] + (q[i + 1] - q[i]) * (x - i));
+}
 
 // --- Documented feature → probability functions. ----------------------------
 
@@ -171,7 +176,7 @@ export function judgeBattery(safeView, questions, { seed, spanId, deadline_ms, f
     serialize_ms = 0;
   } else {
     serialize_ms = draw(seed, spanId, 'serialize', LATENCY_BUDGET.serialize);
-    latency_ms = draw(seed, spanId, 'jev', reduced ? LATENCY_BUDGET.rttSpikeJev : LATENCY_BUDGET.jev);
+    latency_ms = reduced ? draw(seed, spanId, 'jev', LATENCY_BUDGET.rttSpikeJev) : drawMeasured(seed, spanId, 'jev');
     if (latency_ms > deadline_ms) { status = 'timeout'; latency_ms = deadline_ms; }
   }
 

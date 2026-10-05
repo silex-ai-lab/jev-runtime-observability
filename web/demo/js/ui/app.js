@@ -180,7 +180,7 @@ function select(s) {
 }
 
 const KPI_DEFS = [
-  ['p50', 'p50 added gate latency (simulated)', k => fmtMs(k.p50_ms), k => k.p50_ms, 'pre_tool spans · report budget'],
+  ['p50', 'p50 added gate latency (simulated)', k => fmtMs(k.p50_ms), k => k.p50_ms, 'judge step from measured Kev round trips'],
   ['p95', 'p95 added gate latency (simulated)', k => fmtMs(k.p95_ms), k => k.p95_ms, 'report POC target ≤ 500 ms'],
   ['blocks', 'Blocks', k => String(k.blocks ?? 0), k => k.blocks, k => `holds ${k.holds ?? 0} · alerts ${k.alerts ?? 0}`],
   ['review_rate', 'Human review rate', k => fmtPct(k.review_rate), k => k.review_rate, 'REVIEW + HOLD + ALERT + STOP'],
@@ -189,8 +189,8 @@ const KPI_DEFS = [
   ['cost', 'Jev $ / 1k judgments (simulated tokens)', k => fmtUsd(k.jev_cost_per_1k_usd), k => k.jev_cost_per_1k_usd, 'vendor list price, report p.3'],
 ];
 const TIP = {
-  p50: 'Nearest-rank percentile of decision_latency_ms over pre_tool envelopes. Simulated from the report budget, not measured.',
-  p95: 'Nearest-rank percentile of decision_latency_ms over pre_tool envelopes. Simulated from the report budget, not measured.',
+  p50: 'Nearest-rank percentile of decision_latency_ms over pre_tool envelopes. Simulated: the judge step is drawn from Kev-0.8B round trips measured on 708 items; the other steps from the report budget.',
+  p95: 'Nearest-rank percentile of decision_latency_ms over pre_tool envelopes. Simulated: the judge step is drawn from Kev-0.8B round trips measured on 708 items; the other steps from the report budget.',
   blocks: 'Count of BLOCK decisions in this page\'s log (monitor-mode decisions included, marked would_have).',
   review_rate: 'Share of routed spans that need a human: REVIEW, HOLD, ALERT or STOP.',
   false_block: 'Spans the demo author labelled ALLOW that were BLOCK / HOLD / STOP. Scenario labels, not a benchmark.',

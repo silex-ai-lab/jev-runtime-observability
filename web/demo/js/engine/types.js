@@ -38,16 +38,22 @@ export const LLM_SIM_VERSION = 'llm-judge-sim (simulated)';
 export const RUBRIC_ID = 'ap-tool-risk:v1';
 export const STATE_SCHEMA = 'state/1';
 
-// Simulated latency budget, ms, from R p.9 "单个 gate 的建议预算".
-// Not measured; a POC engineering target, not a Jev SLA.
+// Simulated latency budget, ms. Rules, policy and the LLM slow path follow R p.9 "单个 gate 的建议预算"; these are
+// a POC engineering target, not a Jev SLA. The judgment step is drawn from KEV_RTT_QUANTILES_MS below instead.
 export const LATENCY_BUDGET = Object.freeze({
   rules: [5, 15],       // local deterministic checks
-  serialize: [30, 100], // serialise / redact / network
-  jev: [100, 350],      // Jev judgment
+  serialize: [10, 30],  // serialise / redact for a local judge (R p.9's 30–100 ms assumed a remote one)
+  jev: [61, 386],       // range of KEV_RTT_QUANTILES_MS, for labels only
   policy: [5, 20],      // policy combine + write-back
   llm: [1660, 2830],    // slow path, R p.4 external experiments: 1.662 s … 2.83 s
   rttSpikeJev: [300, 700], // fault: RTT spike (L1)
 });
+
+// Judgment step: Kev-0.8B fine-tuned, judge HTTP round trip measured on 708 held-out items on an Apple M4 Pro
+// (jev-runtime-observability runs/latency-2026-10-04): quantiles p0, p5, …, p95, then p98 as the top. The top is p98,
+// not the maximum: 7 of 708 calls exceeded the 400 ms deadline, and leaving them out keeps scripted outcomes
+// unchanged; the RTT-spike and timeout faults show that case. A seeded uniform draw is mapped through this table.
+export const KEV_RTT_QUANTILES_MS = Object.freeze([61, 113, 117, 119, 121, 126, 129, 136, 141, 147, 152, 156, 162, 169, 194, 261, 268, 286, 329, 347, 386]);
 
 // Price used for the Jev $/1k tile. Vendor list price quoted in R p.3 ([7]):
 // $0.042 per million input tokens, output free. No LLM price is sourced, so none is used.
