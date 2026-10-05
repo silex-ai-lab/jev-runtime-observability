@@ -216,12 +216,14 @@ Exact arguments are in `scripts/repro-check.sh` and each test's `run-*.sh`.
 
 ## 7. The site card (silex-mockup)
 
-The Runtime Observation › *What the ontology adds* card reads the files below. The page code is `js/rt-ontology.js`, with `s1Block` at the top.
+The Runtime Observation › *What the ontology adds* card reads the files below. The page code is `js/rt-ontology.js`: `s1Block` (Stage-1), then the example runs.
+
+**Since 2026-10-04 (silex-mockup `c373519`) the card shows only confirmed results:** Stage-1 (H15) and the example runs, which still come from the E-AL held-out cohort. The E-AL tiles ("Not confirmed"), the E-PR follow-up and the v1/v2 "not established" note were removed at the user's request. Their write-up is `reports/UNCONFIRMED_TESTS.md` in [silex-security/ontology-typed-alerting](https://github.com/silex-security/ontology-typed-alerting), whose `logs/site-card/` keeps the earlier page code that rendered them. Don't put them back on the card unless the user asks. The card, like the scenario and learning cards, starts collapsed (`js/rt-fold.js`); its **Check Report** button links the demo artifact https://claude.ai/artifact/MPE8qnD2f1bSz965s7y3Ap.
 
 | File | Built by |
 |---|---|
-| `data/onto-observability.json` | `jev eval/ontology/showcase/onto-observability.ts` |
-| `data/onto-pr.json` | built during E-PR |
+| `data/onto-observability.json` | `jev eval/ontology/showcase/onto-observability.ts` (the card reads its `examples`, `provenance_note` and `judge_baseline`; `al` only for the cohort line) |
+| `data/onto-pr.json` | built during E-PR; no longer read by the page |
 | `data/onto-s1.json` | `jev node eval/ontology/s1/export-s1.ts --out ../silex-mockup/data/onto-s1.json` |
 
 Each data file has a `*.SOURCE.json` sha256 anchor. Probes run locally, or against the live site with `--base`:
@@ -229,11 +231,12 @@ Each data file has a `*.SOURCE.json` sha256 anchor. Probes run locally, or again
 ```bash
 cd ../silex-mockup
 node tests/site/ontology-s1-card.test.mjs      # 9/9
-node tests/site/ontology-card.test.mjs         # 11/11
-node tests/site/ontology-pr-card.test.mjs      # 8/8
-node tests/site/run-site-probes.mjs            # 42/42 (one probe was once flaky; rerun before concluding)
+node tests/site/ontology-card.test.mjs         # 9/9 (check 5: no unconfirmed result is shown)
+node tests/site/run-site-probes.mjs            # 42/42; it opens the collapsed cards before probing them
 node tests/site/ontology-s1-card.test.mjs --base https://silex-mockup.vercel.app
 ```
+
+`tests/site/ontology-pr-card.test.mjs` was deleted with the E-PR block.
 
 Deploy = push silex-mockup `main` (Vercel). Reports regenerate with `node eval/ontology/s1/report-s1.ts --out logs/2026-10-04_ONTOLOGY_S1_REPORT.md`; copy the report to `silex-mockup/logs/`.
 

@@ -1,6 +1,6 @@
 ---
 name: deploy-jev-observability
-description: Deploy jev-runtime-observability (the Jev-protocol agent observability server, its live console, and the local Kev judge) onto a new host, check it, and run a sandbox smoke test. Use when asked to deploy, install, set up, move or run this project on another machine or server (Linux with an NVIDIA GPU, or an Apple Silicon Mac), to run the demo on one 24 GB Mac (Kev-0.8B, scripts/demo-up.sh), to enable gate mode, to point it at a real PostgreSQL, or to diagnose a deployment whose /readyz reports the judge or database as degraded.
+description: Deploy jev-runtime-observability (the Jev-protocol agent observability server, its live console, and the local Kev judge) onto a new host, check it, and run a sandbox smoke test. Use when asked to deploy, install, set up, move or run this project on another machine or server (Linux with an NVIDIA GPU, or an Apple Silicon Mac), to run the demo on one 24 GB Mac (Kev-0.8B, scripts/demo-up.sh), to enable gate mode, to point it at a real PostgreSQL, to measure the judge's latency against gpt-4o-mini on this host, or to diagnose a deployment whose /readyz reports the judge or database as degraded.
 ---
 
 # Deploy jev-runtime-observability on another host
@@ -205,6 +205,41 @@ journalctl -u jev-observability -f
   - `/readyz` for liveness.
 - **Upgrades:** on a checkout made before 2026-09-30, first point it at the renamed repo: `git remote set-url origin https://github.com/silex-ai-lab/jev-runtime-observability.git`. GitHub redirects the old name, but don't rely on it. Then `git pull && npm ci && npm test`, and restart the server. Migrations apply on start and are idempotent. Back up `DATA_DIR` or the PostgreSQL database first.
 - **The semantic policy stays `experimental`** (signals are recorded and never act). Turning on calibrated mode needs a calibration fitted on this deployment's own labelled data; see `docs/EVAL.md`.
+
+## 8. Measure judge latency on this host (optional)
+
+The Runtime Observation card "How fast is the judge?" in silex-mockup and the demo's simulated latencies come from one
+measurement: `runs/latency-2026-10-04/` (Apple M4 Pro, 2026-10-04). It ran Kev-0.8B fine-tuned (local) and gpt-4o-mini
+(OpenAI API) over the same 708 eval items, one call per item, two workers:
+
+| judge | p50 | p95 | within the 400 ms gate judge budget |
+|---|---|---|---|
+| Kev-0.8B fine-tuned | 152 ms | 347 ms | 99.0 % |
+| gpt-4o-mini | 670 ms | 990 ms | 0.3 % |
+
+To measure on this host:
+
+```bash
+# Kev: the fine-tuned weights are not in git (step 3); without them, serve jaredpalmer/kev-0.8b and label it kev-0.8b.
+KEV_RUN=$PWD/runs/ft-kev-0.8b-2026-09-28/model KEV_PORT=8011 npm run kev &      # wait until :8011/v1/models answers
+OUT=runs/latency-$(date +%F)-$(hostname -s)
+node eval/run/run.ts --judge http://127.0.0.1:8011 --label kev-0.8b-ft --out $OUT
+# gpt-4o-mini: needs OPENAI_API_KEY in the environment (the user keeps keys in ~/.jaykeys; load it with
+# `set -a; . ~/.jaykeys; set +a` and never print it). It sends the 708 public benchmark items to OpenAI; costs cents.
+node eval/run/run-openai.ts --model gpt-4o-mini --label gpt-4o-mini --out $OUT
+node eval/run/latency-json.ts --out /tmp/judge-latency.json \
+  kev-0.8b-ft=$OUT/predictions-kev-0.8b-ft.jsonl gpt-4o-mini=$OUT/predictions-gpt-4o-mini.jsonl
+```
+
+- Try the OpenAI runner first with `--limit 2`. Check that `failed` is 0 for both judges before reading the percentiles.
+- **Results depend on the host and the network.** Kev's number reflects the accelerator; gpt-4o-mini's includes this location's internet path (the card also shows OpenAI's own `openai-processing-ms`). A Linux GPU host or another city will give other numbers.
+- **The published numbers stay pinned to the 2026-10-04 run unless the user asks to replace them.** Replacing them means all of the following:
+  1. commit the new `runs/latency-…/` folder;
+  2. write the JSON to `silex-mockup/data/judge-latency.json`;
+  3. update `KEV_RTT_QUANTILES_MS` and `GPT4O_MINI_RTT_QUANTILES_MS` in `web/demo/js/engine/types.js`, and point `tests/unit/web/demo-latency-quantiles.test.ts` at the new folder (it fails until the tables match);
+  4. check that the Kev table's top (p98) stays under 400 ms, or scripted outcomes change (`demo-ap-unchanged.test.ts` fails);
+  5. re-sync the mockup (`tools/sync-jev-runtime.mjs`), then run its suites, including `tests/site/judge-latency-card.test.mjs` (8/8).
+- Stop the 8011 judge afterwards. Never commit an API key: the runner reads it from the environment only and writes none of it to disk.
 
 ## Troubleshooting
 

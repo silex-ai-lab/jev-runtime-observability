@@ -7,7 +7,7 @@ description: Resume or continue the dated work plan for jev-runtime-observabilit
 
 ## Where things stand (update this when a plan closes)
 
-Last updated 2026-10-02, at jev `main` `035caab` plus this skill update, silex-mockup `main` `74ed19a`, and jev-simplified `main` `c073c61`. Nothing is in progress: no open branch, no undeployed change, no pending review. Both repos are pushed, and their local `main` equals `origin/main`.
+Last updated 2026-10-04, at jev `main` `efe3a9a` plus this skill update, silex-mockup `main` `c1ac048`, ontology-typed-alerting `main` `a590e64`, and jev-simplified `main` `c073c61`. Nothing is in progress: no open branch, no undeployed change, no pending review. All repos are pushed, and their local `main` equals `origin/main`.
 
 **Key links:**
 
@@ -48,15 +48,15 @@ Last updated 2026-10-02, at jev `main` `035caab` plus this skill update, silex-m
      - SOC5 is the one labelled difference: synthetic `goal_deviation` scores hold the 2nd and 3rd suspensions for review, while the live console does not block SOC5.
   4. **silex-mockup integration** (`silex-mockup/logs/2026-09-30_JEV_RUNTIME_VALIDATION_PLAN.md`, deployed to https://silex-mockup.vercel.app/#view=runtime-observation):
      - the site's left nav has a **Runtime Observation** view, between Enterprise World Model and System Validation, that embeds this demo. It started as a System Validation tab and was moved by `silex-mockup/logs/2026-09-30_RUNTIME_OBSERVE_VIEW_PLAN.md`; the old `#view=long-term&tab=runtime` link redirects;
-     - the demo is vendored byte-for-byte in `silex-mockup/jev-runtime/` (currently from `be8fda2`);
+     - the demo is vendored byte-for-byte in `silex-mockup/jev-runtime/` (currently from `efe3a9a`);
      - this repo gained `?embed=1`, a validated `?back`, and the Runs view's `select(runId)`.
-     - **Latest deploy:** silex-mockup `74ed19a` (2026-10-01), live read-back 9/9. The view was first built as "Runtime Observe" and renamed to **Runtime Observation** at the user's request; its id and deep link are `runtime-observation`. The plan file keeps the old name (`RUNTIME_OBSERVE_VIEW_PLAN.md`), as dated records do. Every silex-mockup branch is merged into `main`.
+     - **Latest deploy:** silex-mockup `c1ac048` (2026-10-04), live read-back 9/9 (items 10 and 11 below). The view was first built as "Runtime Observe" and renamed to **Runtime Observation** at the user's request; its id and deep link are `runtime-observation`. The plan file keeps the old name (`RUNTIME_OBSERVE_VIEW_PLAN.md`), as dated records do. Every silex-mockup branch is merged into `main`.
      - **After any change to `web/demo`, `web/js/runs.js`, `verdict.js` or `web/css/runs.css`,** re-sync the mockup, then run its suites and deploy with the user's OK:
 
        ```bash
        node tools/sync-jev-runtime.mjs <this checkout> <commit>      # run in the silex-mockup repo
-       node --test tests/site/*.test.mjs                            # 20/20
-       node tests/site/run-site-probes.mjs                          # 21/21
+       node --test tests/site/*.test.mjs                            # 41/41 (includes the browser card probes)
+       node tests/site/run-site-probes.mjs                          # 42/42
        ```
 
        Its integrity test fails on any local edit. A push to silex-mockup `main` is a public deploy (Vercel serves within about 15 s). Re-check the live site afterwards:
@@ -90,6 +90,14 @@ Last updated 2026-10-02, at jev `main` `035caab` plus this skill update, silex-m
      - **Run and test:** `npm start` serves http://127.0.0.1:8771. `npm test` 40/40; `npm run check`; `npm run test:browser` 19/19 (server on 8771).
      - **Its own rules** (`logs/2026-10-01_MINIMAL_SITE_PLAN.md`): strict CSP (no inline style or script, no external fonts), no build step or npm deps; only `site/` is deployable.
      - **Next ideas, not chosen:** add Codex's degree-filter and reduced-motion probes to the browser suite; enlarge or auto-fit the L4 context cluster (it renders small in the default view).
+  10. **Runtime Observation cleanup** (2026-10-04, at the user's request; not a fleet run):
+     - "Scripted scenarios", "The judge learns from your reviewers", "What the ontology adds" and the new latency card start **collapsed**; the title toggles each (`silex-mockup/js/rt-fold.js`). `run-site-probes.mjs` opens them before probing.
+     - "What the ontology adds" shows only confirmed results (Stage-1 and example runs) and has a **Check Report** button to the demo artifact. The unconfirmed E-AL and E-PR results moved to `reports/UNCONFIRMED_TESTS.md` in https://github.com/silex-security/ontology-typed-alerting. Details: the `ontology-value-repro` skill § 7.
+  11. **Measured judge latency, Kev vs gpt-4o-mini** (2026-10-04, `runs/latency-2026-10-04/`, Apple M4 Pro, same 708 eval items):
+     - Kev-0.8B fine-tuned p50 152 ms / p95 347 ms (99 % within the 400 ms gate judge budget); gpt-4o-mini via the OpenAI API p50 670 ms / p95 990 ms (0.3 %). Runners: `eval/run/run-openai.ts`, summary `eval/run/latency-json.ts`.
+     - **Mockup card** "How fast is the judge?" (`js/rt-latency.js`, `data/judge-latency.json`, probe `tests/site/judge-latency-card.test.mjs` 8/8): p50 tiles, a 400 ms budget line, and a 10 s real-time replay of the measured round trips. It says gpt-4o was not measured and that it compares speed, not quality.
+     - **Demo latency model:** the Jev step is drawn from Kev's measured quantiles (top at p98 = 386 ms so no draw crosses the deadline), serialise/redact is 10–30 ms for a local judge, and the async LLM slow path follows gpt-4o-mini's quantiles. Gate p50 fell from about 303 ms to 190 ms over seeds 1–50. The headline tile is now **p50** added gate latency. The tables in `web/demo/js/engine/types.js` are drift-tested by `tests/unit/web/demo-latency-quantiles.test.ts`.
+     - To re-measure on another host, see the deploy skill § 8. The published numbers stay pinned to this run unless the user asks.
 - **Open follow-ups** (non-blocking review notes, not done; details at the end of each log):
   - **Console** (`CONSOLE_UX_PLAN` code gate):
     - `/v1/sandbox/reexec` takes its rate slot before the run lookup;
@@ -107,9 +115,9 @@ Last updated 2026-10-02, at jev `main` `035caab` plus this skill update, silex-m
   - **Mockup Runtime Observation view:** every Run waits for the six-step animation (about 1.6 s), even when the frame is ready. That is fine for a demo; a faster path is possible.
 - **silex-mockup** (`~/workplace/Silex/silex-mockup`, https://github.com/silex-security/silex-mockup):
   - serve it locally with `python3 -m http.server 8797 --bind 127.0.0.1`;
-  - tests: `node --test tests/site/*.test.mjs` (20/20) and `node tests/site/run-site-probes.mjs` (21/21).
-- **Test baseline at `035caab`:**
-  - `npm test`: 320 tests, 316 pass, 0 fail, 4 skip; with `TEST_DATABASE_URL`, 1 skip.
+  - tests: `node --test tests/site/*.test.mjs` (41/41) and `node tests/site/run-site-probes.mjs` (42/42).
+- **Test baseline at this skill update** (`efe3a9a` plus the latency drift test):
+  - `npm test`: 322 tests, 318 pass, 0 fail, 4 skip; with `TEST_DATABASE_URL`, 1 skip.
   - Probes, which need a Kev on 8010 (0.8B) or 8009:
 
     | command | expected |
