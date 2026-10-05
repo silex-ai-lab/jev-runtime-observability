@@ -196,7 +196,7 @@
             The Inspector lists the features behind every answer.</li>
           <li><b>Latency.</b> Drawn per span. The Jev step follows Kev-0.8B's judge round trips measured on 708 held-out items
             (Apple M4 Pro, p50 152 ms; slowest 2 % left out). Rules 5–15 ms and policy 5–20 ms follow the report's POC budget (p.9);
-            serialise/redact for a local judge 10–30 ms. The slow LLM path uses 1.66–2.83 s, the range of the report's external experiments (p.4).
+            serialise/redact for a local judge 10–30 ms. The slow LLM path follows gpt-4o-mini's judge round trips through the OpenAI API, measured on the same items from the same machine (p50 670 ms, p95 990 ms); its verdict and rationale stay simulated.
             Not measured, not an SLA.</li>
           <li><b>Cost.</b> Jev $/1k uses the vendor list price quoted in the report ($0.042 per M input tokens, output free) with simulated
             token counts. No LLM price is sourced, so none is shown.</li>

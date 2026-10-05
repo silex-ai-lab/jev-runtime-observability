@@ -38,14 +38,15 @@ export const LLM_SIM_VERSION = 'llm-judge-sim (simulated)';
 export const RUBRIC_ID = 'ap-tool-risk:v1';
 export const STATE_SCHEMA = 'state/1';
 
-// Simulated latency budget, ms. Rules, policy and the LLM slow path follow R p.9 "单个 gate 的建议预算"; these are
-// a POC engineering target, not a Jev SLA. The judgment step is drawn from KEV_RTT_QUANTILES_MS below instead.
+// Simulated latency budget, ms. Rules and policy follow R p.9 "单个 gate 的建议预算"; these are
+// a POC engineering target, not a Jev SLA. The judgment step and the LLM slow path are drawn from measured
+// round trips instead (KEV_RTT_QUANTILES_MS, GPT4O_MINI_RTT_QUANTILES_MS).
 export const LATENCY_BUDGET = Object.freeze({
   rules: [5, 15],       // local deterministic checks
   serialize: [10, 30],  // serialise / redact for a local judge (R p.9's 30–100 ms assumed a remote one)
   jev: [61, 386],       // range of KEV_RTT_QUANTILES_MS, for labels only
   policy: [5, 20],      // policy combine + write-back
-  llm: [1660, 2830],    // slow path, R p.4 external experiments: 1.662 s … 2.83 s
+  llm: [345, 2175],     // range of GPT4O_MINI_RTT_QUANTILES_MS, for labels only
   rttSpikeJev: [300, 700], // fault: RTT spike (L1)
 });
 
@@ -54,6 +55,10 @@ export const LATENCY_BUDGET = Object.freeze({
 // not the maximum: 7 of 708 calls exceeded the 400 ms deadline, and leaving them out keeps scripted outcomes
 // unchanged; the RTT-spike and timeout faults show that case. A seeded uniform draw is mapped through this table.
 export const KEV_RTT_QUANTILES_MS = Object.freeze([61, 113, 117, 119, 121, 126, 129, 136, 141, 147, 152, 156, 162, 169, 194, 261, 268, 286, 329, 347, 386]);
+
+// LLM slow path: gpt-4o-mini (OpenAI API) judge round trips measured on the same 708 items from the same Apple M4 Pro
+// (runs/latency-2026-10-04), quantiles p0, p5, …, p100. It is asynchronous and never on the gate's critical path.
+export const GPT4O_MINI_RTT_QUANTILES_MS = Object.freeze([345, 490, 532, 564, 583, 599, 610, 623, 643, 655, 670, 684, 698, 713, 731, 750, 778, 814, 864, 990, 2175]);
 
 // Price used for the Jev $/1k tile. Vendor list price quoted in R p.3 ([7]):
 // $0.042 per million input tokens, output free. No LLM price is sourced, so none is used.

@@ -1,8 +1,8 @@
 // Simulated slow path (T1): a single-thread LLM judge for escalation rationale
-// (R p.13). Latency from the report's measured 1.66–2.83 s range; no cost is
-// sourced, so none is reported.
+// (R p.13). Latency follows gpt-4o-mini's measured judge round trips (GPT4O_MINI_RTT_QUANTILES_MS);
+// the verdict and rationale stay simulated. No cost is sourced, so none is reported.
 
-import { LLM_SIM_VERSION, LATENCY_BUDGET } from './types.js';
+import { LLM_SIM_VERSION, GPT4O_MINI_RTT_QUANTILES_MS as Q } from './types.js';
 import { rngFor } from './rng.js';
 
 const FEATURE_ORDER = [
@@ -22,7 +22,9 @@ function summarize(features) {
 
 export function judgeSlow(safeView, { seed, spanId, reason }) {
   const r = rngFor(seed, spanId, 'llm');
-  const latency_ms = Math.round(r.uniform(LATENCY_BUDGET.llm[0], LATENCY_BUDGET.llm[1]));
+  // One uniform draw, as before, mapped through the measured quantiles (linear between knots).
+  const x = r.uniform(0, Q.length - 1), i = Math.min(Q.length - 2, Math.floor(x));
+  const latency_ms = Math.round(Q[i] + (Q[i + 1] - Q[i]) * (x - i));
   const tokens_in = Math.ceil(JSON.stringify(safeView).length / 4);
   const tokens_out = Math.round(r.uniform(60, 180));
   return {
