@@ -7,7 +7,7 @@ description: Resume or continue the dated work plan for jev-runtime-observabilit
 
 ## Where things stand (update this when a plan closes)
 
-Last updated 2026-10-04, at jev `main` `efe3a9a` plus this skill update, silex-mockup `main` `c1ac048`, ontology-typed-alerting `main` `a590e64`, and jev-simplified `main` `c073c61`. Nothing is in progress: no open branch, no undeployed change, no pending review. All repos are pushed, and their local `main` equals `origin/main`.
+Last updated 2026-10-04, at jev `main` `efe3a9a` plus this skill update, silex-mockup `main` (after `c1ac048`, the card-order commit), ontology-typed-alerting `main` `a590e64`, and jev-simplified `main` `c073c61`. Nothing is in progress: no open branch, no undeployed change, no pending review. All repos are pushed, and their local `main` equals `origin/main`.
 
 **Key links:**
 
@@ -91,7 +91,7 @@ Last updated 2026-10-04, at jev `main` `efe3a9a` plus this skill update, silex-m
      - **Its own rules** (`logs/2026-10-01_MINIMAL_SITE_PLAN.md`): strict CSP (no inline style or script, no external fonts), no build step or npm deps; only `site/` is deployable.
      - **Next ideas, not chosen:** add Codex's degree-filter and reduced-motion probes to the browser suite; enlarge or auto-fit the L4 context cluster (it renders small in the default view).
   10. **Runtime Observation cleanup** (2026-10-04, at the user's request; not a fleet run):
-     - "Scripted scenarios", "The judge learns from your reviewers", "What the ontology adds" and the new latency card start **collapsed**; the title toggles each (`silex-mockup/js/rt-fold.js`). `run-site-probes.mjs` opens them before probing.
+     - "Scripted scenarios", "The judge learns from your reviewers", "What the ontology adds" and the new latency card start **collapsed**; the title toggles each (`silex-mockup/js/rt-fold.js`). `run-site-probes.mjs` opens them before probing. Card order (S21 checks it): Scripted scenarios, Decision plane (`#rtDecisionPlane`, the embedded demo, always open), The judge learns from your reviewers, What the ontology adds, How fast is the judge?
      - "What the ontology adds" shows only confirmed results (Stage-1 and example runs) and has a **Check Report** button to the demo artifact. The unconfirmed E-AL and E-PR results moved to `reports/UNCONFIRMED_TESTS.md` in https://github.com/silex-security/ontology-typed-alerting. Details: the `ontology-value-repro` skill § 7.
   11. **Measured judge latency, Kev vs gpt-4o-mini** (2026-10-04, `runs/latency-2026-10-04/`, Apple M4 Pro, same 708 eval items):
      - Kev-0.8B fine-tuned p50 152 ms / p95 347 ms (99 % within the 400 ms gate judge budget); gpt-4o-mini via the OpenAI API p50 670 ms / p95 990 ms (0.3 %). Runners: `eval/run/run-openai.ts`, summary `eval/run/latency-json.ts`.
