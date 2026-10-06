@@ -122,7 +122,8 @@ Follow the [`deploy-jev-observability`](skills/deploy-jev-observability/SKILL.md
 - the Kev judge;
 - configuration, including gate mode and PostgreSQL;
 - a smoke test;
-- systemd and a TLS proxy.
+- systemd and a TLS proxy;
+- optionally, measuring the judge's latency against gpt-4o-mini on this host.
 
 See [`skills/README.md`](skills/README.md) for how to load it into an agent.
 

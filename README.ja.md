@@ -124,7 +124,8 @@ bash scripts/demo-down.sh           # add --kev to stop the judge too
 - Kev ジャッジ；
 - 設定（gate モードと PostgreSQL を含む）；
 - スモークテスト；
-- systemd と TLS プロキシ。
+- systemd と TLS プロキシ；
+- 任意：このホストでジャッジの遅延を gpt-4o-mini と比較測定。
 
 Agent への読み込み方は [`skills/README.md`](skills/README.md) を参照。
 

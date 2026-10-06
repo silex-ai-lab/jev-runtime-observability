@@ -124,7 +124,8 @@ bash scripts/demo-down.sh           # add --kev to stop the judge too
 - Kev 评判模型；
 - 配置，包括 gate 模式和 PostgreSQL；
 - 冒烟测试；
-- systemd 和 TLS 代理。
+- systemd 和 TLS 代理；
+- 可选：在本机测量评判模型相对 gpt-4o-mini 的延迟。
 
 如何把它加载进 Agent，见 [`skills/README.md`](skills/README.md)。
 

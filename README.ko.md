@@ -124,7 +124,8 @@ bash scripts/demo-down.sh           # add --kev to stop the judge too
 - Kev 심판 모델;
 - 설정(gate 모드와 PostgreSQL 포함);
 - 스모크 테스트;
-- systemd와 TLS 프록시.
+- systemd와 TLS 프록시;
+- 선택: 이 호스트에서 심판 모델의 지연 시간을 gpt-4o-mini와 비교 측정.
 
 Agent에 불러오는 방법은 [`skills/README.md`](skills/README.md)를 참고하세요.
 
