@@ -194,6 +194,7 @@
   "state|agentdojo|instruction_override|pos": 2
  },
  "export_no_questions": 0,
+ "export_no_questions_by_source": {},
  "a1_fired": false,
  "g1": {
   "goal_deviation": "fail",

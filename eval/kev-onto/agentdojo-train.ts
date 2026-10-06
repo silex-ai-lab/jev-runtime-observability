@@ -294,20 +294,25 @@ export function rule5Hit(record: W1cRecord, windows: Set<string>): string | null
 
 // ---------- pipeline (§9.4 order) ----------
 export interface Rejection { record: W1cRecord; reason: string }
+export interface RecordStatus { admitted: boolean; sampled: boolean; reason?: string; export?: string }
 export interface Gate { g1: Record<string, G1Result>; g1First: Record<string, G1Result>; a1: { fired: boolean; result: G1Result | null; inputs: G1Record[] };
   outcome: 'GO' | 'STOP'; overrides: string[]; admitted: W1cRecord[]; exported: W1cRecord[]; sampled: W1cRecord[];
   shortfall: Record<string, number>; realized: Record<string, number>; diagnostics: Record<string, number>;
-  rejections: Record<string, number>; leakExcluded: Record<string, number>; exportNoQuestions: number }
+  rejections: Record<string, number>; leakExcluded: Record<string, number>; exportNoQuestions: number;
+  exportNoQuestionsBySource: Record<string, number>; status: Record<string, RecordStatus>; audit: W1cRecord[] }
 export interface AssembleW1c { referenceWindows: Set<string>; kevDir?: string; baseModel?: string; maxState?: number;
   admitFn?: (r: W1cRecord[]) => { admitted: W1cRecord[]; rejected: Rejection[] } }
-/** rule 5' -> rule 6 admission -> sampling -> G1 -> A1 (separate export population) -> §8.3 export. */
+/** rule 5' -> rule 6 admission -> sampling -> G1 -> A1 (separate post-A1 export records) -> §8.3 export.
+ *  The initial `sampled` population is never mutated (diagnostics/rechecks/G1 use it); A1 builds separate records with
+ *  `instruction_override` removed and keeps the ones left with no question for the §8.3 audit (`export:"no-questions"`). */
 export function assembleW1c(all: W1cRecord[], cfg: AssembleW1c): Gate {
-  const leakExcluded: Record<string, number> = {};
-  const afterLeak = all.filter(r => { const hit = rule5Hit(r, cfg.referenceWindows); if (hit) { leakExcluded[r.family] = (leakExcluded[r.family] ?? 0) + 1; return false; } return true; });
+  const leakExcluded: Record<string, number> = {}; const leakedIds = new Set<string>();
+  const afterLeak = all.filter(r => { const hit = rule5Hit(r, cfg.referenceWindows); if (hit) { leakExcluded[r.family] = (leakExcluded[r.family] ?? 0) + 1; leakedIds.add(r.item_id); return false; } return true; });
   const admitFn = cfg.admitFn ?? ((rs: W1cRecord[]) => admit(rs as unknown as TrainRecord[], cfg.kevDir!, cfg.baseModel, cfg.maxState ?? W1C.max_state) as unknown as { admitted: W1cRecord[]; rejected: Rejection[] });
   const { admitted, rejected } = admitFn(afterLeak);
+  const rejectedReason = new Map<string, string>();
   const rejections: Record<string, number> = {};
-  for (const x of rejected) for (const qid of Object.keys(x.record.questions)) { const k = `${x.reason}|${x.record.source}|${qid}|${x.record.questions[qid].label === true ? 'pos' : x.record.questions[qid].label === false ? 'neg' : 'other'}`; rejections[k] = (rejections[k] ?? 0) + 1; }
+  for (const x of rejected) { rejectedReason.set(x.record.item_id, x.reason); for (const qid of Object.keys(x.record.questions)) { const k = `${x.reason}|${x.record.source}|${qid}|${x.record.questions[qid].label === true ? 'pos' : x.record.questions[qid].label === false ? 'neg' : 'other'}`; rejections[k] = (rejections[k] ?? 0) + 1; } }
   // Sampling covers only the AgentDojo GD/IO records; other-source records are carried to export, never to G1.
   const sampled: W1cRecord[] = []; const shortfall: Record<string, number> = {}; const realized: Record<string, number> = {};
   for (const qid of QUESTIONS) for (const label of [true, false]) {
@@ -322,21 +327,36 @@ export function assembleW1c(all: W1cRecord[], cfg: AssembleW1c): Gate {
   const diagnostics: Record<string, number> = {};                                    // computed on the INITIAL sampled population
   for (const qid of QUESTIONS) { const rs = sampled.filter(r => qid in r.questions); const a = oofAuroc(rs, qid, r => String(r.injectionVisible)); if (!Number.isNaN(a)) diagnostics[`injection_visible_auroc|${qid}`] = a; }
   { const rs = sampled.filter(r => 'goal_deviation' in r.questions); const a = oofAuroc(rs, 'goal_deviation', r => r.tool); if (!Number.isNaN(a)) diagnostics['tool_name_auroc|goal_deviation'] = a; }
-  // A1: apply to a SEPARATE export population; never mutate `sampled` (which keeps the initial labels for diagnostics/accounting/G1).
+  // A1: SEPARATE post-A1 records with instruction_override removed; `sampled` is untouched.
   const overrides: string[] = []; let a1: Gate['a1'] = { fired: false, result: null, inputs: [] };
-  let exportAgentdojo = sampled;
+  let exportAgentdojo = sampled; const auditMap = new Map<string, W1cRecord>();
+  let exportNoQuestions = 0; const exportNoQuestionsBySource: Record<string, number> = {}; const emptyIds = new Set<string>();
   if (g1First.goal_deviation.status === 'pass' && g1First.instruction_override.status !== 'pass') {
-    exportAgentdojo = sampled.filter(r => !('instruction_override' in r.questions));
+    const postA1 = sampled.map(r => ({ ...r, questions: { ...r.questions } }));
+    for (const r of postA1) delete r.questions.instruction_override;
+    for (const r of postA1) { auditMap.set(r.item_id, r); if (Object.keys(r.questions).length === 0) { emptyIds.add(r.item_id); exportNoQuestions++; exportNoQuestionsBySource[r.source] = (exportNoQuestionsBySource[r.source] ?? 0) + 1; } }
+    exportAgentdojo = postA1.filter(r => Object.keys(r.questions).length > 0);
     const inputs = exportAgentdojo.filter(r => 'goal_deviation' in r.questions).map(r => g1OfW1c(r, 'goal_deviation'));
     a1 = { fired: true, result: g1('goal_deviation', inputs), inputs };
     overrides.push('dropped instruction_override labels (A1 fallback)');
   }
   const other = admitted.filter(r => r.source !== 'agentdojo');
   const exported = [...exportAgentdojo, ...other].filter(r => Object.keys(r.questions).length > 0);
+  // §8.3 audit status for EVERY input record, so records.jsonl can trace every train-stats.json count.
+  const admittedIds = new Set(admitted.map(r => r.item_id)), sampledIds = new Set(sampled.map(r => r.item_id));
+  const status: Record<string, RecordStatus> = {};
+  for (const r of all) {
+    const s: RecordStatus = { admitted: admittedIds.has(r.item_id), sampled: sampledIds.has(r.item_id) };
+    if (leakedIds.has(r.item_id)) s.reason = 'leak';
+    else if (rejectedReason.has(r.item_id)) s.reason = rejectedReason.get(r.item_id);
+    if (emptyIds.has(r.item_id)) s.export = 'no-questions';
+    status[r.item_id] = s;
+  }
+  const audit = all.map(r => auditMap.get(r.item_id) ?? r);
   return { g1: { ...g1First, ...(a1.fired ? { goal_deviation: a1.result! } : {}) }, g1First, a1,
     outcome: (a1.fired ? a1.result! : g1First.goal_deviation).status === 'pass' ? 'GO' : 'STOP', overrides,
     admitted, exported, sampled, shortfall, realized, diagnostics, rejections, leakExcluded,
-    exportNoQuestions: exportAgentdojo.length - exportAgentdojo.filter(r => Object.keys(r.questions).length > 0).length };
+    exportNoQuestions, exportNoQuestionsBySource, status, audit };
 }
 
 // ---------- kev/python helpers ----------
@@ -430,8 +450,9 @@ async function main(): Promise<void> {
   for (const r of otherRecs) for (const [qid, q] of Object.entries(r.questions)) { const k = `${r.source}|${qid}|${typeof q.label === 'boolean' ? (q.label ? 'true' : 'false') : String(q.label)}`; otherPopulation[k] = (otherPopulation[k] ?? 0) + 1; }
   const gate = assembleW1c([...recs, ...otherRecs], { referenceWindows, kevDir });
   mkdirSync(out, { recursive: true });
-  const admitted = new Set(gate.admitted.map(r => r.item_id)), sampled = new Set(gate.sampled.map(r => r.item_id));
-  writeFileSync(join(out, 'records.jsonl'), gate.admitted.map(r => JSON.stringify({ ...r, admitted: true, sampled: sampled.has(r.item_id) })).join('\n') + '\n');
+  // §8.3: records.jsonl is the audit of every input record — admitted, sampled, admission-rejected and leak-excluded —
+  // with its status/reason; post-A1 records left with no question carry export:"no-questions".
+  writeFileSync(join(out, 'records.jsonl'), gate.audit.map(r => JSON.stringify({ ...r, ...gate.status[r.item_id] })).join('\n') + '\n');
   writeFileSync(join(out, 'kev-train.jsonl'), gate.exported.map(r => JSON.stringify({ state: r.state, questions: r.questions })).join('\n') + '\n');
   const qInputs = (qid: QuestionId) => gate.sampled.filter(r => qid in r.questions).map(r => g1OfW1c(r, qid));
   for (const qid of QUESTIONS) {
@@ -454,6 +475,7 @@ async function main(): Promise<void> {
     unknown_reasons: { goal_deviation: unknownGd, instruction_override: unknownIo },
     goal_deviation_negative_yield: negativeYield, placeholder_negative_by_suite: placeholderNeg,
     leak_excluded: gate.leakExcluded, rejections: gate.rejections, export_no_questions: gate.exportNoQuestions,
+    export_no_questions_by_source: gate.exportNoQuestionsBySource,
     a1_fired: gate.a1.fired, g1: { goal_deviation: gate.g1.goal_deviation.status, instruction_override: gate.g1.instruction_override.status },
     outcome: gate.outcome, overrides: gate.overrides }, null, 1) + '\n');
   rmSync(tmp, { recursive: true, force: true });

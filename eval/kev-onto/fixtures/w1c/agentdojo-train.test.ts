@@ -104,6 +104,11 @@ ok('A1 fixture: io does not pass and A1 fires', gateA1.g1First.instruction_overr
 ok('A1 fixture: sampled keeps both questions (not mutated)', gateA1.sampled.some(r => 'instruction_override' in r.questions) && gateA1.sampled.some(r => 'goal_deviation' in r.questions));
 ok('A1 fixture: export drops io, keeps gd', gateA1.exported.every(r => !('instruction_override' in r.questions)) && gateA1.exported.filter(r => 'goal_deviation' in r.questions).length === 200);
 ok('A1 fixture: reduced goal recheck input matches export gd', gateA1.a1.inputs.length === 200);
+ok('A1 fixture: exportNoQuestions counts the removed records per source', gateA1.exportNoQuestions === 4 && gateA1.exportNoQuestionsBySource.agentdojo === 4, JSON.stringify(gateA1.exportNoQuestionsBySource));
+const emptyIds = Object.keys(gateA1.status).filter(id => gateA1.status[id].export === 'no-questions');
+ok('A1 fixture: empty records kept and annotated export:no-questions', emptyIds.length === 4 && emptyIds.every(id => { const r = gateA1.audit.find(x => x.item_id === id)!; return r && Object.keys(r.questions).length === 0 && r.source === 'agentdojo'; }));
+ok('A1 fixture: serialized audit line carries export:no-questions', (() => { const id = emptyIds[0]; const line = JSON.parse(JSON.stringify({ ...gateA1.audit.find(x => x.item_id === id), ...gateA1.status[id] })); return line.export === 'no-questions' && line.sampled === true && Object.keys(line.questions).length === 0; })());
+ok('A1 fixture: initial sampled io labels untouched for diagnostics', gateA1.sampled.filter(r => 'instruction_override' in r.questions).length === 4);
 
 // other records are carried to export but never to sampled/G1
 const gateMix = assembleW1c([...all.slice(0, 4), ...other], { referenceWindows: new Set(), admitFn: rs => ({ admitted: rs, rejected: [] }) });
