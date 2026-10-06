@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { emptyLog, buildOriginals, buildRule2, buildRule3, rule2Value, fillTemplate, identitySentence, rule2IdentityProbe, emptyQuestionRecords, leakHit, referenceWindows, admit, assemble, applyA1, emptyReference } from '../../train-data.ts';
+import { emptyLog, buildOriginals, buildRule2, buildRule3, rule2Value, fillTemplate, identitySentence, rule2IdentityProbe, runGate, leakHit, referenceWindows, admit, assemble, applyA1, emptyReference } from '../../train-data.ts';
 import { g1 } from '../../g1.ts';
 import { fixtureInput } from './dataset.ts';
 
@@ -103,15 +103,48 @@ const q = (id: string, label: boolean) => ({ question_id: id, question: { type: 
   ok('W1b v1 τ-bench rule-2 task is the template only (no identity)', /^TASK \(authenticated user\): (?:Get the|Use |Run |Please check|Look up|Call )/.test(r2v1.state));
 }
 
-// W1b (KO_SPEC §8.3): zero-question export filter and audit
+// W1b (KO_SPEC §8.3): the production A1/export path (runGate), not a hand-rolled filter
 {
-  const recs = buildOriginals({ ...fixtureInput(), specVersion: 2 }, emptyLog());
-  for (const r of recs) delete r.questions.instruction_override;   // simulate the A1 fallback
-  const empty = emptyQuestionRecords(recs);
-  const asbIds = recs.filter(r => r.source === 'asb').map(r => r.item_id);
-  ok('W1b after A1 the ASB records are the zero-question ones (audit count matches)', empty.length === asbIds.length && empty.every(r => r.source === 'asb'), { empty: empty.map(r => r.item_id) });
-  ok('W1b export keeps only non-empty questions', recs.filter(r => Object.keys(r.questions).length > 0).every(r => Object.keys(r.questions).length > 0));
-  ok('W1b filter is a no-op when every record keeps a question', emptyQuestionRecords(recs.filter(r => r.source !== 'asb')).length === 0);
+  const Q = (label: boolean) => ({ type: 'noul' as const, instructions: 'q', label });
+  const tr = (id: string, source: string, questions: any, family = 'retail'): any =>
+    ({ item_id: id, group: id, source, family, impact: 'write', state: 'x'.repeat(200), questions, origin: 'original' });
+  const goalPass = () => Array.from({ length: 50 }, (_, i) => tr(`g${i}`, 'taubench', { goal_deviation: Q(i % 2 === 0) }));           // constant features -> pass
+  const goalFail = () => Array.from({ length: 20 }, (_, i) => tr(`g${i}`, 'taubench', { goal_deviation: Q(i < 10) }, i < 10 ? 'a' : 'b'));   // family separates -> fail
+  const ioFail = () => [...Array.from({ length: 20 }, (_, i) => tr(`i${i}`, 'taubench', { instruction_override: Q(i < 10) }, i < 10 ? 'a' : 'b')),
+    tr('asb0', 'asb', { instruction_override: Q(false) }, 'normal')];                                                              // only instruction_override
+  const ioPass = () => [...Array.from({ length: 20 }, (_, i) => tr(`i${i}`, 'taubench', { instruction_override: Q(i % 2 === 0) }, 'a')),
+    tr('asb0', 'asb', { instruction_override: Q(false) }, 'a')];
+  const inputV2 = { specVersion: 2 } as any;
+
+  // (a) goal_deviation passes, instruction_override fails -> A1 fires
+  {
+    const log = emptyLog(); const status: any = {}; const admitted = [...goalPass(), ...ioFail()];
+    const gate = runGate(admitted, inputV2, log, status);
+    ok('(a) A1 fires and the first G1s are pass/fail', gate.a1 !== null && gate.g1First.goal_deviation.status === 'pass' && gate.g1First.instruction_override.status === 'fail');
+    ok('(a) the governing goal_deviation result is the A1 recomputation', gate.g1.goal_deviation === gate.a1!.result);
+    ok('(a) each saved G1 result equals G1 recomputed from its saved recheck input',
+      JSON.stringify(g1('goal_deviation', gate.g1Inputs.goal_deviation)) === JSON.stringify(gate.g1First.goal_deviation)
+      && JSON.stringify(g1('instruction_override', gate.g1Inputs.instruction_override)) === JSON.stringify(gate.g1First.instruction_override)
+      && JSON.stringify(g1('goal_deviation', gate.g1Inputs['goal_deviation-a1'])) === JSON.stringify(gate.a1!.result));
+    ok('(a) the instruction_override recheck snapshot is pre-A1 (non-empty)', gate.g1Inputs.instruction_override.length === 21 && gate.g1Inputs['goal_deviation-a1'].length === 50);
+    ok('(a) export keeps only non-empty questions', gate.exported.length === 50 && gate.exported.every(r => Object.keys(r.questions).length > 0));
+    ok('(a) zero-question records are audited and counted per source',
+      status['asb0']?.export === 'no-questions' && status['i0']?.export === 'no-questions'
+      && log.drop['export:no-questions:asb'] === 1 && log.drop['export:no-questions:taubench'] === 20 && log.drop['export:no-questions'] === 21);
+  }
+  // (b) both pass -> no A1, ASB keeps its questions, zero removals
+  {
+    const log = emptyLog(); const status: any = {}; const admitted = [...goalPass(), ...ioPass()];
+    const gate = runGate(admitted, inputV2, log, status);
+    ok('(b) both G1 pass, A1 does not fire', gate.a1 === null && gate.g1First.goal_deviation.status === 'pass' && gate.g1First.instruction_override.status === 'pass');
+    ok('(b) ASB keeps its question and nothing is removed', 'instruction_override' in admitted.find(r => r.item_id === 'asb0')!.questions && gate.exported.length === admitted.length && log.drop['export:no-questions'] === 0 && status['asb0']?.export === undefined);
+  }
+  // (c) goal_deviation fails -> STOP (current branch unchanged)
+  {
+    const log = emptyLog(); const status: any = {}; const admitted = [...goalFail(), ...ioFail()];
+    const gate = runGate(admitted, inputV2, log, status);
+    ok('(c) goal_deviation fails -> STOP with no A1 and no removals', gate.outcome === 'STOP' && gate.a1 === null && gate.exported.length === admitted.length && log.drop['export:no-questions'] === 0);
+  }
 }
 
 // rule 3: τ-bench conflicting-target positives; train-split donors only; a no-type-T seed yields nothing

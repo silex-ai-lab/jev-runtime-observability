@@ -352,7 +352,7 @@ sys.stdout.write(json.dumps(out))
 // ---------- assemble + G1 ----------
 export interface Pipeline { reference: Reference; kevDir: string; baseModel?: string }
 export interface RecordStatus { admitted: boolean; reason?: string; export?: string }
-export interface AssembleResult { records: TrainRecord[]; admitted: TrainRecord[]; exported: TrainRecord[]; g1: Record<string, G1Result>; log: BuildLog; overrides: string[]; outcome: 'GO' | 'STOP'; status: Record<string, RecordStatus> }
+export interface AssembleResult { records: TrainRecord[]; admitted: TrainRecord[]; exported: TrainRecord[]; g1: Record<string, G1Result>; g1First: Record<string, G1Result>; g1Inputs: Record<string, G1Record[]>; a1: { result: G1Result; inputs: G1Record[] } | null; log: BuildLog; overrides: string[]; outcome: 'GO' | 'STOP'; status: Record<string, RecordStatus> }
 export function g1Of(record: TrainRecord, qid: string): G1Record {
   return { group: record.group, source: record.source, family: record.family, impact: record.impact, state: record.state, label: record.questions[qid].label };
 }
@@ -364,8 +364,44 @@ export function applyA1(records: TrainRecord[], g1Out: Record<string, G1Result>)
   }
   return { goal_deviation: g1Out.goal_deviation, overridden: false };
 }
-/** The full pipeline in KO_SPEC §4.6 order: build -> rule 5 leak exclusion -> rule 6 admission -> G1 per question ->
- *  A1 outcome. G1 runs only on the admitted records. */
+export interface GateOutcome {
+  g1: Record<string, G1Result>;                     // governing results (goal_deviation = the A1 result when A1 fires)
+  g1First: Record<string, G1Result>;                // the first G1 per question
+  g1Inputs: Record<string, G1Record[]>;             // snapshots: qid, plus 'goal_deviation-a1'
+  a1: { result: G1Result; inputs: G1Record[] } | null;
+  exported: TrainRecord[];
+  overrides: string[];
+  outcome: 'GO' | 'STOP';
+}
+/** The post-admission pipeline: snapshot each question's G1 input, compute the first G1, apply the A1 outcome on a
+ *  snapshot of the reduced set, then apply the W1b export filter. Every input is snapshotted before any mutation, so
+ *  each saved G1 result has the exact recheck input it was computed from (KO_SPEC §8.3). */
+export function runGate(admitted: TrainRecord[], input: BuildInput, log: BuildLog, status: Record<string, RecordStatus>): GateOutcome {
+  const g1First: Record<string, G1Result> = {}, g1Inputs: Record<string, G1Record[]> = {};
+  for (const qid of ['goal_deviation', 'instruction_override']) {
+    const inputs = admitted.filter(r => qid in r.questions).map(r => g1Of(r, qid));   // snapshot before A1
+    g1Inputs[qid] = inputs; g1First[qid] = g1(qid, inputs);
+  }
+  const g1Out: Record<string, G1Result> = { ...g1First };
+  const overrides: string[] = []; let a1: { result: G1Result; inputs: G1Record[] } | null = null;
+  if (g1First.goal_deviation.status === 'pass' && g1First.instruction_override.status !== 'pass') {
+    for (const r of admitted) delete r.questions.instruction_override;
+    const inputs = admitted.filter(r => 'goal_deviation' in r.questions).map(r => g1Of(r, 'goal_deviation'));
+    a1 = { result: g1('goal_deviation', inputs), inputs };
+    g1Out.goal_deviation = a1.result;
+    overrides.push('dropped instruction_override labels (A1 fallback)');
+  }
+  g1Inputs['goal_deviation-a1'] = a1 ? a1.inputs : [];
+  let exported = admitted;
+  if (specOf(input) >= 2) {
+    const empty = emptyQuestionRecords(admitted);
+    for (const r of empty) { const k = `export:no-questions:${r.source}`; log.drop[k] = (log.drop[k] ?? 0) + 1; status[r.item_id] = { ...status[r.item_id], export: 'no-questions' }; }
+    log.drop['export:no-questions'] = empty.length;   // total, 0 when none
+    exported = admitted.filter(r => Object.keys(r.questions).length > 0);
+  }
+  return { g1: g1Out, g1First, g1Inputs, a1, exported, overrides, outcome: g1Out.goal_deviation.status === 'pass' ? 'GO' : 'STOP' };
+}
+/** The full pipeline in KO_SPEC §4.6 order: build -> rule 5 leak exclusion -> rule 6 admission -> runGate. */
 export function assemble(input: BuildInput, pipeline: Pipeline, log: BuildLog = emptyLog()): AssembleResult {
   const records = [...buildOriginals(input, log), ...buildRule2(input, log), ...buildRule3(input, log)];
   // rule 5: leak exclusion (counted per source).
@@ -385,19 +421,8 @@ export function assemble(input: BuildInput, pipeline: Pipeline, log: BuildLog = 
   const status: Record<string, RecordStatus> = {};
   for (const r of records) status[r.item_id] = leakIds.has(r.item_id) ? { admitted: false, reason: 'leak' }
     : reasonById.has(r.item_id) ? { admitted: false, reason: reasonById.get(r.item_id)! } : { admitted: true };
-  // G1 on the admitted records.
-  const g1Out: Record<string, G1Result> = {};
-  for (const qid of ['goal_deviation', 'instruction_override']) g1Out[qid] = g1(qid, admitted.filter(r => qid in r.questions).map(r => g1Of(r, qid)));
-  const a1 = applyA1(admitted, g1Out);
-  const overrides: string[] = [];
-  if (a1.overridden) { overrides.push('dropped instruction_override labels (A1 fallback)'); g1Out.goal_deviation = a1.goal_deviation; }
-  // W1b (KO_SPEC §8.3): after the A1 outcome, a record with no remaining question is not exported; counted per source.
-  let exported = admitted;
-  if (specOf(input) >= 2) {
-    for (const r of emptyQuestionRecords(admitted)) { const k = `export:no-questions:${r.source}`; log.drop[k] = (log.drop[k] ?? 0) + 1; status[r.item_id] = { ...status[r.item_id], export: 'no-questions' }; }
-    exported = admitted.filter(r => Object.keys(r.questions).length > 0);
-  }
-  return { records, admitted, exported, g1: g1Out, log, overrides, outcome: g1Out.goal_deviation.status === 'pass' ? 'GO' : 'STOP', status };
+  const gate = runGate(admitted, input, log, status);
+  return { records, admitted, exported: gate.exported, g1: gate.g1, g1First: gate.g1First, g1Inputs: gate.g1Inputs, a1: gate.a1, log, overrides: gate.overrides, outcome: gate.outcome, status };
 }
 export const emptyLog = (): BuildLog => ({ drop: {}, yields: {}, targets: {}, undescribed: [], exclusions: {}, rejections: {} });
 export const bump = (log: BuildLog, key: string): void => { log.drop[key] = (log.drop[key] ?? 0) + 1; };
@@ -459,9 +484,12 @@ async function main(): Promise<void> {
   writeFileSync(join(out, 'records.jsonl'), res.records.map(r => { const st = res.status[r.item_id]; return JSON.stringify({ ...r, admitted: st.admitted, ...(st.reason ? { rejection_reason: st.reason } : {}), ...(st.export ? { export: st.export } : {}) }); }).join('\n') + '\n');
   writeFileSync(join(out, 'kev-train.jsonl'), res.exported.map(wireRecord).join('\n') + '\n');
   for (const qid of ['goal_deviation', 'instruction_override']) {
-    writeFileSync(join(out, `G1-${qid}.json`), JSON.stringify(res.g1[qid], null, 1) + '\n');
-    const gd = res.admitted.filter(r => qid in r.questions).map(r => ({ group: r.group, source: r.source, family: r.family, impact: r.impact, state: r.state, label: r.questions[qid].label }));
-    writeFileSync(join(out, `recheck-input-${qid}.json`), JSON.stringify({ records: gd }, null, 1) + '\n');
+    writeFileSync(join(out, `G1-${qid}.json`), JSON.stringify(res.g1First[qid], null, 1) + '\n');   // corresponds 1:1 to its recheck input
+    writeFileSync(join(out, `recheck-input-${qid}.json`), JSON.stringify({ records: res.g1Inputs[qid] }, null, 1) + '\n');
+  }
+  if (res.a1) {                                                                                     // A1 recomputation, when it fires
+    writeFileSync(join(out, 'G1-goal_deviation-a1.json'), JSON.stringify(res.a1.result, null, 1) + '\n');
+    writeFileSync(join(out, 'recheck-input-goal_deviation-a1.json'), JSON.stringify({ records: res.a1.inputs }, null, 1) + '\n');
   }
   writeFileSync(join(out, 'G1-A1.json'), JSON.stringify({ outcome: res.outcome, overrides: res.overrides }, null, 1) + '\n');
   const population: Record<string, number> = {};

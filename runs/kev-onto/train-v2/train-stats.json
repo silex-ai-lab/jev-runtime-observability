@@ -24,7 +24,8 @@
   "rule2:duplicate-passage": 441,
   "rule2:lexicon": 1,
   "rule2:no-identity": 73,
-  "rule3:no-candidate": 63
+  "rule3:no-candidate": 63,
+  "export:no-questions": 0
  },
  "exclusions": {
   "rule5:taubench": 2,
