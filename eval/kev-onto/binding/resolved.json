@@ -1,0 +1,4464 @@
+{
+ "version": 2,
+ "tools": {
+  "agentdojo:banking/get_balance": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:banking/get_iban": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:banking/get_most_recent_transactions": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "n": "none"
+   }
+  },
+  "agentdojo:banking/get_scheduled_transactions": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:banking/get_user_info": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:banking/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "file_path": "core:core-resource"
+   },
+   "reason": "param file_path: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:banking/schedule_transaction": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-party",
+    "recurring": "none",
+    "subject": "none"
+   }
+  },
+  "agentdojo:banking/send_money": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-party",
+    "subject": "none"
+   }
+  },
+  "agentdojo:banking/update_password": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "password": "core:core-credential"
+   }
+  },
+  "agentdojo:banking/update_scheduled_transaction": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "id": "core:core-commitment",
+    "recipient": "core:core-party",
+    "recurring": "none",
+    "subject": "none"
+   },
+   "reason": "param id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "agentdojo:banking/update_user_info": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "city": "none",
+    "first_name": "none",
+    "last_name": "none",
+    "street": "none"
+   }
+  },
+  "agentdojo:slack/add_user_to_channel": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "channel": "core:core-resource",
+    "slack": "core:core-connector",
+    "user": "core:core-human-user"
+   }
+  },
+  "agentdojo:slack/get_channels": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "slack": "core:core-connector"
+   }
+  },
+  "agentdojo:slack/get_users_in_channel": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "channel": "core:core-resource",
+    "slack": "core:core-connector"
+   }
+  },
+  "agentdojo:slack/get_webpage": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "url": "core:core-resource",
+    "web": "core:core-connector"
+   },
+   "reason": "param url: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:slack/invite_user_to_slack": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "slack": "core:core-connector",
+    "user": "core:core-human-user",
+    "user_email": "core:core-party"
+   }
+  },
+  "agentdojo:slack/post_webpage": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "url": "core:core-resource",
+    "web": "core:core-connector"
+   },
+   "reason": "param url: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:slack/read_channel_messages": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "channel": "core:core-resource",
+    "slack": "core:core-connector"
+   }
+  },
+  "agentdojo:slack/read_inbox": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "slack": "core:core-connector",
+    "user": "core:core-human-user"
+   }
+  },
+  "agentdojo:slack/remove_user_from_slack": {
+   "effects": [
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "slack": "core:core-connector",
+    "user": "core:core-human-user"
+   }
+  },
+  "agentdojo:slack/send_channel_message": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "channel": "core:core-resource",
+    "slack": "core:core-connector"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:slack/send_direct_message": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "recipient": "core:core-human-user",
+    "slack": "core:core-connector"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param recipient: core-human-user because names a person who authenticates and acts"
+  },
+  "agentdojo:travel/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:travel/check_restaurant_opening_hours": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:travel/get_all_car_rental_companies_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   }
+  },
+  "agentdojo:travel/get_all_hotels_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   }
+  },
+  "agentdojo:travel/get_all_restaurants_in_city": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "city": "none"
+   }
+  },
+  "agentdojo:travel/get_car_fuel_options": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_car_price_per_day": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_car_rental_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_car_types_available": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_contact_information_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_cuisine_type_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   }
+  },
+  "agentdojo:travel/get_dietary_restrictions_for_all_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_flight_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "arrival_city": "none",
+    "departure_city": "none"
+   }
+  },
+  "agentdojo:travel/get_hotels_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_hotels_prices": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_price_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_rating_reviews_for_car_rental": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "company_name": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_rating_reviews_for_hotels": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "hotel_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_rating_reviews_for_restaurants": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_restaurants_address": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "restaurant_names": "core:core-party"
+   }
+  },
+  "agentdojo:travel/get_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:travel/reserve_car_rental": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "company": "core:core-party",
+    "end_time": "none",
+    "start_time": "none"
+   }
+  },
+  "agentdojo:travel/reserve_hotel": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "end_day": "none",
+    "hotel": "core:core-party",
+    "start_day": "none"
+   }
+  },
+  "agentdojo:travel/reserve_restaurant": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "restaurant": "core:core-party",
+    "start_time": "none"
+   }
+  },
+  "agentdojo:travel/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   }
+  },
+  "agentdojo:travel/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/add_calendar_event_participants": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "participants": "core:core-party"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/append_to_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "file_id": "core:core-resource"
+   }
+  },
+  "agentdojo:workspace/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "filename": "core:core-resource"
+   },
+   "reason": "param filename: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/delete_email": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "email_id": "core:core-record"
+   }
+  },
+  "agentdojo:workspace/delete_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource"
+   }
+  },
+  "agentdojo:workspace/get_current_day": {
+   "effects": [],
+   "params": {}
+  },
+  "agentdojo:workspace/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   }
+  },
+  "agentdojo:workspace/get_draft_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:workspace/get_file_by_id": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "file_id": "core:core-resource"
+   }
+  },
+  "agentdojo:workspace/get_received_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:workspace/get_sent_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:workspace/get_unread_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdojo:workspace/list_files": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdojo:workspace/reschedule_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "new_end_time": "none",
+    "new_start_time": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   }
+  },
+  "agentdojo:workspace/search_contacts_by_email": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "core:core-party"
+   },
+   "reason": "param query: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/search_contacts_by_name": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none"
+   }
+  },
+  "agentdojo:workspace/search_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none",
+    "sender": "core:core-party"
+   }
+  },
+  "agentdojo:workspace/search_files": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none"
+   }
+  },
+  "agentdojo:workspace/search_files_by_filename": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "filename": "core:core-resource"
+   },
+   "reason": "param filename: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/share_file": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "file_id": "core:core-resource",
+    "permission": "core:core-authorization-scope"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:dailylife/add_calendar_event_participants": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "participants": "core:core-party"
+   }
+  },
+  "agentdyn:dailylife/browse_webpage": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "url": "core:core-resource"
+   },
+   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   }
+  },
+  "agentdyn:dailylife/copy_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   }
+  },
+  "agentdyn:dailylife/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/delete_email": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "email_id": "core:core-record"
+   }
+  },
+  "agentdyn:dailylife/delete_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/download_file_through_id": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource",
+    "save_dir": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/download_file_through_url": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/get_balance": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:dailylife/get_current_day": {
+   "effects": [],
+   "params": {}
+  },
+  "agentdyn:dailylife/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   }
+  },
+  "agentdyn:dailylife/get_received_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:dailylife/get_sent_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:dailylife/get_unread_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdyn:dailylife/input_to_webpage": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "input_ids": "none",
+    "input_values": "none",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/list_directory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/move_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/reschedule_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "new_end_time": "none",
+    "new_start_time": "none"
+   }
+  },
+  "agentdyn:dailylife/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   }
+  },
+  "agentdyn:dailylife/search_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "none",
+    "sender": "core:core-party"
+   }
+  },
+  "agentdyn:dailylife/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   }
+  },
+  "agentdyn:dailylife/send_money": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:dailylife/verify_transaction": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {
+    "otp": "core:core-credential"
+   },
+   "reason": "effects: entering the OTP authorizes a pending transaction, i.e. grants the authority for it to proceed"
+  },
+  "agentdyn:github/browse_webpage": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "url": "core:core-resource"
+   },
+   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/copy_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/delete_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/download_file_through_id": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource",
+    "save_dir": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/download_file_through_url": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/get_github_account_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "username": "core:core-human-user"
+   },
+   "reason": "param username: core-human-user because names a person who authenticates and acts"
+  },
+  "agentdyn:github/get_github_linked_unread_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdyn:github/get_github_repository_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/get_logged_in_github_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:github/get_received_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:github/get_sent_emails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:github/git_add_ssh_key": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "ssh_key": "core:core-credential"
+   }
+  },
+  "agentdyn:github/git_clone": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "local_dir_path": "core:core-resource",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param local_dir_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_create_repo": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/git_delete_repo": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/git_delete_ssh_key": {
+   "effects": [
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "ssh_key": "core:core-credential"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:github/git_get_linked_ssh_keys": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:github/git_invite_collaborators": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "collaborator_email": "core:core-party",
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/git_issue": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "comment_body": "none",
+    "repo_name": "core:core-resource",
+    "title": "none"
+   }
+  },
+  "agentdyn:github/git_pull": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "local_path": "core:core-resource",
+    "overwrite_local": "none",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "param local_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_push": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "force": "none",
+    "local_path": "core:core-resource"
+   },
+   "reason": "param local_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_star": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/git_transfer_repo_ownership": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "new_owner_email": "core:core-party",
+    "new_owner_username": "core:core-party",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "param new_owner_username: core-party because the new owner may be outside the enterprise (Party)"
+  },
+  "agentdyn:github/git_unstar": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "repo_name": "core:core-resource"
+   }
+  },
+  "agentdyn:github/input_to_webpage": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "inputs": "none",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/list_directory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/login_github_account": {
+   "effects": [],
+   "params": {
+    "password": "core:core-credential",
+    "username": "core:core-account"
+   },
+   "reason": "effects: logging in to the user's own account grants no new right and changes no business state; param username: core-account because identifies the user account"
+  },
+  "agentdyn:github/move_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   }
+  },
+  "agentdyn:github/update_github_account_password": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "password": "core:core-credential"
+   }
+  },
+  "agentdyn:github/verify_github_account": {
+   "effects": [],
+   "params": {
+    "otp": "core:core-credential"
+   },
+   "reason": "effects: verifying the user's own account changes no business state"
+  },
+  "agentdyn:shopping/add_calendar_event_participants": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "participants": "core:core-party"
+   }
+  },
+  "agentdyn:shopping/browse_webpage": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "url": "core:core-resource"
+   },
+   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   }
+  },
+  "agentdyn:shopping/cart_add_product": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "product_id": "core:core-resource",
+    "quantity": "none"
+   }
+  },
+  "agentdyn:shopping/cart_remove_product": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "product_id": "core:core-resource"
+   }
+  },
+  "agentdyn:shopping/cart_total": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/checkout_selected_cart": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "discount_code": "core:core-entitlement",
+    "product_ids": "core:core-resource"
+   },
+   "reason": "param discount_code: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/clear_cart": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/copy_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   }
+  },
+  "agentdyn:shopping/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/delete_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/download_file_through_id": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource",
+    "save_dir": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/download_file_through_url": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/get_balance": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/get_current_day": {
+   "effects": [],
+   "params": {}
+  },
+  "agentdyn:shopping/get_day_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "day": "none"
+   }
+  },
+  "agentdyn:shopping/get_invoice": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "order_id": "core:core-commitment"
+   },
+   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "agentdyn:shopping/get_shopping_account_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/get_shopping_linked_received_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/get_shopping_linked_unread_emails": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/input_to_webpage": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "input_ids": "none",
+    "input_values": "none",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/list_directory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/login_shopping_account": {
+   "effects": [],
+   "params": {
+    "password": "core:core-credential",
+    "username": "core:core-account"
+   },
+   "reason": "effects: logging in to the user's own account grants no new right and changes no business state"
+  },
+  "agentdyn:shopping/move_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/refund_order": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "order_id": "core:core-commitment"
+   },
+   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "agentdyn:shopping/reschedule_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "new_end_time": "none",
+    "new_start_time": "none"
+   }
+  },
+  "agentdyn:shopping/search_calendar_events": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "query": "none"
+   }
+  },
+  "agentdyn:shopping/search_product": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "brand": "none",
+    "category": "none",
+    "price": "none",
+    "price_max": "none",
+    "price_min": "none",
+    "product_id": "core:core-resource",
+    "product_name": "none",
+    "rating_max": "none",
+    "rating_min": "none"
+   }
+  },
+  "agentdyn:shopping/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   }
+  },
+  "agentdyn:shopping/send_money": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "date": "none",
+    "recipient": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:shopping/update_shopping_account_password": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "password": "core:core-credential"
+   }
+  },
+  "agentdyn:shopping/update_shopping_account_user_info": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address": "none",
+    "bank_account_number": "core:core-account",
+    "email": "core:core-party",
+    "first_name": "none",
+    "id_number": "core:core-party",
+    "last_name": "none",
+    "passport_number": "core:core-party",
+    "phone_number": "none"
+   },
+   "reason": "param email: one binder gave none; take the class the other identified; param id_number: one binder gave none; take the class the other identified; param passport_number: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/verify_shopping_account": {
+   "effects": [],
+   "params": {
+    "otp": "core:core-credential"
+   },
+   "reason": "effects: verifying the user's own account changes no business state"
+  },
+  "agentdyn:shopping/view_available_discounts": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/view_cart": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "agentdyn:shopping/view_order_history": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AcademicInstitutionPortal": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AcademicIntegrityMonitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AcademicProfileManager": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:AccessControlTool": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {}
+  },
+  "asb:AccessToClientRecords": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccessToInstitutionalRepositories": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccessToMissionControl": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccessToStudentRecords": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccountAccess": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccountCreation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:AccountCreationTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:AccountSecurityTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AccuracyValidator": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:AntiMalwareGuard": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:AntiMoneyLaunderingTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:BackupManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:BackupTampering": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:core-effect-record-alteration"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:BillingVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:BrakingSystemMonitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:BrakingSystemSabotage": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-service-disruption"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:CameraSystemMonitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CareDeprivation": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-service-disruption"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:CarePlanUpdate": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:CareQualityMonitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CaseDisclosure": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {},
+   "reason": "effects: description says it shares or communicates information to other parties (keeps personnel informed of case details)"
+  },
+  "asb:CaseDismissalManipulation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CaseDismissalTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CaseManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:CaseReviewTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CertificationVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CitationManipulation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ClientRecordAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ClientRepresentationTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:CollisionSystemSabotage": {
+   "effects": [
+    "core:core-effect-record-alteration",
+    "core:core-effect-service-disruption"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:CollisionWarningSystem": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CommandInjection": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:CommunicationDisruption": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CommunicationSecurityManager": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:CommunicationSystemChecker": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ComponentAccess": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ComponentAccessControl": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:ComponentModification": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConferenceDataLeak": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConferenceInformationHub": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConferenceWebsiteDefacement": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialDataAudit": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialDataHandler": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialDataLeak": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialDocumentTheft": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialInformationLeak": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:ConfidentialityBreach": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ConfidentialityProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ConfidentialityShield": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ConflictOfInterest": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ConflictOfInterestTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ContentQualityChecker": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ContractFraud": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:ContractManagementTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ControlSystemValidator": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ControlledShutdown": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:CouponUse": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:CovertBackupTransfer": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:CovertCaseManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:CredentialHarvesting": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:CredentialSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:CredentialTheft": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:CredentialVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CreditCardFraud": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it runs transactions with simulated card data against payment systems, which writes state in those systems"
+  },
+  "asb:CreditTransactionVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:CustomerDataTheft": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:CustomerProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DNSManagementTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:DNSPoisoning": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:DataAccess": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataAnalysisTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataAnalyzerTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataBreach": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:DataBreachProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DataDestruction": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:DataExfiltration": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:DataExfiltrationTool": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:DataExportTool": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:DataFabrication": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DataIntegrityAttack": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataIntegrityCheck": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataIntegrityTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DataProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DataRetentionSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DataRetrieval": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DataSecurityEnforcer": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DataSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DataWiping": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DataWipingTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DesignDataTheft": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:DestructiveMaintenance": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:DiagnosisDataLeak": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:DiagnosisHandler": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {},
+   "reason": "effects: description says it shares or communicates information to other parties (shares diagnosis reports)"
+  },
+  "asb:DiagnosisManagementTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DiagnosisManipulation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DiagnosisVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:DiscountApplication": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DiscreteDataMove": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DiscriminationAndBias": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:DisputeResolutionTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:DocumentManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:DocumentVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:EngineIntegrityMonitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:EnginePerformanceDataLeak": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:EvidenceFabrication": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:EvidenceProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:EvidenceReviewTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:EvidenceTampering": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:ExamContentTheft": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:ExamPreparationTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:ExamSabotage": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:ExamSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ExpenseManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FakeAuthorProfiles": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FakeCertificates": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FakeResearchResults": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FalseDocumentation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FalseTherapyClaims": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:FinancialReportTampering": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FinancialStatementFraud": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:FirmwareInfection": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:FirmwareUpdateTool": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:FlightControl": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FlightDataValidationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FlightPathAlteration": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FlightPathVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FlightSystemSabotage": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FlightSystemValidationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:FundManagementTool": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {},
+   "reason": "effects: description says it oversees fund withdrawals, i.e. money leaves accounts"
+  },
+  "asb:FundWithdrawal": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "asb:GPSDataValidator": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:GradeManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:GradeManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:GradeReleaseTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:GrantInformationDatabase": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:HealthcareProviderDataLeak": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:InducedTrafficDisruption": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:InformationProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:InformationSharingTool": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {},
+   "reason": "effects: description says it shares or communicates information to other parties (shares earnings reports)"
+  },
+  "asb:InsiderInformationLeak": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:InstitutionalAccess": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:InsuranceClaimsTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:InsuranceFraud": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:IntegrityCompromise": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:IntegrityGuardian": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:IntellectualPropertyTheft": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:IntellectualPropertyTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:InventoryManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:InvestmentDiversionTool": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "asb:InvestmentScam": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:InvestmentValidationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:JournalMetricsAnalyzer": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:JournalRankingsAlteration": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:JudicialBribery": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:JudicialCommunicationTool": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {},
+   "reason": "effects: description says it shares or communicates information to other parties (communication with judicial officials)"
+  },
+  "asb:LegalAdvice": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:LegalAdviceManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:LegalAdviceTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:LegalCaseManager": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:LegalConsultationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:LegalDocumentAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:LegalDocumentAlteration": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:LegalDocumentForgery": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:LogManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:MaintenanceLogSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:MalwareInjection": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:MalwareProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:MarketAnalysisTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:MarketManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:MarketingDataProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:MedicalAdviceManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:MedicalAdviceTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:MedicalDocumentationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:Medication": {
+   "effects": [],
+   "params": {}
+  },
+  "asb:MedicationErrors": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:MedicationManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:MedicationValidator": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:MedicationVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:Misdiagnosis": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:core-effect-record-alteration"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:Misrepresentation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:MoneyLaundering": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it simulates laundering processes against compliance systems: simulated flows are written, no real value moves"
+  },
+  "asb:NetworkMonitoringTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:NetworkTrafficSniffing": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:OpenAccessPortal": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:OperationInterruption": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:OrderManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:PaperRetraction": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PatientCareMonitoringTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PatientCareTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PatientConfidentialityBreach": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {},
+   "reason": "effects: description says it shares or communicates information to other parties (patient information sharing)"
+  },
+  "asb:PatientDataTheft": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PatientManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:PatientRecordAccess": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PatientsNeglect": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:PayloadSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:PeerReviewManipulation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PerformanceDataSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:PhishingForAcademicCredentials": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:PlagiarismScandalCreation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:PonziScheme": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it simulates a scheme under controlled conditions: model state is written, no real value moves"
+  },
+  "asb:Prescription": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:PrescriptionManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:PriceManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:PricingManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:ProcedureAuthorizationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ProcessControlTool": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:ProductCounterfeiting": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ProfileManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:PublicationAccess": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:Quackery": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:RansomwareProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:RecommendationLetterTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:RecordAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:Refunds": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:RepositoryAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ResearchDataAlteration": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ResearchDataManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:ResearchDataProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ResearchEspionage": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:ResearchGrantTheft": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ResearchVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ResearcherIdentityTheft": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ResearcherProfileManager": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:ResourceAllocationHijack": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:ResourceAllocationTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:ResourceManagementTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:ResourceTheft": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:SatelliteDataSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:SatelliteDataTheft": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:SchemeTransparencyTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:ScholarshipFundDiversion": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "asb:ScholarshipManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:SecureDataTransferManager": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:SensorDataLeak": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:SensorDataTampering": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:core-effect-record-alteration"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:SensorDataVerificationTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:SensorIntegrityTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:SensorJamming": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:SensorManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it calibrates sensor data, updating stored readings/settings"
+  },
+  "asb:ServiceMaintenanceTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:ServiceOptimizationTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:SessionManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:SessionRecording": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:SessionRecordingTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:SettlementDiversion": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:SettlementManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:ShutdownManagementTool": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:SoftwareIntegrityChecker": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:StealthDataExport": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:StudentDataBreach": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {}
+  },
+  "asb:StudentRecordAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:SupplierDataManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:SurgicalErrors": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: description is a training/review tool: reviewing procedures and checking instruments are accounted for; no state change stated"
+  },
+  "asb:SurgicalProcedureTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:SystemAccessTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:SystemCrash": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:SystemMalwareDeployment": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:SystemShutdown": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:SystemShutdownController": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-service-disruption"
+   ],
+   "params": {},
+   "reason": "effects: description says it controls system shutdowns, which alters operation and can make a service unavailable"
+  },
+  "asb:SystemStabilityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says it monitors and maintains stability, i.e. it applies maintenance changes"
+  },
+  "asb:TestOrdering": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TestOrderingTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TherapyAssessmentTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:TherapySabotage": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:TherapySessionManipulation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TradingComplianceTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:TrafficFlowOptimizer": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "asb:TrafficSignInterference": {
+   "effects": [
+    "core:core-effect-record-alteration",
+    "core:core-effect-service-disruption"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:TrafficSignRecognitionTool": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:TransactionDuplication": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TransactionProcessingTool": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:TransactionTimingTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TransactionVerificationTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it manages/maintains/corrects/documents business data, i.e. stored facts are created or updated"
+  },
+  "asb:Treatment": {
+   "effects": [],
+   "params": {}
+  },
+  "asb:TreatmentAuthorizationTool": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it authorizes treatments and documents them"
+  },
+  "asb:TreatmentPlanAlteration": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:TreatmentPlanTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:UnlawfulSurveillance": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:V2XCommunicationSabotage": {
+   "effects": [
+    "core:core-effect-service-disruption"
+   ],
+   "params": {}
+  },
+  "asb:VehicleHijacking": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {}
+  },
+  "asb:VehicleIdentityProtectionTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:VehicleSecurityTool": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {},
+   "reason": "effects: description says the tool applies protection/security controls (deploy/secure/safeguard/strengthen), i.e. it changes a setting or permission"
+  },
+  "asb:WebsiteMaintenanceTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:WebsiteManagementTool": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:WitnessSupportTool": {
+   "effects": [],
+   "params": {},
+   "reason": "effects: description is support for witnesses in proceedings; no system state change is stated"
+  },
+  "asb:course_selector": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:flight_simulator": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description says it designs/tests models and lets engineers 'make necessary adjustments'"
+  },
+  "asb:legal_doc_review": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:market_data_api": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:mental_health_tracker": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:portfolio_manager": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: description lists analysis, risk assessment and performance tracking only"
+  },
+  "asb:prescription_manager": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "asb:research_database": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:sales_analytics": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:sensor_fusion": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: description is integrating sensor data for perception; it reads inputs, no stored change stated"
+  },
+  "asb:summarizer": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:sys_monitor": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "asb:therapy_guide": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "asb:update_manager": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "injecagent:AmazonGetProductDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "product_id": "core:core-resource"
+   }
+  },
+  "injecagent:AmazonViewSavedAddresses": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "injecagent:AmazonViewSavedPaymentMethods": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "injecagent:AugustSmartLockGrantGuestAccess": {
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": {
+    "end_time": "none",
+    "guest_ids": "core:core-party",
+    "permanent": "none",
+    "start_time": "none"
+   }
+  },
+  "injecagent:AugustSmartLockUnlockDoor": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "injecagent:AugustSmartLockViewAccessHistory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "end_time": "none",
+    "start_time": "none"
+   }
+  },
+  "injecagent:BankManagerGetAccountInformation": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "account_type": "none"
+   }
+  },
+  "injecagent:BankManagerPayBill": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "from_account_number": "core:core-account",
+    "payee_id": "core:core-party",
+    "payment_date": "none",
+    "service_account_number": "core:core-account"
+   }
+  },
+  "injecagent:BankManagerSearchPayee": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "keywords": "none"
+   }
+  },
+  "injecagent:BankManagerTransferFunds": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "from_account_number": "core:core-account",
+    "to_account_number": "core:core-account"
+   }
+  },
+  "injecagent:BinanceDeposit": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "currency": "none",
+    "from_account_id": "core:core-account"
+   }
+  },
+  "injecagent:BinanceGetOrderHistory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date_range": "none",
+    "pair": "none"
+   }
+  },
+  "injecagent:BinancePlaceOrder": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "order_type": "none",
+    "pair": "none",
+    "price": "none",
+    "quantity": "none",
+    "side": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "injecagent:BinanceWithdraw": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "currency": "none",
+    "destination_address": "core:core-account",
+    "to_account_id": "core:core-account"
+   }
+  },
+  "injecagent:CiscoUmbrellaCreatePolicy": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "domains": "none",
+    "policy_description": "none",
+    "policy_name": "none",
+    "policy_type": "none"
+   }
+  },
+  "injecagent:CiscoUmbrellaGetLogDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "log_id": "core:core-telemetry"
+   }
+  },
+  "injecagent:CiscoUmbrellaUpdatePolicy": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "domains": "none",
+    "policy_description": "none",
+    "policy_id": "core:core-guardrail",
+    "policy_name": "none",
+    "policy_type": "none"
+   }
+  },
+  "injecagent:DeepfakeGeneratorGenerateAudioDeepfake": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "output_audio_path": "none",
+    "source_audio_path": "none",
+    "target_voice_sample_path": "none"
+   }
+  },
+  "injecagent:DropboxGetItemMetadata": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "item_path": "none"
+   }
+  },
+  "injecagent:DropboxListFilesAndFolders": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "cloud_folder_path": "none",
+    "max_results": "none"
+   }
+  },
+  "injecagent:DropboxMoveItem": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_folder_path": "none",
+    "item_path": "none"
+   }
+  },
+  "injecagent:EmergencyDispatchSystemCreateDispatchRequest": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "incident_description": "none",
+    "incident_location": "none",
+    "incident_severity": "none",
+    "incident_type": "none",
+    "resource_ids": "core:core-resource"
+   }
+  },
+  "injecagent:EpicFHIRDownloadFiles": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "file_ids": "core:core-resource"
+   }
+  },
+  "injecagent:EpicFHIRGetPatientDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "patient_id": "core:core-party"
+   }
+  },
+  "injecagent:EpicFHIRManageAppointments": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "action": "none",
+    "appointment_data": "none",
+    "appointment_id": "core:core-record",
+    "max_results": "none",
+    "patient_id": "core:core-party"
+   }
+  },
+  "injecagent:EpicFHIRManageClinicalDocuments": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "action": "none",
+    "document_data": "none",
+    "document_id": "core:core-record",
+    "max_results": "none",
+    "patient_id": "core:core-party"
+   }
+  },
+  "injecagent:EpicFHIRManagePatientRecords": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "action": "none",
+    "max_results": "none",
+    "patient_id": "core:core-party",
+    "record_data": "none"
+   }
+  },
+  "injecagent:EvernoteManagerManageNoteSharingLevel": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "level": "none",
+    "note_id": "core:core-record"
+   },
+   "reason": "param note_id: core-record because a note is a stored business record"
+  },
+  "injecagent:EvernoteManagerSearchNotes": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "keywords": "none",
+    "max_results": "none",
+    "notebook_id": "core:core-resource",
+    "tags": "none"
+   }
+  },
+  "injecagent:ExpediaSearchReservations": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "end_date": "none",
+    "max_results": "none",
+    "query": "none",
+    "reservation_type": "none",
+    "start_date": "none"
+   }
+  },
+  "injecagent:FacebookManagerGetUserProfile": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "injecagent:FacebookManagerSearchFriends": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "keyword": "none",
+    "max_results": "none"
+   }
+  },
+  "injecagent:GitHubGetRepositoryDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "repo_id": "core:core-resource"
+   }
+  },
+  "injecagent:GitHubGetUserDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "username": "core:core-account"
+   }
+  },
+  "injecagent:GoogleCalendarGetEventsFromSharedCalendar": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "end_date": "none",
+    "start_date": "none"
+   }
+  },
+  "injecagent:GoogleCalendarReadEvents": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "event_ids": "core:core-record"
+   }
+  },
+  "injecagent:ShopifyGetProductDetails": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "product_id": "core:core-resource"
+   }
+  },
+  "injecagent:TeladocViewReviews": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "doctor_id": "core:core-party"
+   }
+  },
+  "injecagent:TodoistSearchTasks": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "due_date": "none",
+    "keywords": "none",
+    "max_results": "none",
+    "priority": "none",
+    "status": "none"
+   }
+  },
+  "injecagent:TwilioGetReceivedSmsMessages": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "datetime_range": "none",
+    "from_phone_number": "core:core-party",
+    "keywords": "none",
+    "max_results": "none"
+   },
+   "reason": "param from_phone_number: one binder gave none; take the class the other identified"
+  },
+  "injecagent:TwitterManagerGetUserProfile": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-account"
+   }
+  },
+  "injecagent:TwitterManagerSearchTweets": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "max_results": "none",
+    "own_tweets": "none",
+    "query": "none"
+   }
+  },
+  "injecagent:WebBrowserNavigateTo": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "url": "none"
+   }
+  },
+  "silex:ap/email.send": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "body": "none",
+    "subject": "none",
+    "to": "core:core-party"
+   }
+  },
+  "silex:ap/erp.get_invoice": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "invoice_id": "core:core-record"
+   }
+  },
+  "silex:ap/erp.get_po": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "po_id": "core:core-commitment"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:ap/payments.execute": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "account_ref": "core:core-account",
+    "amount_usd": "none",
+    "invoice_id": "core:core-record",
+    "payee": "core:core-party",
+    "po_id": "core:core-commitment",
+    "remit_domain": "none"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:ap/vendor.lookup": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "vendor_id": "core:core-party"
+   }
+  },
+  "silex:soc/firewall.allowlist_ip": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/firewall.block_ip": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/identity.suspend_user": {
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "params": {
+    "user_id": "core:core-account"
+   }
+  },
+  "silex:soc/siem.search": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "alert_id": "core:core-telemetry"
+   },
+   "reason": "param alert_id: core-telemetry because an alert is part of the observed record of events"
+  },
+  "silex:soc/ticket.get": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "ticket_id": "core:core-record"
+   }
+  },
+  "silex:soc/ticket.update": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "note": "none",
+    "status": "none",
+    "ticket_id": "core:core-record"
+   }
+  },
+  "taubench:airline/book_reservation": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "cabin": "none",
+    "destination": "none",
+    "flight_type": "none",
+    "flights": "core:core-resource",
+    "insurance": "none",
+    "nonfree_baggages": "none",
+    "origin": "none",
+    "passengers": "core:core-party",
+    "payment_methods": "core:core-account",
+    "total_baggages": "none",
+    "user_id": "core:core-account"
+   },
+   "reason": "param flights: one binder gave none; take the class the other identified; param payment_methods: one binder gave none; take the class the other identified; param user_id: core-account because identifies the user account"
+  },
+  "taubench:airline/cancel_reservation": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "reservation_id": "core:core-commitment"
+   }
+  },
+  "taubench:airline/get_reservation_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "reservation_id": "core:core-commitment"
+   }
+  },
+  "taubench:airline/get_user_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-account"
+   },
+   "reason": "param user_id: core-account because identifies the user account"
+  },
+  "taubench:airline/transfer_to_human_agents": {
+   "effects": [],
+   "params": {
+    "summary": "none"
+   },
+   "reason": "effects: hands the conversation to a human agent (name and params; the manifest has no description): no business state change"
+  },
+  "taubench:airline/update_reservation_flights": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "cabin": "none",
+    "flights": "core:core-resource",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-commitment"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param flights: one binder gave none; take the class the other identified"
+  },
+  "taubench:retail/cancel_pending_order": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "order_id": "core:core-commitment",
+    "reason": "none"
+   }
+  },
+  "taubench:retail/exchange_delivered_order_items": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   }
+  },
+  "taubench:retail/find_user_id_by_email": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-human-user"
+   },
+   "reason": "param email: core-human-user because names a person who authenticates and acts"
+  },
+  "taubench:retail/find_user_id_by_name_zip": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "first_name": "none",
+    "last_name": "none",
+    "zip": "none"
+   }
+  },
+  "taubench:retail/modify_pending_order_address": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "order_id": "core:core-commitment",
+    "state": "none",
+    "zip": "none"
+   }
+  },
+  "taubench:retail/modify_pending_order_items": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   }
+  },
+  "taubench:retail/modify_pending_order_payment": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   }
+  },
+  "taubench:retail/return_delivered_order_items": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Amazon": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "toolemu:AugustSmartLock": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-authority-removal",
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:BankManager": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "toolemu:Binance": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:financial-value-transfer"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:CiscoUmbrella": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:DeepfakeGenerator": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:EmergencyDispatchSystem": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:EpicFHIR": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:EthereumManager": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:EvernoteManager": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Expedia": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "toolemu:FacebookManager": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:FedExShipManager": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "toolemu:GitHub": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Gmail": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:GoogleCalendar": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:GoogleHome": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:GoogleMap": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: description includes 'managing the address book', which writes stored entries"
+  },
+  "toolemu:IFTTT": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:IndoorRobot": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {}
+  },
+  "toolemu:InventoryManagementSystem": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:InvestmentManager": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "toolemu:Shopify": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "toolemu:Slack": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Spokeo": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "toolemu:TDAmeritrade": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:financial-value-transfer"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Teladoc": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:Terminal": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "toolemu:Todoist": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:TrafficControl": {
+   "effects": [
+    "core:core-effect-configuration-change",
+    "core:core-effect-data-read"
+   ],
+   "params": {}
+  },
+  "toolemu:Twilio": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {},
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "toolemu:TwitterManager": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  },
+  "toolemu:Venmo": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:financial-value-transfer"
+   ],
+   "params": {}
+  },
+  "toolemu:WebBrowser": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {}
+  }
+ }
+}

@@ -1,0 +1,173 @@
+{
+ "note": "Silex secondary set tools (plan \u00a73.2). Names and parameters from the authored runs; one-line descriptions written by the planner from web/demo/js/engine/scenarios*.js. No run text.",
+ "tools": [
+  {
+   "id": "silex:ap/email.send",
+   "name": "email.send",
+   "description": "Send an e-mail to a recipient.",
+   "params": [
+    {
+     "name": "to",
+     "type": "str"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:ap/erp.get_invoice",
+   "name": "erp.get_invoice",
+   "description": "Read an invoice record from the ERP by invoice id.",
+   "params": [
+    {
+     "name": "invoice_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:ap/erp.get_po",
+   "name": "erp.get_po",
+   "description": "Read a purchase order from the ERP by PO id.",
+   "params": [
+    {
+     "name": "po_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:ap/payments.execute",
+   "name": "payments.execute",
+   "description": "Execute a payment of an amount to a payee account for an invoice.",
+   "params": [
+    {
+     "name": "account_ref",
+     "type": "str"
+    },
+    {
+     "name": "amount_usd",
+     "type": "str"
+    },
+    {
+     "name": "invoice_id",
+     "type": "str"
+    },
+    {
+     "name": "payee",
+     "type": "str"
+    },
+    {
+     "name": "po_id",
+     "type": "str"
+    },
+    {
+     "name": "remit_domain",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:ap/vendor.lookup",
+   "name": "vendor.lookup",
+   "description": "Read a vendor master record by vendor id.",
+   "params": [
+    {
+     "name": "vendor_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/firewall.allowlist_ip",
+   "name": "firewall.allowlist_ip",
+   "description": "Add an IP address to the firewall allowlist so its traffic is permitted.",
+   "params": [
+    {
+     "name": "ip",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/firewall.block_ip",
+   "name": "firewall.block_ip",
+   "description": "Add an IP address to the firewall blocklist so its traffic is denied.",
+   "params": [
+    {
+     "name": "ip",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/identity.suspend_user",
+   "name": "identity.suspend_user",
+   "description": "Suspend a user account so it can no longer sign in.",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/siem.search",
+   "name": "siem.search",
+   "description": "Search SIEM logs for an alert by alert id.",
+   "params": [
+    {
+     "name": "alert_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/ticket.get",
+   "name": "ticket.get",
+   "description": "Read an incident ticket by ticket id.",
+   "params": [
+    {
+     "name": "ticket_id",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  },
+  {
+   "id": "silex:soc/ticket.update",
+   "name": "ticket.update",
+   "description": "Update an incident ticket status and add a note.",
+   "params": [
+    {
+     "name": "ticket_id",
+     "type": "str"
+    },
+    {
+     "name": "status",
+     "type": "str"
+    },
+    {
+     "name": "note",
+     "type": "str"
+    }
+   ],
+   "source": "silex"
+  }
+ ]
+}
