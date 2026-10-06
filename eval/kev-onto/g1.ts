@@ -7,7 +7,10 @@ import { G1 } from './contract.ts';
 export const hash8 = (x: string): number => parseInt(createHash('sha256').update(Buffer.from(x, 'utf8')).digest('hex').slice(0, 8), 16);
 export const foldOf = (group: string): number => hash8(group) % G1.folds;
 
-export interface G1Record { group: string; source: string; family: string; impact: string; state: string; label: boolean }
+// `pipeline` is a W1c (KO_SPEC v3 §9.7) addition. It is optional so v1/v2 records (which never set it) keep identical
+// feature vocabularies and identical G1 outputs; when any record carries it, `pipeline` is a single feature in (a) and
+// one-hot in (b), exactly like `source`/`family`.
+export interface G1Record { group: string; source: string; family: string; impact: string; state: string; label: boolean; pipeline?: string }
 export interface G1Result { question: string; status: 'pass' | 'fail' | 'undefined'; features: Record<string, number>; combined: number | null; n: number; positives: number }
 
 /** AUROC with ties ½. All-equal scores -> 0.5; one class -> NaN (caller treats as degenerate). */
@@ -95,9 +98,12 @@ export function g1(question: string, records: G1Record[]): G1Result {
   const decMaps: Array<Map<G1Record, number>> = [];
   for (let k = 0; k < G1.folds; k++) { const d = deciles(records, k); decMaps.push(new Map(records.map(r => [r, d(r)]))); }
 
-  // (a) single features: out-of-fold target encoding.
+  // (a) single features: out-of-fold target encoding. `pipeline` is added only when the records carry it (W1c); v1/v2
+  // records leave it undefined, so the feature list — and every output — is unchanged for them.
+  const hasPipeline = records.some(r => r.pipeline !== undefined);
   const feats: Array<[string, (r: G1Record) => string]> = [
     ['source', r => r.source], ['family', r => r.family], ['impact', r => r.impact],
+    ...(hasPipeline ? [['pipeline', (r: G1Record) => r.pipeline ?? ''] as [string, (r: G1Record) => string]] : []),
     ...G1.markers.map((m, i) => [m, (r: G1Record) => String(markersOf(r)[i])] as [string, (r: G1Record) => string]),
   ];
   const out: Record<string, number> = {};
@@ -139,13 +145,16 @@ export function g1(question: string, records: G1Record[]): G1Result {
     if (trPos === 0 || trPos === trY.length) { const rate = trPos / trY.length; for (const [, i] of te) preds[i] = rate; continue; }
     const srcVocab = [...new Set(tr.map(([r]) => r.source))].sort(), famVocab = [...new Set(tr.map(([r]) => r.family))].sort();
     const srcHot = oneHot(srcVocab), famHot = oneHot(famVocab);
+    const pipeVocab = hasPipeline ? [...new Set(tr.map(([r]) => r.pipeline ?? ''))].sort() : [];
+    const pipeHot = hasPipeline ? oneHot(pipeVocab) : null;
     const lens = tr.map(([r]) => Math.log(1 + lengthOf(r)));
     const mu = lens.reduce((a, b) => a + b, 0) / lens.length;
     const sigma = Math.sqrt(lens.reduce((a, b) => a + (b - mu) ** 2, 0) / lens.length);
     const row = (r: G1Record): number[] => {
       const l = Math.log(1 + lengthOf(r)), z = sigma === 0 ? 0 : (l - mu) / sigma;
       const decileVec = new Array(10).fill(0); decileVec[decMaps[k].get(r) ?? 0] = 1;
-      return [1, ...srcHot(r.source), ...famHot(r.family), ...decileVec, r.impact === 'write' ? 1 : 0, ...markersOf(r).map(m => m ? 1 : 0), z];
+      return [1, ...srcHot(r.source), ...famHot(r.family), ...(pipeHot ? pipeHot(r.pipeline ?? '') : []),
+        ...decileVec, r.impact === 'write' ? 1 : 0, ...markersOf(r).map(m => m ? 1 : 0), z];
     };
     const w = fitLogistic(tr.map(([r]) => row(r)), trY, G1.penalty);
     for (const [r, i] of te) preds[i] = sigmoid(row(r).reduce((s, v, j) => s + v * w[j], 0));

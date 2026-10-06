@@ -318,15 +318,17 @@ export interface Rejection { record: TrainRecord; reason: string }
 export interface AdmissionResult { admitted: TrainRecord[]; rejected: Rejection[] }
 /** Admission by the real Kev admission code (kev.data.load_records -> materialize -> kev.model.encode strict), so it is
  *  the trainer's own rule rather than an approximation. The record is written as the Kev wire JSONL the trainer reads;
- *  the reason is the context limit that was exceeded ('state' | 'branch' | 'packed'). */
-export function admit(records: TrainRecord[], kevDir: string, baseModel = 'Qwen/Qwen3.5-0.8B-Base'): AdmissionResult {
+ *  the reason is the context limit that was exceeded ('state' | 'branch' | 'packed'). `maxState` defaults to 384 (W1/W1b
+ *  rule 6); W1c passes 1024 and the limits come from kev.model.training_context(maxState). */
+export function admit(records: TrainRecord[], kevDir: string, baseModel = 'Qwen/Qwen3.5-0.8B-Base', maxState = 384): AdmissionResult {
   if (!records.length) return { admitted: [], rejected: [] };
   const wire = records.map(r => ({ state: r.state, questions: r.questions }));
   const script = `import json,sys,os,tempfile
 from kev.data import load_records, materialize
-from kev.model import load_tokenizer, encode, ContextOverflow
+from kev.model import load_tokenizer, encode, ContextOverflow, training_context
 tok = load_tokenizer(sys.argv[1])
-MAX_STATE, MAX_BRANCH, MAX_PACKED = 384, 1024, 2048
+c = training_context(int(sys.argv[2]))
+MAX_STATE, MAX_BRANCH, MAX_PACKED = c['max_state'], c['max_branch'], c['max_packed']
 lines = [l for l in sys.stdin.read().split('\\n') if l.strip()]
 fd, path = tempfile.mkstemp(suffix='.jsonl'); os.close(fd); open(path,'w').write('\\n'.join(lines)+'\\n')
 recs = load_records(path); os.unlink(path)
@@ -341,7 +343,7 @@ for i, r in enumerate(recs):
     out.append([i, reason])
 sys.stdout.write(json.dumps(out))
 `;
-  const out = execFileSync(join(kevDir, '.venv/bin/python'), ['-c', script, baseModel], { input: wire.map(r => JSON.stringify(r)).join('\n'), cwd: kevDir, encoding: 'utf8', maxBuffer: 1 << 30 });
+  const out = execFileSync(join(kevDir, '.venv/bin/python'), ['-c', script, baseModel, String(maxState)], { input: wire.map(r => JSON.stringify(r)).join('\n'), cwd: kevDir, encoding: 'utf8', maxBuffer: 1 << 30 });
   const rows = JSON.parse(out) as Array<[number, string | null]>;
   const reasonByIdx = new Map(rows.filter(([, r]) => r != null).map(([i, r]) => [i, r as string]));
   const admitted: TrainRecord[] = [], rejected: Rejection[] = [];

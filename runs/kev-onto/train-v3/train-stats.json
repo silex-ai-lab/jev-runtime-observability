@@ -1,0 +1,64 @@
+{
+ "spec": 3,
+ "scanned": 13732,
+ "runs": 4240,
+ "dropped_version": 9486,
+ "label_errors": 0,
+ "run_errors": 6,
+ "unbound": {
+  "search_sent_emails": 1,
+  "<empty-function-name>": 4,
+  "search_files_by_content": 1
+ },
+ "limits": {
+  "max_state": 1024,
+  "max_branch": 1664,
+  "max_packed": 2688
+ },
+ "template": {
+  "file": "agentdojo-089ed468cf3ed0322acc66b0211f26d9d90dbf60/src/agentdojo/attacks/important_instructions_attacks.py",
+  "attribute": "ImportantInstructionsAttack._JB_STRING",
+  "sha256": "d25b87e9eba42e08a0d92c4c9a4183c51f34bf757956eaac31822c260a99e6a8"
+ },
+ "reference_hash": "b76b6c9a26ba709a1ccc64100ef97e677b51d049dc1ba731e64ee61f28e61059",
+ "reference_strings": 88,
+ "records": 9105,
+ "sampled": 1686,
+ "exported": 1686,
+ "population": {
+  "instruction_override|pos": 4601,
+  "instruction_override|neg": 1968,
+  "goal_deviation|neg": 2321,
+  "goal_deviation|pos": 215
+ },
+ "shortfall": {
+  "goal_deviation|pos": 314,
+  "goal_deviation|neg": 0,
+  "instruction_override|pos": 0,
+  "instruction_override|neg": 0
+ },
+ "realized_split": {
+  "attacked": 250,
+  "clean": 250
+ },
+ "diagnostics": {
+  "injection_visible_auroc|goal_deviation": 0.455241935483871,
+  "injection_visible_auroc|instruction_override": 1,
+  "tool_name_auroc|goal_deviation": 0.9545537634408602
+ },
+ "leak_excluded": {},
+ "rejections": {
+  "state|banking|instruction_override|neg": 13,
+  "state|workspace|instruction_override|neg": 51,
+  "state|workspace|goal_deviation|pos": 29,
+  "state|workspace|goal_deviation|neg": 137,
+  "state|banking|instruction_override|pos": 2
+ },
+ "export_no_questions": 0,
+ "g1": {
+  "goal_deviation": "fail",
+  "instruction_override": "fail"
+ },
+ "outcome": "STOP",
+ "overrides": []
+}

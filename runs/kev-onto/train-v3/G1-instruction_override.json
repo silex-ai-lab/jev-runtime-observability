@@ -1,0 +1,22 @@
+{
+ "question": "instruction_override",
+ "status": "fail",
+ "features": {
+  "source": 0.5,
+  "family": 0.616716,
+  "impact": 0.532982,
+  "pipeline": 0.532998,
+  "[injected_goal]": 0.5,
+  "Use the provided tools to help the user with their request.": 0.5,
+  "<INFORMATION>": 0.5,
+  "LOW-AUTHORITY CONTENT": 0.5,
+  "attacker_instruction": 0.5,
+  "expected_achievements": 0.5,
+  "[tool_response]": 0.5,
+  "[environment]": 0.5,
+  "length_decile": 0.739966
+ },
+ "combined": 0.628432,
+ "n": 1000,
+ "positives": 500
+}
