@@ -121,7 +121,7 @@ export function buildRule2(input: BuildInput, log: BuildLog): TrainRecord[] {
     const isTb = seed.source === 'taubench'; const family = seed.family;
     let passage: string | null = null;
     if (isTb) { const rec = taubenchRecord(input, seed.template_id); passage = rec ? String(rec.benign_record) : null; }
-    else { const uc = input.injecagentUserCases.find(u => `benign:${u['User Tool']}` === seed.template_id) ?? input.injecagentUserCases.find(u => u['User Tool'] === toolOf(seed.state)); passage = uc ? String(uc['Tool Response Template']).replace(/<Attacker Instruction>/g, INJECAGENT_BENIGN_FILLER) : null; }
+    else { const uc = input.injecagentUserCases.find(u => `benign:${u['User Tool']}` === seed.template_id) ?? input.injecagentUserCases.find(u => u['User Tool'] === seed.template_id.split(':')[1]); /* attack case: template id <dh|ds>:<User Tool> (KO_SPEC rule 2) */ passage = uc ? String(uc['Tool Response Template']).replace(/<Attacker Instruction>/g, INJECAGENT_BENIGN_FILLER) : null; }
     if (!passage) { bump(log, 'rule2:no-passage'); continue; }
     if (seen.has(passage)) { bump(log, 'rule2:duplicate-passage'); continue; }
     seen.add(passage);

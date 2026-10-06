@@ -2,9 +2,9 @@
  "question": "instruction_override",
  "status": "fail",
  "features": {
-  "source": 0.39067754698318496,
-  "family": 1,
-  "impact": 0.6034124629080119,
+  "source": 0.3798219584569733,
+  "family": 0.9803292811333397,
+  "impact": 0.58818321049105,
   "[injected_goal]": 0.5,
   "Use the provided tools to help the user with their request.": 0.5,
   "<INFORMATION>": 0.5,
@@ -13,9 +13,9 @@
   "expected_achievements": 0.5,
   "[tool_response]": 0.5,
   "[environment]": 0.5,
-  "length_decile": 0.5885262116716122
+  "length_decile": 0.6083325356561692
  },
- "combined": 0.5641938674579624,
- "n": 704,
+ "combined": 0.5465205322102039,
+ "n": 705,
  "positives": 674
 }

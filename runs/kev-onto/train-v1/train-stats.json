@@ -1,6 +1,6 @@
 {
- "records": 1919,
- "admitted": 1832,
+ "records": 1920,
+ "admitted": 1833,
  "reference_hash": "4fa08ad45d743bfcee24c7665caaff6a76d9f4f1a52c81aa6af0a4f100651126",
  "reference_tools": 117,
  "reference_windows": 202222,
@@ -16,16 +16,16 @@
   "taubench|original|goal_deviation|false": 426,
   "toolemu|original|sensitive_data_transfer|false": 44,
   "toolemu|original|sensitive_data_transfer|true": 51,
-  "injecagent|rule2|goal_deviation|false": 3,
-  "injecagent|rule2|instruction_override|false": 3,
+  "injecagent|rule2|goal_deviation|false": 4,
+  "injecagent|rule2|instruction_override|false": 4,
   "taubench|rule2|goal_deviation|false": 330,
   "taubench|rule3|goal_deviation|true": 364
  },
  "drop": {
   "original:unbound-tool": 1,
-  "rule2:no-value": 15,
-  "rule2:no-passage": 384,
-  "rule2:duplicate-passage": 92,
+  "rule2:no-value": 17,
+  "rule2:duplicate-passage": 472,
+  "rule2:lexicon": 1,
   "rule3:no-candidate": 63
  },
  "exclusions": {
@@ -39,8 +39,9 @@
  "lexicon_yields": {
   "rule4:asb:kept": 14,
   "rule4:injecagent:kept": 13,
-  "rule2:injecagent:seeds": 13,
-  "rule2:injecagent:kept": 13,
+  "rule2:injecagent:seeds": 17,
+  "rule2:injecagent:kept": 16,
+  "rule2:injecagent:lexicon": 1,
   "rule2:taubench:seeds": 335,
   "rule2:taubench:kept": 335
  },
@@ -55,7 +56,7 @@
   },
   "injecagent": {
    "pos": 0,
-   "neg": 3
+   "neg": 4
   }
  },
  "undescribed": [

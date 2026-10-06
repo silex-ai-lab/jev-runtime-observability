@@ -2,20 +2,20 @@
  "question": "goal_deviation",
  "status": "fail",
  "features": {
-  "source": 0.7208762603691333,
-  "family": 0.7432453623120228,
-  "impact": 0.5180825587985582,
+  "source": 0.7212565379435623,
+  "family": 0.7428815273173067,
+  "impact": 0.5179304080929562,
   "[injected_goal]": 0.5,
   "Use the provided tools to help the user with their request.": 0.5,
   "<INFORMATION>": 0.5,
   "LOW-AUTHORITY CONTENT": 0.5,
   "attacker_instruction": 0.5,
   "expected_achievements": 0.5,
-  "[tool_response]": 0.4679959766754705,
+  "[tool_response]": 0.4674143076379288,
   "[environment]": 0.5,
-  "length_decile": 0.6610169871213292
+  "length_decile": 0.6610504109564524
  },
- "combined": 0.8346595071203435,
- "n": 1342,
+ "combined": 0.8339899240726075,
+ "n": 1343,
  "positives": 609
 }
