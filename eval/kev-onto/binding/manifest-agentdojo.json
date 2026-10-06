@@ -1,0 +1,1101 @@
+{
+ "tools": [
+  {
+   "id": "agentdojo:banking/get_iban",
+   "name": "get_iban",
+   "description": "Get the IBAN of the current bank account.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/send_money",
+   "name": "send_money",
+   "description": "Sends a transaction to the recipient.",
+   "params": [
+    {
+     "name": "recipient",
+     "type": "str"
+    },
+    {
+     "name": "amount",
+     "type": "float"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/schedule_transaction",
+   "name": "schedule_transaction",
+   "description": "Schedule a transaction.",
+   "params": [
+    {
+     "name": "recipient",
+     "type": "str"
+    },
+    {
+     "name": "amount",
+     "type": "float"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str"
+    },
+    {
+     "name": "recurring",
+     "type": "bool"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/update_scheduled_transaction",
+   "name": "update_scheduled_transaction",
+   "description": "Update a scheduled transaction.",
+   "params": [
+    {
+     "name": "id",
+     "type": "int"
+    },
+    {
+     "name": "recipient",
+     "type": "str | None"
+    },
+    {
+     "name": "amount",
+     "type": "float | None"
+    },
+    {
+     "name": "subject",
+     "type": "str | None"
+    },
+    {
+     "name": "date",
+     "type": "str | None"
+    },
+    {
+     "name": "recurring",
+     "type": "bool | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/get_balance",
+   "name": "get_balance",
+   "description": "Get the balance of the account.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/get_most_recent_transactions",
+   "name": "get_most_recent_transactions",
+   "description": "Get the list of the most recent transactions, e.g. to summarize the last n transactions.",
+   "params": [
+    {
+     "name": "n",
+     "type": "int"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/get_scheduled_transactions",
+   "name": "get_scheduled_transactions",
+   "description": "Get the list of scheduled transactions.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/read_file",
+   "name": "read_file",
+   "description": "Reads the contents of the file at the given path.",
+   "params": [
+    {
+     "name": "file_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/get_user_info",
+   "name": "get_user_info",
+   "description": "Get the user information.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/update_password",
+   "name": "update_password",
+   "description": "Update the user password.",
+   "params": [
+    {
+     "name": "password",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:banking/update_user_info",
+   "name": "update_user_info",
+   "description": "Update the user information.",
+   "params": [
+    {
+     "name": "first_name",
+     "type": "str | None"
+    },
+    {
+     "name": "last_name",
+     "type": "str | None"
+    },
+    {
+     "name": "street",
+     "type": "str | None"
+    },
+    {
+     "name": "city",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/get_channels",
+   "name": "get_channels",
+   "description": "Get the list of channels in the slack.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/add_user_to_channel",
+   "name": "add_user_to_channel",
+   "description": "Add a user to a given channel.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "user",
+     "type": "str"
+    },
+    {
+     "name": "channel",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/read_channel_messages",
+   "name": "read_channel_messages",
+   "description": "Read the messages from the given channel.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "channel",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/read_inbox",
+   "name": "read_inbox",
+   "description": "Read the messages from the given user inbox.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "user",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/send_direct_message",
+   "name": "send_direct_message",
+   "description": "Send a direct message from `author` to `recipient` with the given `content`.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "recipient",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/send_channel_message",
+   "name": "send_channel_message",
+   "description": "Send a channel message from `author` to `channel` with the given `content`.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "channel",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/get_users_in_channel",
+   "name": "get_users_in_channel",
+   "description": "Get the list of users in the given channel.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "channel",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/invite_user_to_slack",
+   "name": "invite_user_to_slack",
+   "description": "Invites a user to the Slack workspace.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "user",
+     "type": "str"
+    },
+    {
+     "name": "user_email",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/remove_user_from_slack",
+   "name": "remove_user_from_slack",
+   "description": "Remove a user from the Slack workspace.",
+   "params": [
+    {
+     "name": "slack",
+     "type": "AnnotatedSlack"
+    },
+    {
+     "name": "user",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/get_webpage",
+   "name": "get_webpage",
+   "description": "Returns the content of the webpage at a given URL.",
+   "params": [
+    {
+     "name": "web",
+     "type": "AnnotatedWeb"
+    },
+    {
+     "name": "url",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:slack/post_webpage",
+   "name": "post_webpage",
+   "description": "Posts a webpage at a given URL with the given content.",
+   "params": [
+    {
+     "name": "web",
+     "type": "AnnotatedWeb"
+    },
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_user_information",
+   "name": "get_user_information",
+   "description": "Get the user information, could be: first name, last name, ID number, email, phone number, address, passport number, bank account number, credit card number. These information are used for booking hotels, restaurants, car rentals, and flights.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_all_hotels_in_city",
+   "name": "get_all_hotels_in_city",
+   "description": "Get all hotels in the given city.",
+   "params": [
+    {
+     "name": "city",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_hotels_prices",
+   "name": "get_hotels_prices",
+   "description": "Get all hotels within the given budget, should be within the price range.",
+   "params": [
+    {
+     "name": "hotel_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_rating_reviews_for_hotels",
+   "name": "get_rating_reviews_for_hotels",
+   "description": "Get the rating and reviews for the given hotels.",
+   "params": [
+    {
+     "name": "hotel_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_hotels_address",
+   "name": "get_hotels_address",
+   "description": "Get the address of the given hotel.",
+   "params": [
+    {
+     "name": "hotel_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_all_restaurants_in_city",
+   "name": "get_all_restaurants_in_city",
+   "description": "Get all restaurants in the given city.",
+   "params": [
+    {
+     "name": "city",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_cuisine_type_for_restaurants",
+   "name": "get_cuisine_type_for_restaurants",
+   "description": "Get the cuisine type of the given restaurants, could be: Italian, Chinese, Indian, Japanese.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_restaurants_address",
+   "name": "get_restaurants_address",
+   "description": "Get the address of the given restaurants.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_rating_reviews_for_restaurants",
+   "name": "get_rating_reviews_for_restaurants",
+   "description": "Get the rating and reviews for the given restaurants.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_dietary_restrictions_for_all_restaurants",
+   "name": "get_dietary_restrictions_for_all_restaurants",
+   "description": "Get the dietary restrictions of the given restaurants, could be: Vegetarian, Vegan, Gluten-free, Dairy-free.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_contact_information_for_restaurants",
+   "name": "get_contact_information_for_restaurants",
+   "description": "Get the contact information of the given restaurants.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_price_for_restaurants",
+   "name": "get_price_for_restaurants",
+   "description": "Get the price per person of the given restaurants.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/check_restaurant_opening_hours",
+   "name": "check_restaurant_opening_hours",
+   "description": "Get the openning hours of the given restaurants, check if the restaurant is open.",
+   "params": [
+    {
+     "name": "restaurant_names",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_all_car_rental_companies_in_city",
+   "name": "get_all_car_rental_companies_in_city",
+   "description": "Get all car rental companies in the given city.",
+   "params": [
+    {
+     "name": "city",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_car_types_available",
+   "name": "get_car_types_available",
+   "description": "Get the car types available for the given car rental companies.",
+   "params": [
+    {
+     "name": "company_name",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_rating_reviews_for_car_rental",
+   "name": "get_rating_reviews_for_car_rental",
+   "description": "Get the rating and reviews for the given car rental companies.",
+   "params": [
+    {
+     "name": "company_name",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_car_fuel_options",
+   "name": "get_car_fuel_options",
+   "description": "Get the fuel options of the given car rental companies.",
+   "params": [
+    {
+     "name": "company_name",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_car_rental_address",
+   "name": "get_car_rental_address",
+   "description": "Get the address of the given car rental companies.",
+   "params": [
+    {
+     "name": "company_name",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_car_price_per_day",
+   "name": "get_car_price_per_day",
+   "description": "Get the price per day of the given car rental companies.",
+   "params": [
+    {
+     "name": "company_name",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/create_calendar_event",
+   "name": "create_calendar_event",
+   "description": "Creates a new calendar event with the given details and adds it to the calendar. It also sends an email to the participants with the event details.",
+   "params": [
+    {
+     "name": "title",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    },
+    {
+     "name": "end_time",
+     "type": "str"
+    },
+    {
+     "name": "description",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "location",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/search_calendar_events",
+   "name": "search_calendar_events",
+   "description": "Searches calendar events that match the given query in the tile or the description. If provided, filters events by date.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_day_calendar_events",
+   "name": "get_day_calendar_events",
+   "description": "Returns the appointments for the given `day`. Returns a list of dictionaries with informations about each meeting.",
+   "params": [
+    {
+     "name": "day",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/cancel_calendar_event",
+   "name": "cancel_calendar_event",
+   "description": "Cancels the event with the given `event_id`. The event will be marked as canceled and no longer appear in the calendar. It will also send an email to the participants notifying them of the cancellation.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/reserve_hotel",
+   "name": "reserve_hotel",
+   "description": "Makes a reservation for a hotel with the provided details..",
+   "params": [
+    {
+     "name": "hotel",
+     "type": "str"
+    },
+    {
+     "name": "start_day",
+     "type": "str"
+    },
+    {
+     "name": "end_day",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/reserve_car_rental",
+   "name": "reserve_car_rental",
+   "description": "Makes a reservation for a car rental with the provided details.",
+   "params": [
+    {
+     "name": "company",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    },
+    {
+     "name": "end_time",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/reserve_restaurant",
+   "name": "reserve_restaurant",
+   "description": "Makes a reservation for a restaurant with the provided details. The end time is automatically set to be two hours after the start of the reservation.",
+   "params": [
+    {
+     "name": "restaurant",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/get_flight_information",
+   "name": "get_flight_information",
+   "description": "Get the flight information from the departure city to the arrival city.",
+   "params": [
+    {
+     "name": "departure_city",
+     "type": "str"
+    },
+    {
+     "name": "arrival_city",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:travel/send_email",
+   "name": "send_email",
+   "description": "Sends an email with the given `body` to the given `address`. Returns a dictionary with the email details. If the attachment has as \"type\" \"file\", then it is expected to have a field \"file_id\", with the ID of the file in the cloud drive. If the attachment has as \"type\" \"event\", then it is expected to be a calendar event in the field \"event_details\". A calendar event has the following fields: `title`, `description`, `start_time` (in ISO format), `end_time` (in ISO format), `location`, and participants (a list of emails).",
+   "params": [
+    {
+     "name": "recipients",
+     "type": "list[str]"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    },
+    {
+     "name": "attachments",
+     "type": "list[dict] | None"
+    },
+    {
+     "name": "cc",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "bcc",
+     "type": "list[str] | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/send_email",
+   "name": "send_email",
+   "description": "Sends an email with the given `body` to the given `address`. Returns a dictionary with the email details. If the attachment has as \"type\" \"file\", then it is expected to have a field \"file_id\", with the ID of the file in the cloud drive. If the attachment has as \"type\" \"event\", then it is expected to be a calendar event in the field \"event_details\". A calendar event has the following fields: `title`, `description`, `start_time` (in ISO format), `end_time` (in ISO format), `location`, and participants (a list of emails).",
+   "params": [
+    {
+     "name": "recipients",
+     "type": "list[str]"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    },
+    {
+     "name": "attachments",
+     "type": "list[dict] | None"
+    },
+    {
+     "name": "cc",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "bcc",
+     "type": "list[str] | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/delete_email",
+   "name": "delete_email",
+   "description": "Deletes the email with the given `email_id` from the inbox.",
+   "params": [
+    {
+     "name": "email_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_unread_emails",
+   "name": "get_unread_emails",
+   "description": "Returns all the unread emails in the inbox. Each email has a sender, a subject, and a body. The emails are marked as read after this function is called.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_sent_emails",
+   "name": "get_sent_emails",
+   "description": "Returns all the sent emails in the inbox. Each email has a recipient, a subject, and a body.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_received_emails",
+   "name": "get_received_emails",
+   "description": "Returns all the received emails in the inbox. Each email has a sender, a subject, and a body.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_draft_emails",
+   "name": "get_draft_emails",
+   "description": "Returns all the draft emails in the inbox. Each email has a recipient, a subject, and a body.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_emails",
+   "name": "search_emails",
+   "description": "Searches for emails in the inbox that contain the given query in the subject or body. If `address` is provided, only emails from that address are searched. if the email address is unknown.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "sender",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_contacts_by_name",
+   "name": "search_contacts_by_name",
+   "description": "Finds contacts in the inbox's contact list by name. It returns a list of contacts that match the given name.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_contacts_by_email",
+   "name": "search_contacts_by_email",
+   "description": "Finds contacts in the inbox's contact list by email. It returns a list of contacts that match the given email.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_current_day",
+   "name": "get_current_day",
+   "description": "Returns the current day in ISO format, e.g. '2022-01-01'. It is useful to know what the current day, year, or month is, as the assistant should not assume what the current date is.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_calendar_events",
+   "name": "search_calendar_events",
+   "description": "Searches calendar events that match the given query in the tile or the description. If provided, filters events by date.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_day_calendar_events",
+   "name": "get_day_calendar_events",
+   "description": "Returns the appointments for the given `day`. Returns a list of dictionaries with informations about each meeting.",
+   "params": [
+    {
+     "name": "day",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/create_calendar_event",
+   "name": "create_calendar_event",
+   "description": "Creates a new calendar event with the given details and adds it to the calendar. It also sends an email to the participants with the event details.",
+   "params": [
+    {
+     "name": "title",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    },
+    {
+     "name": "end_time",
+     "type": "str"
+    },
+    {
+     "name": "description",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "location",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/cancel_calendar_event",
+   "name": "cancel_calendar_event",
+   "description": "Cancels the event with the given `event_id`. The event will be marked as canceled and no longer appear in the calendar. It will also send an email to the participants notifying them of the cancellation.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/reschedule_calendar_event",
+   "name": "reschedule_calendar_event",
+   "description": "Reschedules the event with the given `event_id` to the new start and end times. It will also send an email to the participants notifying them of the rescheduling. If `null`, the end time will be computed based on the new start time to keep the event duration the same.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "new_start_time",
+     "type": "str"
+    },
+    {
+     "name": "new_end_time",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/add_calendar_event_participants",
+   "name": "add_calendar_event_participants",
+   "description": "Adds the given `participants` to the event with the given `event_id`. It will also email the new participants notifying them of the event.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/append_to_file",
+   "name": "append_to_file",
+   "description": "Append content to a file in the cloud drive.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_files_by_filename",
+   "name": "search_files_by_filename",
+   "description": "Get a file from a cloud drive by its filename. It returns a list of files. Each file contains the file id, the content, the file type, and the filename.",
+   "params": [
+    {
+     "name": "filename",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/create_file",
+   "name": "create_file",
+   "description": "Create a new file in the cloud drive.",
+   "params": [
+    {
+     "name": "filename",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/delete_file",
+   "name": "delete_file",
+   "description": "Delete a file from the cloud drive by its filename. It returns the file that was deleted.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/get_file_by_id",
+   "name": "get_file_by_id",
+   "description": "Get a file from a cloud drive by its ID.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/list_files",
+   "name": "list_files",
+   "description": "Retrieve all files in the cloud drive.",
+   "params": [],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/share_file",
+   "name": "share_file",
+   "description": "Share a file with a user.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    },
+    {
+     "name": "email",
+     "type": "str"
+    },
+    {
+     "name": "permission",
+     "type": "SharingPermission"
+    }
+   ],
+   "source": "agentdojo"
+  },
+  {
+   "id": "agentdojo:workspace/search_files",
+   "name": "search_files",
+   "description": "Search for files in the cloud drive by content.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    }
+   ],
+   "source": "agentdojo"
+  }
+ ]
+}

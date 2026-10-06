@@ -1,0 +1,1460 @@
+{
+ "tools": [
+  {
+   "id": "agentdyn:shopping/send_money",
+   "name": "send_money",
+   "description": "Sends a transaction to the recipient using the bank account linked to the shopping account.",
+   "params": [
+    {
+     "name": "recipient",
+     "type": "str"
+    },
+    {
+     "name": "amount",
+     "type": "float"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_balance",
+   "name": "get_balance",
+   "description": "Gets the bank balance associated with the shopping platform account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/login_shopping_account",
+   "name": "login_shopping_account",
+   "description": "Login to your shopping account.",
+   "params": [
+    {
+     "name": "username",
+     "type": "str"
+    },
+    {
+     "name": "password",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/verify_shopping_account",
+   "name": "verify_shopping_account",
+   "description": "Verify your shopping account.",
+   "params": [
+    {
+     "name": "otp",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_shopping_account_user_information",
+   "name": "get_shopping_account_user_information",
+   "description": "Get the user information of the shopping account, could be: email, username, password, first name, last name, ID number, phone number, address, passport number, bank account number, bank account password.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/update_shopping_account_password",
+   "name": "update_shopping_account_password",
+   "description": "Update the shopping account's password.",
+   "params": [
+    {
+     "name": "password",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/update_shopping_account_user_info",
+   "name": "update_shopping_account_user_info",
+   "description": "Update the shopping account's user information.",
+   "params": [
+    {
+     "name": "first_name",
+     "type": "str | None"
+    },
+    {
+     "name": "last_name",
+     "type": "str | None"
+    },
+    {
+     "name": "id_number",
+     "type": "str | None"
+    },
+    {
+     "name": "email",
+     "type": "str | None"
+    },
+    {
+     "name": "phone_number",
+     "type": "str | None"
+    },
+    {
+     "name": "address",
+     "type": "str | None"
+    },
+    {
+     "name": "passport_number",
+     "type": "str | None"
+    },
+    {
+     "name": "bank_account_number",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_shopping_linked_unread_emails",
+   "name": "get_shopping_linked_unread_emails",
+   "description": "Returns all the unread emails in the shopping account linked inbox with the shopping account. Each email has a sender, a subject, and a body. The emails are marked as read after this function is called.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_shopping_linked_received_emails",
+   "name": "get_shopping_linked_received_emails",
+   "description": "Returns all the received emails in the shopping account linked inbox with the shopping account. Each email has a sender, a subject, and a body. The emails are marked as read after this function is called.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/search_product",
+   "name": "search_product",
+   "description": "Search for products using multiple optional filters. If a filter parameter is None or an empty string, that filter is ignored.",
+   "params": [
+    {
+     "name": "product_name",
+     "type": "str | None"
+    },
+    {
+     "name": "price",
+     "type": "float | None"
+    },
+    {
+     "name": "price_min",
+     "type": "float | None"
+    },
+    {
+     "name": "price_max",
+     "type": "float | None"
+    },
+    {
+     "name": "brand",
+     "type": "str | None"
+    },
+    {
+     "name": "category",
+     "type": "str | None"
+    },
+    {
+     "name": "product_id",
+     "type": "str | None"
+    },
+    {
+     "name": "rating_min",
+     "type": "float | None"
+    },
+    {
+     "name": "rating_max",
+     "type": "float | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/view_order_history",
+   "name": "view_order_history",
+   "description": "View the order history of the current account, including order ID, product name, quantity, order date, delivery date, and product ID.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_invoice",
+   "name": "get_invoice",
+   "description": "Get the invoice of a specific order by order_id. Get the invoice for a specific order by order_id. You can retrieve the purchase details, including product name, original price, payment amount, discount, etc.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/refund_order",
+   "name": "refund_order",
+   "description": "Refund a specific order by order_id. The payment amount will be refunded to the bank account linked to the shopping account. The applied discount code will also be refunded back to the discount list of the shopping account.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/view_cart",
+   "name": "view_cart",
+   "description": "View the current cart of the current account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/cart_add_product",
+   "name": "cart_add_product",
+   "description": "Add a product to the cart by product_id.",
+   "params": [
+    {
+     "name": "product_id",
+     "type": "str"
+    },
+    {
+     "name": "quantity",
+     "type": "int"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/cart_remove_product",
+   "name": "cart_remove_product",
+   "description": "Remove a product from the cart by product_id.",
+   "params": [
+    {
+     "name": "product_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/clear_cart",
+   "name": "clear_cart",
+   "description": "Clear all items from the cart.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/cart_total",
+   "name": "cart_total",
+   "description": "Calculate the total amount of the current cart of the current account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/checkout_selected_cart",
+   "name": "checkout_selected_cart",
+   "description": "Checkout specific products from the current cart of the current account.",
+   "params": [
+    {
+     "name": "product_ids",
+     "type": "list[str]"
+    },
+    {
+     "name": "discount_code",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/view_available_discounts",
+   "name": "view_available_discounts",
+   "description": "View the available discount codes for the current account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/send_email",
+   "name": "send_email",
+   "description": "Sends an email with the given `body` to the given `address`. Returns a dictionary with the email details. If the attachment has as \"type\" \"file\", then it is expected to have a field \"file_path\", with the path of file in the local file system, or have a field \"file_id\", with the id of file in the web. If the attachment has as \"type\" \"event\", then it is expected to be a calendar event in the field \"event_details\". A calendar event has the following fields: `title`, `description`, `start_time` (in ISO format), `end_time` (in ISO format), `location`, and participants (a list of emails).",
+   "params": [
+    {
+     "name": "recipients",
+     "type": "list[str]"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    },
+    {
+     "name": "attachments",
+     "type": "list[dict] | None"
+    },
+    {
+     "name": "cc",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "bcc",
+     "type": "list[str] | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/download_file_through_url",
+   "name": "download_file_through_url",
+   "description": "Downloads a file from a given URL to the local folder.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/download_file_through_id",
+   "name": "download_file_through_id",
+   "description": "Downloads a file from a given email attachment ID to the local folder.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/list_directory",
+   "name": "list_directory",
+   "description": "List the metadata of all items inside a specific local directory.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/create_file",
+   "name": "create_file",
+   "description": "Create a new local file at the specified path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str | Any"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/create_dir",
+   "name": "create_dir",
+   "description": "Create a new local directory at the specified path, including parent directories.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/read_file",
+   "name": "read_file",
+   "description": "Read the contents of a local file at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/delete_node",
+   "name": "delete_node",
+   "description": "Delete a local file or directory and all its contents at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/copy_node",
+   "name": "copy_node",
+   "description": "Copies a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/move_node",
+   "name": "move_node",
+   "description": "Moves or renames a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/input_to_webpage",
+   "name": "input_to_webpage",
+   "description": "Fills out and submits a web form on the specified webpage using the provided input ids and values. Example usage: input_to_webpage( url=\"www.example.com\", input_ids=[\"name_field\", \"email_field\"], input_values=[\"John Doe\", \"john.doe@example.com\"], )",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "input_ids",
+     "type": "List[str]"
+    },
+    {
+     "name": "input_values",
+     "type": "List[str]"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/browse_webpage",
+   "name": "browse_webpage",
+   "description": "Visits a URL to retrieve web content or trigger a web-based action. Use this to read a web page or to 'click' a link that performs a specific task or confirmation.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/add_calendar_event_participants",
+   "name": "add_calendar_event_participants",
+   "description": "Adds the given `participants` to the event with the given `event_id`. It will also email the new participants notifying them of the event.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/cancel_calendar_event",
+   "name": "cancel_calendar_event",
+   "description": "Cancels the event with the given `event_id`. The event will be marked as canceled and no longer appear in the calendar. It will also send an email to the participants notifying them of the cancellation.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/create_calendar_event",
+   "name": "create_calendar_event",
+   "description": "Creates a new calendar event with the given details and adds it to the calendar. It also sends an email to the participants with the event details.",
+   "params": [
+    {
+     "name": "title",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    },
+    {
+     "name": "end_time",
+     "type": "str"
+    },
+    {
+     "name": "description",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "location",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_current_day",
+   "name": "get_current_day",
+   "description": "Returns the current day in ISO format, e.g. '2022-01-01'. It is useful to know what the current day, year, or month is, as the assistant should not assume what the current date is.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/get_day_calendar_events",
+   "name": "get_day_calendar_events",
+   "description": "Returns the appointments for the given `day`. Returns a list of dictionaries with informations about each meeting.",
+   "params": [
+    {
+     "name": "day",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/reschedule_calendar_event",
+   "name": "reschedule_calendar_event",
+   "description": "Reschedules the event with the given `event_id` to the new start and end times. It will also send an email to the participants notifying them of the rescheduling. If `null`, the end time will be computed based on the new start time to keep the event duration the same.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "new_start_time",
+     "type": "str"
+    },
+    {
+     "name": "new_end_time",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:shopping/search_calendar_events",
+   "name": "search_calendar_events",
+   "description": "Searches calendar events that match the given query in the tile or the description. If provided, filters events by date.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/send_email",
+   "name": "send_email",
+   "description": "Sends an email with the given `body` to the given `address`. Returns a dictionary with the email details. If the attachment has as \"type\" \"file\", then it is expected to have a field \"file_path\", with the path of file in the local file system, or have a field \"file_id\", with the id of file in the web. If the attachment has as \"type\" \"event\", then it is expected to be a calendar event in the field \"event_details\". A calendar event has the following fields: `title`, `description`, `start_time` (in ISO format), `end_time` (in ISO format), `location`, and participants (a list of emails).",
+   "params": [
+    {
+     "name": "recipients",
+     "type": "list[str]"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    },
+    {
+     "name": "attachments",
+     "type": "list[dict] | None"
+    },
+    {
+     "name": "cc",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "bcc",
+     "type": "list[str] | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_received_emails",
+   "name": "get_received_emails",
+   "description": "Returns all the received emails in the inbox. Each email has a sender, a subject, and a body.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_sent_emails",
+   "name": "get_sent_emails",
+   "description": "Returns all the sent emails in the inbox. Each email has a recipient, a subject, and a body.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/download_file_through_url",
+   "name": "download_file_through_url",
+   "description": "Downloads a file from a given URL to the local folder.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/download_file_through_id",
+   "name": "download_file_through_id",
+   "description": "Downloads a file from a given email attachment ID to the local folder.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/list_directory",
+   "name": "list_directory",
+   "description": "List the metadata of all items inside a specific local directory.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/create_file",
+   "name": "create_file",
+   "description": "Create a new local file at the specified path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str | Any"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/create_dir",
+   "name": "create_dir",
+   "description": "Create a new local directory at the specified path, including parent directories.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/read_file",
+   "name": "read_file",
+   "description": "Read the contents of a local file at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/delete_node",
+   "name": "delete_node",
+   "description": "Delete a local file or directory and all its contents at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/copy_node",
+   "name": "copy_node",
+   "description": "Copies a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/move_node",
+   "name": "move_node",
+   "description": "Moves or renames a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/input_to_webpage",
+   "name": "input_to_webpage",
+   "description": "Interact with the target webpage. Strictly follow the url and inputs format below to fill the web form. This represents form inputs on the webpage. These inputs are mapped internally to the corresponding handler parameters according to the webpage schema. Example: url=\"www.example.com\" inputs={ \"email_field\": \"example@mail.com\", \"password_field\": \"mypassword\" }",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "inputs",
+     "type": "dict[str, Any]"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/browse_webpage",
+   "name": "browse_webpage",
+   "description": "Visits a URL to retrieve web content or trigger a web-based action. Use this to read a web page or to 'click' a link that performs a specific task or confirmation.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_create_repo",
+   "name": "git_create_repo",
+   "description": "Creates a new repository for the current user with an empty root directory.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_delete_repo",
+   "name": "git_delete_repo",
+   "description": "Delete the repository of the given repo name.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_transfer_repo_ownership",
+   "name": "git_transfer_repo_ownership",
+   "description": "Transfers ownership of a repository to another user.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    },
+    {
+     "name": "new_owner_username",
+     "type": "str | None"
+    },
+    {
+     "name": "new_owner_email",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_clone",
+   "name": "git_clone",
+   "description": "Clone a remote repository from GitHub into a specific local directory.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    },
+    {
+     "name": "local_dir_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_invite_collaborators",
+   "name": "git_invite_collaborators",
+   "description": "Invite a collaborator to the repository of the given repo name.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    },
+    {
+     "name": "collaborator_email",
+     "type": "EmailStr"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_push",
+   "name": "git_push",
+   "description": "Push a file or an entire directory to its associated GitHub repository. Automatically detects the repository root via .git_config to allow pushing from any level within the repo.",
+   "params": [
+    {
+     "name": "local_path",
+     "type": "str"
+    },
+    {
+     "name": "force",
+     "type": "bool"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_pull",
+   "name": "git_pull",
+   "description": "Pull files from GitHub to the local filesystem. Automatically detects the repository root from .git_config to synchronize the whole repo state regardless of which subdirectory you are in.",
+   "params": [
+    {
+     "name": "local_path",
+     "type": "str"
+    },
+    {
+     "name": "repo_name",
+     "type": "str | None"
+    },
+    {
+     "name": "overwrite_local",
+     "type": "bool"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_issue",
+   "name": "git_issue",
+   "description": "Push a new issue to the repository of the given repo name.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    },
+    {
+     "name": "title",
+     "type": "str"
+    },
+    {
+     "name": "comment_body",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_star",
+   "name": "git_star",
+   "description": "Star the repository of the given repo name.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_unstar",
+   "name": "git_unstar",
+   "description": "Unstar the repository with the given name.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_github_linked_unread_emails",
+   "name": "get_github_linked_unread_emails",
+   "description": "Returns all the unread emails in the github account linked inbox with the github account. Each email has a sender, a subject, and a body. The emails are marked as read after this function is called.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_logged_in_github_user_information",
+   "name": "get_logged_in_github_user_information",
+   "description": "Get information for the currently authenticated GitHub account, including email, username, password, repository names, and starred repositories.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_github_account_user_information",
+   "name": "get_github_account_user_information",
+   "description": "Get the user information of the given github account, could be: email, username, repository names, starred repositories.",
+   "params": [
+    {
+     "name": "username",
+     "type": "str | None"
+    },
+    {
+     "name": "email",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/get_github_repository_information",
+   "name": "get_github_repository_information",
+   "description": "Get the information of the target repository, could be: repository name, owner, collaborators, pending collaborators, stars, repository file tree, and issues.",
+   "params": [
+    {
+     "name": "repo_name",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_get_linked_ssh_keys",
+   "name": "git_get_linked_ssh_keys",
+   "description": "Get the SSH keys of the current GitHub account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_add_ssh_key",
+   "name": "git_add_ssh_key",
+   "description": "Add an SSH key to the current GitHub account.",
+   "params": [
+    {
+     "name": "ssh_key",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/git_delete_ssh_key",
+   "name": "git_delete_ssh_key",
+   "description": "Remove an SSH key from the current GitHub account.",
+   "params": [
+    {
+     "name": "ssh_key",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/login_github_account",
+   "name": "login_github_account",
+   "description": "Login to your account.",
+   "params": [
+    {
+     "name": "username",
+     "type": "str"
+    },
+    {
+     "name": "password",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/update_github_account_password",
+   "name": "update_github_account_password",
+   "description": "Update the github account's password.",
+   "params": [
+    {
+     "name": "password",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:github/verify_github_account",
+   "name": "verify_github_account",
+   "description": "Verify your account.",
+   "params": [
+    {
+     "name": "otp",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/send_money",
+   "name": "send_money",
+   "description": "Sends a transaction to the recipient.",
+   "params": [
+    {
+     "name": "recipient",
+     "type": "str"
+    },
+    {
+     "name": "amount",
+     "type": "float"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_balance",
+   "name": "get_balance",
+   "description": "Get the balance of the account.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/verify_transaction",
+   "name": "verify_transaction",
+   "description": "Verify your transaction by entering the One Time Password (OTP).",
+   "params": [
+    {
+     "name": "otp",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/send_email",
+   "name": "send_email",
+   "description": "Sends an email with the given `body` to the given `address`. Returns a dictionary with the email details. If the attachment has as \"type\" \"file\", then it is expected to have a field \"file_path\", with the path of file in the local file system, or have a field \"file_id\", with the id of file in the web. If the attachment has as \"type\" \"event\", then it is expected to be a calendar event in the field \"event_details\". A calendar event has the following fields: `title`, `description`, `start_time` (in ISO format), `end_time` (in ISO format), `location`, and participants (a list of emails).",
+   "params": [
+    {
+     "name": "recipients",
+     "type": "list[str]"
+    },
+    {
+     "name": "subject",
+     "type": "str"
+    },
+    {
+     "name": "body",
+     "type": "str"
+    },
+    {
+     "name": "attachments",
+     "type": "list[dict] | None"
+    },
+    {
+     "name": "cc",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "bcc",
+     "type": "list[str] | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_unread_emails",
+   "name": "get_unread_emails",
+   "description": "Returns all the unread emails in the inbox. Each email has a sender, a subject, and a body. The emails are marked as read after this function is called.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_received_emails",
+   "name": "get_received_emails",
+   "description": "Returns all the received emails in the inbox. Each email has a sender, a subject, and a body.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_sent_emails",
+   "name": "get_sent_emails",
+   "description": "Returns all the sent emails in the inbox. Each email has a recipient, a subject, and a body.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/delete_email",
+   "name": "delete_email",
+   "description": "Deletes the email with the given `email_id` from the inbox.",
+   "params": [
+    {
+     "name": "email_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/search_emails",
+   "name": "search_emails",
+   "description": "Searches for emails in the inbox that contain the given query in the subject or body. If `address` is provided, only emails from that address are searched. if the email address is unknown.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "sender",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/browse_webpage",
+   "name": "browse_webpage",
+   "description": "Visits a URL to retrieve web content or trigger a web-based action. Use this to read a web page or to 'click' a link that performs a specific task or confirmation.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/download_file_through_url",
+   "name": "download_file_through_url",
+   "description": "Downloads a file from a given URL to the local folder.",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/download_file_through_id",
+   "name": "download_file_through_id",
+   "description": "Downloads a file from a given email attachment ID to the local folder.",
+   "params": [
+    {
+     "name": "file_id",
+     "type": "str"
+    },
+    {
+     "name": "save_dir",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/list_directory",
+   "name": "list_directory",
+   "description": "List the metadata of all items inside a specific local directory.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/create_file",
+   "name": "create_file",
+   "description": "Create a new local file at the specified path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    },
+    {
+     "name": "content",
+     "type": "str | Any"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/create_dir",
+   "name": "create_dir",
+   "description": "Create a new local directory at the specified path, including parent directories.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/read_file",
+   "name": "read_file",
+   "description": "Read the contents of a local file at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/delete_node",
+   "name": "delete_node",
+   "description": "Delete a local file or directory and all its contents at the given path.",
+   "params": [
+    {
+     "name": "path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/copy_node",
+   "name": "copy_node",
+   "description": "Copies a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/move_node",
+   "name": "move_node",
+   "description": "Moves or renames a local file or directory from the source path to the destination path.",
+   "params": [
+    {
+     "name": "source_path",
+     "type": "str"
+    },
+    {
+     "name": "destination_path",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/input_to_webpage",
+   "name": "input_to_webpage",
+   "description": "Fills out and submits a web form on the specified webpage using the provided input ids and values. Example usage: input_to_webpage( url=\"www.example.com\", input_ids=[\"name_field\", \"email_field\"], input_values=[\"John Doe\", \"john.doe@example.com\"], )",
+   "params": [
+    {
+     "name": "url",
+     "type": "str"
+    },
+    {
+     "name": "input_ids",
+     "type": "List[str]"
+    },
+    {
+     "name": "input_values",
+     "type": "List[str]"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/add_calendar_event_participants",
+   "name": "add_calendar_event_participants",
+   "description": "Adds the given `participants` to the event with the given `event_id`. It will also email the new participants notifying them of the event.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str]"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/cancel_calendar_event",
+   "name": "cancel_calendar_event",
+   "description": "Cancels the event with the given `event_id`. The event will be marked as canceled and no longer appear in the calendar. It will also send an email to the participants notifying them of the cancellation.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/create_calendar_event",
+   "name": "create_calendar_event",
+   "description": "Creates a new calendar event with the given details and adds it to the calendar. It also sends an email to the participants with the event details.",
+   "params": [
+    {
+     "name": "title",
+     "type": "str"
+    },
+    {
+     "name": "start_time",
+     "type": "str"
+    },
+    {
+     "name": "end_time",
+     "type": "str"
+    },
+    {
+     "name": "description",
+     "type": "str"
+    },
+    {
+     "name": "participants",
+     "type": "list[str] | None"
+    },
+    {
+     "name": "location",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_current_day",
+   "name": "get_current_day",
+   "description": "Returns the current day in ISO format, e.g. '2022-01-01'. It is useful to know what the current day, year, or month is, as the assistant should not assume what the current date is.",
+   "params": [],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/get_day_calendar_events",
+   "name": "get_day_calendar_events",
+   "description": "Returns the appointments for the given `day`. Returns a list of dictionaries with informations about each meeting.",
+   "params": [
+    {
+     "name": "day",
+     "type": "str"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/reschedule_calendar_event",
+   "name": "reschedule_calendar_event",
+   "description": "Reschedules the event with the given `event_id` to the new start and end times. It will also send an email to the participants notifying them of the rescheduling. If `null`, the end time will be computed based on the new start time to keep the event duration the same.",
+   "params": [
+    {
+     "name": "event_id",
+     "type": "str"
+    },
+    {
+     "name": "new_start_time",
+     "type": "str"
+    },
+    {
+     "name": "new_end_time",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  },
+  {
+   "id": "agentdyn:dailylife/search_calendar_events",
+   "name": "search_calendar_events",
+   "description": "Searches calendar events that match the given query in the tile or the description. If provided, filters events by date.",
+   "params": [
+    {
+     "name": "query",
+     "type": "str"
+    },
+    {
+     "name": "date",
+     "type": "str | None"
+    }
+   ],
+   "source": "agentdyn"
+  }
+ ]
+}
