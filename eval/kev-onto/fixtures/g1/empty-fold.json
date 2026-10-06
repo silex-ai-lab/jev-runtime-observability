@@ -1,0 +1,165 @@
+{
+ "note": "every record in one group, so 4 folds are empty -> UNDEFINED (fail)",
+ "records": [
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "only",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": false
+  }
+ ]
+}

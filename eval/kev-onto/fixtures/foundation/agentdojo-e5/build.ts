@@ -6,6 +6,7 @@
 // of the existing converter eval/ontology/runs-convert.ts convertRun on each run (the T3 regression target).
 //   node eval/kev-onto/fixtures/foundation/agentdojo-e5/build.ts           # regenerate
 //   node eval/kev-onto/fixtures/foundation/agentdojo-e5/build.ts --check   # fail unless regeneration is byte-identical
+//   node eval/kev-onto/fixtures/foundation/agentdojo-e5/build.ts --list    # print the produced files (relative), one per line
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -61,7 +62,9 @@ function onDisk(): Map<string, string> {
 }
 
 const files = build();
-if (process.argv.includes('--check')) {
+if (process.argv.includes('--list')) {
+  for (const p of [...files.keys()].sort()) console.log(p);
+} else if (process.argv.includes('--check')) {
   const disk = onDisk();
   const same = disk.size === files.size && [...files].every(([k, v]) => disk.get(k) === v);
   console.log(same ? `foundation fixture: regenerates byte-identically (${files.size} files)` : 'foundation fixture: DIFFERS');

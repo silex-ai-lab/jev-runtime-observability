@@ -1,0 +1,165 @@
+{
+ "note": "one label class -> UNDEFINED (fail)",
+ "records": [
+  {
+   "group": "g0",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g1",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g2",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g3",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g4",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g5",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g6",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g7",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g8",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g9",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g10",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g11",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g12",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g13",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g14",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g15",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g16",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g17",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g18",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  },
+  {
+   "group": "g19",
+   "source": "asb",
+   "family": "f",
+   "impact": "write",
+   "state": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "label": true
+  }
+ ]
+}

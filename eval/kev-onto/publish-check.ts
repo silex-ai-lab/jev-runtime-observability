@@ -1,79 +1,89 @@
-// Publication guard for wave 1 (KO_SPEC §7). Fails if a file to be committed under eval/kev-onto/ or runs/kev-onto/ is
-// outside PUBLISH_ALLOW, and, when --cohort-text is given (only after F1), if any committed text file shares a
-// LEAK_WINDOW-character window with cohort task / tool-output text.
-//   node eval/kev-onto/publish-check.ts                       # staged + tracked files under the two roots
-//   node eval/kev-onto/publish-check.ts --cohort-text <file>  # also the window check; <file> = JSONL of {text}
+// Publication guard for wave 1 (KO_SPEC §7). Run in the repo before a wave-1 commit. It fails if:
+//   - any staged path (any directory) is outside PUBLISH_ALLOW;
+//   - a staged path's working-tree bytes differ from its staged blob (the check reads staged blobs);
+//   - the real-fixture exception folder does not regenerate byte-identically, or holds a file build.ts does not produce;
+//   - with --cohort-text <jsonl of {text}> (only after F1), any staged text file shares a LEAK_WINDOW-character window
+//     with cohort text. There is no word-based exemption.
+//   node eval/kev-onto/publish-check.ts [--cohort-text <file>] [--repo <dir>]
 import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
-import { COMMON_WORDS, LEAK_WINDOW, PUBLISH_ALLOW, PUBLISH_REAL_FIXTURE_EXCEPTION } from './contract.ts';
-
-const ROOTS = ['eval/kev-onto/', 'runs/kev-onto/'];
+import { join } from 'node:path';
+import { LEAK_WINDOW, PUBLISH_ALLOW, PUBLISH_REAL_FIXTURE_EXCEPTION } from './contract.ts';
 
 export function globToRegExp(glob: string): RegExp {
   let re = '';
   for (let i = 0; i < glob.length; i++) {
     const c = glob[i];
-    if (c === '*' && glob[i + 1] === '*') { re += glob[i + 2] === '/' ? '(?:.*/)?' : '.*'; i += glob[i + 2] === '/' ? 2 : 1; }
+    if (c === '*' && glob[i + 1] === '*') { const slash = glob[i + 2] === '/'; re += slash ? '(?:.*/)?' : '.*'; i += slash ? 2 : 1; }
     else if (c === '*') re += '[^/]*';
-    else if (c === '{') { const end = glob.indexOf('}', i); re += '(?:' + glob.slice(i + 1, end).split(',').map(esc).join('|') + ')'; i = end; }
-    else re += esc(c);
+    else if (c === '{') { const end = glob.indexOf('}', i); re += '(?:' + glob.slice(i + 1, end).split(',').map(alt).join('|') + ')'; i = end; }
+    else re += c.replace(/[.+?^$()|[\]\\]/g, '\\$&');
   }
   return new RegExp('^' + re + '$');
 }
-function esc(s: string): string { return s.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '[^/]*'); }
+const alt = (s: string) => s.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '[^/]*');
 
 const ALLOW = PUBLISH_ALLOW.map(globToRegExp);
+const EXCEPTION = globToRegExp(PUBLISH_REAL_FIXTURE_EXCEPTION);
+export const EXCEPTION_DIR = PUBLISH_REAL_FIXTURE_EXCEPTION.replace(/\/\*\*$/, '');
 export const isAllowed = (path: string) => ALLOW.some(r => r.test(path));
-export const isRealFixtureException = (path: string) => globToRegExp(PUBLISH_REAL_FIXTURE_EXCEPTION).test(path);
+export const isRealFixtureException = (path: string) => EXCEPTION.test(path);
+export const disallowed = (paths: string[]) => paths.filter(p => !isAllowed(p));
 
-/** Paths under the two roots that are not allowlisted. */
-export function disallowed(paths: string[]): string[] {
-  return paths.filter(p => ROOTS.some(r => p.startsWith(r)) && !isAllowed(p));
-}
-
-const COMMON = new Set<string>(COMMON_WORDS);
 const norm = (s: string) => s.replace(/\s+/g, ' ');
-/** True when a window is only common words and spaces (KO_SPEC §4.3 rule 5), so it is not evidence of a leak. */
-export function benignWindow(w: string): boolean {
-  if (!/^[A-Za-z ]+$/.test(w)) return false;
-  const words = w.trim().split(' ').filter(Boolean);
-  // the first and last token may be cut mid-word; judge only whole interior words, and require at least one
-  const inner = words.slice(w.startsWith(' ') ? 0 : 1, w.endsWith(' ') ? words.length : words.length - 1);
-  return inner.length > 0 && inner.every(x => COMMON.has(x.toLowerCase()));
-}
 export function windowsOf(text: string, n = LEAK_WINDOW): Set<string> {
   const t = norm(text), out = new Set<string>();
-  for (let i = 0; i + n <= t.length; i++) { const w = t.slice(i, i + n); if (!benignWindow(w)) out.add(w); }
+  for (let i = 0; i + n <= t.length; i++) out.add(t.slice(i, i + n));
   return out;
 }
-/** Returns the first shared non-benign window between `text` and the reference windows, or null. */
+/** First window of `text` that is in `ref`, or null. */
 export function sharedWindow(text: string, ref: Set<string>, n = LEAK_WINDOW): string | null {
   const t = norm(text);
   for (let i = 0; i + n <= t.length; i++) { const w = t.slice(i, i + n); if (ref.has(w)) return w; }
   return null;
 }
 
-function gitFiles(): string[] {
-  const run = (args: string[]) => execFileSync('git', args, { encoding: 'utf8' }).split('\n').filter(Boolean);
-  return [...new Set([...run(['ls-files', '--', ...ROOTS]), ...run(['diff', '--cached', '--name-only', '--', ...ROOTS])])].sort();
+export interface CheckResult { staged: string[]; failures: string[] }
+export function check(repo: string, cohortText?: string): CheckResult {
+  const git = (args: string[]) => execFileSync('git', ['-C', repo, ...args], { encoding: 'buffer', maxBuffer: 1 << 30 });
+  const lines = (args: string[]) => git(args).toString('utf8').split('\n').filter(Boolean);
+  const staged = lines(['diff', '--cached', '--name-only', '--diff-filter=ACMR']).sort();
+  const failures: string[] = [];
+  for (const p of disallowed(staged)) failures.push(`not allowlisted: ${p}`);
+  const blob = new Map<string, Buffer>();
+  for (const p of staged) {
+    const b = git(['show', `:${p}`]); blob.set(p, b);
+    const wt = join(repo, p);
+    if (!existsSync(wt) || !readFileSync(wt).equals(b)) failures.push(`working tree differs from staged blob: ${p}`);
+  }
+  if (staged.some(isRealFixtureException)) {
+    const build = join(repo, EXCEPTION_DIR, 'build.ts');
+    let produced: string[] = [];
+    try {
+      execFileSync('node', [build, '--check'], { cwd: repo, encoding: 'utf8' });
+      produced = execFileSync('node', [build, '--list'], { cwd: repo, encoding: 'utf8' }).split('\n').filter(Boolean).map(f => `${EXCEPTION_DIR}/${f}`);
+    } catch { failures.push(`real-fixture exception does not regenerate byte-identically: ${EXCEPTION_DIR}`); }
+    const tracked = new Set([...lines(['ls-files', '--', EXCEPTION_DIR]), ...staged.filter(isRealFixtureException)]);
+    const allowedSet = new Set([...produced, `${EXCEPTION_DIR}/build.ts`, `${EXCEPTION_DIR}/README.md`]);
+    for (const p of tracked) if (produced.length && !allowedSet.has(p)) failures.push(`file not produced by build.ts in exception folder: ${p}`);
+  }
+  if (cohortText) {
+    const ref = new Set<string>();
+    for (const line of readFileSync(cohortText, 'utf8').split('\n')) if (line.trim()) for (const w of windowsOf(JSON.parse(line).text)) ref.add(w);
+    for (const [p, b] of blob) {
+      if (b.includes(0)) continue;                            // binary: not text
+      const hit = sharedWindow(b.toString('utf8'), ref);
+      if (hit) failures.push(`cohort text in ${p}: ${JSON.stringify(hit)}`);
+    }
+  }
+  return { staged, failures };
 }
 
 function main() {
-  const files = gitFiles();
-  const bad = disallowed(files);
-  for (const p of bad) console.log(`FAIL not allowlisted: ${p}`);
-  let leaks = 0;
-  const ci = process.argv.indexOf('--cohort-text');
-  if (ci > 0) {
-    const ref = new Set<string>();
-    for (const line of readFileSync(process.argv[ci + 1], 'utf8').split('\n')) if (line.trim()) for (const w of windowsOf(JSON.parse(line).text)) ref.add(w);
-    for (const p of files) {
-      if (!existsSync(p) || isRealFixtureException(p)) continue;
-      const hit = sharedWindow(readFileSync(p, 'utf8'), ref);
-      if (hit) { leaks++; console.log(`FAIL cohort text in ${p}: ${JSON.stringify(hit)}`); }
-    }
-  }
-  console.log(`publish-check: ${files.length} file(s), ${bad.length} not allowlisted, ${leaks} leak(s)`);
-  if (bad.length || leaks) process.exit(1);
+  const flag = (k: string) => { const i = process.argv.indexOf(`--${k}`); return i > 0 ? process.argv[i + 1] : undefined; };
+  const r = check(flag('repo') ?? '.', flag('cohort-text'));
+  for (const f of r.failures) console.log(`FAIL ${f}`);
+  console.log(`publish-check: ${r.staged.length} staged file(s), ${r.failures.length} failure(s)`);
+  if (r.failures.length) process.exit(1);
 }
 if (import.meta.url === `file://${process.argv[1]}`) main();

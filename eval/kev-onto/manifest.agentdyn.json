@@ -101,11 +101,20 @@
  "total_runs": 3100,
  "strata": 15,
  "leak_reference": {
-  "paths": [
+  "agentdyn_paths": [
    "src/agentdojo/default_suites/v1/shopping/",
    "src/agentdojo/default_suites/v1/github/",
    "src/agentdojo/default_suites/v1/dailylife/"
   ],
+  "agentdojo_archive": {
+   "manifest": "eval/kev-onto/manifest.agentdojo-e5.json",
+   "paths": [
+    "src/agentdojo/default_suites/v1/banking/",
+    "src/agentdojo/default_suites/v1/slack/",
+    "src/agentdojo/default_suites/v1/travel/",
+    "src/agentdojo/default_suites/v1/workspace/"
+   ]
+  },
   "files": [
    "eval/convert/fixtures/agentdojo.json"
   ]
