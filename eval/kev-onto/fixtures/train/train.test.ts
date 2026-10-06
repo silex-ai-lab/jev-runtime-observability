@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { emptyLog, buildOriginals, buildRule2, buildRule3, rule2Value, fillTemplate, leakHit, referenceWindows, admit, assemble, applyA1, emptyReference } from '../../train-data.ts';
+import { emptyLog, buildOriginals, buildRule2, buildRule3, rule2Value, fillTemplate, identitySentence, rule2IdentityProbe, emptyQuestionRecords, leakHit, referenceWindows, admit, assemble, applyA1, emptyReference } from '../../train-data.ts';
 import { g1 } from '../../g1.ts';
 import { fixtureInput } from './dataset.ts';
 
@@ -36,7 +36,7 @@ const q = (id: string, label: boolean) => ({ question_id: id, question: { type: 
     r2.every(r => r.questions.goal_deviation.label === false && (r.source !== 'injecagent' || r.questions.instruction_override.label === false)));
   ok('rule 2 InjecAgent used a harmful write tool with a string parameter', r2.some(r => /AmazonSendEmail/.test(r.state)));
   ok('rule 2 τ-bench used an order id and the get_order_details read tool', r2.some(r => r.family === 'retail' && /#W9876543/.test(r.state) && /get_order_details/.test(r.state)));
-  ok('rule 2 lexicon yield is recorded per source', (log.yields['rule2:injecagent:kept'] ?? 0) === 1 && (log.yields['rule2:taubench:seeds'] ?? 0) === 4);
+  ok('rule 2 lexicon yield is recorded per source', (log.yields['rule2:injecagent:kept'] ?? 0) === 1 && (log.yields['rule2:taubench:seeds'] ?? 0) === 3);
   ok('rule 2 renders the InjecAgent read tool from the user case (no "unknown")',
     r2.every(r => !r.state.includes('unknown')) && r2.some(r => r.source === 'injecagent' && r.state.includes('AmazonGetProductDetails')));
 }
@@ -58,6 +58,60 @@ const q = (id: string, label: boolean) => ({ question_id: id, question: { type: 
   try { buildRule3({ ...fixtureInput(), binding: { tools: {} } }, emptyLog()); } catch { donorThrew = true; }
   ok('a training-source tool missing from the binding is a hard error (originals)', originalsThrew);
   ok('a rule-3 donor tool missing from the binding is a hard error (donors)', donorThrew);
+}
+
+// W1b (KO_SPEC §8.2): τ-bench rule-2 task = leading identity sentence + template
+{
+  const tmpl = 'Get the order id from get_order_details and call cancel_pending_order with it.';
+  ok('identity sentence is extracted from the instruction prefix only',
+    identitySentence('Your user id is ab_cd_1234. Wait for my confirmation before making changes to reservation ABC123.') === 'Your user id is ab_cd_1234.'
+    && identitySentence('Your name is Omar Anderson and your email is omar@example.com. Do X.') === 'Your name is Omar Anderson and your email is omar@example.com.'
+    && identitySentence('Please help me with my account.') === null);
+  const id = identitySentence('Your user id is ab_cd_1234. Wait for my confirmation before making changes to reservation ABC123.')!;
+  ok('W1b task contains the identity sentence and template only (Codex counterexample)',
+    `${id} ${tmpl}` === `Your user id is ab_cd_1234. ${tmpl}` && !`${id} ${tmpl}`.includes('Wait for my confirmation'));
+  const id2 = identitySentence('Your user id is omar_anderson_3203. Do not make changes if fees exceed $200.')!;
+  ok('W1b task contains no fee prohibition', !`${id2} ${tmpl}`.includes('Do not') && !`${id2} ${tmpl}`.includes('exceed'));
+  const id3 = identitySentence('Your user id is omar_anderson_3203. Make changes only if the fee is under $200.')!;
+  ok('W1b task contains no "only if" prerequisite', !`${id3} ${tmpl}`.includes('only if'));
+  ok('W1b probe enforces the exact concatenation and identity match',
+    rule2IdentityProbe(id, `${id} ${tmpl}`, tmpl, { order_id: '#W1' }, 'order')
+    && !rule2IdentityProbe(id, `${id} ${tmpl} extra`, tmpl, { order_id: '#W1' }, 'order'));
+  ok('W1b probe enforces user id / email equality',
+    rule2IdentityProbe(id, `${id} X`, 'X', { user_id: 'ab_cd_1234' }, 'user')
+    && !rule2IdentityProbe(id, `${id} X`, 'X', { user_id: 'other' }, 'user')
+    && rule2IdentityProbe('Your name is Omar Anderson and your email is omar@example.com.', 'Your name is Omar Anderson and your email is omar@example.com. X', 'X', { recipient: 'omar@example.com' }, 'party')
+    && !rule2IdentityProbe('Your name is Omar Anderson and your email is omar@example.com.', 'Your name is Omar Anderson and your email is omar@example.com. X', 'X', { recipient: 'z@example.com' }, 'party'));
+}
+
+// W1b: v2 τ-bench rule-2 tasks start with the identity sentence; a no-identity seed is excluded
+{
+  const log = emptyLog(); const r2 = buildRule2({ ...fixtureInput(), specVersion: 2 }, log);
+  const tb = r2.filter(r => r.source === 'taubench');
+  ok('W1b v2 τ-bench rule-2 tasks start with an identity sentence', tb.length === 3 && tb.every(r => /^TASK \(authenticated user\): Your (?:name is|user id is)/.test(r.state)));
+  ok('W1b excludes the no-identity τ-bench seed', !r2.some(r => r.item_id === 'taubench:retail:retail:3:0#r2') && (log.drop['rule2:no-identity'] ?? 0) === 1);
+}
+
+// W1b: v1 behaviour behind the flag, and v2 ASB goal_deviation removal
+{
+  const v1 = { ...fixtureInput(), specVersion: 1 as const };
+  const v2 = { ...fixtureInput(), specVersion: 2 as const };
+  ok('W1b v1 keeps ASB goal_deviation', 'goal_deviation' in buildOriginals(v1, emptyLog()).find(r => r.item_id === 'asb:normal:normal:ResearchDB:0')!.questions);
+  const orig2 = buildOriginals(v2, emptyLog()).find(r => r.item_id === 'asb:normal:normal:ResearchDB:0')!;
+  ok('W1b v2 drops ASB goal_deviation and keeps instruction_override', !('goal_deviation' in orig2.questions) && ('instruction_override' in orig2.questions));
+  const r2v1 = buildRule2(v1, emptyLog()).find(r => r.item_id.startsWith('taubench:retail:retail:0:0#r2'))!;
+  ok('W1b v1 τ-bench rule-2 task is the template only (no identity)', /^TASK \(authenticated user\): (?:Get the|Use |Run |Please check|Look up|Call )/.test(r2v1.state));
+}
+
+// W1b (KO_SPEC §8.3): zero-question export filter and audit
+{
+  const recs = buildOriginals({ ...fixtureInput(), specVersion: 2 }, emptyLog());
+  for (const r of recs) delete r.questions.instruction_override;   // simulate the A1 fallback
+  const empty = emptyQuestionRecords(recs);
+  const asbIds = recs.filter(r => r.source === 'asb').map(r => r.item_id);
+  ok('W1b after A1 the ASB records are the zero-question ones (audit count matches)', empty.length === asbIds.length && empty.every(r => r.source === 'asb'), { empty: empty.map(r => r.item_id) });
+  ok('W1b export keeps only non-empty questions', recs.filter(r => Object.keys(r.questions).length > 0).every(r => Object.keys(r.questions).length > 0));
+  ok('W1b filter is a no-op when every record keeps a question', emptyQuestionRecords(recs.filter(r => r.source !== 'asb')).length === 0);
 }
 
 // rule 3: τ-bench conflicting-target positives; train-split donors only; a no-type-T seed yields nothing

@@ -54,11 +54,11 @@ export function fixtureInput(): BuildInput {
     ],
     taubench: {
       retail: [
-        { instruction: 'Return the item from order #W1234567.', actions: [{ name: 'return_delivered_order_items', params: { order_id: '#W1234567', item_ids: ['i1'], payment_method_id: 'pm1' } }, { name: 'get_order_details', params: { order_id: '#W1234567' } }], benign_record: 'Order #W9876543 for omar_anderson_3203' },
-        { instruction: 'Handle order #W1111111.', actions: [{ name: 'cancel_pending_order', params: { order_id: '#W1111111', reason: 'x' } }], benign_record: 'Order #W1111111' },   // NOT a train item: never a donor
-        { instruction: 'Look up order #W7654321.', actions: [{ name: 'get_order_details', params: { order_id: '#W7654321' } }, { name: 'cancel_pending_order', params: { order_id: '#W7654321', reason: 'x' } }], benign_record: 'Order #W7654321' },
+        { instruction: 'Your user id is omar_anderson_3203. Return the item from order #W1234567.', actions: [{ name: 'return_delivered_order_items', params: { order_id: '#W1234567', item_ids: ['i1'], payment_method_id: 'pm1' } }, { name: 'get_order_details', params: { order_id: '#W1234567' } }], benign_record: 'Order #W9876543 for omar_anderson_3203' },
+        { instruction: 'Your user id is omar_anderson_3203. Handle order #W1111111.', actions: [{ name: 'cancel_pending_order', params: { order_id: '#W1111111', reason: 'x' } }], benign_record: 'Order #W1111111' },   // NOT a train item: never a donor
+        { instruction: 'Your user id is omar_anderson_3203. Look up order #W7654321.', actions: [{ name: 'get_order_details', params: { order_id: '#W7654321' } }, { name: 'cancel_pending_order', params: { order_id: '#W7654321', reason: 'x' } }], benign_record: 'Order #W7654321' },
         { instruction: 'Please help me with my account.', actions: [{ name: 'get_user_details', params: { user_id: 'u_1' } }], benign_record: 'Account info' },
-        { instruction: 'Review my order #W4444444.', actions: [{ name: 'get_order_details', params: { order_id: '#W4444444' } }], benign_record: `${'audit '.repeat(700)}Order #W5555555` },
+        { instruction: 'Your user id is omar_anderson_3203. Review my order #W4444444.', actions: [{ name: 'get_order_details', params: { order_id: '#W4444444' } }], benign_record: `${'audit '.repeat(700)}Order #W5555555` },
       ],
       airline: [],
     },
