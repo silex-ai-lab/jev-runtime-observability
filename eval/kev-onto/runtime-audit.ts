@@ -34,32 +34,32 @@ export function templateSpans(text: string, segments: string[]): Span[][] {
 export function waived(text: string, spans: Span[][], i: number, window = W1C.window): boolean {
   return spans.some(ranges => ranges.some(r => r.start <= i && i + window <= r.end));
 }
-/** Per side, the set of window values that occur at least once as a waived window. */
-export function waivedWindows(text: string, segments: string[]): Set<string> {
-  const spans = templateSpans(text, segments), out = new Set<string>();
-  for (let i = 0; i + W1C.window <= text.length; i++) if (waived(text, spans, i)) out.add(text.slice(i, i + W1C.window));
+/** Per side: for each window VALUE, whether EVERY occurrence of it is waived (a non-waived occurrence makes it false). */
+export function windowStatus(text: string, segments: string[]): Map<string, boolean> {
+  const spans = templateSpans(text, segments), out = new Map<string, boolean>();
+  for (let i = 0; i + W1C.window <= text.length; i++) {
+    const w = text.slice(i, i + W1C.window), wa = waived(text, spans, i);
+    out.set(w, (out.get(w) ?? true) && wa);
+  }
   return out;
 }
-export function windowSet(text: string): Set<string> {
-  const out = new Set<string>();
-  for (let i = 0; i + W1C.window <= text.length; i++) out.add(text.slice(i, i + W1C.window));
-  return out;
-}
+export function windowSet(text: string): Set<string> { return new Set(windowStatus(text, []).keys()); }
 export interface AuditResult { failures: string[]; shared: number; waived: number }
-/** Fail-only: a shared window fails unless it is waived on both sides. */
+/** Fail-only, per OCCURRENCE: a shared window fails unless every occurrence of it on BOTH sides lies inside a fixed
+ *  segment of a recognized span. A single non-waived copy (same text, or a copy outside a span) makes it fail. */
 export function runtimeAudit(trainTexts: string[], cohortTexts: string[], template: string): AuditResult {
   const segments = fixedSegments(template);
-  const cohort = new Map<string, boolean>();               // window -> waived on at least one cohort occurrence
-  for (const raw of cohortTexts) { const t = auditNorm(raw); const wa = waivedWindows(t, segments);
-    for (const w of windowSet(t)) cohort.set(w, (cohort.get(w) ?? false) || wa.has(w)); }
+  const merge = (texts: string[]): Map<string, boolean> => {
+    const acc = new Map<string, boolean>();
+    for (const raw of texts) for (const [w, allWaived] of windowStatus(auditNorm(raw), segments)) acc.set(w, (acc.get(w) ?? true) && allWaived);
+    return acc;
+  };
+  const train = merge(trainTexts), cohort = merge(cohortTexts);
   const failures: string[] = []; let shared = 0, waivedCount = 0;
-  for (const raw of trainTexts) {
-    const t = auditNorm(raw); const wa = waivedWindows(t, segments);
-    for (const w of windowSet(t)) {
-      if (!cohort.has(w)) continue;
-      shared++;
-      if (wa.has(w) && cohort.get(w)) waivedCount++; else failures.push(w);
-    }
+  for (const [w, trainWaived] of train) {
+    if (!cohort.has(w)) continue;
+    shared++;
+    if (trainWaived && cohort.get(w)) waivedCount++; else failures.push(w);
   }
   return { failures: [...new Set(failures)], shared, waived: waivedCount };
 }

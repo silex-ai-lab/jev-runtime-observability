@@ -88,6 +88,12 @@ function fitLogistic(X: number[][], y: boolean[], lambda: number): number[] {
 /** KO_SPEC §4.6 G1 for one question. `records` are the admitted records that carry the question. */
 export function g1(question: string, records: G1Record[]): G1Result {
   const ys = records.map(r => r.label), positives = ys.filter(Boolean).length;
+  // §9.7 pipeline: present as a string on EVERY record, or absent on every record (the independent recheck rejects
+  // mixed/absent presence; v1/v2 never set it, so their feature set and output schema are unchanged).
+  const withPipe = records.filter(r => r.pipeline !== undefined).length;
+  const hasPipeline = withPipe > 0;
+  if (hasPipeline && withPipe !== records.length) throw new Error('G1 pipeline must be present on every record or on none');
+  if (hasPipeline && records.some(r => typeof r.pipeline !== 'string')) throw new Error('G1 pipeline must be a string when present');
   const degenerate = records.length === 0 || positives === 0 || positives === ys.length;
   const folds = new Map<number, G1Record[]>();
   for (const r of records) (folds.get(foldOf(r.group)) ?? folds.set(foldOf(r.group), []).get(foldOf(r.group))!).push(r);
@@ -100,7 +106,6 @@ export function g1(question: string, records: G1Record[]): G1Result {
 
   // (a) single features: out-of-fold target encoding. `pipeline` is added only when the records carry it (W1c); v1/v2
   // records leave it undefined, so the feature list — and every output — is unchanged for them.
-  const hasPipeline = records.some(r => r.pipeline !== undefined);
   const feats: Array<[string, (r: G1Record) => string]> = [
     ['source', r => r.source], ['family', r => r.family], ['impact', r => r.impact],
     ...(hasPipeline ? [['pipeline', (r: G1Record) => r.pipeline ?? ''] as [string, (r: G1Record) => string]] : []),
@@ -153,8 +158,8 @@ export function g1(question: string, records: G1Record[]): G1Result {
     const row = (r: G1Record): number[] => {
       const l = Math.log(1 + lengthOf(r)), z = sigma === 0 ? 0 : (l - mu) / sigma;
       const decileVec = new Array(10).fill(0); decileVec[decMaps[k].get(r) ?? 0] = 1;
-      return [1, ...srcHot(r.source), ...famHot(r.family), ...(pipeHot ? pipeHot(r.pipeline ?? '') : []),
-        ...decileVec, r.impact === 'write' ? 1 : 0, ...markersOf(r).map(m => m ? 1 : 0), z];
+      return [1, ...srcHot(r.source), ...famHot(r.family), ...decileVec, r.impact === 'write' ? 1 : 0,
+        ...markersOf(r).map(m => m ? 1 : 0), z, ...(pipeHot ? pipeHot(r.pipeline ?? '') : [])];
     };
     const w = fitLogistic(tr.map(([r]) => row(r)), trY, G1.penalty);
     for (const [r, i] of te) preds[i] = sigmoid(row(r).reduce((s, v, j) => s + v * w[j], 0));

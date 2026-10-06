@@ -1,13 +1,13 @@
 {
  "spec": 3,
  "scanned": 13732,
- "runs": 4240,
+ "runs": 4246,
  "dropped_version": 9486,
  "label_errors": 0,
- "run_errors": 6,
+ "run_errors": {},
  "unbound": {
   "search_sent_emails": 1,
-  "<empty-function-name>": 4,
+  "<empty-function-name>": 5,
   "search_files_by_content": 1
  },
  "limits": {
@@ -22,17 +22,46 @@
  },
  "reference_hash": "b76b6c9a26ba709a1ccc64100ef97e677b51d049dc1ba731e64ee61f28e61059",
  "reference_strings": 88,
- "records": 9105,
- "sampled": 1686,
- "exported": 1686,
+ "records": 13704,
+ "other_records": 492,
+ "sampled": 2000,
+ "exported": 2491,
  "population": {
-  "instruction_override|pos": 4601,
+  "goal_deviation|neg": 6186,
+  "instruction_override|pos": 4617,
   "instruction_override|neg": 1968,
-  "goal_deviation|neg": 2321,
-  "goal_deviation|pos": 215
+  "goal_deviation|pos": 933
+ },
+ "population_by_suite": {
+  "banking": {
+   "goal_deviation|neg": 420,
+   "instruction_override|pos": 293,
+   "instruction_override|neg": 232,
+   "goal_deviation|pos": 114
+  },
+  "slack": {
+   "instruction_override|pos": 4324,
+   "goal_deviation|pos": 603,
+   "goal_deviation|neg": 3440,
+   "instruction_override|neg": 1028
+  },
+  "workspace": {
+   "goal_deviation|neg": 2326,
+   "instruction_override|neg": 708,
+   "goal_deviation|pos": 216
+  }
+ },
+ "other_population": {
+  "injecagent|sensitive_data_transfer|false": 205,
+  "injecagent|sensitive_data_transfer|true": 192,
+  "toolemu|semantic_impact|3": 53,
+  "toolemu|sensitive_data_transfer|false": 44,
+  "toolemu|sensitive_data_transfer|true": 51,
+  "toolemu|semantic_impact|1": 29,
+  "toolemu|semantic_impact|2": 13
  },
  "shortfall": {
-  "goal_deviation|pos": 314,
+  "goal_deviation|pos": 0,
   "goal_deviation|neg": 0,
   "instruction_override|pos": 0,
   "instruction_override|neg": 0
@@ -42,25 +71,72 @@
   "clean": 250
  },
  "diagnostics": {
-  "injection_visible_auroc|goal_deviation": 0.455241935483871,
+  "injection_visible_auroc|goal_deviation": 0.731078,
   "injection_visible_auroc|instruction_override": 1,
-  "tool_name_auroc|goal_deviation": 0.9545537634408602
+  "tool_name_auroc|goal_deviation": 0.95175
  },
  "unknown_reasons": {
   "goal_deviation": {
-   "no-gt-match-attacked": 9962,
-   "no-gt-match-clean": 2355,
-   "harmful-negative-check": 151
+   "no-gt-match-attacked": 3957,
+   "no-gt-match-clean": 1189,
+   "harmful-negative-check": 1528,
+   "injection-read-dual-use": 630,
+   "failed-attack": 204,
+   "matches-both": 414
   },
   "instruction_override": {
-   "injection-absent-or-partial": 7250,
+   "injection-absent-or-partial": 7271,
    "no-low-authority": 1185
   }
  },
  "goal_deviation_negative_yield": {
+  "read_file": {
+   "harmful": 0,
+   "non_harmful": 173
+  },
+  "get_most_recent_transactions": {
+   "harmful": 0,
+   "non_harmful": 156
+  },
+  "get_scheduled_transactions": {
+   "harmful": 0,
+   "non_harmful": 34
+  },
+  "update_user_info": {
+   "harmful": 11,
+   "non_harmful": 0
+  },
+  "update_password": {
+   "harmful": 33,
+   "non_harmful": 0
+  },
+  "update_scheduled_transaction": {
+   "harmful": 13,
+   "non_harmful": 0
+  },
+  "read_channel_messages": {
+   "harmful": 0,
+   "non_harmful": 506
+  },
+  "get_webpage": {
+   "harmful": 0,
+   "non_harmful": 1587
+  },
+  "get_channels": {
+   "harmful": 0,
+   "non_harmful": 632
+  },
+  "get_users_in_channel": {
+   "harmful": 0,
+   "non_harmful": 615
+  },
+  "add_user_to_channel": {
+   "harmful": 24,
+   "non_harmful": 0
+  },
   "get_day_calendar_events": {
    "harmful": 0,
-   "non_harmful": 737
+   "non_harmful": 741
   },
   "get_current_day": {
    "harmful": 0,
@@ -92,7 +168,7 @@
   },
   "list_files": {
    "harmful": 0,
-   "non_harmful": 486
+   "non_harmful": 487
   },
   "delete_file": {
    "harmful": 53,
@@ -101,18 +177,24 @@
   "add_calendar_event_participants": {
    "harmful": 46,
    "non_harmful": 0
+  },
+  "invite_user_to_slack": {
+   "harmful": 76,
+   "non_harmful": 0
   }
  },
  "placeholder_negative_by_suite": {},
- "leak_excluded": {},
+ "leak_excluded": {
+  "AugustSmartLock": 1
+ },
  "rejections": {
-  "state|banking|instruction_override|neg": 13,
-  "state|workspace|instruction_override|neg": 51,
-  "state|workspace|goal_deviation|pos": 29,
-  "state|workspace|goal_deviation|neg": 137,
-  "state|banking|instruction_override|pos": 2
+  "state|agentdojo|instruction_override|neg": 64,
+  "state|agentdojo|goal_deviation|pos": 29,
+  "state|agentdojo|goal_deviation|neg": 140,
+  "state|agentdojo|instruction_override|pos": 2
  },
  "export_no_questions": 0,
+ "a1_fired": false,
  "g1": {
   "goal_deviation": "fail",
   "instruction_override": "fail"

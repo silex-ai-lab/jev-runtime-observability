@@ -1,5 +1,5 @@
 {
- "injection_visible_auroc|goal_deviation": 0.455241935483871,
+ "injection_visible_auroc|goal_deviation": 0.731078,
  "injection_visible_auroc|instruction_override": 1,
- "tool_name_auroc|goal_deviation": 0.9545537634408602
+ "tool_name_auroc|goal_deviation": 0.95175
 }

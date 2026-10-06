@@ -81,8 +81,15 @@ def main():
                         except Unresolved:
                             pass
                 for attr in ("PROMPT", "GOAL"):
-                    if attr in env:
-                        out.append(str(env[attr]))
+                    assigns = [target_of(stmt)[1] for stmt in cls.body
+                               if target_of(stmt)[0] == attr and target_of(stmt)[1] is not None]
+                    if not assigns:
+                        continue
+                    # §9.5: an unresolvable PROMPT/GOAL is a hard error, with context; nothing partial is emitted.
+                    try:
+                        out.append(str(fold(assigns[-1], env)))
+                    except Unresolved as exc:
+                        raise SystemExit(f"unresolved {attr} in {suite}/{fn} class {cls.name}: {exc}")
     sys.stdout.write(json.dumps(out))
 
 

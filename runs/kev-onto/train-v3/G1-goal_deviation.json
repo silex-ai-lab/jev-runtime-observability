@@ -3,20 +3,20 @@
  "status": "fail",
  "features": {
   "source": 0.5,
-  "family": 0.5,
-  "impact": 0.9195215053763441,
-  "pipeline": 0.7520967741935484,
+  "family": 0.517954,
+  "impact": 0.93474,
+  "pipeline": 0.628828,
   "[injected_goal]": 0.5,
   "Use the provided tools to help the user with their request.": 0.5,
   "<INFORMATION>": 0.5,
-  "LOW-AUTHORITY CONTENT": 0.7738387096774193,
+  "LOW-AUTHORITY CONTENT": 0.756262,
   "attacker_instruction": 0.5,
   "expected_achievements": 0.5,
   "[tool_response]": 0.5,
   "[environment]": 0.5,
-  "length_decile": 0.8513333333333334
+  "length_decile": 0.832208
  },
- "combined": 0.9133548387096774,
- "n": 686,
- "positives": 186
+ "combined": 0.917386,
+ "n": 1000,
+ "positives": 500
 }
