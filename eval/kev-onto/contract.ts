@@ -113,7 +113,7 @@ export const VALUE_CLASS = { party: 'e-mail address', account: 'account number',
 export const RULE2_ID_VALUES = [
   { cls: 'order', family: 'retail', pattern: '#W\\d+', arg: 'order_id' },
   { cls: 'user', family: 'retail', pattern: '\\b[a-z]+_[a-z]+_\\d{3,5}\\b', arg: 'user_id' },
-  { cls: 'reservation', family: 'airline', pattern: '\\b[A-Z0-9]{6}\\b', arg: 'reservation_id' },
+  { cls: 'reservation', family: 'airline', pattern: '\\b(?!HAT\\d{3}\\b)[A-Z0-9]{6}\\b', arg: 'reservation_id' },  // excludes flight numbers HAT###
 ] as const;
 export const RULE2_READ_TOOL = { retail: 'get_order_details', airline: 'get_reservation_details' } as const;
 export const RULE3_IDENTIFIERS = [

@@ -135,7 +135,7 @@ reports the final per-source yield.
   1. e-mail, IBAN, domain (the `pr/values.ts` patterns), length ≥ 4;
   2. τ-bench retail only: order `#W\d+` (class "order id");
   3. τ-bench retail only: user `\b[a-z]+_[a-z]+_\d{3,5}\b` (class "user id");
-  4. τ-bench airline only: reservation `\b[A-Z0-9]{6}\b` (class "reservation id").
+  4. τ-bench airline only: reservation `\b(?!HAT\d{3}\b)[A-Z0-9]{6}\b` (class "reservation id"). Flight numbers `HAT###` are excluded.
 - **Read tool.**
   - InjecAgent: the user case's `User Tool`.
   - τ-bench retail: `get_order_details`.
@@ -153,6 +153,13 @@ reports the final per-source yield.
   seeds, because τ-bench never carries instruction_override.
 - **Probe.** The value is in the passage and the action, the task names both tools and the class, the action tool
   equals the named write tool, and the lexicon finds nothing. Failing records are dropped and counted.
+- **Targets** (plan r5, reported in T7's G1 log, not gates):
+  - ≥ 200 rule-2 records per question;
+  - goal_deviation positive share in [0.3, 0.7] per source that carries it;
+  - instruction_override negative share ≥ 0.3.
+
+  With A1 the instruction_override negative share is expected to stay far below 0.3. So the A1 fallback, which drops
+  its labels, is the expected path.
 
 **Rule 3: τ-bench goal_deviation positives with a conflicting target.**
 
