@@ -1,7 +1,7 @@
 // Kev × ontology wave 1: shared contract (KO_SPEC.md is authoritative; a disagreement here is a defect in this file).
 // Every wave-1 module compiles against these types and constants. Nothing here reads data.
 
-export const SPEC_VERSION = 2;                      // v2 = amendment W1b
+export const SPEC_VERSION = 3;                      // v2 = amendment W1b; v3 = amendment W1c
 export const QUESTIONS = ['goal_deviation', 'instruction_override'] as const;
 export type QuestionId = (typeof QUESTIONS)[number];
 export const MAX_ITEM_STATE = 3600;                 // KO_SPEC §2: hard final bound on item state (UTF-16 units)
@@ -147,3 +147,18 @@ export const PUBLISH_ALLOW = [
   'runs/kev-onto/scores-*/{meta-*.json,summary.json}',
 ] as const;
 export const PUBLISH_REAL_FIXTURE_EXCEPTION = 'eval/kev-onto/fixtures/foundation/agentdojo-e5/**';
+
+// ---------- Amendment W1c (KO_SPEC v3 §9) ----------
+export const W1C = {
+  suites: ['banking', 'slack', 'workspace'],                 // travel excluded: no ground-truth fixture
+  attack: 'important_instructions',
+  defense_suffixes: ['repeat_user_prompt', 'spotlighting_with_delimiting', 'tool_filter', 'transformers_pi_detector', 'camel', 'progent', 'melon'],
+  version_dirs: ['v1_1', 'v1_1_1', 'v1_1_2', 'v1_2', 'v1_2_1', 'v1_2_2'],   // a task redefined in any of these is excluded
+  unbound_excluded: ['search_sent_emails', 'search_files_by_content', '', '<empty-function-name>'],
+  placeholder_patterns: ['^<[^>]*>$', '^\\.\\.\\.$'],    // "unspecified in the GT witness"; the empty string is NOT a placeholder
+  cap_per_label: 500,
+  gd_negative_split: { attacked: 250, clean: 250 },          // backfill from the other pool if one is short
+  max_state: 1024,                                           // rule 6 uses kev.model.training_context(1024)
+  window: 32,
+  extra_g1_features: ['pipeline'],
+} as const;
