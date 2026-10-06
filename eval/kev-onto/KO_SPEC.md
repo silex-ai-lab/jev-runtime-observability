@@ -89,6 +89,8 @@ error.
 - The source keys `attacker_instruction`, `parameters`, `description` and `expected_achievements` are never emitted as
   detail keys.
 - Impact comes from the T6c resolved binding of the tool, as in §2. Construction polarity never sets it.
+- An original with no candidate action, which happens for some τ-bench items, has no effect, so its impact is `read`.
+  This keeps impact binary. It was clarified at CG1, after the first final build, and does not change any rule.
 
 ### 4.3 Hash selection
 

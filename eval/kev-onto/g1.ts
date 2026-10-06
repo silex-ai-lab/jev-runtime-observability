@@ -37,7 +37,7 @@ function deciles(records: G1Record[], k: number): (r: G1Record) => number {
 }
 
 /** One-hot with the training-fold vocabulary sorted plus a trailing `unseen` column. */
-function oneHot(values: string[], vocab: string[]): (v: string) => number[] {
+function oneHot(vocab: string[]): (v: string) => number[] {
   const index = new Map(vocab.map((v, i) => [v, i]));
   return v => { const vec = new Array(vocab.length + 1).fill(0); const i = index.get(v); vec[i ?? vocab.length] = 1; return vec; };
 }
@@ -91,6 +91,10 @@ export function g1(question: string, records: G1Record[]): G1Result {
   const emptyFold = [...Array(G1.folds).keys()].some(k => !(folds.get(k)?.length) || (folds.get(k)?.length ?? 0) === records.length);
   if (degenerate || emptyFold) return { question, status: 'undefined', features: {}, combined: null, n: records.length, positives };
 
+  // Decile assignment per fold (boundaries from the other four folds), precomputed once so (a) stays O(n^2), not O(n^3).
+  const decMaps: Array<Map<G1Record, number>> = [];
+  for (let k = 0; k < G1.folds; k++) { const d = deciles(records, k); decMaps.push(new Map(records.map(r => [r, d(r)]))); }
+
   // (a) single features: out-of-fold target encoding.
   const feats: Array<[string, (r: G1Record) => string]> = [
     ['source', r => r.source], ['family', r => r.family], ['impact', r => r.impact],
@@ -98,6 +102,8 @@ export function g1(question: string, records: G1Record[]): G1Result {
   ];
   const out: Record<string, number> = {};
   for (const [name, key] of feats) {
+    // KO_SPEC §4.6(a): a feature with a single value over all records has AUROC 0.5 by definition.
+    if (new Set(records.map(key)).size === 1) { out[name] = 0.5; continue; }
     const scores: number[] = [];
     for (const r of records) {
       const k = foldOf(r.group);
@@ -109,16 +115,17 @@ export function g1(question: string, records: G1Record[]): G1Result {
     const a = auroc(scores, ys);
     out[name] = Number.isNaN(a) ? 0.5 : a;
   }
-  // decile feature (continuous out-of-fold target encoding uses the decile as the value)
+  // decile feature (value target-encoded like the others; constant over all records => 0.5).
   {
     const scores: number[] = [];
     for (const r of records) {
-      const k = foldOf(r.group); const decile = deciles(records, k)(r);
+      const k = foldOf(r.group); const dd = decMaps[k].get(r);
       const others = records.filter(x => foldOf(x.group) !== k);
-      const group = others.filter(x => deciles(records, k)(x) === decile);
+      const group = others.filter(x => decMaps[k].get(x) === dd);
       scores.push(group.length ? group.filter(x => x.label).length / group.length : others.filter(x => x.label).length / others.length);
     }
-    out['length_decile'] = auroc(scores, ys);
+    const decilesAll = new Set(records.map(r => decMaps[foldOf(r.group)].get(r)));
+    out['length_decile'] = decilesAll.size === 1 ? 0.5 : auroc(scores, ys);
   }
   const aPass = Object.values(out).every(a => a >= G1.single_lo && a <= G1.single_hi);
 
@@ -130,15 +137,14 @@ export function g1(question: string, records: G1Record[]): G1Result {
     if (!tr.length || !te.length) return { question, status: 'undefined', features: out, combined: null, n: records.length, positives };
     const trY = tr.map(([r]) => r.label), trPos = trY.filter(Boolean).length;
     if (trPos === 0 || trPos === trY.length) { const rate = trPos / trY.length; for (const [, i] of te) preds[i] = rate; continue; }
-    const dec = deciles(records, k);
     const srcVocab = [...new Set(tr.map(([r]) => r.source))].sort(), famVocab = [...new Set(tr.map(([r]) => r.family))].sort();
-    const srcHot = oneHot([], srcVocab), famHot = oneHot([], famVocab);
+    const srcHot = oneHot(srcVocab), famHot = oneHot(famVocab);
     const lens = tr.map(([r]) => Math.log(1 + lengthOf(r)));
     const mu = lens.reduce((a, b) => a + b, 0) / lens.length;
     const sigma = Math.sqrt(lens.reduce((a, b) => a + (b - mu) ** 2, 0) / lens.length);
     const row = (r: G1Record): number[] => {
       const l = Math.log(1 + lengthOf(r)), z = sigma === 0 ? 0 : (l - mu) / sigma;
-      const decileVec = new Array(10).fill(0); decileVec[dec(r)] = 1;
+      const decileVec = new Array(10).fill(0); decileVec[decMaps[k].get(r) ?? 0] = 1;
       return [1, ...srcHot(r.source), ...famHot(r.family), ...decileVec, r.impact === 'write' ? 1 : 0, ...markersOf(r).map(m => m ? 1 : 0), z];
     };
     const w = fitLogistic(tr.map(([r]) => row(r)), trY, G1.penalty);

@@ -1,0 +1,68 @@
+{
+ "records": 1919,
+ "admitted": 1832,
+ "reference_hash": "4fa08ad45d743bfcee24c7665caaff6a76d9f4f1a52c81aa6af0a4f100651126",
+ "reference_tools": 117,
+ "reference_windows": 202222,
+ "population": {
+  "asb|original|instruction_override|true": 290,
+  "asb|original|goal_deviation|true": 290,
+  "asb|original|instruction_override|false": 14,
+  "asb|original|goal_deviation|false": 14,
+  "injecagent|original|instruction_override|false": 13,
+  "injecagent|original|sensitive_data_transfer|false": 205,
+  "injecagent|original|instruction_override|true": 384,
+  "injecagent|original|sensitive_data_transfer|true": 192,
+  "taubench|original|goal_deviation|false": 426,
+  "toolemu|original|sensitive_data_transfer|false": 44,
+  "toolemu|original|sensitive_data_transfer|true": 51,
+  "injecagent|rule2|goal_deviation|false": 3,
+  "injecagent|rule2|instruction_override|false": 3,
+  "taubench|rule2|goal_deviation|false": 330,
+  "taubench|rule3|goal_deviation|true": 364
+ },
+ "drop": {
+  "original:unbound-tool": 1,
+  "rule2:no-value": 15,
+  "rule2:no-passage": 384,
+  "rule2:duplicate-passage": 92,
+  "rule3:no-candidate": 63
+ },
+ "exclusions": {
+  "rule5:taubench": 2,
+  "rule5:toolemu": 2
+ },
+ "rejections": {
+  "state|taubench|goal_deviation|false": 39,
+  "state|taubench|goal_deviation|true": 44
+ },
+ "lexicon_yields": {
+  "rule4:asb:kept": 14,
+  "rule4:injecagent:kept": 13,
+  "rule2:injecagent:seeds": 13,
+  "rule2:injecagent:kept": 13,
+  "rule2:taubench:seeds": 335,
+  "rule2:taubench:kept": 335
+ },
+ "goal_deviation_share": {
+  "asb": {
+   "pos": 290,
+   "neg": 14
+  },
+  "taubench": {
+   "pos": 364,
+   "neg": 756
+  },
+  "injecagent": {
+   "pos": 0,
+   "neg": 3
+  }
+ },
+ "undescribed": [
+  "taubench:retail:retail:570:0 (transfer_to_human_agents)"
+ ],
+ "a1_outcome": {
+  "outcome": "STOP",
+  "overrides": []
+ }
+}
