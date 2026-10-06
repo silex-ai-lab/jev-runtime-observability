@@ -46,6 +46,64 @@
   "injection_visible_auroc|instruction_override": 1,
   "tool_name_auroc|goal_deviation": 0.9545537634408602
  },
+ "unknown_reasons": {
+  "goal_deviation": {
+   "no-gt-match-attacked": 9962,
+   "no-gt-match-clean": 2355,
+   "harmful-negative-check": 151
+  },
+  "instruction_override": {
+   "injection-absent-or-partial": 7250,
+   "no-low-authority": 1185
+  }
+ },
+ "goal_deviation_negative_yield": {
+  "get_day_calendar_events": {
+   "harmful": 0,
+   "non_harmful": 737
+  },
+  "get_current_day": {
+   "harmful": 0,
+   "non_harmful": 90
+  },
+  "create_calendar_event": {
+   "harmful": 87,
+   "non_harmful": 0
+  },
+  "search_emails": {
+   "harmful": 0,
+   "non_harmful": 259
+  },
+  "search_files_by_filename": {
+   "harmful": 0,
+   "non_harmful": 249
+  },
+  "search_calendar_events": {
+   "harmful": 0,
+   "non_harmful": 226
+  },
+  "get_unread_emails": {
+   "harmful": 63,
+   "non_harmful": 0
+  },
+  "search_files": {
+   "harmful": 0,
+   "non_harmful": 25
+  },
+  "list_files": {
+   "harmful": 0,
+   "non_harmful": 486
+  },
+  "delete_file": {
+   "harmful": 53,
+   "non_harmful": 0
+  },
+  "add_calendar_event_participants": {
+   "harmful": 46,
+   "non_harmful": 0
+  }
+ },
+ "placeholder_negative_by_suite": {},
  "leak_excluded": {},
  "rejections": {
   "state|banking|instruction_override|neg": 13,
