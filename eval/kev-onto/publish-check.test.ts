@@ -52,6 +52,15 @@ try {
   put('logs/notes.md', 'x\n'); sh(['add', '-f', 'logs/notes.md']);
   ok('out-of-root staged file fails', check(wt).failures.some(f => f.startsWith('not allowlisted: logs/notes.md')));
   reset();
+  sh(['rm', '-q', 'README.md']);
+  ok('staged deletion outside the allowlist fails', check(wt).failures.some(f => f.startsWith('not allowlisted: README.md')));
+  reset();
+  rmSync(join(wt, 'LICENSE')); execFileSync('ln', ['-s', 'NOTICE', join(wt, 'LICENSE')]); sh(['add', 'LICENSE']);
+  ok('staged type change outside the allowlist fails', check(wt).failures.some(f => f.startsWith('not allowlisted: LICENSE')));
+  reset();
+  sh(['mv', 'eval/kev-onto/lexicon-yield.ts', 'logs/lexicon-yield.ts']);
+  ok('rename out of the allowlist fails on the new path', check(wt).failures.some(f => f.startsWith('not allowlisted: logs/lexicon-yield.ts')));
+  reset();
   put('eval/kev-onto/new-module.ts', 'export const x = 1;\n'); sh(['add', 'eval/kev-onto/new-module.ts']);
   appendFileSync(join(wt, 'eval/kev-onto/new-module.ts'), 'export const y = 2;\n');
   ok('staged/working-tree mismatch fails', check(wt).failures.some(f => f.startsWith('working tree differs')));

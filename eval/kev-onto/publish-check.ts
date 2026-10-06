@@ -1,5 +1,5 @@
 // Publication guard for wave 1 (KO_SPEC §7). Run in the repo before a wave-1 commit. It fails if:
-//   - any staged path (any directory) is outside PUBLISH_ALLOW;
+//   - any staged change (any type: add/modify/delete/rename/type change; any directory) touches a path outside PUBLISH_ALLOW;
 //   - a staged path's working-tree bytes differ from its staged blob (the check reads staged blobs);
 //   - the real-fixture exception folder does not regenerate byte-identically, or holds a file build.ts does not produce;
 //   - with --cohort-text <jsonl of {text}> (only after F1), any staged text file shares a LEAK_WINDOW-character window
@@ -47,11 +47,15 @@ export interface CheckResult { staged: string[]; failures: string[] }
 export function check(repo: string, cohortText?: string): CheckResult {
   const git = (args: string[]) => execFileSync('git', ['-C', repo, ...args], { encoding: 'buffer', maxBuffer: 1 << 30 });
   const lines = (args: string[]) => git(args).toString('utf8').split('\n').filter(Boolean);
-  const staged = lines(['diff', '--cached', '--name-only', '--diff-filter=ACMR']).sort();
+  // every change type (A C D M R T U X B): all touched paths, both sides of a rename/copy
+  const changes = lines(['diff', '--cached', '--name-status', '--no-renames']);
+  const touched = [...new Set(changes.flatMap(l => l.split('\t').slice(1)))].sort();
+  const inIndex = new Set(lines(['diff', '--cached', '--name-only', '--no-renames', '--diff-filter=ACMRT']));
+  const staged = touched;
   const failures: string[] = [];
-  for (const p of disallowed(staged)) failures.push(`not allowlisted: ${p}`);
+  for (const p of disallowed(touched)) failures.push(`not allowlisted: ${p} (${changes.find(l => l.split('\t').slice(1).includes(p))?.split('\t')[0]})`);
   const blob = new Map<string, Buffer>();
-  for (const p of staged) {
+  for (const p of touched.filter(x => inIndex.has(x))) {
     const b = git(['show', `:${p}`]); blob.set(p, b);
     const wt = join(repo, p);
     if (!existsSync(wt) || !readFileSync(wt).equals(b)) failures.push(`working tree differs from staged blob: ${p}`);

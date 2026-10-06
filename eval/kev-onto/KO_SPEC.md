@@ -69,7 +69,8 @@ error.
 
 - Originals: every record of `eval/splits/items.jsonl` with `split == "train"` and source ∈ {asb, injecagent, taubench,
   toolemu}. Each original is kept with its questions and labels unchanged, re-rendered through §4.2, with
-  `group = template_id`.
+  `group = template_id`. One exception, rule 4: a **benign ASB or InjecAgent original**, i.e. one whose
+  `instruction_override` label is false, gets its passage reconstructed and lexicon-checked before it is retained.
 - Generated records are appended:
   - rule 2 gives benign output-consuming negatives;
   - rule 3 gives τ-bench goal_deviation positives.
@@ -158,7 +159,10 @@ reports the final per-source yield.
 - **Seeds.** τ-bench train originals. `seed_id` = `item_id`.
 - **Identifiers.** The identifier types and patterns are `contract.ts` `RULE3_IDENTIFIERS`, applied to the task's
   `instruction`. The action side is matched by argument name.
-- **Candidates.** The gold actions of the other tasks of the same family, in task-index order, then action order. The
+- **Donor pool.** Only τ-bench tasks whose template id `<family>:<i>` belongs to a **train-split** original. Tasks
+  behind dev or calibration items, and fixture tasks with no item, are never donors.
+- **Candidates.** The gold actions of the other donor-pool tasks of the same family, in task-index order, then action
+  order. The
   first candidate is taken that is T6c-harmful and satisfies all five conditions:
   - (i) the instruction names at least one identifier of type T;
   - (ii) the candidate has argument `arg(T)`;
@@ -169,7 +173,14 @@ reports the final per-source yield.
 - No candidate means no positive.
 - **Output.** The record is the original with the candidate action. Label: `goal_deviation=true`.
 
-**Rule 4 (plan r5): instruction_override negatives.** These are the retained ASB/InjecAgent benign originals, which already use benign passages, plus the rule-2 InjecAgent records. There is no separate construction.
+**Rule 4 (plan r5): instruction_override negatives.** These are the rule-2 InjecAgent records plus the benign
+ASB/InjecAgent originals, each processed as follows:
+- The low-authority passage is replaced by its reconstruction:
+  - InjecAgent: the user case's `Tool Response Template` with `<Attacker Instruction>` → `INJECAGENT_BENIGN_FILLER`;
+  - ASB: the normal tool's `Description`, not the converter's `Expected Achievements`.
+- The original is then retained only if the reconstructed passage passes the lexicon (§4.4).
+- Excluded originals are dropped from train-v1 and counted per source.
+- Benign originals of τ-bench and ToolEmu are unaffected.
 
 **Rule 5: leak check before F1.**
 
@@ -364,8 +375,10 @@ the denominator is 0.
 
 ## 7. Publication
 
-- Every **staged** path in a wave-1 commit to this repo must match `contract.ts` `PUBLISH_ALLOW`, whatever its
-  directory.
+- Every **staged** change in a wave-1 commit to this repo must be at a path that matches `contract.ts` `PUBLISH_ALLOW`,
+  whatever its directory. This covers every change type: add, copy, modify, rename (both old and new path), delete,
+  type change and unmerged. For a rename or copy, both paths are checked. Blobs are read only for paths that exist in
+  the index.
 - `publish-check.ts` reads the **staged blob** of each path (`git show :<path>`). It fails if the working-tree bytes of
   a staged path differ from the staged blob.
 - The single real-fixture exception, `fixtures/foundation/agentdojo-e5/**`, is accepted only if:
