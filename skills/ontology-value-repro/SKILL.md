@@ -43,7 +43,7 @@ ln -s "$PWD/skills/ontology-value-repro" ~/.claude/skills/ontology-value-repro  
 ## 3. One-command check (no judge needed)
 
 ```bash
-bash skills/ontology-value-repro/scripts/repro-check.sh      # about 3 min; SKIP_STATS=1 for data only (about 1 min)
+bash skills/ontology-value-repro/scripts/repro-check.sh      # about 4 min; SKIP_STATS=1 for data only (about 1 min)
 ```
 
 The script does four things. It writes only to a temporary directory, never to `runs/`.
@@ -135,6 +135,8 @@ git -C ~/workplace/Silex/third_party/kev checkout 84847f0a883d900f7de5b7a57eaa34
 ```
 
 Compare `runs/ft-kev-0.8b-<today>/training_metrics.json` with the original's (`records_seen` 2 366, `optimizer_steps` 296).
+
+The last step leaves the Kev checkout at the serving commit `84847f0`, so `jev-work-plan`'s `resume-check.sh` will warn that Kev is not at `3e1cd3b`. That warning is expected here.
 
 What changes with regenerated weights:
 

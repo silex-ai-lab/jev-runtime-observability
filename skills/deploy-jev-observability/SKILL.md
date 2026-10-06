@@ -119,11 +119,11 @@ If `npm test` fails on a fresh host, stop and read the failure. Do not deploy a 
 The pinned Kev commit is recorded in `docs/THIRD_PARTY.md` and in `scripts/kev-serve.sh`.
 
 ```bash
-git clone https://github.com/jaredpalmer/kev.git ~/kev && git -C ~/kev checkout <commit from docs/THIRD_PARTY.md>
-(cd ~/kev && uv sync --extra serve)      # CUDA/ROCm on Linux, MLX on Apple Silicon
+git clone https://github.com/jaredpalmer/kev.git ~/workplace/Silex/third_party/kev && git -C ~/workplace/Silex/third_party/kev checkout <commit from docs/THIRD_PARTY.md>
+(cd ~/workplace/Silex/third_party/kev && uv sync --extra serve)      # CUDA/ROCm on Linux, MLX on Apple Silicon
 # Linux + CUDA only, recommended by Kev for Qwen3.5 speed:
-(cd ~/kev && uv pip install flash-linear-attention)
-KEV_DIR=~/kev KEV_RUN=jaredpalmer/kev-4b KEV_PORT=8009 npm run kev     # first start downloads the weights
+(cd ~/workplace/Silex/third_party/kev && uv pip install flash-linear-attention)
+KEV_DIR=~/workplace/Silex/third_party/kev KEV_RUN=jaredpalmer/kev-4b KEV_PORT=8009 npm run kev     # first start downloads the weights
 ```
 
 - **Offline hosts:** copy the Hugging Face cache (`~/.cache/huggingface/hub/models--jaredpalmer--kev-4b` and its Qwen base model) from a machine that has it, and set `HF_HUB_OFFLINE=1`.

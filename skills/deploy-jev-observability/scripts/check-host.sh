@@ -32,7 +32,7 @@ free_gb=$(df -Pk "${HOME}" | awk 'NR==2{print int($4/1048576)}')
 if [ "$free_gb" -ge 30 ]; then pass "disk: ${free_gb} GB free in \$HOME"; else warn "disk: only ${free_gb} GB free in \$HOME (models and caches need about 30 GB)"; fi
 
 # Ports
-for p in 8009 8787; do
+for p in 8009 8010 8787 8790 8791 4318; do
   if (command -v lsof >/dev/null && lsof -iTCP:"$p" -sTCP:LISTEN >/dev/null 2>&1); then warn "port $p already in use"; else pass "port $p free"; fi
 done
 

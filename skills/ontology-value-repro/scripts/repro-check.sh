@@ -4,7 +4,7 @@
 #   bash skills/ontology-value-repro/scripts/repro-check.sh            # from the jev-runtime-observability checkout
 #   KEEP=1 ...  keeps the temporary directory;  SKIP_STATS=1 ... checks data only (about 1 minute instead of about 4)
 set -uo pipefail
-cd "$(dirname "$0")/../../.."
+cd "$(dirname "$(readlink -f "$0")")/../../.."   # readlink -f: also works when run through ~/.claude/skills/ symlinks
 J=$PWD; W=$(cd .. && pwd); SM="$W/silex-mockup"
 ARCHIVE="$SM/swm/.cache/agentdojo-repo-089ed468cf3e.tar.gz"
 ARCHIVE_URL=https://codeload.github.com/ethz-spylab/agentdojo/tar.gz/089ed468cf3ed0322acc66b0211f26d9d90dbf60

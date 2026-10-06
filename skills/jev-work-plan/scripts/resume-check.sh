@@ -2,7 +2,8 @@
 # Checks this machine before resuming the dated work plan, and lists the open tasks.
 # Run from the repo root: bash skills/jev-work-plan/scripts/resume-check.sh
 set -u
-here="$(cd "$(dirname "$0")/.." && pwd)"
+here="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"   # readlink -f: also works through ~/.claude/skills/ symlinks
+cd "$here/../.."                                              # git checks below are about this checkout, whatever the caller's cwd
 ok()   { echo "ok    $*"; }
 warn() { echo "WARN  $*"; }
 fail() { echo "FAIL  $*"; }
