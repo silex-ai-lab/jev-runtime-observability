@@ -1,0 +1,69 @@
+{
+ "id": "agentdojo-e5",
+ "source": {
+  "repo": "github.com/ethz-spylab/agentdojo",
+  "commit": "089ed468cf3e",
+  "tarball_url": "../silex-mockup/swm/.cache/agentdojo-repo-089ed468cf3e.tar.gz",
+  "licence": "MIT",
+  "root_prefix": "",
+  "archive_sha256_prefix": "d7e0ee02"
+ },
+ "pipelines": [
+  "meta-llama_Llama-3.3-70B-Instruct",
+  "Meta-SecAlign-70B"
+ ],
+ "suites": [
+  "banking",
+  "slack",
+  "travel",
+  "workspace"
+ ],
+ "attack": "important_instructions",
+ "path_regex": "(?:^|/)runs/(?<pipeline>[^/]+)/(?<suite>banking|slack|travel|workspace)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$",
+ "expected": {
+  "meta-llama_Llama-3.3-70B-Instruct": {
+   "banking": {
+    "attacked": 144,
+    "benign": 16
+   },
+   "slack": {
+    "attacked": 105,
+    "benign": 21
+   },
+   "travel": {
+    "attacked": 140,
+    "benign": 20
+   },
+   "workspace": {
+    "attacked": 560,
+    "benign": 40
+   }
+  },
+  "Meta-SecAlign-70B": {
+   "banking": {
+    "attacked": 144,
+    "benign": 16
+   },
+   "slack": {
+    "attacked": 105,
+    "benign": 21
+   },
+   "travel": {
+    "attacked": 140,
+    "benign": 20
+   },
+   "workspace": {
+    "attacked": 560,
+    "benign": 40
+   }
+  }
+ },
+ "user_tasks_per_suite": {
+  "banking": 16,
+  "slack": 21,
+  "travel": 20,
+  "workspace": 40
+ },
+ "total_runs": 2092,
+ "strata": 8
+}

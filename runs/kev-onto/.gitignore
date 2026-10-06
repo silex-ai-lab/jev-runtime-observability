@@ -1,0 +1,12 @@
+# Wave 1 (KO_SPEC §7): ignore everything here except the allowlisted aggregate artifacts.
+# Directories are re-included so the negations below can reach files inside them; their other contents stay ignored.
+*
+!*/
+!.gitignore
+!RUN.txt
+!*stats*.json
+!G1*.json
+!incumbent-check/identity.json
+!incumbent-check/agreement-0928-0929.json
+!scores-*/meta-*.json
+!scores-*/summary.json

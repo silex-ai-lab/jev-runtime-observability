@@ -1,0 +1,113 @@
+{
+ "id": "agentdyn-w1",
+ "source": {
+  "repo": "github.com/SaFo-Lab/AgentDyn",
+  "commit": "5353cf7615b135cace8d07c8f12dac53a16b6db3",
+  "tarball_url": "https://codeload.github.com/SaFo-Lab/AgentDyn/tar.gz/5353cf7615b135cace8d07c8f12dac53a16b6db3",
+  "licence": "MIT",
+  "root_prefix": "AgentDyn-5353cf7615b135cace8d07c8f12dac53a16b6db3/"
+ },
+ "pipelines": [
+  "google_gemini-2.5-flash",
+  "google_gemini-2.5-pro",
+  "gpt-4o-2024-08-06",
+  "gpt-4o-mini-2024-07-18",
+  "gpt-5-mini-2025-08-07"
+ ],
+ "suites": [
+  "dailylife",
+  "github",
+  "shopping"
+ ],
+ "attack": "important_instructions",
+ "path_regex": "^runs/(?<pipeline>[^/]+)/(?<suite>[^/]+)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$",
+ "expected": {
+  "google_gemini-2.5-flash": {
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro": {
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06": {
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18": {
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07": {
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   }
+  }
+ },
+ "user_tasks_per_suite": {
+  "dailylife": 20,
+  "github": 20,
+  "shopping": 20
+ },
+ "total_runs": 3100,
+ "strata": 15,
+ "leak_reference": {
+  "paths": [
+   "src/agentdojo/default_suites/v1/shopping/",
+   "src/agentdojo/default_suites/v1/github/",
+   "src/agentdojo/default_suites/v1/dailylife/"
+  ],
+  "files": [
+   "eval/convert/fixtures/agentdojo.json"
+  ]
+ }
+}
