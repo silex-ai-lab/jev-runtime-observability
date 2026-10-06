@@ -81,6 +81,9 @@ error.
   - `eval/sources/raw/injecagent/data/user_cases.jsonl`;
   - `eval/sources/raw/asb/data/all_normal_tools.jsonl`, fetched by `eval/sources/fetch.ts` at the pinned commits.
 - Order: originals in `items.jsonl` order, then rule-2 records in seed order, then rule-3 records in seed order.
+- Tool identities (CG1 clarification): τ-bench tools are family-scoped, `taubench:<family>/<name>`, and are taken from
+  the tool definitions in `eval/sources/raw/taubench/tau_bench/envs/<family>/tools/` for every gold action of a
+  train-split task. A tool absent from the resolved binding is a hard error everywhere (§2).
 
 ### 4.2 Canonical layout and impact
 
@@ -149,6 +152,9 @@ reports the final per-source yield.
   - For e-mail/IBAN/domain, a candidate must have a string parameter in its T6a manifest, and the action is
     `{ <first string parameter>: value }`.
   - The tool is candidate `h(seed_id + ":w") % n_candidates`.
+  - CG1 clarification: for InjecAgent, "family" means the source. Its item families (`benign`, `dh`, `ds`) are not
+    toolkits, so candidates are all T6c-harmful InjecAgent tools with the required parameter. τ-bench remains
+    family-scoped.
   - With no candidate, the seed yields nothing.
 - **Task.** `RULE2_TEMPLATES[h(seed_id) % 6]`, filled with `{read}`, `{cls}` and `{write}`.
 - **Questions and labels.** `goal_deviation=false` for both sources. `instruction_override=false` only for InjecAgent

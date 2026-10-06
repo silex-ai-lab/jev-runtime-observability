@@ -2893,298 +2893,6 @@
    "source": "injecagent"
   },
   {
-   "id": "taubench:airline/book_reservation",
-   "name": "book_reservation",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "cabin",
-     "type": "string"
-    },
-    {
-     "name": "destination",
-     "type": "string"
-    },
-    {
-     "name": "flight_type",
-     "type": "string"
-    },
-    {
-     "name": "flights",
-     "type": "array"
-    },
-    {
-     "name": "insurance",
-     "type": "string"
-    },
-    {
-     "name": "nonfree_baggages",
-     "type": "number"
-    },
-    {
-     "name": "origin",
-     "type": "string"
-    },
-    {
-     "name": "passengers",
-     "type": "array"
-    },
-    {
-     "name": "payment_methods",
-     "type": "array"
-    },
-    {
-     "name": "total_baggages",
-     "type": "number"
-    },
-    {
-     "name": "user_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/cancel_pending_order",
-   "name": "cancel_pending_order",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "reason",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:airline/cancel_reservation",
-   "name": "cancel_reservation",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "reservation_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/exchange_delivered_order_items",
-   "name": "exchange_delivered_order_items",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "item_ids",
-     "type": "array"
-    },
-    {
-     "name": "new_item_ids",
-     "type": "array"
-    },
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "payment_method_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/find_user_id_by_email",
-   "name": "find_user_id_by_email",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "email",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/find_user_id_by_name_zip",
-   "name": "find_user_id_by_name_zip",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "first_name",
-     "type": "string"
-    },
-    {
-     "name": "last_name",
-     "type": "string"
-    },
-    {
-     "name": "zip",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:airline/get_reservation_details",
-   "name": "get_reservation_details",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "reservation_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:airline/get_user_details",
-   "name": "get_user_details",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "user_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/modify_pending_order_address",
-   "name": "modify_pending_order_address",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "address1",
-     "type": "string"
-    },
-    {
-     "name": "address2",
-     "type": "string"
-    },
-    {
-     "name": "city",
-     "type": "string"
-    },
-    {
-     "name": "country",
-     "type": "string"
-    },
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "state",
-     "type": "string"
-    },
-    {
-     "name": "zip",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/modify_pending_order_items",
-   "name": "modify_pending_order_items",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "item_ids",
-     "type": "array"
-    },
-    {
-     "name": "new_item_ids",
-     "type": "array"
-    },
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "payment_method_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/modify_pending_order_payment",
-   "name": "modify_pending_order_payment",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "payment_method_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:retail/return_delivered_order_items",
-   "name": "return_delivered_order_items",
-   "description": "tau-bench tool (retail)",
-   "params": [
-    {
-     "name": "item_ids",
-     "type": "array"
-    },
-    {
-     "name": "order_id",
-     "type": "string"
-    },
-    {
-     "name": "payment_method_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:airline/transfer_to_human_agents",
-   "name": "transfer_to_human_agents",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "summary",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
-   "id": "taubench:airline/update_reservation_flights",
-   "name": "update_reservation_flights",
-   "description": "tau-bench tool (airline)",
-   "params": [
-    {
-     "name": "cabin",
-     "type": "string"
-    },
-    {
-     "name": "flights",
-     "type": "array"
-    },
-    {
-     "name": "payment_id",
-     "type": "string"
-    },
-    {
-     "name": "reservation_id",
-     "type": "string"
-    }
-   ],
-   "source": "taubench"
-  },
-  {
    "id": "toolemu:Amazon",
    "name": "Amazon",
    "description": "An Amazon toolkit to perform common online shopping tasks like searching for products, viewing product details, managing the shopping cart and wish list, placing orders, and posting reviews. It also allows users to view their saved addresses and payment methods, and search their order history.",
@@ -3421,6 +3129,477 @@
    "description": "A toolkit that provides functionalities of a web browser, including navigating to a URL, retrieving elements matching a CSS selector, retrieving the element details, inputting text into an input field, clicking hyperlinks or buttons, and searching the browsing history. It also allows users to perform web browsing tasks such as filling out forms, downloading files, and clicking on hyperlinks or buttons.",
    "params": [],
    "source": "toolemu"
+  },
+  {
+   "id": "taubench:airline/book_reservation",
+   "name": "book_reservation",
+   "description": "Book a reservation.",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "string"
+    },
+    {
+     "name": "origin",
+     "type": "string"
+    },
+    {
+     "name": "destination",
+     "type": "string"
+    },
+    {
+     "name": "flight_type",
+     "type": "string"
+    },
+    {
+     "name": "cabin",
+     "type": "string"
+    },
+    {
+     "name": "flights",
+     "type": "array"
+    },
+    {
+     "name": "passengers",
+     "type": "array"
+    },
+    {
+     "name": "payment_methods",
+     "type": "array"
+    },
+    {
+     "name": "total_baggages",
+     "type": "integer"
+    },
+    {
+     "name": "nonfree_baggages",
+     "type": "integer"
+    },
+    {
+     "name": "insurance",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/calculate",
+   "name": "calculate",
+   "description": "Calculate the result of a mathematical expression.",
+   "params": [
+    {
+     "name": "expression",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/cancel_reservation",
+   "name": "cancel_reservation",
+   "description": "Cancel the whole reservation.",
+   "params": [
+    {
+     "name": "reservation_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/get_reservation_details",
+   "name": "get_reservation_details",
+   "description": "Get the details of a reservation.",
+   "params": [
+    {
+     "name": "reservation_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/get_user_details",
+   "name": "get_user_details",
+   "description": "Get the details of an user, including their reservations.",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/search_direct_flight",
+   "name": "search_direct_flight",
+   "description": "Search direct flights between two cities on a specific date.",
+   "params": [
+    {
+     "name": "origin",
+     "type": "string"
+    },
+    {
+     "name": "destination",
+     "type": "string"
+    },
+    {
+     "name": "date",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/send_certificate",
+   "name": "send_certificate",
+   "description": "Send a certificate to a user. Be careful!",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "string"
+    },
+    {
+     "name": "amount",
+     "type": "number"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/update_reservation_baggages",
+   "name": "update_reservation_baggages",
+   "description": "Update the baggage information of a reservation.",
+   "params": [
+    {
+     "name": "reservation_id",
+     "type": "string"
+    },
+    {
+     "name": "total_baggages",
+     "type": "integer"
+    },
+    {
+     "name": "nonfree_baggages",
+     "type": "integer"
+    },
+    {
+     "name": "payment_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/update_reservation_flights",
+   "name": "update_reservation_flights",
+   "description": "Update the flight information of a reservation.",
+   "params": [
+    {
+     "name": "reservation_id",
+     "type": "string"
+    },
+    {
+     "name": "cabin",
+     "type": "string"
+    },
+    {
+     "name": "flights",
+     "type": "array"
+    },
+    {
+     "name": "payment_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:airline/update_reservation_passengers",
+   "name": "update_reservation_passengers",
+   "description": "Update the passenger information of a reservation.",
+   "params": [
+    {
+     "name": "reservation_id",
+     "type": "string"
+    },
+    {
+     "name": "passengers",
+     "type": "array"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/calculate",
+   "name": "calculate",
+   "description": "Calculate the result of a mathematical expression.",
+   "params": [
+    {
+     "name": "expression",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/cancel_pending_order",
+   "name": "cancel_pending_order",
+   "description": "Cancel a pending order. If the order is already processed or delivered, it cannot be cancelled. The agent needs to explain the cancellation detail and ask for explicit user confirmation (yes/no) to proceed. If the user confirms, the order status will be changed to 'cancelled' and the payment will be refunded. The refund will be added to the user's gift card balance immediately if the payment was made using a gift card, otherwise the refund would take 5-7 business days to process. The function returns the order details after the cancellation.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "reason",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/exchange_delivered_order_items",
+   "name": "exchange_delivered_order_items",
+   "description": "Exchange items in a delivered order to new items of the same product type. For a delivered order, return or exchange can be only done once by the agent. The agent needs to explain the exchange detail and ask for explicit user confirmation (yes/no) to proceed.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "item_ids",
+     "type": "array"
+    },
+    {
+     "name": "new_item_ids",
+     "type": "array"
+    },
+    {
+     "name": "payment_method_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/find_user_id_by_email",
+   "name": "find_user_id_by_email",
+   "description": "Find user id by email. If the user is not found, the function will return an error message.",
+   "params": [
+    {
+     "name": "email",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/find_user_id_by_name_zip",
+   "name": "find_user_id_by_name_zip",
+   "description": "Find user id by first name, last name, and zip code. If the user is not found, the function will return an error message. By default, find user id by email, and only call this function if the user is not found by email or cannot remember email.",
+   "params": [
+    {
+     "name": "first_name",
+     "type": "string"
+    },
+    {
+     "name": "last_name",
+     "type": "string"
+    },
+    {
+     "name": "zip",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/get_order_details",
+   "name": "get_order_details",
+   "description": "Get the status and details of an order.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/get_product_details",
+   "name": "get_product_details",
+   "description": "Get the inventory details of a product.",
+   "params": [
+    {
+     "name": "product_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/get_user_details",
+   "name": "get_user_details",
+   "description": "Get the details of a user, including their orders.",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/list_all_product_types",
+   "name": "list_all_product_types",
+   "description": "List the name and product id of all product types. Each product type has a variety of different items with unique item ids and options. There are only 50 product types in the store.",
+   "params": [],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/modify_pending_order_address",
+   "name": "modify_pending_order_address",
+   "description": "Modify the shipping address of a pending order. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "address1",
+     "type": "string"
+    },
+    {
+     "name": "address2",
+     "type": "string"
+    },
+    {
+     "name": "city",
+     "type": "string"
+    },
+    {
+     "name": "state",
+     "type": "string"
+    },
+    {
+     "name": "country",
+     "type": "string"
+    },
+    {
+     "name": "zip",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/modify_pending_order_items",
+   "name": "modify_pending_order_items",
+   "description": "Modify items in a pending order to new items of the same product type. For a pending order, this function can only be called once. The agent needs to explain the exchange detail and ask for explicit user confirmation (yes/no) to proceed.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "item_ids",
+     "type": "array"
+    },
+    {
+     "name": "new_item_ids",
+     "type": "array"
+    },
+    {
+     "name": "payment_method_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/modify_pending_order_payment",
+   "name": "modify_pending_order_payment",
+   "description": "Modify the payment method of a pending order. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "payment_method_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/modify_user_address",
+   "name": "modify_user_address",
+   "description": "Modify the default address of a user. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+   "params": [
+    {
+     "name": "user_id",
+     "type": "string"
+    },
+    {
+     "name": "address1",
+     "type": "string"
+    },
+    {
+     "name": "address2",
+     "type": "string"
+    },
+    {
+     "name": "city",
+     "type": "string"
+    },
+    {
+     "name": "state",
+     "type": "string"
+    },
+    {
+     "name": "country",
+     "type": "string"
+    },
+    {
+     "name": "zip",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/return_delivered_order_items",
+   "name": "return_delivered_order_items",
+   "description": "Return some items of a delivered order. The order status will be changed to 'return requested'. The agent needs to explain the return detail and ask for explicit user confirmation (yes/no) to proceed. The user will receive follow-up email for how and where to return the item.",
+   "params": [
+    {
+     "name": "order_id",
+     "type": "string"
+    },
+    {
+     "name": "item_ids",
+     "type": "array"
+    },
+    {
+     "name": "payment_method_id",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
+  },
+  {
+   "id": "taubench:retail/transfer_to_human_agents",
+   "name": "transfer_to_human_agents",
+   "description": "Transfer the user to a human agent, with a summary of the user's issue. Only transfer if the user explicitly asks for a human agent, or if the user's issue cannot be resolved by the agent with the available tools.",
+   "params": [
+    {
+     "name": "summary",
+     "type": "string"
+    }
+   ],
+   "source": "taubench"
   }
  ]
 }

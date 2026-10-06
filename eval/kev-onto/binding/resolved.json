@@ -4043,16 +4043,22 @@
     "passengers": "core:core-party",
     "payment_methods": "core:core-account",
     "total_baggages": "none",
-    "user_id": "core:core-account"
+    "user_id": "core:core-party"
    },
-   "reason": "param flights: one binder gave none; take the class the other identified; param payment_methods: one binder gave none; take the class the other identified; param user_id: core-account because identifies the user account"
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param flights: one binder gave none; take the class the other identified; param user_id: core-party because a τ-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
+  "taubench:airline/calculate": {
+   "effects": [],
+   "params": {
+    "expression": "none"
+   }
   },
   "taubench:airline/cancel_reservation": {
    "effects": [
     "core:core-effect-data-write"
    ],
    "params": {
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    }
   },
   "taubench:airline/get_reservation_details": {
@@ -4060,7 +4066,7 @@
     "core:core-effect-data-read"
    ],
    "params": {
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    }
   },
   "taubench:airline/get_user_details": {
@@ -4068,33 +4074,74 @@
     "core:core-effect-data-read"
    ],
    "params": {
-    "user_id": "core:core-account"
+    "user_id": "core:core-party"
    },
-   "reason": "param user_id: core-account because identifies the user account"
+   "reason": "param user_id: core-party because a τ-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
   },
-  "taubench:airline/transfer_to_human_agents": {
-   "effects": [],
+  "taubench:airline/search_direct_flight": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
    "params": {
-    "summary": "none"
-   },
-   "reason": "effects: hands the conversation to a human agent (name and params; the manifest has no description): no business state change"
+    "date": "none",
+    "destination": "none",
+    "origin": "none"
+   }
   },
-  "taubench:airline/update_reservation_flights": {
+  "taubench:airline/send_certificate": {
    "effects": [
     "core:core-effect-data-write",
     "core:financial-value-transfer"
    ],
    "params": {
+    "amount": "none",
+    "user_id": "core:core-party"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param user_id: core-party because a τ-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
+  "taubench:airline/update_reservation_baggages": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "nonfree_baggages": "none",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record",
+    "total_baggages": "none"
+   },
+   "reason": "param payment_id: core-account because a payment method is a named holding of value (Account)"
+  },
+  "taubench:airline/update_reservation_flights": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
     "cabin": "none",
     "flights": "core:core-resource",
     "payment_id": "core:core-account",
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param flights: one binder gave none; take the class the other identified"
+   "reason": "param flights: one binder gave none; take the class the other identified; param payment_id: core-account because a payment method is a named holding of value (Account)"
+  },
+  "taubench:airline/update_reservation_passengers": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "passengers": "core:core-party",
+    "reservation_id": "core:core-record"
+   }
+  },
+  "taubench:retail/calculate": {
+   "effects": [],
+   "params": {
+    "expression": "none"
+   }
   },
   "taubench:retail/cancel_pending_order": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "order_id": "core:core-commitment",
@@ -4103,33 +4150,67 @@
   },
   "taubench:retail/exchange_delivered_order_items": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "item_ids": "core:core-resource",
     "new_item_ids": "core:core-resource",
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
-   }
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
   },
   "taubench:retail/find_user_id_by_email": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "email": "core:core-human-user"
+    "email": "core:core-party"
    },
-   "reason": "param email: core-human-user because names a person who authenticates and acts"
+   "reason": "param email: core-party because the e-mail identifies a customer (Party)"
   },
   "taubench:retail/find_user_id_by_name_zip": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "first_name": "none",
-    "last_name": "none",
+    "first_name": "core:core-human-user",
+    "last_name": "core:core-human-user",
     "zip": "none"
+   },
+   "reason": "param first_name: one binder gave none; take the class the other identified; param last_name: one binder gave none; take the class the other identified"
+  },
+  "taubench:retail/get_order_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "order_id": "core:core-commitment"
    }
+  },
+  "taubench:retail/get_product_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "product_id": "core:core-resource"
+   }
+  },
+  "taubench:retail/get_user_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-party"
+   },
+   "reason": "param user_id: core-party because a τ-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
+  "taubench:retail/list_all_product_types": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {}
   },
   "taubench:retail/modify_pending_order_address": {
    "effects": [
@@ -4147,14 +4228,16 @@
   },
   "taubench:retail/modify_pending_order_items": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "item_ids": "core:core-resource",
     "new_item_ids": "core:core-resource",
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
-   }
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
   },
   "taubench:retail/modify_pending_order_payment": {
    "effects": [
@@ -4165,17 +4248,38 @@
     "payment_method_id": "core:core-account"
    }
   },
+  "taubench:retail/modify_user_address": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "state": "none",
+    "user_id": "core:core-party",
+    "zip": "none"
+   },
+   "reason": "param user_id: core-party because a τ-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
   "taubench:retail/return_delivered_order_items": {
    "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
+    "core:core-effect-data-write"
    ],
    "params": {
     "item_ids": "core:core-resource",
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+   }
+  },
+  "taubench:retail/transfer_to_human_agents": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "summary": "none"
+   }
   },
   "toolemu:Amazon": {
    "effects": [

@@ -13,9 +13,9 @@
   "expected_achievements": 0.5,
   "[tool_response]": 0.5,
   "[environment]": 0.5,
-  "length_decile": 0.6083325356561692
+  "length_decile": 0.5856944577390638
  },
- "combined": 0.5465205322102039,
+ "combined": 0.5436010337896047,
  "n": 705,
  "positives": 674
 }

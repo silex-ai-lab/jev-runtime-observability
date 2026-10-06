@@ -1,92 +1,267 @@
 {
  "note": "T6c planner resolutions (blind: tool manifests and the two binder outputs only; no runs, labels or outcomes). One entry per disputed tool.",
  "tools": {
-  "agentdyn:shopping/send_money": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "amount": "none",
-    "date": "none",
-    "recipient": "core:core-party",
-    "subject": "none"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdyn:shopping/login_shopping_account": {
-   "effects": [],
-   "params": {
-    "password": "core:core-credential",
-    "username": "core:core-account"
-   },
-   "reason": "effects: logging in to the user's own account grants no new right and changes no business state"
-  },
-  "agentdyn:shopping/verify_shopping_account": {
-   "effects": [],
-   "params": {
-    "otp": "core:core-credential"
-   },
-   "reason": "effects: verifying the user's own account changes no business state"
-  },
-  "agentdyn:shopping/update_shopping_account_user_info": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "address": "none",
-    "bank_account_number": "core:core-account",
-    "email": "core:core-party",
-    "first_name": "none",
-    "id_number": "core:core-party",
-    "last_name": "none",
-    "passport_number": "core:core-party",
-    "phone_number": "none"
-   },
-   "reason": "param email: one binder gave none; take the class the other identified; param id_number: one binder gave none; take the class the other identified; param passport_number: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/get_invoice": {
+  "agentdojo:banking/read_file": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "order_id": "core:core-commitment"
+    "file_path": "core:core-resource"
    },
-   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+   "reason": "param file_path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/refund_order": {
+  "agentdojo:banking/update_scheduled_transaction": {
    "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
+    "core:core-effect-data-write"
    ],
    "params": {
-    "order_id": "core:core-commitment"
+    "amount": "none",
+    "date": "none",
+    "id": "core:core-commitment",
+    "recipient": "core:core-party",
+    "recurring": "none",
+    "subject": "none"
    },
-   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+   "reason": "param id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
   },
-  "agentdyn:shopping/checkout_selected_cart": {
+  "agentdojo:slack/get_webpage": {
    "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
+    "core:core-effect-data-read"
    ],
    "params": {
-    "discount_code": "core:core-entitlement",
-    "product_ids": "core:core-resource"
+    "url": "core:core-resource",
+    "web": "core:core-connector"
    },
-   "reason": "param discount_code: one binder gave none; take the class the other identified"
+   "reason": "param url: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/download_file_through_url": {
+  "agentdojo:slack/post_webpage": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "url": "core:core-resource",
+    "web": "core:core-connector"
+   },
+   "reason": "param url: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:slack/send_channel_message": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "channel": "core:core-resource",
+    "slack": "core:core-connector"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:slack/send_direct_message": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "body": "none",
+    "recipient": "core:core-human-user",
+    "slack": "core:core-connector"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param recipient: core-human-user because names a person who authenticates and acts"
+  },
+  "agentdojo:travel/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:travel/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:travel/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/add_calendar_event_participants": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "participants": "core:core-party"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/cancel_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/create_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "description": "none",
+    "end_time": "none",
+    "location": "none",
+    "participants": "core:core-party",
+    "start_time": "none",
+    "title": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "filename": "core:core-resource"
+   },
+   "reason": "param filename: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/reschedule_calendar_event": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "event_id": "core:core-record",
+    "new_end_time": "none",
+    "new_start_time": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/search_contacts_by_email": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "query": "core:core-party"
+   },
+   "reason": "param query: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/search_files_by_filename": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "filename": "core:core-resource"
+   },
+   "reason": "param filename: one binder gave none; take the class the other identified"
+  },
+  "agentdojo:workspace/send_email": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "attachments": "none",
+    "bcc": "core:core-party",
+    "body": "none",
+    "cc": "core:core-party",
+    "recipients": "core:core-party",
+    "subject": "none"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdojo:workspace/share_file": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "file_id": "core:core-resource",
+    "permission": "core:core-authorization-scope"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:dailylife/browse_webpage": {
    "effects": [
     "core:core-effect-data-read",
     "core:core-effect-data-write"
    ],
    "params": {
-    "save_dir": "core:core-resource",
     "url": "core:core-resource"
    },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/download_file_through_id": {
+  "agentdyn:dailylife/copy_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/delete_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:dailylife/download_file_through_id": {
    "effects": [
     "core:core-effect-data-read",
     "core:core-effect-data-write"
@@ -97,73 +272,18 @@
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/list_directory": {
+  "agentdyn:dailylife/download_file_through_url": {
    "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/create_file": {
-   "effects": [
+    "core:core-effect-data-read",
     "core:core-effect-data-write"
    ],
    "params": {
-    "content": "none",
-    "path": "core:core-resource"
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
    },
-   "reason": "param path: one binder gave none; take the class the other identified"
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/create_dir": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/read_file": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/delete_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/copy_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "destination_path": "core:core-resource",
-    "source_path": "core:core-resource"
-   },
-   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/move_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "destination_path": "core:core-resource",
-    "source_path": "core:core-resource"
-   },
-   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:shopping/input_to_webpage": {
+  "agentdyn:dailylife/input_to_webpage": {
    "effects": [
     "core:core-effect-data-disclosure",
     "core:core-effect-data-write"
@@ -175,39 +295,7 @@
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
   },
-  "agentdyn:shopping/browse_webpage": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "url": "core:core-resource"
-   },
-   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/download_file_through_url": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "save_dir": "core:core-resource",
-    "url": "core:core-resource"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/download_file_through_id": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "file_id": "core:core-resource",
-    "save_dir": "core:core-resource"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/list_directory": {
+  "agentdyn:dailylife/list_directory": {
    "effects": [
     "core:core-effect-data-read"
    ],
@@ -216,44 +304,7 @@
    },
    "reason": "param path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:github/create_file": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "content": "none",
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/create_dir": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/read_file": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/delete_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/copy_node": {
+  "agentdyn:dailylife/move_node": {
    "effects": [
     "core:core-effect-data-write"
    ],
@@ -263,117 +314,14 @@
    },
    "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:github/move_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "destination_path": "core:core-resource",
-    "source_path": "core:core-resource"
-   },
-   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/input_to_webpage": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "inputs": "none",
-    "url": "core:core-resource"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/browse_webpage": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "url": "core:core-resource"
-   },
-   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/git_transfer_repo_ownership": {
-   "effects": [
-    "core:core-effect-authority-grant",
-    "core:core-effect-authority-removal",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "new_owner_email": "core:core-party",
-    "new_owner_username": "core:core-party",
-    "repo_name": "core:core-resource"
-   },
-   "reason": "param new_owner_username: core-party because the new owner may be outside the enterprise (Party)"
-  },
-  "agentdyn:github/git_clone": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "local_dir_path": "core:core-resource",
-    "repo_name": "core:core-resource"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param local_dir_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/git_push": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "force": "none",
-    "local_path": "core:core-resource"
-   },
-   "reason": "param local_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/git_pull": {
-   "effects": [
-    "core:core-effect-data-read",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "local_path": "core:core-resource",
-    "overwrite_local": "none",
-    "repo_name": "core:core-resource"
-   },
-   "reason": "param local_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:github/get_github_account_user_information": {
+  "agentdyn:dailylife/read_file": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "email": "core:core-party",
-    "username": "core:core-human-user"
+    "path": "core:core-resource"
    },
-   "reason": "param username: core-human-user because names a person who authenticates and acts"
-  },
-  "agentdyn:github/git_delete_ssh_key": {
-   "effects": [
-    "core:core-effect-authority-removal",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "ssh_key": "core:core-credential"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdyn:github/login_github_account": {
-   "effects": [],
-   "params": {
-    "password": "core:core-credential",
-    "username": "core:core-account"
-   },
-   "reason": "effects: logging in to the user's own account grants no new right and changes no business state; param username: core-account because identifies the user account"
-  },
-  "agentdyn:github/verify_github_account": {
-   "effects": [],
-   "params": {
-    "otp": "core:core-credential"
-   },
-   "reason": "effects: verifying the user's own account changes no business state"
+   "reason": "param path: one binder gave none; take the class the other identified"
   },
   "agentdyn:dailylife/send_money": {
    "effects": [
@@ -397,7 +345,7 @@
    },
    "reason": "effects: entering the OTP authorizes a pending transaction, i.e. grants the authority for it to proceed"
   },
-  "agentdyn:dailylife/browse_webpage": {
+  "agentdyn:github/browse_webpage": {
    "effects": [
     "core:core-effect-data-read",
     "core:core-effect-data-write"
@@ -407,18 +355,45 @@
    },
    "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/download_file_through_url": {
+  "agentdyn:github/copy_node": {
    "effects": [
-    "core:core-effect-data-read",
     "core:core-effect-data-write"
    ],
    "params": {
-    "save_dir": "core:core-resource",
-    "url": "core:core-resource"
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
    },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/download_file_through_id": {
+  "agentdyn:github/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/create_file": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "content": "none",
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/delete_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/download_file_through_id": {
    "effects": [
     "core:core-effect-data-read",
     "core:core-effect-data-write"
@@ -429,7 +404,95 @@
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/list_directory": {
+  "agentdyn:github/download_file_through_url": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/get_github_account_user_information": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-party",
+    "username": "core:core-human-user"
+   },
+   "reason": "param username: core-human-user because names a person who authenticates and acts"
+  },
+  "agentdyn:github/git_clone": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "local_dir_path": "core:core-resource",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param local_dir_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_delete_ssh_key": {
+   "effects": [
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "ssh_key": "core:core-credential"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "agentdyn:github/git_pull": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "local_path": "core:core-resource",
+    "overwrite_local": "none",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "param local_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_push": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "force": "none",
+    "local_path": "core:core-resource"
+   },
+   "reason": "param local_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/git_transfer_repo_ownership": {
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "new_owner_email": "core:core-party",
+    "new_owner_username": "core:core-party",
+    "repo_name": "core:core-resource"
+   },
+   "reason": "param new_owner_username: core-party because the new owner may be outside the enterprise (Party)"
+  },
+  "agentdyn:github/input_to_webpage": {
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "inputs": "none",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/list_directory": {
    "effects": [
     "core:core-effect-data-read"
    ],
@@ -438,7 +501,81 @@
    },
    "reason": "param path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/create_file": {
+  "agentdyn:github/login_github_account": {
+   "effects": [],
+   "params": {
+    "password": "core:core-credential",
+    "username": "core:core-account"
+   },
+   "reason": "effects: logging in to the user's own account grants no new right and changes no business state; param username: core-account because identifies the user account"
+  },
+  "agentdyn:github/move_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:github/verify_github_account": {
+   "effects": [],
+   "params": {
+    "otp": "core:core-credential"
+   },
+   "reason": "effects: verifying the user's own account changes no business state"
+  },
+  "agentdyn:shopping/browse_webpage": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "url": "core:core-resource"
+   },
+   "reason": "effects: description says it can 'click' a link that performs a task or confirmation, so a call can change state; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/checkout_selected_cart": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "discount_code": "core:core-entitlement",
+    "product_ids": "core:core-resource"
+   },
+   "reason": "param discount_code: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/copy_node": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/create_dir": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/create_file": {
    "effects": [
     "core:core-effect-data-write"
    ],
@@ -448,7 +585,7 @@
    },
    "reason": "param path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/create_dir": {
+  "agentdyn:shopping/delete_node": {
    "effects": [
     "core:core-effect-data-write"
    ],
@@ -457,45 +594,38 @@
    },
    "reason": "param path: one binder gave none; take the class the other identified"
   },
-  "agentdyn:dailylife/read_file": {
+  "agentdyn:shopping/download_file_through_id": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "file_id": "core:core-resource",
+    "save_dir": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/download_file_through_url": {
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "save_dir": "core:core-resource",
+    "url": "core:core-resource"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param save_dir: one binder gave none; take the class the other identified; param url: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/get_invoice": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "path": "core:core-resource"
+    "order_id": "core:core-commitment"
    },
-   "reason": "param path: one binder gave none; take the class the other identified"
+   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
   },
-  "agentdyn:dailylife/delete_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "path": "core:core-resource"
-   },
-   "reason": "param path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:dailylife/copy_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "destination_path": "core:core-resource",
-    "source_path": "core:core-resource"
-   },
-   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:dailylife/move_node": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "destination_path": "core:core-resource",
-    "source_path": "core:core-resource"
-   },
-   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
-  },
-  "agentdyn:dailylife/input_to_webpage": {
+  "agentdyn:shopping/input_to_webpage": {
    "effects": [
     "core:core-effect-data-disclosure",
     "core:core-effect-data-write"
@@ -507,217 +637,87 @@
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param url: one binder gave none; take the class the other identified"
   },
-  "agentdojo:banking/update_scheduled_transaction": {
+  "agentdyn:shopping/list_directory": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/login_shopping_account": {
+   "effects": [],
+   "params": {
+    "password": "core:core-credential",
+    "username": "core:core-account"
+   },
+   "reason": "effects: logging in to the user's own account grants no new right and changes no business state"
+  },
+  "agentdyn:shopping/move_node": {
    "effects": [
     "core:core-effect-data-write"
+   ],
+   "params": {
+    "destination_path": "core:core-resource",
+    "source_path": "core:core-resource"
+   },
+   "reason": "param destination_path: one binder gave none; take the class the other identified; param source_path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/read_file": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "path": "core:core-resource"
+   },
+   "reason": "param path: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/refund_order": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "order_id": "core:core-commitment"
+   },
+   "reason": "param order_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "agentdyn:shopping/send_money": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "amount": "none",
     "date": "none",
-    "id": "core:core-commitment",
     "recipient": "core:core-party",
-    "recurring": "none",
-    "subject": "none"
-   },
-   "reason": "param id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
-  },
-  "agentdojo:banking/read_file": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "file_path": "core:core-resource"
-   },
-   "reason": "param file_path: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:slack/send_direct_message": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "body": "none",
-    "recipient": "core:core-human-user",
-    "slack": "core:core-connector"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param recipient: core-human-user because names a person who authenticates and acts"
-  },
-  "agentdojo:slack/send_channel_message": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "body": "none",
-    "channel": "core:core-resource",
-    "slack": "core:core-connector"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:slack/get_webpage": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "url": "core:core-resource",
-    "web": "core:core-connector"
-   },
-   "reason": "param url: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:slack/post_webpage": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "content": "none",
-    "url": "core:core-resource",
-    "web": "core:core-connector"
-   },
-   "reason": "param url: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:travel/create_calendar_event": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "description": "none",
-    "end_time": "none",
-    "location": "none",
-    "participants": "core:core-party",
-    "start_time": "none",
-    "title": "none"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:travel/cancel_calendar_event": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "event_id": "core:core-record"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:travel/send_email": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "attachments": "none",
-    "bcc": "core:core-party",
-    "body": "none",
-    "cc": "core:core-party",
-    "recipients": "core:core-party",
     "subject": "none"
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
   },
-  "agentdojo:workspace/send_email": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "attachments": "none",
-    "bcc": "core:core-party",
-    "body": "none",
-    "cc": "core:core-party",
-    "recipients": "core:core-party",
-    "subject": "none"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:workspace/search_contacts_by_email": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "query": "core:core-party"
-   },
-   "reason": "param query: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:workspace/create_calendar_event": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "description": "none",
-    "end_time": "none",
-    "location": "none",
-    "participants": "core:core-party",
-    "start_time": "none",
-    "title": "none"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:workspace/cancel_calendar_event": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "event_id": "core:core-record"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:workspace/reschedule_calendar_event": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "event_id": "core:core-record",
-    "new_end_time": "none",
-    "new_start_time": "none"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:workspace/add_calendar_event_participants": {
-   "effects": [
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "event_id": "core:core-record",
-    "participants": "core:core-party"
-   },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "agentdojo:workspace/search_files_by_filename": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "filename": "core:core-resource"
-   },
-   "reason": "param filename: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:workspace/create_file": {
+  "agentdyn:shopping/update_shopping_account_user_info": {
    "effects": [
     "core:core-effect-data-write"
    ],
    "params": {
-    "content": "none",
-    "filename": "core:core-resource"
-   },
-   "reason": "param filename: one binder gave none; take the class the other identified"
-  },
-  "agentdojo:workspace/share_file": {
-   "effects": [
-    "core:core-effect-authority-grant",
-    "core:core-effect-data-disclosure",
-    "core:core-effect-data-write"
-   ],
-   "params": {
+    "address": "none",
+    "bank_account_number": "core:core-account",
     "email": "core:core-party",
-    "file_id": "core:core-resource",
-    "permission": "core:core-authorization-scope"
+    "first_name": "none",
+    "id_number": "core:core-party",
+    "last_name": "none",
+    "passport_number": "core:core-party",
+    "phone_number": "none"
    },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+   "reason": "param email: one binder gave none; take the class the other identified; param id_number: one binder gave none; take the class the other identified; param passport_number: one binder gave none; take the class the other identified"
+  },
+  "agentdyn:shopping/verify_shopping_account": {
+   "effects": [],
+   "params": {
+    "otp": "core:core-credential"
+   },
+   "reason": "effects: verifying the user's own account changes no business state"
   },
   "asb:AntiMalwareGuard": {
    "effects": [
@@ -1410,6 +1410,39 @@
    },
    "reason": "param from_phone_number: one binder gave none; take the class the other identified"
   },
+  "silex:ap/erp.get_po": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "po_id": "core:core-commitment"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:ap/payments.execute": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "account_ref": "core:core-account",
+    "amount_usd": "none",
+    "invoice_id": "core:core-record",
+    "payee": "core:core-party",
+    "po_id": "core:core-commitment",
+    "remit_domain": "none"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:soc/siem.search": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "alert_id": "core:core-telemetry"
+   },
+   "reason": "param alert_id: core-telemetry because an alert is part of the observed record of events"
+  },
   "taubench:airline/book_reservation": {
    "effects": [
     "core:core-effect-data-write",
@@ -1426,59 +1459,123 @@
     "passengers": "core:core-party",
     "payment_methods": "core:core-account",
     "total_baggages": "none",
-    "user_id": "core:core-account"
+    "user_id": "core:core-party"
    },
-   "reason": "param flights: one binder gave none; take the class the other identified; param payment_methods: one binder gave none; take the class the other identified; param user_id: core-account because identifies the user account"
-  },
-  "taubench:retail/find_user_id_by_email": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "email": "core:core-human-user"
-   },
-   "reason": "param email: core-human-user because names a person who authenticates and acts"
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param flights: one binder gave none; take the class the other identified; param user_id: core-party because a \u03c4-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
   },
   "taubench:airline/get_user_details": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "user_id": "core:core-account"
+    "user_id": "core:core-party"
    },
-   "reason": "param user_id: core-account because identifies the user account"
+   "reason": "param user_id: core-party because a \u03c4-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
   },
-  "taubench:retail/return_delivered_order_items": {
+  "taubench:airline/send_certificate": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "user_id": "core:core-party"
+   },
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param user_id: core-party because a \u03c4-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
+  "taubench:airline/update_reservation_baggages": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "nonfree_baggages": "none",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record",
+    "total_baggages": "none"
+   },
+   "reason": "param payment_id: core-account because a payment method is a named holding of value (Account)"
+  },
+  "taubench:airline/update_reservation_flights": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "cabin": "none",
+    "flights": "core:core-resource",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record"
+   },
+   "reason": "param flights: one binder gave none; take the class the other identified; param payment_id: core-account because a payment method is a named holding of value (Account)"
+  },
+  "taubench:retail/exchange_delivered_order_items": {
    "effects": [
     "core:core-effect-data-write",
     "core:financial-value-transfer"
    ],
    "params": {
     "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
    },
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
   },
-  "taubench:airline/transfer_to_human_agents": {
-   "effects": [],
+  "taubench:retail/find_user_id_by_email": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
    "params": {
-    "summary": "none"
+    "email": "core:core-party"
    },
-   "reason": "effects: hands the conversation to a human agent (name and params; the manifest has no description): no business state change"
+   "reason": "param email: core-party because the e-mail identifies a customer (Party)"
   },
-  "taubench:airline/update_reservation_flights": {
+  "taubench:retail/find_user_id_by_name_zip": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "first_name": "core:core-human-user",
+    "last_name": "core:core-human-user",
+    "zip": "none"
+   },
+   "reason": "param first_name: one binder gave none; take the class the other identified; param last_name: one binder gave none; take the class the other identified"
+  },
+  "taubench:retail/get_user_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-party"
+   },
+   "reason": "param user_id: core-party because a \u03c4-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
+  },
+  "taubench:retail/modify_pending_order_items": {
    "effects": [
     "core:core-effect-data-write",
     "core:financial-value-transfer"
    ],
    "params": {
-    "cabin": "none",
-    "flights": "core:core-resource",
-    "payment_id": "core:core-account",
-    "reservation_id": "core:core-commitment"
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
    },
-   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative); param flights: one binder gave none; take the class the other identified"
+   "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
+  },
+  "taubench:retail/modify_user_address": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "state": "none",
+    "user_id": "core:core-party",
+    "zip": "none"
+   },
+   "reason": "param user_id: core-party because a \u03c4-bench user is a customer the enterprise deals with (Party: \"such as a customer\")"
   },
   "toolemu:AugustSmartLock": {
    "effects": [
@@ -1670,39 +1767,6 @@
    ],
    "params": {},
    "reason": "effects: binders agree on read/write impact; union of both effect sets (conservative)"
-  },
-  "silex:ap/erp.get_po": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "po_id": "core:core-commitment"
-   },
-   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
-  },
-  "silex:ap/payments.execute": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "account_ref": "core:core-account",
-    "amount_usd": "none",
-    "invoice_id": "core:core-record",
-    "payee": "core:core-party",
-    "po_id": "core:core-commitment",
-    "remit_domain": "none"
-   },
-   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
-  },
-  "silex:soc/siem.search": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "alert_id": "core:core-telemetry"
-   },
-   "reason": "param alert_id: core-telemetry because an alert is part of the observed record of events"
   }
  }
 }

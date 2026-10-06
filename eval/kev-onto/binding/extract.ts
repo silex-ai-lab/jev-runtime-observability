@@ -155,6 +155,36 @@ export function extractAgentdojo(archive: string): { tools: ToolEntry[]; undescr
 }
 
 /** Training-source tools: names come from the train split; descriptions/params are best-effort from raw + taubench. */
+/** τ-bench tool definitions straight from the tau_bench source (`get_info`), family-scoped by directory. */
+export function taubenchToolDefs(rawRoot: string): Array<{ family: string; name: string; description: string; params: ToolParam[] }> {
+  const script = `import ast, json, os, sys
+root = sys.argv[1]
+out = []
+for fam in ['retail','airline']:
+    d = os.path.join(root, 'tau_bench','envs',fam,'tools')
+    if not os.path.isdir(d): continue
+    for fn in sorted(os.listdir(d)):
+        if not fn.endswith('.py') or fn == '__init__.py': continue
+        tree = ast.parse(open(os.path.join(d,fn), encoding='utf-8').read())
+        info = None
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name == 'get_info':
+                for b in ast.walk(node):
+                    if isinstance(b, ast.Return):
+                        try: info = ast.literal_eval(b.value)
+                        except Exception: info = None
+                        break
+                if info is not None: break
+        if not info: continue
+        f = info.get('function', {})
+        props = (f.get('parameters', {}) or {}).get('properties', {}) or {}
+        out.append({'family': fam, 'name': f.get('name'), 'description': f.get('description',''),
+                    'params': [{'name': k, 'type': (v or {}).get('type','')} for k, v in props.items()]})
+sys.stdout.write(json.dumps(out))
+`;
+  return JSON.parse(execFileSync('python3', ['-c', script, rawRoot], { encoding: 'utf8', maxBuffer: 1 << 30 }));
+}
+
 export function extractTrain(repo: string): { tools: ToolEntry[]; undescribed: string[] } {
   const R = (p: string) => join(repo, p);
   const names = new Map<string, Set<string>>();                    // source -> tool names
@@ -183,9 +213,6 @@ export function extractTrain(repo: string): { tools: ToolEntry[]; undescribed: s
     if (tk.name_for_model) inj.set(`${tk.name_for_model}${t.name}`, entry);   // item tool ids, e.g. AmazonGetProductDetails
   }
   const tb = JSON.parse(readFileSync(R('eval/convert/fixtures/taubench.json'), 'utf8')) as Record<string, any[]>;
-  const tbTools = new Map<string, ToolParam[]>();
-  for (const fam of Object.keys(tb)) for (const it of tb[fam]) for (const a of it.actions ?? [])
-    if (a?.name) tbTools.set(`${fam}/${a.name}`, Object.entries(a.params ?? {}).map(([k, v]) => ({ name: k, type: typeof v === 'number' ? 'number' : typeof v === 'boolean' ? 'boolean' : Array.isArray(v) ? 'array' : 'string' })));
   const toolemuDesc = new Map<string, string>();
   for (const f of ['virtual_tools.py', 'real_tools.py']) {
     const text = readFileSync(R(`eval/sources/raw/toolemu/toolemu/tools/${f}`), 'utf8');
@@ -197,20 +224,35 @@ export function extractTrain(repo: string): { tools: ToolEntry[]; undescribed: s
   }
 
   const tools: ToolEntry[] = [], undescribed: string[] = [];
-  for (const source of ['asb', 'injecagent', 'taubench', 'toolemu']) {
+  for (const source of ['asb', 'injecagent', 'toolemu']) {
     for (const name of [...(names.get(source) ?? [])].sort()) {
-      let id = `${source}:${name}`, description = '', params: ToolParam[] = [];
+      let description = '', params: ToolParam[] = [];
       if (source === 'asb') description = asbDesc.get(name) ?? '';
       else if (source === 'injecagent') ({ description, params } = inj.get(name) ?? { description: '', params: [] });
-      else if (source === 'toolemu') description = toolemuDesc.get(name) ?? '';
-      else if (source === 'taubench') {
-        for (const [key, p] of tbTools) if (key.endsWith(`/${name}`)) { params = p; break; }
-        const fam = [...Object.keys(tb)].find(f => tb[f].some(it => (it.actions ?? []).some((a: any) => a?.name === name)));
-        if (fam) id = `${source}:${fam}/${name}`;
-        description = `tau-bench tool (${fam ?? 'unknown domain'})`;
-      }
+      else description = toolemuDesc.get(name) ?? '';
+      const id = `${source}:${name}`;
       if (!description && !params.length) undescribed.push(id);
       tools.push({ id, name, description, params, source });
+    }
+  }
+  // τ-bench: family-scoped identities (taubench:<family>/<name>), no cross-family dedup, for every tool used by any
+  // train original or any rule-3 donor gold action. Name/description/params come from the tau_bench source, not fixtures.
+  const trainTbIndices = new Map<string, Set<number>>();
+  for (const line of readFileSync(R('eval/splits/items.jsonl'), 'utf8').split('\n')) {
+    if (!line.trim()) continue; const r = JSON.parse(line);
+    if (r.split !== 'train' || r.source !== 'taubench') continue;
+    const parts = String(r.template_id).split(':');
+    (trainTbIndices.get(parts[0]) ?? trainTbIndices.set(parts[0], new Set()).get(parts[0])!).add(Number(parts[1]));
+  }
+  const tbById = new Map(taubenchToolDefs(R('eval/sources/raw/taubench')).map(d => [`${d.family}/${d.name}`, d]));
+  for (const fam of Object.keys(tb)) {
+    const needed = new Set<string>();
+    for (const i of trainTbIndices.get(fam) ?? []) for (const a of (tb[fam][i]?.actions ?? [])) if (a?.name) needed.add(a.name);
+    for (const name of [...needed].sort()) {
+      const d = tbById.get(`${fam}/${name}`);
+      const id = `taubench:${fam}/${name}`;
+      if (!d) { undescribed.push(id); tools.push({ id, name, description: '', params: [], source: 'taubench' }); continue; }
+      tools.push({ id, name, description: d.description, params: d.params, source: 'taubench' });
     }
   }
   return { tools, undescribed };

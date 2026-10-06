@@ -3870,188 +3870,6 @@
  },
  {
   "manifest": "train",
-  "id": "taubench:airline/book_reservation",
-  "effects_equal": true,
-  "impact_equal": true,
-  "params_equal": false,
-  "a": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "cabin": "none",
-    "destination": "none",
-    "flight_type": "none",
-    "flights": "core:core-resource",
-    "insurance": "none",
-    "nonfree_baggages": "none",
-    "origin": "none",
-    "passengers": "core:core-party",
-    "payment_methods": "core:core-account",
-    "total_baggages": "none",
-    "user_id": "core:core-account"
-   },
-   "reason": "The tool books a reservation for the user with passengers, flights and payment methods, creating a stored booking and moving the payment."
-  },
-  "b": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "cabin": "none",
-    "destination": "none",
-    "flight_type": "none",
-    "flights": "none",
-    "insurance": "none",
-    "nonfree_baggages": "none",
-    "origin": "none",
-    "passengers": "core:core-party",
-    "payment_methods": "none",
-    "total_baggages": "none",
-    "user_id": "core:core-party"
-   },
-   "reason": "tau-bench airline tool: books a flight reservation (creates booking, may charge payment)."
-  }
- },
- {
-  "manifest": "train",
-  "id": "taubench:retail/find_user_id_by_email",
-  "effects_equal": true,
-  "impact_equal": true,
-  "params_equal": false,
-  "a": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "email": "core:core-human-user"
-   },
-   "reason": "The tool locates a user account by email, so stored user data is only read."
-  },
-  "b": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "email": "core:core-party"
-   },
-   "reason": "tau-bench retail tool: looks up a user id by email."
-  }
- },
- {
-  "manifest": "train",
-  "id": "taubench:airline/get_user_details",
-  "effects_equal": true,
-  "impact_equal": true,
-  "params_equal": false,
-  "a": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "user_id": "core:core-account"
-   },
-   "reason": "The tool retrieves details of a user account, so stored account data is only read."
-  },
-  "b": {
-   "effects": [
-    "core:core-effect-data-read"
-   ],
-   "params": {
-    "user_id": "core:core-party"
-   },
-   "reason": "tau-bench airline tool: retrieves user details."
-  }
- },
- {
-  "manifest": "train",
-  "id": "taubench:retail/return_delivered_order_items",
-  "effects_equal": false,
-  "impact_equal": true,
-  "params_equal": true,
-  "a": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "item_ids": "core:core-resource",
-    "order_id": "core:core-commitment",
-    "payment_method_id": "core:core-account"
-   },
-   "reason": "The tool returns delivered items on an order, so the stored order record is updated."
-  },
-  "b": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "item_ids": "core:core-resource",
-    "order_id": "core:core-commitment",
-    "payment_method_id": "core:core-account"
-   },
-   "reason": "tau-bench retail tool: returns delivered order items (may refund)."
-  }
- },
- {
-  "manifest": "train",
-  "id": "taubench:airline/transfer_to_human_agents",
-  "effects_equal": false,
-  "impact_equal": false,
-  "params_equal": true,
-  "a": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "summary": "none"
-   },
-   "reason": "The tool hands the conversation off to a human agent with a summary, so an escalation fact is recorded."
-  },
-  "b": {
-   "effects": [],
-   "params": {
-    "summary": "none"
-   },
-   "reason": "tau-bench airline tool: transfers the conversation to a human agent."
-  }
- },
- {
-  "manifest": "train",
-  "id": "taubench:airline/update_reservation_flights",
-  "effects_equal": false,
-  "impact_equal": true,
-  "params_equal": false,
-  "a": {
-   "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
-   ],
-   "params": {
-    "cabin": "none",
-    "flights": "core:core-resource",
-    "payment_id": "core:core-account",
-    "reservation_id": "core:core-commitment"
-   },
-   "reason": "The tool changes the flights on an existing reservation and settles the fare with the given payment, updating the booking and moving value."
-  },
-  "b": {
-   "effects": [
-    "core:core-effect-data-write"
-   ],
-   "params": {
-    "cabin": "none",
-    "flights": "none",
-    "payment_id": "core:core-account",
-    "reservation_id": "core:core-commitment"
-   },
-   "reason": "tau-bench airline tool: updates reservation flights."
-  }
- },
- {
-  "manifest": "train",
   "id": "toolemu:AugustSmartLock",
   "effects_equal": false,
   "impact_equal": true,
@@ -4551,6 +4369,347 @@
    ],
    "params": {},
    "reason": "A toolkit for Twilio services, enabling users to send SMS messages, retrieve communication history, manage scheduled actions, retrieve information about specific phone numbers, and retrieve the history of received SMS messages."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:airline/book_reservation",
+  "effects_equal": false,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "cabin": "none",
+    "destination": "none",
+    "flight_type": "none",
+    "flights": "core:core-resource",
+    "insurance": "none",
+    "nonfree_baggages": "none",
+    "origin": "none",
+    "passengers": "core:core-party",
+    "payment_methods": "core:core-account",
+    "total_baggages": "none",
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Books a reservation for a user, creating a booking record and charging the supplied payment methods."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "cabin": "none",
+    "destination": "none",
+    "flight_type": "none",
+    "flights": "none",
+    "insurance": "none",
+    "nonfree_baggages": "none",
+    "origin": "none",
+    "passengers": "core:core-party",
+    "payment_methods": "core:core-account",
+    "total_baggages": "none",
+    "user_id": "core:core-party"
+   },
+   "reason": "Book a reservation creates a stored booking."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:airline/get_user_details",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Gets the details of a user, including their reservations, as a read."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-party"
+   },
+   "reason": "Get the details of a user including reservations reads stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:airline/send_certificate",
+  "effects_equal": false,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Sends a certificate of a given amount to a user, moving value to that user."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "user_id": "core:core-party"
+   },
+   "reason": "Send a certificate to a user grants value and writes data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:airline/update_reservation_baggages",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "nonfree_baggages": "none",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record",
+    "total_baggages": "none"
+   },
+   "reason": "Updates the baggage information stored on a reservation, charging a payment method."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "nonfree_baggages": "none",
+    "payment_id": "core:core-record",
+    "reservation_id": "core:core-record",
+    "total_baggages": "none"
+   },
+   "reason": "Update the baggage information of a reservation updates stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:airline/update_reservation_flights",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "cabin": "none",
+    "flights": "core:core-resource",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record"
+   },
+   "reason": "Updates the flight information stored on a reservation, settling with a payment method."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "cabin": "none",
+    "flights": "none",
+    "payment_id": "core:core-record",
+    "reservation_id": "core:core-record"
+   },
+   "reason": "Update the flight information of a reservation updates stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/exchange_delivered_order_items",
+  "effects_equal": false,
+  "impact_equal": true,
+  "params_equal": true,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   },
+   "reason": "Swaps items on a delivered order, updating the order and settling via the payment method."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   },
+   "reason": "Exchange items in a delivered order updates stored order data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/find_user_id_by_email",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-human-user"
+   },
+   "reason": "Looks up a stored user record by email, returning the user id."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "email": "core:core-party"
+   },
+   "reason": "Find user id by email reads stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/find_user_id_by_name_zip",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "first_name": "core:core-human-user",
+    "last_name": "core:core-human-user",
+    "zip": "none"
+   },
+   "reason": "Looks up a stored user record by person name and zip, returning the user id."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "first_name": "none",
+    "last_name": "none",
+    "zip": "none"
+   },
+   "reason": "Find user id by first name, last name and zip code reads stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/get_user_details",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Gets the details of a user, including their orders, as a read."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-party"
+   },
+   "reason": "Get the details of a user including orders reads stored data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/modify_pending_order_items",
+  "effects_equal": false,
+  "impact_equal": true,
+  "params_equal": true,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   },
+   "reason": "Modifies items on a pending order, updating it and settling the price via the payment method."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "item_ids": "core:core-resource",
+    "new_item_ids": "core:core-resource",
+    "order_id": "core:core-commitment",
+    "payment_method_id": "core:core-account"
+   },
+   "reason": "Modify items in a pending order updates stored order data."
+  }
+ },
+ {
+  "manifest": "train",
+  "id": "taubench:retail/modify_user_address",
+  "effects_equal": true,
+  "impact_equal": true,
+  "params_equal": false,
+  "a": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "state": "none",
+    "user_id": "core:core-human-user",
+    "zip": "none"
+   },
+   "reason": "Modifies the default address stored on the user's profile after user confirmation."
+  },
+  "b": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "state": "none",
+    "user_id": "core:core-party",
+    "zip": "none"
+   },
+   "reason": "Modify the default address of a user updates stored data."
   }
  },
  {

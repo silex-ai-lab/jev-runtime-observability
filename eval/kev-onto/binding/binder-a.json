@@ -4383,72 +4383,121 @@
     "passengers": "core:core-party",
     "payment_methods": "core:core-account",
     "total_baggages": "none",
-    "user_id": "core:core-account"
+    "user_id": "core:core-human-user"
    },
-   "reason": "The tool books a reservation for the user with passengers, flights and payment methods, creating a stored booking and moving the payment."
+   "reason": "Books a reservation for a user, creating a booking record and charging the supplied payment methods."
+  },
+  "taubench:airline/calculate": {
+   "effects": [],
+   "params": {
+    "expression": "none"
+   },
+   "reason": "Pure math on an expression; no stored business state is read or changed."
   },
   "taubench:airline/cancel_reservation": {
    "effects": [
     "core:core-effect-data-write"
    ],
    "params": {
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    },
-   "reason": "The tool cancels an existing reservation, so the stored booking record is updated."
+   "reason": "Cancels the whole reservation, updating the stored booking record."
   },
   "taubench:airline/get_reservation_details": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    },
-   "reason": "The tool returns details of an existing reservation, so stored booking data is only read."
+   "reason": "Gets and returns the details of a reservation without changing it."
   },
   "taubench:airline/get_user_details": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "user_id": "core:core-account"
+    "user_id": "core:core-human-user"
    },
-   "reason": "The tool retrieves details of a user account, so stored account data is only read."
+   "reason": "Gets the details of a user, including their reservations, as a read."
   },
-  "taubench:airline/transfer_to_human_agents": {
+  "taubench:airline/search_direct_flight": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "date": "none",
+    "destination": "none",
+    "origin": "none"
+   },
+   "reason": "Searches flight data between two cities on a date, observing but not changing state."
+  },
+  "taubench:airline/send_certificate": {
+   "effects": [
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "amount": "none",
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Sends a certificate of a given amount to a user, moving value to that user."
+  },
+  "taubench:airline/update_reservation_baggages": {
    "effects": [
     "core:core-effect-data-write"
    ],
    "params": {
-    "summary": "none"
+    "nonfree_baggages": "none",
+    "payment_id": "core:core-account",
+    "reservation_id": "core:core-record",
+    "total_baggages": "none"
    },
-   "reason": "The tool hands the conversation off to a human agent with a summary, so an escalation fact is recorded."
+   "reason": "Updates the baggage information stored on a reservation, charging a payment method."
   },
   "taubench:airline/update_reservation_flights": {
    "effects": [
-    "core:core-effect-data-write",
-    "core:financial-value-transfer"
+    "core:core-effect-data-write"
    ],
    "params": {
     "cabin": "none",
     "flights": "core:core-resource",
     "payment_id": "core:core-account",
-    "reservation_id": "core:core-commitment"
+    "reservation_id": "core:core-record"
    },
-   "reason": "The tool changes the flights on an existing reservation and settles the fare with the given payment, updating the booking and moving value."
+   "reason": "Updates the flight information stored on a reservation, settling with a payment method."
+  },
+  "taubench:airline/update_reservation_passengers": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "passengers": "core:core-party",
+    "reservation_id": "core:core-record"
+   },
+   "reason": "Updates the passenger information stored on a reservation."
+  },
+  "taubench:retail/calculate": {
+   "effects": [],
+   "params": {
+    "expression": "none"
+   },
+   "reason": "Pure math on an expression; no stored business state is read or changed."
   },
   "taubench:retail/cancel_pending_order": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "order_id": "core:core-commitment",
     "reason": "none"
    },
-   "reason": "The tool cancels a pending order, so the stored order record is updated."
+   "reason": "Sets the order status to cancelled and refunds the payment to the user."
   },
   "taubench:retail/exchange_delivered_order_items": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "item_ids": "core:core-resource",
@@ -4456,7 +4505,7 @@
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
    },
-   "reason": "The tool exchanges delivered items on an order, so the stored order record is updated."
+   "reason": "Swaps items on a delivered order, updating the order and settling via the payment method."
   },
   "taubench:retail/find_user_id_by_email": {
    "effects": [
@@ -4465,18 +4514,52 @@
    "params": {
     "email": "core:core-human-user"
    },
-   "reason": "The tool locates a user account by email, so stored user data is only read."
+   "reason": "Looks up a stored user record by email, returning the user id."
   },
   "taubench:retail/find_user_id_by_name_zip": {
    "effects": [
     "core:core-effect-data-read"
    ],
    "params": {
-    "first_name": "none",
-    "last_name": "none",
+    "first_name": "core:core-human-user",
+    "last_name": "core:core-human-user",
     "zip": "none"
    },
-   "reason": "The tool locates a user account by name and zip code, so stored user data is only read."
+   "reason": "Looks up a stored user record by person name and zip, returning the user id."
+  },
+  "taubench:retail/get_order_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "order_id": "core:core-commitment"
+   },
+   "reason": "Gets the status and details of an order without changing it."
+  },
+  "taubench:retail/get_product_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "product_id": "core:core-resource"
+   },
+   "reason": "Gets the inventory details of a product as a read."
+  },
+  "taubench:retail/get_user_details": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "user_id": "core:core-human-user"
+   },
+   "reason": "Gets the details of a user, including their orders, as a read."
+  },
+  "taubench:retail/list_all_product_types": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {},
+   "reason": "Lists the catalog of product types, observing stored product data."
   },
   "taubench:retail/modify_pending_order_address": {
    "effects": [
@@ -4491,11 +4574,12 @@
     "state": "none",
     "zip": "none"
    },
-   "reason": "The tool changes the shipping address of a pending order, so the stored order record is updated."
+   "reason": "Modifies the shipping address stored on a pending order after user confirmation."
   },
   "taubench:retail/modify_pending_order_items": {
    "effects": [
-    "core:core-effect-data-write"
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
    ],
    "params": {
     "item_ids": "core:core-resource",
@@ -4503,7 +4587,7 @@
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
    },
-   "reason": "The tool changes the items on a pending order, so the stored order record is updated."
+   "reason": "Modifies items on a pending order, updating it and settling the price via the payment method."
   },
   "taubench:retail/modify_pending_order_payment": {
    "effects": [
@@ -4513,7 +4597,22 @@
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
    },
-   "reason": "The tool changes the payment method of a pending order, so the stored order record is updated."
+   "reason": "Modifies the payment method stored on a pending order after user confirmation."
+  },
+  "taubench:retail/modify_user_address": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "address1": "none",
+    "address2": "none",
+    "city": "none",
+    "country": "none",
+    "state": "none",
+    "user_id": "core:core-human-user",
+    "zip": "none"
+   },
+   "reason": "Modifies the default address stored on the user's profile after user confirmation."
   },
   "taubench:retail/return_delivered_order_items": {
    "effects": [
@@ -4524,7 +4623,16 @@
     "order_id": "core:core-commitment",
     "payment_method_id": "core:core-account"
    },
-   "reason": "The tool returns delivered items on an order, so the stored order record is updated."
+   "reason": "Changes the order status to 'return requested', updating stored order state."
+  },
+  "taubench:retail/transfer_to_human_agents": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "summary": "none"
+   },
+   "reason": "Hands the user's issue summary to a human agent, recording the transfer."
   },
   "toolemu:Amazon": {
    "effects": [

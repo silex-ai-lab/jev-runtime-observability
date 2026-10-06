@@ -60,7 +60,8 @@ function main() {
     effects_equal: r.effectsEqual, impact_equal: r.impactEqual, params_equal: r.paramsEqual, a: r.a, b: r.b })), null, 1) + '\n');
   const pct = (x: { agree: number; n: number }) => `${x.agree}/${x.n} (${(100 * x.agree / x.n).toFixed(1)}%)`;
   const md = ['# T6c binder agreement', '',
-    'Binder A: coder-mimo (fresh OpenCode session). Binder B: four one-shot `opencode run -m deepseek/deepseek-v4-pro` processes.',
+    'Binder A: coder-mimo (fresh OpenCode sessions). Binder B: one-shot `opencode run -m deepseek/deepseek-v4-pro` processes.',
+    'The 25 τ-bench tools were re-bound by both binders at CG1 with source descriptions and family-scoped ids.',
     'Both bound from the tool manifests and the binding prompt only (no runs, labels or outcomes).', '',
     '| manifest | effect set equal | read/write impact equal | every parameter class equal |', '|---|---|---|---|',
     ...[...MANIFESTS, 'all'].map(m => `| ${m} | ${pct(c.summary[m].effects)} | ${pct(c.summary[m].impact)} | ${pct(c.summary[m].params)} |`), '',
