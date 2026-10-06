@@ -97,6 +97,91 @@ for record in one_class_complement:
 fallback = ko.g1(one_class_complement, True)
 check('one-class training complement predicts its class rate', all(
     p == 1 for r, p in zip(one_class_complement, fallback['combined_scores']) if ko.h(r['group']) % 5 == 0))
+
+# §9.7 adds one pipeline feature without changing the existing blocks.
+pipeline = fixture('g1-pipeline.json')
+pipeline_gate = ko.g1(pipeline['records'], True)
+check('pipeline shortcut is detected independently of constant source/family/state',
+      pipeline_gate['single']['pipeline'] == pipeline['expected']['pipeline']
+      and pipeline_gate['combined'] == pipeline['expected']['combined']
+      and pipeline_gate['status'] == pipeline['expected']['status']
+      and all(v == 0.5 for k, v in pipeline_gate['single'].items() if k != 'pipeline'))
+check('pipeline OOF rates use only training-fold category labels',
+      pipeline_gate['single_scores']['pipeline'] == [float(r['label']) for r in pipeline['records']])
+# With balanced categories, intercept=0, negative coefficient=-b, positive=b;
+# the independent optimality equation is b=1/(2*(1+exp(b))).
+left, right = 0.0, 0.5
+for _ in range(100):
+    midpoint = (left + right) / 2
+    if midpoint - 1 / (2 * (1 + math.exp(midpoint))) > 0:
+        right = midpoint
+    else:
+        left = midpoint
+pipeline_b = (left + right) / 2
+check('pipeline combined probabilities match the independent analytic optimum', all(
+    abs(p - ko.sigmoid(pipeline_b if r['label'] else -pipeline_b)) < 1e-12
+    for r, p in zip(pipeline['records'], pipeline_gate['combined_scores'])))
+constant_pipeline = copy.deepcopy(balanced['records'])
+for record in constant_pipeline:
+    record['pipeline'] = 'constant'
+constant_gate = ko.g1(constant_pipeline, True)
+check('constant pipeline has defined AUC 0.5 and balanced predictions unchanged',
+      constant_gate['single']['pipeline'] == 0.5 and constant_gate['status'] == 'PASS'
+      and constant_gate['combined_scores'] == gate['combined_scores'])
+unseen_pipeline = copy.deepcopy(balanced['records'])
+for record in unseen_pipeline:
+    record['pipeline'] = record['group']
+unseen_gate = ko.g1(unseen_pipeline, True)
+check('held-out-only pipeline categories use the complement rate',
+      unseen_gate['single_scores']['pipeline'] == [0.5] * len(unseen_pipeline)
+      and unseen_gate['combined_scores'] == [0.5] * len(unseen_pipeline))
+pipeline_fallback = copy.deepcopy(one_class_complement)
+for record in pipeline_fallback:
+    record['pipeline'] = 'positive' if record['label'] else 'negative'
+pipeline_fallback_gate = ko.g1(pipeline_fallback, True)
+check('pipeline preserves one-class complement fallback', all(
+    p == 1 for r, p in zip(pipeline_fallback, pipeline_fallback_gate['combined_scores'])
+    if ko.h(r['group']) % 5 == 0))
+rejects('mixed pipeline presence is rejected instead of inventing a category',
+        lambda: ko.g1(constant_pipeline[:-1] + [balanced['records'][-1]]))
+for value in (None, 0, False):
+    invalid_pipeline = copy.deepcopy(constant_pipeline)
+    invalid_pipeline[0]['pipeline'] = value
+    rejects('non-string pipeline rejected: ' + repr(value), lambda: ko.g1(invalid_pipeline))
+check('absent pipeline preserves legacy output keys', 'pipeline' not in gate['single']
+      and 'pipeline' not in gate['single_scores'])
+check('one-class pipeline input remains undefined with pipeline output key',
+      ko.g1([pipeline['records'][0]])['single']['pipeline'] is None
+      and ko.g1([pipeline['records'][0]])['status'] == 'UNDEFINED')
+
+# Capture the actual fitted matrix and held-out rows, without fitting another model.
+# A nonzero coefficient only on the unseen column proves the held-out encoding.
+original_fit, original_sigmoid = ko.logistic_fit, ko.sigmoid
+matrices, logits = [], []
+def capture_fit(matrix, labels):
+    matrices.append(matrix)
+    return [0.0] * (len(matrix[0]) - 1) + [1.0]
+def capture_sigmoid(value):
+    logits.append(value)
+    return original_sigmoid(value)
+try:
+    ko.logistic_fit, ko.sigmoid = capture_fit, capture_sigmoid
+    ko.g1(balanced['records'])
+    legacy_matrices = copy.deepcopy(matrices)
+    matrices.clear()
+    ko.g1(pipeline['records'])
+    check('pipeline block follows every legacy column in all five folds', all(
+        new_row[:-3] == old_row and new_row[-3:] == ([0.0, 1.0, 0.0] if not label else [1.0, 0.0, 0.0])
+        for fold, (old, new) in enumerate(zip(legacy_matrices, matrices))
+        for old_row, new_row, label in zip(old, new,
+            [r['label'] for r in pipeline['records'] if ko.h(r['group']) % 5 != fold])))
+    matrices.clear()
+    logits.clear()
+    ko.g1(unseen_pipeline)
+    check('unseen pipeline activates the final held-out column', logits == [1.0] * len(unseen_pipeline))
+finally:
+    ko.logistic_fit, ko.sigmoid = original_fit, original_sigmoid
+
 for name in ('empty', 'one-class', 'empty-fold'):
     records = json.loads((HERE.parent / 'g1' / (name + '.json')).read_text())['records']
     result = ko.g1(records)

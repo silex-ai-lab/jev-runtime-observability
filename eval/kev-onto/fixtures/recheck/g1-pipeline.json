@@ -1,0 +1,100 @@
+{
+  "note": "Every fold has a negative pipeline U+E000 and positive pipeline U+1F600. Existing features are constant. OOF pipeline rates are labels, single and combined AUC=1; the balanced two-category logistic optimum is independently solvable.",
+  "records": [
+    {
+      "group": "balanced-1",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false,
+      "pipeline": ""
+    },
+    {
+      "group": "balanced-1",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true,
+      "pipeline": "😀"
+    },
+    {
+      "group": "balanced-2",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false,
+      "pipeline": ""
+    },
+    {
+      "group": "balanced-2",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true,
+      "pipeline": "😀"
+    },
+    {
+      "group": "balanced-3",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false,
+      "pipeline": ""
+    },
+    {
+      "group": "balanced-3",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true,
+      "pipeline": "😀"
+    },
+    {
+      "group": "balanced-0",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false,
+      "pipeline": ""
+    },
+    {
+      "group": "balanced-0",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true,
+      "pipeline": "😀"
+    },
+    {
+      "group": "balanced-7",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false,
+      "pipeline": ""
+    },
+    {
+      "group": "balanced-7",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true,
+      "pipeline": "😀"
+    }
+  ],
+  "expected": {
+    "pipeline": 1.0,
+    "combined": 1.0,
+    "status": "FAIL"
+  }
+}

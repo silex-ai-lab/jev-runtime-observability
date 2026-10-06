@@ -5,6 +5,7 @@ Run the synthetic acceptance script from the repository root:
 ```sh
 python3 -B eval/kev-onto/fixtures/recheck/test.py
 python3 -B eval/kev-onto/recheck_ko.py g1 eval/kev-onto/fixtures/recheck/g1-balanced.json --include-scores
+python3 -B eval/kev-onto/recheck_ko.py g1 eval/kev-onto/fixtures/recheck/g1-pipeline.json --include-scores
 python3 -B eval/kev-onto/recheck_ko.py aggregate eval/kev-onto/fixtures/recheck/aggregation.json
 ```
 
@@ -16,6 +17,15 @@ concordant pairs of 13, or 21/26.
 encoding is 0.5. The logistic optimum is the zero vector, so every combined probability and
 both kinds of AUROC are 0.5. The test also checks a separate logistic problem against its
 analytic scalar optimality equation, rather than against another implementation.
+
+`g1-pipeline.json` isolates a perfect pipeline shortcut with every legacy feature constant.
+Each fold contains both categories and labels, so the pipeline's OOF rates equal the labels
+and its single and combined AUROC are 1. The test independently solves the logistic optimum
+`b = 1 / (2 * (1 + exp(b)))` and checks the probabilities. The categories U+1F600 and U+E000
+also distinguish UTF-16 sorting from Unicode code point sorting. Matrix capture verifies
+that the pipeline block follows all legacy columns and that held-out-only categories activate
+the unseen column. In-memory variants cover constant pipeline, unseen categories, one-class
+complements and invalid pipeline values.
 
 `aggregation.json` includes a successful multi-call run, a call-free benign run, a persistent
 candidate failure and a label error. Any failed item excludes its whole run for both models
@@ -31,6 +41,18 @@ The module docstring specifies JSON/JSONL inputs. The `g1` CLI expects admitted 
 projected onto a single question; it does not tokenize or reconstruct training data. Source and
 family are strings, impact is `read`/`write`, and labels are JSON booleans. Optional score vectors
 retain input order. Lengths and category sorting use JavaScript UTF-16 semantics.
+
+For §9.7, supply a string `pipeline` on every record to add its OOF target-encoded single
+feature and its training-vocabulary one-hot block (including an unseen column) after the
+existing blocks, including standardized log length. If every record omits `pipeline`, the
+v1/v2 feature set and output schema are preserved. Mixed presence or non-string values are
+rejected because the spec does not define a missing-pipeline category. `source` and `family`
+remain supplied projections; the v3 caller supplies constant source and suite as family.
+
+Section 9.7 requires report-only OOF injection-text visibility AUROC for both questions and
+OOF target-encoded candidate-tool-name AUROC for goal deviation. It does not alone define
+how visibility is determined or how those diagnostic inputs are represented/extracted in
+recheck records. This recheck does not invent those definitions or emit diagnostic scores.
 
 The `aggregate` CLI accepts terminal predictions after retries, with `attempts` between one and
 four. It never calls a model. Each observation must have both question items; an absent item or

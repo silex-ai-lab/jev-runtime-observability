@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Independent, stdlib-only KO_SPEC v1 recheck; no TypeScript implementation imports.
+"""Independent, stdlib-only KO_SPEC recheck; no TypeScript implementation imports.
 
 CLI:
   g1 RECORDS.json [--include-scores]
     {records:[{group,source,family,impact:'read'|'write',state,label:bool}]}:
     admitted records projected onto ONE question, in original order.
+    Optional pipeline:str must be present on every record or on none. When present,
+    it adds the §9.7 single feature and one-hot block after the existing blocks.
   evaluate INCUMBENT.jsonl CANDIDATE.jsonl [--exclusions META.json] [--include-draws]
     Each JSONL row is contract.ts RunScore (one question, one checkpoint).
     META = {cohort_runs:int, excluded:[{run_id,reason}]}; default: no exclusions.
@@ -190,12 +192,18 @@ def logistic_fit(matrix, labels):
 
 def g1(records, include_scores=False):
     names = ['source', 'family', 'length_decile', 'impact', *MARKERS]
+    legacy_width = len(names)
+    has_pipeline = any('pipeline' in r for r in records)
+    if has_pipeline:
+        names.append('pipeline')
     labels = [r['label'] for r in records]
     if any(type(y) is not bool for y in labels):
         raise ValueError('G1 labels must be booleans')
     for r in records:
         if any(not isinstance(r.get(k), str) for k in ('group', 'source', 'family', 'state')) or r.get('impact') not in ('read', 'write'):
             raise ValueError('invalid G1 record')
+        if has_pipeline and not isinstance(r.get('pipeline'), str):
+            raise ValueError('G1 pipeline must be a string on every record when present')
     folds = [h(r['group']) % 5 for r in records]
     result = {'n': len(records), 'positives': sum(labels), 'status': 'UNDEFINED',
               'single': {name: None for name in names}, 'combined': None}
@@ -204,6 +212,9 @@ def g1(records, include_scores=False):
     lengths = [utf16_length(r['state']) for r in records]
     base = [[r['source'], r['family'], None, int(r['impact'] == 'write'),
              *[int(marker in r['state']) for marker in MARKERS]] for r in records]
+    if has_pipeline:
+        for r, row in zip(records, base):
+            row.append(r['pipeline'])
     single_scores = [[0.0] * len(records) for _ in names]
     combined = [0.0] * len(records)
     deciles_oof = [None] * len(records)
@@ -230,6 +241,8 @@ def g1(records, include_scores=False):
                 combined[i] = rate
             continue
         vocabularies = [sorted({features[i][j] for i in train}, key=utf16_key) for j in (0, 1)]
+        pipeline_vocabulary = (sorted({records[i]['pipeline'] for i in train},
+                                      key=utf16_key) if has_pipeline else [])
         logs = [math.log1p(lengths[i]) for i in train]
         mean = sum(logs) / len(logs)
         sigma = math.sqrt(sum((value - mean) ** 2 for value in logs) / len(logs))
@@ -240,8 +253,12 @@ def g1(records, include_scores=False):
                 row.extend(float(features[i][j] == value) for value in vocabulary)
                 row.append(float(features[i][j] not in vocabulary))
             row.extend(float(features[i][2] == value) for value in range(10))
-            row.extend(float(value) for value in features[i][3:])
+            row.extend(float(value) for value in features[i][3:legacy_width])
             row.append((math.log1p(lengths[i]) - mean) / sigma if sigma else 0.0)
+            if has_pipeline:
+                value = records[i]['pipeline']
+                row.extend(float(value == category) for category in pipeline_vocabulary)
+                row.append(float(value not in pipeline_vocabulary))
             return row
 
         coefficients = logistic_fit([encode(i) for i in train], [labels[i] for i in train])
