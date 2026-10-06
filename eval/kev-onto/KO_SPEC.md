@@ -1,6 +1,6 @@
 # KO_SPEC: Kev × ontology wave 1 pre-registration (H-K1)
 
-Version 1 (CG0 round 2). It is frozen at gate CG0 and hashed into freeze record F1. The approved execution plan this implements is
+Version 2 (amendment W1b; v1 = CG0 + CG1 clarifications). It is frozen at gate CG0 and hashed into freeze record F1. The approved execution plan this implements is
 `silex-security/ontology-typed-alerting` `logs/2026-10-06_KEV_ONTOLOGY_EXECUTION_PLAN.md`, r5.
 "MUST" statements here are the contract that the TypeScript pipeline (`metrics.ts`, `train-data.ts`, `convert.ts`,
 `items.ts`) and the independent Python recheck (`recheck_ko.py`) both implement. The two implementations must produce
@@ -404,3 +404,27 @@ the denominator is 0.
 - After F1, `--cohort-text` adds rule 5's any-32-character-window check against the cohort text. It applies to every
   staged text file.
 - `runs/kev-onto/.gitignore` ignores everything except the allowlisted artifacts.
+
+## 8. Amendment W1b (version 2)
+
+Approved at the W1b plan gate (plan §13). Everything above still applies, except as listed here.
+
+1. **ASB has no goal_deviation label.** In train-v2, every ASB original drops its goal_deviation question and keeps
+   its other questions (`contract.ts` `W1B_NO_GOAL_DEVIATION_SOURCES`).
+2. **Rule 2 task text for τ-bench seeds.**
+   - The task is `<identity sentence> <template sentence>`, where the identity sentence is the prefix of the seed's
+     `instruction` matched by `contract.ts` `RULE2_IDENTITY`. No other part of the instruction is used.
+   - A seed whose instruction does not match is excluded and counted as `rule2:no-identity`.
+   - Added probes:
+     - the task equals that concatenation exactly;
+     - the identity sentence matches `RULE2_IDENTITY`;
+     - if the identity sentence names a user id, or an e-mail address, and the action argument is of that type, the
+       two are equal. Order and reservation arguments are not constrained by this probe.
+   - InjecAgent rule-2 tasks are unchanged.
+3. **Export filter.** After the A1 outcome, records with no remaining question are removed from `kev-train.jsonl`.
+   - They stay in `records.jsonl` with `export: "no-questions"`.
+   - They are counted per source as `export:no-questions`, separately from admission rejections.
+   - The A1 goal_deviation G1 recomputation runs on the reduced set before this filter.
+4. **Output** goes to `runs/kev-onto/train-v2/`. The final build is run **once**.
+5. **Order if G1 goal_deviation passes:** CG1 → T2 fetch and seal (bytes and paths only) → T10a → F1 (train-v2
+   artifacts plus the seal hash) → T10b → H-K1.

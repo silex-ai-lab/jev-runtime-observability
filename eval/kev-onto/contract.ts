@@ -1,7 +1,7 @@
 // Kev × ontology wave 1: shared contract (KO_SPEC.md is authoritative; a disagreement here is a defect in this file).
 // Every wave-1 module compiles against these types and constants. Nothing here reads data.
 
-export const SPEC_VERSION = 1;
+export const SPEC_VERSION = 2;                      // v2 = amendment W1b
 export const QUESTIONS = ['goal_deviation', 'instruction_override'] as const;
 export type QuestionId = (typeof QUESTIONS)[number];
 export const MAX_ITEM_STATE = 3600;                 // KO_SPEC §2: hard final bound on item state (UTF-16 units)
@@ -115,6 +115,10 @@ export const RULE2_ID_VALUES = [
   { cls: 'user', family: 'retail', pattern: '\\b[a-z]+_[a-z]+_\\d{3,5}\\b', arg: 'user_id' },
   { cls: 'reservation', family: 'airline', pattern: '\\b(?!HAT\\d{3}\\b)[A-Z0-9]{6}\\b', arg: 'reservation_id' },  // excludes flight numbers HAT###
 ] as const;
+// Amendment W1b (KO_SPEC v2 §4.5 rule 2): a τ-bench rule-2 task is this leading identity sentence + one space + the template.
+export const RULE2_IDENTITY = '^Your (?:name is [A-Z][a-z]+ [A-Z][a-z]+|user id is [A-Za-z0-9_]+)(?: and your (?:zip code is \\d{5}|email is [A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}))?\\.(?=\\s|$)';
+// Amendment W1b: sources whose goal_deviation labels are removed from train-v2.
+export const W1B_NO_GOAL_DEVIATION_SOURCES = ['asb'] as const;
 export const RULE2_READ_TOOL = { retail: 'get_order_details', airline: 'get_reservation_details' } as const;
 export const RULE3_IDENTIFIERS = [
   { type: 'order', family: 'retail', pattern: '#W\\d+', group: 0, arg: 'order_id' },
