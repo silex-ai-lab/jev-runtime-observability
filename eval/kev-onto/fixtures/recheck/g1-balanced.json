@@ -1,0 +1,97 @@
+{
+  "note": "Every fold contains one positive and one negative with identical features: all OOF scores and AUCs are 0.5.",
+  "groups_by_fold": {
+    "3": "balanced-0",
+    "0": "balanced-1",
+    "1": "balanced-2",
+    "2": "balanced-3",
+    "4": "balanced-7"
+  },
+  "records": [
+    {
+      "group": "balanced-1",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false
+    },
+    {
+      "group": "balanced-1",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true
+    },
+    {
+      "group": "balanced-2",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false
+    },
+    {
+      "group": "balanced-2",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true
+    },
+    {
+      "group": "balanced-3",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false
+    },
+    {
+      "group": "balanced-3",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true
+    },
+    {
+      "group": "balanced-0",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false
+    },
+    {
+      "group": "balanced-0",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true
+    },
+    {
+      "group": "balanced-7",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": false
+    },
+    {
+      "group": "balanced-7",
+      "source": "synthetic",
+      "family": "balanced",
+      "impact": "read",
+      "state": "fixed state",
+      "label": true
+    }
+  ],
+  "expected": {
+    "single": 0.5,
+    "combined": 0.5,
+    "status": "PASS"
+  }
+}
