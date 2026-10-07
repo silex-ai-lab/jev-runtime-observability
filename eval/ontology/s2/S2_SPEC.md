@@ -94,3 +94,17 @@ It is counted per base and per suite.
 - `secondary.d5`.
 
 `counts.json`, the only file read before F-S2, holds aggregate counts only: runs per cohort, calls, parse failures.
+
+### 5.1 Secondary schema (CG-S2 clarification, 2026-10-06)
+
+- **`secondary.b_prov_bound`:** `{s1, prov, p_a}`.
+  - `s1` and `prov` are S1 monitor tables `{F, TP, Pos, precision, recall}` on the primary P pool. `prov` is
+    B-prov-bound.
+  - `p_a` uses the accepted primary bootstrap draws and weights.
+  - If B-prov-bound precision is undefined (F = 0) on any accepted draw, `p_a` is `null`. That condition never changes
+    the primary redraws.
+- **`secondary.x1`:** `{per_panel: {<pipeline>: {s1, prov}}, pooled: {s1, prov}}`. These are S1 monitor tables over
+  each X1 pipeline's runs and over all X1 runs pooled. They have no bootstrap.
+- **`secondary.d5`:** `{per_base: {<base>: {attacked, error_present, utility_false_security_true}}, per_suite: {…}}`.
+  These are counts over all selected attacked runs: P and X1, grouped by `base` and by suite.
+- **Ratios.** Every ratio with a zero denominator is `null`.
