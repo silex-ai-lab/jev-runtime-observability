@@ -1,7 +1,4 @@
 {
- "binding": "eval/ontology/s2/binding-agentdyn.json",
- "impact_write_regex": "/(send|update|schedule|add|delete|create|remove|post|transfer|reset|rename|modify|revoke|block|grant|set|remove|rename|delete|unsubscribe|subscribe|share|write|insert|append)/i",
- "snapshot": "eval/ontology/v2/frozen/snapshot.json",
  "summary": {
   "legend": "r{regex_write}b{bound_write}t{typed_eligible}: tool count in that 2x2x2 cell; all 8 keys are present (0 when empty)",
   "per_suite": {

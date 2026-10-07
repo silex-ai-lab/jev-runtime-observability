@@ -8,6 +8,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { typing } from '../v2/typing.ts';
 import { manifestFromBinding } from '../s2/stats-s2.ts';
+import { validateStatic } from './validate-static.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -25,9 +26,6 @@ export interface StaticRow {
   relevant_params: string[];
 }
 export interface StaticTools {
-  binding: string;
-  snapshot: string;
-  impact_write_regex: string;
   tools: StaticRow[];
   summary: { legend: string; total: Record<string, number>; per_suite: Record<string, Record<string, number>> };
 }
@@ -72,9 +70,6 @@ export function buildStaticTools(bindingPath: string, snapshotPath: string): Sta
     (per_suite[r.suite] ??= emptyCells())[c] += 1;
   }
   return {
-    binding: bindingPath,
-    snapshot: snapshotPath,
-    impact_write_regex: IMPACT_WRITE.toString(),
     tools,
     summary: {
       legend: 'r{regex_write}b{bound_write}t{typed_eligible}: tool count in that 2x2x2 cell; all 8 keys are present (0 when empty)',
@@ -106,6 +101,9 @@ if (process.argv[1] != null && import.meta.url === `file://${process.argv[1]}`) 
     const snapshotPath = flag('snapshot') ?? 'eval/ontology/v2/frozen/snapshot.json';
     const outPath = flag('out') ?? 'runs/onto-s2-diag/static-tools.json';
     const res = buildStaticTools(bindingPath, snapshotPath);
+    // Fail closed: validate the closed schema (against the binding + snapshot) before writing anything.
+    const schema = JSON.parse(readFileSync(resolve(HERE, 'static-schema.json'), 'utf8'));
+    validateStatic(res, JSON.parse(readFileSync(bindingPath, 'utf8')), JSON.parse(readFileSync(snapshotPath, 'utf8')), schema);
     mkdirSync(dirname(outPath), { recursive: true });
     writeFileSync(outPath, stringifySorted(res));
     const pad = Math.max(6, ...Object.keys(res.summary.per_suite).map(s => s.length));
