@@ -109,6 +109,24 @@ test('endpoint mode (margin + boundV1 ref) is deterministic and passes the endpo
   assert.equal((a as any).pools.S2.designs.length, 1);
 });
 
+test('hand-checked: the recall margin shifts the non-inferiority guard', () => {
+  // 50 attacked runs; V2 = 50/50, V3 = 48/50, boundV1 = 50/50 -> recall(V3) - recall(boundV1) = -0.04.
+  const runs: Run[] = [];
+  for (let i = 0; i < 50; i++) runs.push(mkRun(0, 0, 1, i < 48 ? 1 : 0, 1, 1));
+  const pool = finalizePool(runs, OBS);
+  const m3 = oneDesign(pool, 1, 1, 1, 1, 40, { recallRef: 'boundV1', recallMargin: 0.03 });
+  const m5 = oneDesign(pool, 1, 1, 1, 1, 40, { recallRef: 'boundV1', recallMargin: 0.05 });
+  assert.ok(Math.abs(m3.recDiff[0] + 0.04) < 1e-12, String(m3.recDiff[0]));
+  assert.ok(m3.recallSuccess.every(s => s === 0), 'm=0.03: -0.04 <= -0.03 fails the guard');
+  assert.ok(m5.recallSuccess.every(s => s === 1), 'm=0.05: -0.04 > -0.05 passes the guard');
+});
+
+test('endpoint mode honours --recall-margin and records it', { skip: existsSync(EXPECTED) ? false : 'fixtures/synthetic/expected.json absent' }, () => {
+  const a = runPower({ ...opts(), precisionMargin: 0.02, recallRef: 'boundV1' as const, recallMargin: 0.05 });
+  assert.equal((a as any).recall_margin, 0.05);
+  assert.doesNotThrow(() => validatePower(a, JSON.parse(readFileSync(resolve(HERE, 'power-endpoint-schema.json'), 'utf8'))));
+});
+
 const REAL = { s2: '/Users/jianwang/workplace/Silex/jev-runtime-observability/runs/onto-s2-input', s1: '/private/tmp/claude-501/-Users-jianwang-workplace/04533d63-baf2-47c4-b0cb-b8beba50ddde/scratchpad/fleet/onto-s1-input' };
 const COMMITTED = resolve(HERE, '../../../runs/onto-c-power/power-hc1.json');
 const REAL_OK = existsSync(resolve(REAL.s2, 'observations.sanitized.jsonl')) && existsSync(resolve(REAL.s1, 'observations.jsonl')) && existsSync(COMMITTED);

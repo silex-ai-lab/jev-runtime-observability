@@ -34,7 +34,7 @@ if (d.precision_margin === undefined) {
     console.log(`\n## ${key}\n`);
     console.log(`observed: runs=${o.runs} positives=${o.positives} precision ${f3(o.precision_v2)}→${f3(o.precision_v3)} (${pts(o.precision_diff)} pts) recall V3=${f3(o.recall_v3)} vs ${d.recall_ref}=${f3(o.recall_ref)} (${pts(o.recall_diff)} pts)`);
     console.log(`fit SE = ${Number(pool.fit.a).toFixed(4)} / sqrt(n_user_clusters), R^2 = ${Number(pool.fit.r2).toFixed(4)}`);
-    console.log('\n| K | U | J | repeats | exp runs | exp pos | mean prec pts | mean recall pts | outer SD pts | power joint | MC SE | prec-only | MC SE | recall-only | MC SE | valid/inc/undef |');
+    console.log(`\n| K | U | J | repeats | exp runs | exp pos | mean prec pts | mean recall pts | outer SD pts | power joint | MC SE | prec-only | MC SE | recall-only m=${d.recall_margin} | MC SE | valid/inc/undef |`);
     console.log('|---|---|---|:---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|');
     for (const r of pool.designs) console.log(`| ${r.K} | ${r.U} | ${r.J} | ${r.repeats_tasks ? 'yes' : 'no'} | ${Math.round(r.expected_runs)} | ${Math.round(r.expected_positives)} | ${pts(r.mean_precision_diff)} | ${pts(r.mean_recall_diff)} | ${pts(r.outer_sd)} | ${f3(r.power_joint)} | ${f3(r.power_joint_mc_se)} | ${f3(r.power_precision_only)} | ${f3(r.power_precision_mc_se)} | ${f3(r.power_recall_guard_only)} | ${f3(r.power_recall_guard_mc_se)} | ${r.n_valid}/${r.n_inconclusive}/${r.n_undefined} |`);
   }

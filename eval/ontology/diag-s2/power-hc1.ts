@@ -35,7 +35,7 @@ interface Observed { precision_v2: number; precision_v3: number; precision_diff:
 export interface BoundV1 { F: number; TP: number; Pos: number }
 export type RecallRef = 'V2' | 'boundV1';
 export interface Pool { runs: Run[]; suites: string[]; bases: string[]; userTasks: Record<string, number[]>; injTasks: Record<string, number[]>; share: Record<string, number>; att: (Cell | null)[][][][]; ben: (Cell | null)[][][]; observed: Observed; boundV1: BoundV1 }
-export interface PowerOpts { s2Dir: string; binding: string; frozen: string; diagPath: string; out?: string; s1Pool?: string; s1Manifest?: string; expectedS2Baseline?: { baseline: string[]; sanitized: string[] }; N?: number; R?: number; grid?: { K: number[]; U: number[]; J: number[] }; precisionMargin?: number; recallRef?: RecallRef }
+export interface PowerOpts { s2Dir: string; binding: string; frozen: string; diagPath: string; out?: string; s1Pool?: string; s1Manifest?: string; expectedS2Baseline?: { baseline: string[]; sanitized: string[] }; N?: number; R?: number; grid?: { K: number[]; U: number[]; J: number[] }; precisionMargin?: number; recallRef?: RecallRef; recallMargin?: number }
 
 /** Precompute the per-(suite,user,injection,base) flag tables; no run text. Exported for the hand-computed test. */
 export function finalizePool(runs: Run[], observed: Observed): Pool {
@@ -113,12 +113,12 @@ const erf = (x: number): number => { const s = Math.sign(x); x = Math.abs(x); co
 const normCdf = (z: number): number => 0.5 * (1 + erf(z / Math.SQRT2));
 
 export interface SimOut { status: number[]; diff: number[]; recDiff: number[]; runs: number[]; pos: number[]; success: number[]; precSuccess: number[]; recallSuccess: number[] }
-export interface SimOpts { precisionMargin?: number; recallRef?: RecallRef }
+export interface SimOpts { precisionMargin?: number; recallRef?: RecallRef; recallMargin?: number }
 /** One outer design + inner test. status: 0 valid, 1 inconclusive (redraw exhaustion), 2 undefined point precision.
  *  The default (no opts) is the P-HC1 endpoint: precision(V3-V2) > 0 and recall(V3-V2) > -3 points. `precisionMargin`
  *  shifts the precision null to diff <= margin; `recallRef` selects the recall-guard comparator (V2 or B-prov-bound). */
 export function oneDesign(pool: Pool, K: number, U: number, J: number, N: number, R: number, opts?: SimOpts): SimOut {
-  const margin = opts?.precisionMargin ?? 0, ref: RecallRef = opts?.recallRef ?? 'V2';
+  const margin = opts?.precisionMargin ?? 0, recallM = opts?.recallMargin ?? RECALL_MARGIN, ref: RecallRef = opts?.recallRef ?? 'V2';
   const out: SimOut = { status: [], diff: [], recDiff: [], runs: [], pos: [], success: [], precSuccess: [], recallSuccess: [] };
   const nU = allocate(U, pool.suites.map(s => pool.share[s])), nJ = allocate(J, pool.suites.map(s => pool.share[s]));
   for (let n = 0; n < N; n++) {
@@ -152,7 +152,7 @@ export function oneDesign(pool: Pool, K: number, U: number, J: number, N: number
       dP.push(t3 / f3 - t2 / f2); dR.push(t3 / pos - t2 / pos); if (ref === 'boundV1') dRref.push(t3 / pos - b1tp / pos);
     }
     if (dP.length < R) { out.status.push(1); out.success.push(0); out.precSuccess.push(0); out.recallSuccess.push(0); continue; }
-    const pA = orderStatP(dP, -margin), pR = orderStatP(ref === 'boundV1' ? dRref : dR, RECALL_MARGIN);
+    const pA = orderStatP(dP, -margin), pR = orderStatP(ref === 'boundV1' ? dRref : dR, recallM);
     out.status.push(0); out.success.push(pA <= ALPHA && pR <= ALPHA ? 1 : 0); out.precSuccess.push(pA <= ALPHA ? 1 : 0); out.recallSuccess.push(pR <= ALPHA ? 1 : 0);
   }
   return out;
@@ -221,8 +221,8 @@ function fitSE(points: Array<{ U: number; sd: number | null }>): { a: number; r2
 export function runPower(o: PowerOpts): Record<string, unknown> {
   const diag = JSON.parse(readFileSync(o.diagPath, 'utf8'));
   const N = o.N ?? 200, R = o.R ?? 500;
-  const endpointMode = o.precisionMargin !== undefined || o.recallRef !== undefined;
-  const precisionMargin = o.precisionMargin ?? 0, recallRef: RecallRef = o.recallRef ?? 'V2';
+  const endpointMode = o.precisionMargin !== undefined || o.recallRef !== undefined || o.recallMargin !== undefined;
+  const precisionMargin = o.precisionMargin ?? 0, recallRef: RecallRef = o.recallRef ?? 'V2', recallMargin = o.recallMargin ?? RECALL_MARGIN;
   const grid = o.grid ?? { K: [3, 5], U: [20, 40, 60, 100, 150], J: [10, 20, 35] };
   const pools: Record<string, unknown> = {};
   const built: Array<[string, Pool]> = [['S2', buildS2(o, diag)]];
@@ -231,7 +231,7 @@ export function runPower(o: PowerOpts): Record<string, unknown> {
     const designs: any[] = [], fitPts: Array<{ U: number; sd: number | null }> = [];
     const distinctTasks = pool.suites.reduce((a, s) => a + pool.userTasks[s].length, 0);
     for (const K of grid.K) for (const U of grid.U) for (const J of grid.J) {
-      const r = oneDesign(pool, K, U, J, N, R, endpointMode ? { precisionMargin, recallRef } : undefined);
+      const r = oneDesign(pool, K, U, J, N, R, endpointMode ? { precisionMargin, recallRef, recallMargin } : undefined);
       const diffs = r.diff.filter(d => Number.isFinite(d));
       const meanDiff = diffs.length ? mean(diffs) : null, outerSd = diffs.length >= 2 ? std(diffs) : null;
       const power = mean(r.success), powerPrec = mean(r.precSuccess);
@@ -267,7 +267,7 @@ export function runPower(o: PowerOpts): Record<string, unknown> {
     if (o.out) { mkdirSync(dirname(o.out), { recursive: true }); writeFileSync(o.out, JSON.stringify(out, null, 1) + '\n'); }
     return out as unknown as Record<string, unknown>;
   }
-  const out = { endpoint: ENDPOINT_MARGIN, alpha: ALPHA, recall_margin: RECALL_MARGIN, precision_margin: precisionMargin, recall_ref: recallRef, sim: { N, R, seed: SEED }, grid, pools };
+  const out = { endpoint: ENDPOINT_MARGIN, alpha: ALPHA, recall_margin: recallMargin, precision_margin: precisionMargin, recall_ref: recallRef, sim: { N, R, seed: SEED }, grid, pools };
   validatePower(out, JSON.parse(readFileSync(new URL('./power-endpoint-schema.json', import.meta.url), 'utf8')));
   if (o.out) { mkdirSync(dirname(o.out), { recursive: true }); writeFileSync(o.out, JSON.stringify(out, null, 1) + '\n'); }
   return out as unknown as Record<string, unknown>;
@@ -300,12 +300,12 @@ const arg = (k: string): string | null => { const i = process.argv.indexOf(k); r
 if (process.argv[1] != null && import.meta.url === `file://${process.argv[1]}`) {
   const s2Dir = arg('--s2-dir') ?? 'runs/onto-s2-input', binding = arg('--binding') ?? 'eval/ontology/s2/binding-agentdyn.json';
   const frozen = arg('--frozen') ?? 'eval/ontology/v2/frozen', diagPath = arg('--diag') ?? 'runs/onto-s2-diag/diag-s2.json';
-  const pm = arg('--precision-margin'), rr = arg('--recall-ref');
+  const pm = arg('--precision-margin'), rr = arg('--recall-ref'), rm = arg('--recall-margin');
   if (rr != null && rr !== 'V2' && rr !== 'boundV1') throw new Error(`--recall-ref must be V2 or boundV1, got ${rr}`);
   const res = runPower({ s2Dir, binding, frozen, diagPath, out: arg('--out') ?? undefined, s1Pool: arg('--s1-pool') ?? undefined, s1Manifest: arg('--s1-manifest') ?? undefined,
     N: arg('--N') ? Number(arg('--N')) : undefined, R: arg('--R') ? Number(arg('--R')) : undefined,
-    precisionMargin: pm != null ? Number(pm) : undefined, recallRef: rr != null ? (rr as RecallRef) : undefined });
+    precisionMargin: pm != null ? Number(pm) : undefined, recallRef: rr != null ? (rr as RecallRef) : undefined, recallMargin: rm != null ? Number(rm) : undefined });
   const p = res.pools as any;
-  const tag = res.precision_margin !== undefined ? `power-hc1-endpoint (margin=${res.precision_margin}, ref=${res.recall_ref})` : 'power-hc1';
+  const tag = res.precision_margin !== undefined ? `power-hc1-endpoint (margin=${res.precision_margin}, ref=${res.recall_ref}, recall_margin=${res.recall_margin})` : 'power-hc1';
   console.log(`${tag}: S2 observed ${(p.S2.observed.precision_diff * 100).toFixed(2)} pts over ${p.S2.observed.runs} runs; ${p.S2.designs.length} designs${p.S1 ? `; S1 observed ${(p.S1.observed.precision_diff * 100).toFixed(2)} pts` : ''}`);
 }
