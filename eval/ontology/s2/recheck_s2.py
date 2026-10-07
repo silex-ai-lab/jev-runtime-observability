@@ -420,7 +420,8 @@ def cohort_mapping(labels, cohorts):
     return bases, groups
 
 
-def validate_inputs(raw, labels, overlap_rows, suites, binding, source, strict):
+def validate_inputs(raw, labels, overlap_rows, suites, binding, source, strict, manifest):
+    registered = {tool['id'] for tool in manifest['tools']}
     index = unique_rows(labels, 'run_id', 'run label')
     unique_rows(raw, 'obs_id', 'observation')
     overlap = unique_rows(overlap_rows, 'run_id', 'overlap label')
@@ -451,7 +452,10 @@ def validate_inputs(raw, labels, overlap_rows, suites, binding, source, strict):
         if not isinstance(action.get('name'), str) or not isinstance(action.get('args'), dict):
             raise ValueError('invalid action')
         tid = source + ':' + obs['suite'] + '/' + action['name']
-        if strict and tid not in binding['tools']: raise ValueError('tool id outside binding')
+        # A-S2-2: unknown calls stay in the observations. Only registered tools
+        # require a binding; typing and the random universe remain manifest-only.
+        if strict and tid in registered and tid not in binding['tools']:
+            raise ValueError('registered tool missing from binding')
         if strict and action.get('impact') != ('write' if IMPACT_WRITE.search(action['name']) else 'read'):
             raise ValueError('primary impact differs from frozen name regex')
         counts[obs['run_id']] += 1
@@ -500,7 +504,7 @@ def evaluate(raw, labels, overlap_rows, snapshot, manifest, binding, reps=10000,
     suites = SUITES if mode == 'agentdyn' else AGENTDOJO_SUITES
     manifest = adapt_manifest(manifest, mode, suites)
     if mode == 'agentdyn': validate_binding(snapshot, manifest, binding)
-    validate_inputs(raw, labels, overlap_rows, suites, binding, mode, mode == 'agentdyn')
+    validate_inputs(raw, labels, overlap_rows, suites, binding, mode, mode == 'agentdyn', manifest)
     if mode == 'agentdojo':
         return evaluate_pool(raw, labels, overlap_rows, snapshot, manifest, binding, reps, draws,
                              suites=suites, source=mode)

@@ -9,12 +9,16 @@
 //              values are never read — and their NAMES are counted per pipeline in counts.json (amendment A-S2-1).
 //              Legitimate call-free and error runs, and extra/missing argument keys, are kept. Output is
 //              the exact S1 raw observation schema; labels add group/base; labels-pr is the frozen label-only
-//              `injectionOverlap`; labels-d5 is label-side. A tool id outside the sealed binding subset is an integrity
-//              failure.
+//              `injectionOverlap`; labels-d5 is label-side. A REGISTERED tool id missing from the sealed binding is an
+//              integrity failure; a call to an UNREGISTERED tool (not in binding/manifest-agentdyn.json) is kept, counted
+//              by name per suite in counts.json and handled by the statistics as S1 handles a tool absent from its
+//              binding (amendment A-S2-2). Integrity failures are collected over every selected run in one pass and
+//              written to integrity-report.json; conversion then exits non-zero writing no observations or labels.
 //   agentdojo — byte-compatible reproduction of runs-convert.ts cohortMain (legacy schema/serialization) for the S1
 //              acceptance comparison; no S2-only fields and no S2 validation.
 //   node eval/ontology/s2/convert-s2.ts --mode s2 --cohorts eval/ontology/s2/cohorts.json --manifest eval/ontology/s2/manifest-s2.json \
-//     --binding eval/ontology/s2/binding-agentdyn.json [--seal <fetch-seal.json>] --archive <tar.gz> --out <dir>
+//     --binding eval/ontology/s2/binding-agentdyn.json [--registered eval/kev-onto/binding/manifest-agentdyn.json] \
+//     [--seal <fetch-seal.json>] --archive <tar.gz> --out <dir>
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -25,6 +29,20 @@ import { ENVELOPE_FIELDS } from '../../kev-onto/contract.ts';
 export interface S2Entry extends SelectedCohort { group: string; base: string }
 export interface S2Meta { pipeline: string; suite: string; user_task: number; injection_task: number | null; attack: string | null; cohort: string; group: string; base: string }
 export interface Binding { tools: Record<string, { effects: string[] }> }
+export interface ToolManifest { tools: Array<{ id: string }> }
+
+/** A fail-closed integrity failure (S2_SPEC §6). `category` names the failure class, `id` the offending identifier
+ *  (run path, run id or tool id); neither carries labels, security/utility values or message text. */
+export class IntegrityError extends Error {
+  readonly category: string;
+  readonly id: string;
+  constructor(category: string, id: string, message?: string) {
+    super(message ?? `integrity failure [${category}]${id ? `: ${id}` : ''}`);
+    this.name = 'IntegrityError';
+    this.category = category;
+    this.id = id;
+  }
+}
 
 export function validateS2Cohorts(value: unknown): S2Entry[] {
   const entries = validateCohorts(value) as S2Entry[];
@@ -87,19 +105,23 @@ export function selectedCohortS2(path: string, entries: S2Entry[]): S2Meta | nul
     attack: clean ? null : m[5], cohort: `${entry.pipeline}/${entry.attack}`, group: entry.group, base: entry.base };
 }
 
-export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding) {
-  const extraFields = validateEnvelope(run);
+export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding, registered: Set<string>) {
+  let extraFields: string[];
+  try { extraFields = validateEnvelope(run); }
+  catch (e) { throw new IntegrityError('malformed_envelope', '', (e as Error).message); }
   const converted = convertRun(run, { model: meta.pipeline, suite: meta.suite, user_task: meta.user_task, injection_task: meta.injection_task } as never);
   const run_id = `${meta.pipeline}/${meta.attack ?? 'none'}/${meta.suite}/user_task_${meta.user_task}/${meta.injection_task == null ? 'none' : `injection_task_${meta.injection_task}`}`;
+  const unregistered: string[] = [];
   const observations = converted.observations.map((o: any, i: number) => {
     const id = `agentdyn:${meta.suite}/${o.action.name}`;
-    if (!binding.tools[id]) throw new Error(`tool id outside the sealed binding subset: ${id}`);   // S2_SPEC §2 integrity failure
-    return { ...o, run_id, obs_id: `${run_id}#${i}` };                                             // raw observations = exact S1 schema
+    if (registered.has(id)) { if (!binding.tools[id]) throw new IntegrityError('registered_unbound_tool', id); }   // S2_SPEC §6
+    else unregistered.push(o.action.name);                                                                        // A-S2-2: kept, counted, ineligible for M-S1
+    return { ...o, run_id, obs_id: `${run_id}#${i}` };                                                            // raw observations = exact S1 schema
   });
   const label = { ...converted.label, run_id, pipeline: meta.pipeline, attack: meta.attack, cohort: meta.cohort, group: meta.group, base: meta.base };
   const d5 = { run_id, error_present: run.error != null, utility: typeof run.utility === 'boolean' ? run.utility : null,
     security: typeof run.security === 'boolean' ? run.security : null };
-  return { observations, label, d5, extraFields };
+  return { observations, label, d5, extraFields, unregistered };
 }
 
 const jl = (rows: any[]): string => rows.map(r => JSON.stringify(r)).join('\n') + '\n';
@@ -171,9 +193,10 @@ with tarfile.open(archive) as t:
 export interface S2Manifest { source: { root_prefix: string }; path_regex: string; pipelines: string[]; suites: string[]; expected: Record<string, Record<string, { attacked: number; benign: number }>>; total_runs: number }
 export interface S2Seal { files: Record<string, string>; counts: Record<string, Record<string, { attacked: number; benign: number }>>; total: number }
 
-export function convertS2(archive: string, cohortsFile: string, manifestPath: string, bindingPath: string, sealPath: string, out: string): Record<string, unknown> {
+export function convertS2(archive: string, cohortsFile: string, manifestPath: string, bindingPath: string, registeredPath: string, sealPath: string, out: string): Record<string, unknown> {
   const entries = validateS2Cohorts(JSON.parse(readFileSync(cohortsFile, 'utf8')));
   const binding = JSON.parse(readFileSync(bindingPath, 'utf8')) as Binding;
+  const registered = new Set((JSON.parse(readFileSync(registeredPath, 'utf8')) as ToolManifest).tools.map(t => t.id));
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as S2Manifest;
   const seal = sealPath ? JSON.parse(readFileSync(sealPath, 'utf8')) as S2Seal : null;
   const root = manifest.source.root_prefix;
@@ -186,14 +209,20 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
   const per_cohort_runs = Object.fromEntries(entries.map(e => [`${e.pipeline}/${e.attack}`, 0]));
   const cell: Record<string, Record<string, { attacked: number; benign: number }>> = {};
   const extraEnvelopeFields: Record<string, Record<string, number>> = {};
+  const unregisteredToolCalls: Record<string, Record<string, number>> = {};
+  // A-S2-2 one-pass integrity report: check every selected run before aborting; collect failures by category.
+  const failures: Record<string, string[]> = {};
+  const fail = (category: string, id: string): void => { (failures[category] ??= []).push(id); };
   for (const line of lines) {
     const row = JSON.parse(line);
-    if (row.error) throw new Error(`cohort parse failure: ${row.path}: ${row.error}`);
-    if (!row.path.startsWith(root)) throw new Error(`path not under the manifest root: ${row.path}`);   // root enforced by the reader too
+    if (row.error) { fail('parse_failure', row.path); continue; }
+    if (!row.path.startsWith(root)) { fail('not_under_root', row.path); continue; }   // root enforced by the reader too
     const meta = selectedCohortS2(row.path, entries);
-    if (!meta) throw new Error('archive reader returned a run outside the cohorts');
-    const converted = convertSelectedRunS2(row.run, meta, binding);
-    if (seen.has(converted.label.run_id)) throw new Error(`duplicate run id: ${converted.label.run_id}`);
+    if (!meta) { fail('outside_cohorts', row.path); continue; }
+    let converted: ReturnType<typeof convertSelectedRunS2>;
+    try { converted = convertSelectedRunS2(row.run, meta, binding, registered); }
+    catch (e) { if (e instanceof IntegrityError) fail(e.category, e.id || row.path); else fail('malformed_envelope', row.path); continue; }
+    if (seen.has(converted.label.run_id)) { fail('duplicate_run_id', converted.label.run_id); continue; }
     seen.add(converted.label.run_id);
     observations.push(...converted.observations); labels.push(converted.label);
     overlaps.push({ run_id: converted.label.run_id, injection_overlap: injectionOverlap(row.run, converted as never) });
@@ -201,6 +230,17 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
     const c = ((cell[meta.pipeline] ??= {})[meta.suite] ??= { attacked: 0, benign: 0 });
     c[converted.label.attacked ? 'attacked' : 'benign']++;
     for (const f of converted.extraFields) { const m = (extraEnvelopeFields[meta.pipeline] ??= {}); m[f] = (m[f] ?? 0) + 1; }   // A-S2-1: names only, never values
+    for (const name of converted.unregistered) { const m = (unregisteredToolCalls[meta.suite] ??= {}); m[name] = (m[name] ?? 0) + 1; }   // A-S2-2: names only, never args
+  }
+  if (Object.keys(failures).length) {
+    const report = {
+      integrity_failures: Object.values(failures).reduce((a, ids) => a + ids.length, 0),
+      runs_checked: lines.length,
+      categories: Object.fromEntries(Object.entries(failures).map(([category, ids]) => [category, { count: ids.length, ids: [...new Set(ids)].sort() }])),
+    };
+    mkdirSync(out, { recursive: true });
+    writeFileSync(join(out, 'integrity-report.json'), JSON.stringify(report, null, 2) + '\n');
+    throw new Error(`integrity failure(s): ${Object.entries(failures).map(([c, ids]) => `${c}=${ids.length}`).join(', ')}; see integrity-report.json`);
   }
   // membership and per-cell counts must equal the manifest expected cells and, when given, the seal.
   for (const p of manifest.pipelines) for (const s of manifest.suites) {
@@ -215,7 +255,8 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
   if (labels.length !== manifest.total_runs) throw new Error(`total runs ${labels.length} != manifest ${manifest.total_runs}`);
   if (seal && labels.length !== seal.total) throw new Error(`total runs ${labels.length} != seal ${seal.total}`);
   const counts = { runs: labels.length, calls: observations.length, parse_failures: 0,
-    pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs, extra_envelope_fields: extraEnvelopeFields };
+    pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs,
+    extra_envelope_fields: extraEnvelopeFields, unregistered_tool_calls: unregisteredToolCalls };
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, 'observations.jsonl'), jl(observations));
   writeFileSync(join(out, 'labels.jsonl'), jl(labels));
@@ -264,6 +305,7 @@ if (process.argv[1] != null && import.meta.url === `file://${process.argv[1]}`) 
   if (!archive || !cohorts || !out) throw new Error('need --archive --cohorts --out');
   const counts = mode === 'agentdojo' ? convertAgentDojo(archive, cohorts, out)
     : convertS2(archive, cohorts, flag('manifest') ?? 'eval/ontology/s2/manifest-s2.json',
-      flag('binding') ?? 'eval/ontology/s2/binding-agentdyn.json', flag('seal') ?? '', out);
+      flag('binding') ?? 'eval/ontology/s2/binding-agentdyn.json',
+      flag('registered') ?? 'eval/kev-onto/binding/manifest-agentdyn.json', flag('seal') ?? '', out);
   console.log(JSON.stringify(counts));
 }

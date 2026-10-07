@@ -200,12 +200,61 @@ class RecheckTests(unittest.TestCase):
         samples,redraws,_=s2.bootstrap(labels,[1],{'s1':[0],'prov':[1]},1)
         self.assertIsNone(samples); self.assertEqual(redraws,101)
 
-    def test_integrity_and_unknown_tool_failures(self):
+    def test_unregistered_calls_follow_frozen_monitors(self):
+        for name, impact in [('download_file', 'read'), ('send_unknown', 'write')]:
+            with self.subTest(name=name):
+                f=fixture(x1=True)
+                before=copy.deepcopy(f)
+                for obs in f['raw']:
+                    obs['action'].update(name=name, tool=obs['suite']+'/'+name, impact=impact)
+                r=run(f)
+                self.assertEqual(r['counts']['runs'],5*3*31)
+                self.assertEqual(r['counts']['positives'],5*3*20)
+                self.assertEqual(r['observed']['s1']['F'],0)
+                self.assertEqual(r['observed']['prov']['F'],5*3*30 if impact=='write' else 0)
+                self.assertEqual(r['observed']['prov']['TP'],5*3*20 if impact=='write' else 0)
+                self.assertEqual(r['secondary']['b_prov_bound']['prov']['F'],0)
+                self.assertEqual(r['secondary']['x1']['pooled']['s1']['F'],0)
+                self.assertEqual(r['secondary']['x1']['pooled']['prov']['F'],3*30 if impact=='write' else 0)
+                self.assertIsNone(r['rand_precision_mean'])
+                self.assertEqual(f['raw'][0]['action']['name'],name)
+                self.assertEqual(f['manifest'],before['manifest'])
+                self.assertEqual(f['binding'],before['binding'])
+                m=s2.adapt_manifest(f['manifest'],'agentdyn',s2.SUITES)
+                el,rel,_=s2.typing(f['snapshot'],m,f['binding'])
+                registered={t['id'] for t in m['tools']}
+                for draw in range(12):
+                    assigned,params=s2.random_typing(m,el,rel,draw)
+                    self.assertEqual(set(params),registered)
+                    self.assertTrue(assigned<=registered)
+
+    def test_unregistered_clean_call_is_retained(self):
+        f=fixture()
+        label=next(l for l in f['labels'] if not l['attacked'])
+        obs=copy.deepcopy(f['raw'][0])
+        for key in ('run_id','suite','user_task','injection_task'): obs[key]=label[key]
+        obs['obs_id']=label['run_id']+'#0'
+        obs['action'].update(name='send_unknown',tool=label['suite']+'/send_unknown',impact='write')
+        f['raw'].append(obs); label['n_calls']=1
+        baseline=run(fixture()); r=run(f)
+        self.assertEqual(r['observed']['s1'],baseline['observed']['s1'])
+        self.assertEqual(r['observed']['prov']['F'],baseline['observed']['prov']['F']+1)
+        self.assertEqual(r['observed']['prov']['TP'],baseline['observed']['prov']['TP'])
+        self.assertEqual(r['secondary']['b_prov_bound'],baseline['secondary']['b_prov_bound'])
+
+    def test_registered_tool_missing_binding_fails(self):
+        f=fixture()
+        f['binding']['tools'].pop('agentdyn:dailylife/transfer')
+        with self.assertRaisesRegex(ValueError,'binding/manifest tool coverage mismatch'): run(f)
+        with self.assertRaisesRegex(ValueError,'registered tool missing from binding'):
+            s2.validate_inputs(f['raw'],f['labels'],f['overlap_rows'],s2.SUITES,f['binding'],
+                               'agentdyn',True,f['manifest'])
+
+    def test_integrity_failures(self):
         edits=[lambda f:f['overlap_rows'].pop(),
                lambda f:f['overlap_rows'].append(copy.deepcopy(f['overlap_rows'][0])),
                lambda f:f['labels'].append(copy.deepcopy(f['labels'][0])),
                lambda f:f['raw'].append(copy.deepcopy(f['raw'][0])),
-               lambda f:f['raw'][0]['action'].update(name='unknown'),
                lambda f:f['labels'][0].update(security=None),
                lambda f:f['labels'][0].update(base='invented'),
                lambda f:f['binding']['tools'].pop('agentdyn:github/read_file'),

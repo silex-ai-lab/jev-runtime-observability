@@ -1,9 +1,8 @@
 {
  "case": "failures/out-of-binding-tool",
  "must_fail": {
-  "recheck": "tool id outside binding",
   "sanitize": "ok",
   "stats": "ok",
-  "note": "S2_SPEC 2: a tool id outside the binding is an integrity failure. recheck_s2.py raises it in strict AgentDyn mode; convert-s2.ts is the converter-side gate. stats-s2.ts does NOT validate the id (eligible/harmful lookups miss and the run gets no flag) - a known gap, no fixture input can make stats fail here."
+  "note": "Updated for amendment A-S2-2 (S2_SPEC \u00a76): a call to an unregistered tool (dailylife/mystery_tool is not in the suite manifest) is no longer an integrity failure; it is kept, ineligible for M-S1, regex impact for B-prov. Both implementations accept it. A registered-but-unbound tool still fails (covered by fixtures/convert and fixtures/recheck)."
  }
 }
