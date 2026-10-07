@@ -1,0 +1,310 @@
+[
+ {
+  "pipeline": "google_gemini-2.5-flash",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-drift",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-piguard_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-progent",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-prompt_guard_2_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-tool_filter",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-flash-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-flash"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-drift",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-piguard_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-progent",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-prompt_guard_2_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-tool_filter",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "google_gemini-2.5-pro-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "google_gemini-2.5-pro"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-drift",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-piguard_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-progent",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-prompt_guard_2_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-tool_filter",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-2024-08-06-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-2024-08-06"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-drift",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-piguard_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-progent",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-prompt_guard_2_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-tool_filter",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-4o-mini-2024-07-18-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-4o-mini-2024-07-18"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-drift",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-piguard_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-progent",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-prompt_guard_2_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-repeat_user_prompt",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-spotlighting_with_delimiting",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ },
+ {
+  "pipeline": "gpt-5-mini-2025-08-07-transformers_pi_detector",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "X1",
+  "base": "gpt-5-mini-2025-08-07"
+ }
+]

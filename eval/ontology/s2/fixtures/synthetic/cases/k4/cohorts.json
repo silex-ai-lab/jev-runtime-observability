@@ -1,0 +1,30 @@
+[
+ {
+  "pipeline": "synth-a",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-a"
+ },
+ {
+  "pipeline": "synth-b",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-b"
+ },
+ {
+  "pipeline": "synth-c",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-c"
+ },
+ {
+  "pipeline": "synth-d",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-d"
+ }
+]

@@ -1,0 +1,569 @@
+{
+ "seed": 20261007,
+ "labels": "cases/two-attacks/labels.jsonl",
+ "attempts": [
+  {
+   "i": 0,
+   "counts": {
+    "dailylife": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 1,
+      "1": 1
+     }
+    },
+    "github": {
+     "user_task": {
+      "0": 2
+     },
+     "injection_task": {
+      "0": 1,
+      "1": 1
+     }
+    },
+    "shopping": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 2
+     }
+    }
+   },
+   "weights": {
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_0": 1,
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_1": 1,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_0": 1,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_1": 1,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_0": 1,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_1": 1,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_0": 1,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_1": 1,
+    "synth-a/none/dailylife/user_task_0/none": 1,
+    "synth-a/none/dailylife/user_task_1/none": 1,
+    "synth-a/important_instructions/github/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/github/user_task_0/injection_task_1": 2,
+    "synth-a/important_instructions/github/user_task_1/injection_task_0": 0,
+    "synth-a/important_instructions/github/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_1": 2,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_0": 0,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_1": 0,
+    "synth-a/none/github/user_task_0/none": 2,
+    "synth-a/none/github/user_task_1/none": 0,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/none/shopping/user_task_0/none": 1,
+    "synth-a/none/shopping/user_task_1/none": 1,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_0": 1,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_1": 1,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_0": 1,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_1": 1,
+    "synth-b/none/dailylife/user_task_0/none": 1,
+    "synth-b/none/dailylife/user_task_1/none": 1,
+    "synth-b/important_instructions/github/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/github/user_task_0/injection_task_1": 2,
+    "synth-b/important_instructions/github/user_task_1/injection_task_0": 0,
+    "synth-b/important_instructions/github/user_task_1/injection_task_1": 0,
+    "synth-b/none/github/user_task_0/none": 2,
+    "synth-b/none/github/user_task_1/none": 0,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-b/none/shopping/user_task_0/none": 1,
+    "synth-b/none/shopping/user_task_1/none": 1
+   }
+  },
+  {
+   "i": 1,
+   "counts": {
+    "dailylife": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 2
+     }
+    },
+    "github": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 1,
+      "1": 1
+     }
+    },
+    "shopping": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 2
+     }
+    }
+   },
+   "weights": {
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_1": 0,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_0": 2,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_1": 0,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_0": 2,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_1": 0,
+    "synth-a/none/dailylife/user_task_0/none": 1,
+    "synth-a/none/dailylife/user_task_1/none": 1,
+    "synth-a/important_instructions/github/user_task_0/injection_task_0": 1,
+    "synth-a/important_instructions/github/user_task_0/injection_task_1": 1,
+    "synth-a/important_instructions/github/user_task_1/injection_task_0": 1,
+    "synth-a/important_instructions/github/user_task_1/injection_task_1": 1,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_0": 1,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_1": 1,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_0": 1,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_1": 1,
+    "synth-a/none/github/user_task_0/none": 1,
+    "synth-a/none/github/user_task_1/none": 1,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/none/shopping/user_task_0/none": 1,
+    "synth-a/none/shopping/user_task_1/none": 1,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_1": 0,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_0": 2,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_1": 0,
+    "synth-b/none/dailylife/user_task_0/none": 1,
+    "synth-b/none/dailylife/user_task_1/none": 1,
+    "synth-b/important_instructions/github/user_task_0/injection_task_0": 1,
+    "synth-b/important_instructions/github/user_task_0/injection_task_1": 1,
+    "synth-b/important_instructions/github/user_task_1/injection_task_0": 1,
+    "synth-b/important_instructions/github/user_task_1/injection_task_1": 1,
+    "synth-b/none/github/user_task_0/none": 1,
+    "synth-b/none/github/user_task_1/none": 1,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-b/none/shopping/user_task_0/none": 1,
+    "synth-b/none/shopping/user_task_1/none": 1
+   }
+  },
+  {
+   "i": 2,
+   "counts": {
+    "dailylife": {
+     "user_task": {
+      "0": 2
+     },
+     "injection_task": {
+      "0": 1,
+      "1": 1
+     }
+    },
+    "github": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 2
+     }
+    },
+    "shopping": {
+     "user_task": {
+      "0": 1,
+      "1": 1
+     },
+     "injection_task": {
+      "0": 2
+     }
+    }
+   },
+   "weights": {
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_1": 2,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_0": 0,
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_1": 2,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_0": 0,
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_1": 0,
+    "synth-a/none/dailylife/user_task_0/none": 2,
+    "synth-a/none/dailylife/user_task_1/none": 0,
+    "synth-a/important_instructions/github/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/github/user_task_0/injection_task_1": 0,
+    "synth-a/important_instructions/github/user_task_1/injection_task_0": 2,
+    "synth-a/important_instructions/github/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/github/user_task_0/injection_task_1": 0,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_0": 2,
+    "synth-a/prompt_injection/github/user_task_1/injection_task_1": 0,
+    "synth-a/none/github/user_task_0/none": 1,
+    "synth-a/none/github/user_task_1/none": 1,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_1": 0,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_0": 2,
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_1": 0,
+    "synth-a/none/shopping/user_task_0/none": 1,
+    "synth-a/none/shopping/user_task_1/none": 1,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_1": 2,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_0": 0,
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_1": 0,
+    "synth-b/none/dailylife/user_task_0/none": 2,
+    "synth-b/none/dailylife/user_task_1/none": 0,
+    "synth-b/important_instructions/github/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/github/user_task_0/injection_task_1": 0,
+    "synth-b/important_instructions/github/user_task_1/injection_task_0": 2,
+    "synth-b/important_instructions/github/user_task_1/injection_task_1": 0,
+    "synth-b/none/github/user_task_0/none": 1,
+    "synth-b/none/github/user_task_1/none": 1,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_1": 0,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_0": 2,
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_1": 0,
+    "synth-b/none/shopping/user_task_0/none": 1,
+    "synth-b/none/shopping/user_task_1/none": 1
+   }
+  }
+ ],
+ "shared_cells": [
+  {
+   "suite": "dailylife",
+   "user_task": 0,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_0",
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_0",
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "dailylife",
+   "user_task": 0,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/dailylife/user_task_0/injection_task_1",
+    "synth-a/prompt_injection/dailylife/user_task_0/injection_task_1",
+    "synth-b/important_instructions/dailylife/user_task_0/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "dailylife",
+   "user_task": 0,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/dailylife/user_task_0/none",
+    "synth-b/none/dailylife/user_task_0/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  },
+  {
+   "suite": "dailylife",
+   "user_task": 1,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_0",
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_0",
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "dailylife",
+   "user_task": 1,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/dailylife/user_task_1/injection_task_1",
+    "synth-a/prompt_injection/dailylife/user_task_1/injection_task_1",
+    "synth-b/important_instructions/dailylife/user_task_1/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "dailylife",
+   "user_task": 1,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/dailylife/user_task_1/none",
+    "synth-b/none/dailylife/user_task_1/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 0,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/github/user_task_0/injection_task_0",
+    "synth-a/prompt_injection/github/user_task_0/injection_task_0",
+    "synth-b/important_instructions/github/user_task_0/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 0,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/github/user_task_0/injection_task_1",
+    "synth-a/prompt_injection/github/user_task_0/injection_task_1",
+    "synth-b/important_instructions/github/user_task_0/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 0,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/github/user_task_0/none",
+    "synth-b/none/github/user_task_0/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 1,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/github/user_task_1/injection_task_0",
+    "synth-a/prompt_injection/github/user_task_1/injection_task_0",
+    "synth-b/important_instructions/github/user_task_1/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 1,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/github/user_task_1/injection_task_1",
+    "synth-a/prompt_injection/github/user_task_1/injection_task_1",
+    "synth-b/important_instructions/github/user_task_1/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "github",
+   "user_task": 1,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/github/user_task_1/none",
+    "synth-b/none/github/user_task_1/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 0,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_0",
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_0",
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 0,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/shopping/user_task_0/injection_task_1",
+    "synth-a/prompt_injection/shopping/user_task_0/injection_task_1",
+    "synth-b/important_instructions/shopping/user_task_0/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 0,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/shopping/user_task_0/none",
+    "synth-b/none/shopping/user_task_0/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 1,
+   "injection_task": 0,
+   "run_ids": [
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_0",
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_0",
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_0"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 1,
+   "injection_task": 1,
+   "run_ids": [
+    "synth-a/important_instructions/shopping/user_task_1/injection_task_1",
+    "synth-a/prompt_injection/shopping/user_task_1/injection_task_1",
+    "synth-b/important_instructions/shopping/user_task_1/injection_task_1"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "important_instructions",
+    "prompt_injection"
+   ]
+  },
+  {
+   "suite": "shopping",
+   "user_task": 1,
+   "injection_task": null,
+   "run_ids": [
+    "synth-a/none/shopping/user_task_1/none",
+    "synth-b/none/shopping/user_task_1/none"
+   ],
+   "pipelines": [
+    "synth-a",
+    "synth-b"
+   ],
+   "attacks": [
+    "none"
+   ]
+  }
+ ],
+ "derivation": "One mulberry32(20261007) stream across attempts; per suite, draw |user_task| user tasks and |injection_task| injection tasks with replacement over the sorted id lists (suite order dailylife, github, shopping), then weight(u, j) = count_u * count_j (clean runs: count_u only). Runs sharing (suite, u, j) share one weight across models and attacks."
+}

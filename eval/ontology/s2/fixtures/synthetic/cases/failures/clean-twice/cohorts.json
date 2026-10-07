@@ -1,0 +1,16 @@
+[
+ {
+  "pipeline": "synth-a",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-a"
+ },
+ {
+  "pipeline": "synth-a",
+  "attack": "prompt_injection",
+  "clean": true,
+  "group": "P",
+  "base": "synth-a"
+ }
+]

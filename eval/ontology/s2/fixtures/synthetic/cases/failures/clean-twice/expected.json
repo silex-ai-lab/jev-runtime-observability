@@ -1,0 +1,10 @@
+{
+ "case": "failures/clean-twice",
+ "must_fail": {
+  "recheck": "clean assigned to multiple cohorts",
+  "ts_cohorts": "clean runs assigned to multiple cohorts",
+  "sanitize": "ok",
+  "stats": "ok",
+  "note": "two cohorts mark the same pipeline clean: recheck_s2.py cohort_mapping raises, and the TS gate validateS2Cohorts (via runs-convert validateCohorts) raises its own message."
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "case": "failures/malformed-envelope",
+ "must_fail": {
+  "recheck": "invalid action",
+  "sanitize": "fail",
+  "stats": "not-run",
+  "note": "record 1 has action.args as a string (recheck validate_inputs raises \"invalid action\"); record 2 has no action key (pr/sanitize.ts sanitizeObs dereferences o.action.tool). The real pipeline stops at sanitize, so stats-s2 never sees this input."
+ }
+}
