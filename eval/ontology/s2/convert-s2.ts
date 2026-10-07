@@ -12,8 +12,9 @@
 //              `injectionOverlap`; labels-d5 is label-side. A REGISTERED tool id missing from the sealed binding is an
 //              integrity failure; a call to an UNREGISTERED tool (not in binding/manifest-agentdyn.json) is kept, counted
 //              by name per suite in counts.json and handled by the statistics as S1 handles a tool absent from its
-//              binding (amendment A-S2-2). Integrity failures are collected over every selected run in one pass and
-//              written to integrity-report.json; conversion then exits non-zero writing no observations or labels.
+//              binding (amendment A-S2-2). An attacked run whose `security` label is missing or non-boolean is an
+//              integrity failure too (label_error). Integrity failures are collected over every selected run in one pass
+//              and written to integrity-report.json; conversion then exits non-zero writing no observations or labels.
 //   agentdojo — byte-compatible reproduction of runs-convert.ts cohortMain (legacy schema/serialization) for the S1
 //              acceptance comparison; no S2-only fields and no S2 validation.
 //   node eval/ontology/s2/convert-s2.ts --mode s2 --cohorts eval/ontology/s2/cohorts.json --manifest eval/ontology/s2/manifest-s2.json \
@@ -106,11 +107,12 @@ export function selectedCohortS2(path: string, entries: S2Entry[]): S2Meta | nul
 }
 
 export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding, registered: Set<string>) {
+  const run_id = `${meta.pipeline}/${meta.attack ?? 'none'}/${meta.suite}/user_task_${meta.user_task}/${meta.injection_task == null ? 'none' : `injection_task_${meta.injection_task}`}`;
+  if (meta.injection_task != null && typeof run.security !== 'boolean') throw new IntegrityError('label_error', run_id);   // D7: an attacked run needs a boolean security label
   let extraFields: string[];
   try { extraFields = validateEnvelope(run); }
   catch (e) { throw new IntegrityError('malformed_envelope', '', (e as Error).message); }
   const converted = convertRun(run, { model: meta.pipeline, suite: meta.suite, user_task: meta.user_task, injection_task: meta.injection_task } as never);
-  const run_id = `${meta.pipeline}/${meta.attack ?? 'none'}/${meta.suite}/user_task_${meta.user_task}/${meta.injection_task == null ? 'none' : `injection_task_${meta.injection_task}`}`;
   const unregistered: string[] = [];
   const observations = converted.observations.map((o: any, i: number) => {
     const id = `agentdyn:${meta.suite}/${o.action.name}`;
