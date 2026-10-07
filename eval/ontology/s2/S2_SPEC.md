@@ -168,3 +168,33 @@ All other integrity categories remain fatal.
   - `per_base` lists **every** selected base, using 0 when it has no error.
   - `per_pool` always has both keys.
   - `run_ids` is sorted in JS default string order.
+
+## 8. Amendment A-S2-4 (post-freeze, 2026-10-06): streaming JSONL I/O
+
+**Why.** The F-S2d run stopped in conversion before writing any file. The error was V8's `RangeError: Invalid string
+length` in `convert-s2.ts`'s `jl()`, which joins every row into one string. The observations for 27,280 runs are larger
+than V8's maximum string length (536,870,888 characters) because each observation repeats its preceding tool outputs.
+`runs/onto-s2-input/` was left empty, and no outcome was seen. The frozen `pr/sanitize.ts` and `stats-s2.ts`'s
+`readJsonl` also hold a whole file in one string, so they would fail the same way.
+
+**Rule.** This is I/O only. No rule, statistic, schema, field order or serialization changes. Every file is
+**byte-identical** to what the in-memory implementation writes whenever that implementation can run.
+- **Writer.** `convert-s2.ts` writes each JSONL file row by row: `JSON.stringify(row) + '\n'` for each row. An empty file
+  is the single byte `\n`, which is what `jl([])` writes. Write-after-validation is unchanged: no observation or label
+  file is written while any integrity failure exists. Both modes, `s2` and `agentdojo`, use the streaming writer.
+- **Sanitizer.** A new S2-local `eval/ontology/s2/sanitize-s2.ts` imports the frozen `sanitizeObs` from `pr/sanitize.ts`
+  unchanged. It reads the raw observations line by line, using no string longer than one line, and writes each
+  sanitized line as it goes. Its output bytes equal `pr/sanitize.ts`'s, and its stdout line keeps the same format.
+  `pr/sanitize.ts` itself is not changed. `run-s2.sh` step 4 calls `sanitize-s2.ts`.
+- **Statistics reader.** `stats-s2.ts` reads each JSONL input line by line. Empty lines are skipped, as with
+  `.filter(Boolean)`. Parsed values are identical.
+- **Recheck.** `recheck_s2.py` already reads line by line, and Python has no comparable limit. No change is needed,
+  except whatever the reviewer finds necessary.
+- **Heap.** `run-s2.sh` runs each `node` stage with `--max-old-space-size=16384` on the 24 GB run host. This affects only
+  memory, never outputs.
+- **Tests.**
+  - The existing suites stay green, including e2e, synthetic and the three AgentDojo byte reproductions.
+  - A new scale fixture pushes a synthetic JSONL larger than 600 MB through the streaming writer, `sanitize-s2.ts` and
+    the `stats-s2.ts` reader without error.
+  - On a small input, `sanitize-s2.ts` output equals `pr/sanitize.ts` output byte for byte.
+  - The fixture uses only generated data.
