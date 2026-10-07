@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runPower, validatePower, finalizePool, designCounts, oneDesign, type Run } from './power-hc1.ts';
+import { runPower, validatePower, finalizePool, designCounts, assembleStats, oneDesign, type Run } from './power-hc1.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIX = resolve(HERE, 'fixtures/synthetic');
@@ -32,6 +32,24 @@ test('repeated occurrence slots are preserved: 1 base, 2 user, 2 injection, U=J=
   const slots = { s: Array.from({ length: 20 }, (_, k) => k % 2) };                 // 10 of each task
   const c = designCounts(pool, new Map([['b0', 1]]), slots, slots);
   assert.deepEqual(c, { att: 400, ben: 20 });
+});
+
+test('duplicate cells with differing outcomes are summed, attacked and benign', () => {
+  // one attacked cell with two differently flagged trajectories, one benign cell with two.
+  const runs: Run[] = [mkRun(0, 0, 1, 1, 1), mkRun(0, 0, 0, 0, 0), mkRun(0, null, 1, 0, 1), mkRun(0, null, 0, 1, 0)];
+  const pool = finalizePool(runs, OBS);
+  const a = assembleStats(pool, new Map([['b0', 1]]), { s: [0] }, { s: [0] });
+  assert.deepEqual(a, { att: 2, ben: 2, runs: 4, F2: 2, TP2: 2, F3: 2, TP3: 1, Pos: 2 });
+});
+
+test('full-pool assembly reconciliation equals the direct sum over runs', () => {
+  const runs: Run[] = [mkRun(0, 0, 1, 1, 1), mkRun(0, 0, 0, 1, 0), mkRun(1, 0, 1, 0, 1), mkRun(0, null, 1, 1, 1), mkRun(0, null, 0, 0, 0)];
+  const pool = finalizePool(runs, OBS);
+  const a = assembleStats(pool, new Map([['b0', 1]]), { s: [0, 1] }, { s: [0] });
+  const sum = runs.reduce((s, r) => ({ runs: s.runs + 1, F2: s.F2 + r.fV2, TP2: s.TP2 + r.fV2 * r.y, F3: s.F3 + r.fV3, TP3: s.TP3 + r.fV3 * r.y, Pos: s.Pos + r.y }), { runs: 0, F2: 0, TP2: 0, F3: 0, TP3: 0, Pos: 0 });
+  assert.equal(a.runs, sum.runs);
+  for (const k of ['F2', 'TP2', 'F3', 'TP3', 'Pos'] as const) assert.equal(a[k], (sum as any)[k], k);
+  assert.equal(a.att, 3); assert.equal(a.ben, 2);
 });
 
 test('a design with no positives is inconclusive (redraw exhaustion)', () => {

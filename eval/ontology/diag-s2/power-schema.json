@@ -11,7 +11,7 @@
     "fit": { "k": "obj", "keys": { "a": { "k": "num" }, "r2": { "k": "num" } } },
     "design": { "k": "obj", "keys": {
       "K": { "k": "int" }, "U": { "k": "int" }, "J": { "k": "int" }, "repeats_tasks": { "k": "bool" },
-      "expected_runs": { "k": "num" }, "expected_positives": { "k": "num" }, "mean_precision_diff": { "k": "num" }, "outer_sd": { "k": "num" },
+      "expected_runs": { "k": "num" }, "expected_positives": { "k": "num" }, "mean_precision_diff": { "k": "nullnum" }, "outer_sd": { "k": "nullnum" },
       "power": { "k": "num" }, "power_precision_only": { "k": "num" }, "power_mc_se": { "k": "num" }, "power_precision_mc_se": { "k": "num" },
       "n_valid": { "k": "int" }, "n_inconclusive": { "k": "int" }, "n_undefined": { "k": "int" } } },
     "analytic": { "k": "obj", "keys": {

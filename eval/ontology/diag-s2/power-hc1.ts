@@ -20,10 +20,11 @@ const ENDPOINT = 'one-sided paired task-crossed bootstrap: precision(V3-V2) > 0 
 const S1_FILES = ['observations.jsonl', 'labels.jsonl', 'labels-pr.jsonl', 'counts.json'];
 
 export interface Run { suite: string; base: string; u: number; j: number | null; fV2: number; fV3: number; y: number }
-interface Flags { fV2: number; fV3: number; y: number }
+/** Summed sufficient statistics for one (suite,user,injection,base) cell (many trajectories may share it, e.g. S1 cohorts). */
+interface Cell { n: number; F2: number; F3: number; TP2: number; TP3: number; Pos: number }
 interface Group { F3: number; TP3: number; F2: number; TP2: number; Pos: number; count: number }
 interface Observed { precision_v2: number; precision_v3: number; precision_diff: number; recall_v2: number; recall_v3: number; recall_diff: number; positives: number; runs: number }
-export interface Pool { runs: Run[]; suites: string[]; bases: string[]; userTasks: Record<string, number[]>; injTasks: Record<string, number[]>; share: Record<string, number>; att: (Flags | null)[][][][]; ben: (Flags | null)[][][]; observed: Observed }
+export interface Pool { runs: Run[]; suites: string[]; bases: string[]; userTasks: Record<string, number[]>; injTasks: Record<string, number[]>; share: Record<string, number>; att: (Cell | null)[][][][]; ben: (Cell | null)[][][]; observed: Observed }
 export interface PowerOpts { s2Dir: string; binding: string; frozen: string; diagPath: string; out?: string; s1Pool?: string; s1Manifest?: string; expectedS2Baseline?: { baseline: string[]; sanitized: string[] }; N?: number; R?: number; grid?: { K: number[]; U: number[]; J: number[] } }
 
 /** Precompute the per-(suite,user,injection,base) flag tables; no run text. Exported for the hand-computed test. */
@@ -35,11 +36,12 @@ export function finalizePool(runs: Run[], observed: Observed): Pool {
     userTasks[s] = [...new Set(runs.filter(r => r.suite === s).map(r => r.u))].sort((a, b) => a - b);
     injTasks[s] = [...new Set(runs.filter(r => r.suite === s && r.j !== null).map(r => r.j as number))].sort((a, b) => a - b);
   }
-  const att: (Flags | null)[][][][] = suites.map(s => userTasks[s].map(() => injTasks[s].map(() => bases.map(() => null))));
-  const ben: (Flags | null)[][][] = suites.map(s => userTasks[s].map(() => bases.map(() => null)));
+  const att: (Cell | null)[][][][] = suites.map(s => userTasks[s].map(() => injTasks[s].map(() => bases.map(() => null))));
+  const ben: (Cell | null)[][][] = suites.map(s => userTasks[s].map(() => bases.map(() => null)));
   for (const r of runs) {
-    const si = suiteIdx.get(r.suite)!, ui = userTasks[r.suite].indexOf(r.u), bi = baseIdx.get(r.base)!, fl = { fV2: r.fV2, fV3: r.fV3, y: r.y };
-    if (r.j === null) ben[si][ui][bi] = fl; else att[si][ui][injTasks[r.suite].indexOf(r.j)][bi] = fl;
+    const si = suiteIdx.get(r.suite)!, ui = userTasks[r.suite].indexOf(r.u), bi = baseIdx.get(r.base)!;
+    const cell = (arr: (Cell | null)[]): Cell => { const c0 = arr[bi]; const c = c0 ?? (arr[bi] = { n: 0, F2: 0, F3: 0, TP2: 0, TP3: 0, Pos: 0 }); c.n++; c.F2 += r.fV2; c.F3 += r.fV3; c.TP2 += r.fV2 * r.y; c.TP3 += r.fV3 * r.y; c.Pos += r.y; return c; };
+    if (r.j === null) cell(ben[si][ui]); else cell(att[si][ui][injTasks[r.suite].indexOf(r.j)]);
   }
   const share: Record<string, number> = {}; for (const s of suites) share[s] = runs.filter(r => r.suite === s).length / runs.length;
   return { runs, suites, bases, userTasks, injTasks, share, att, ben, observed };
@@ -52,11 +54,11 @@ function buildGroups(pool: Pool, baseMult: Map<string, number>) {
     const U = pool.userTasks[pool.suites[si]], J = pool.injTasks[pool.suites[si]];
     for (let ui = 0; ui < U.length; ui++) {
       let g: Group | null = null;
-      for (let bi = 0; bi < B; bi++) { const fl = pool.ben[si][ui][bi]; if (!fl || !bw[bi]) continue; if (!g) g = { F3: 0, TP3: 0, F2: 0, TP2: 0, Pos: 0, count: 0 }; g.count += bw[bi]; g.F3 += bw[bi] * fl.fV3; g.TP3 += bw[bi] * fl.fV3 * fl.y; g.F2 += bw[bi] * fl.fV2; g.TP2 += bw[bi] * fl.fV2 * fl.y; g.Pos += bw[bi] * fl.y; }
+      for (let bi = 0; bi < B; bi++) { const c = pool.ben[si][ui][bi]; if (!c || !bw[bi]) continue; if (!g) g = { F3: 0, TP3: 0, F2: 0, TP2: 0, Pos: 0, count: 0 }; g.count += bw[bi] * c.n; g.F3 += bw[bi] * c.F3; g.TP3 += bw[bi] * c.TP3; g.F2 += bw[bi] * c.F2; g.TP2 += bw[bi] * c.TP2; g.Pos += bw[bi] * c.Pos; }
       if (g) benG.push({ s: si, u: ui, g });
       for (let ji = 0; ji < J.length; ji++) {
         let a: Group | null = null;
-        for (let bi = 0; bi < B; bi++) { const fl = pool.att[si][ui][ji][bi]; if (!fl || !bw[bi]) continue; if (!a) a = { F3: 0, TP3: 0, F2: 0, TP2: 0, Pos: 0, count: 0 }; a.count += bw[bi]; a.F3 += bw[bi] * fl.fV3; a.TP3 += bw[bi] * fl.fV3 * fl.y; a.F2 += bw[bi] * fl.fV2; a.TP2 += bw[bi] * fl.fV2 * fl.y; a.Pos += bw[bi] * fl.y; }
+        for (let bi = 0; bi < B; bi++) { const c = pool.att[si][ui][ji][bi]; if (!c || !bw[bi]) continue; if (!a) a = { F3: 0, TP3: 0, F2: 0, TP2: 0, Pos: 0, count: 0 }; a.count += bw[bi] * c.n; a.F3 += bw[bi] * c.F3; a.TP3 += bw[bi] * c.TP3; a.F2 += bw[bi] * c.F2; a.TP2 += bw[bi] * c.TP2; a.Pos += bw[bi] * c.Pos; }
         if (a) attG.push({ s: si, u: ui, j: ji, g: a });
       }
     }
@@ -67,12 +69,18 @@ const multOf = (slots: number[]): Map<number, number> => { const m = new Map<num
 
 /** Attacked/benign run counts of an assembled design (occurrence slots preserved). Exported for the hand-computed test. */
 export function designCounts(pool: Pool, baseMult: Map<string, number>, slotsU: Record<string, number[]>, slotsJ: Record<string, number[]>): { att: number; ben: number } {
+  const s = assembleStats(pool, baseMult, slotsU, slotsJ);
+  return { att: s.att, ben: s.ben };
+}
+
+/** Full-point statistics of an assembled design (summed over occurrence multiplicities and cell trajectories). */
+export function assembleStats(pool: Pool, baseMult: Map<string, number>, slotsU: Record<string, number[]>, slotsJ: Record<string, number[]>): { att: number; ben: number; runs: number; F2: number; TP2: number; F3: number; TP3: number; Pos: number } {
   const { attG, benG } = buildGroups(pool, baseMult);
   const uM = pool.suites.map(s => multOf(slotsU[s] ?? [])), jM = pool.suites.map(s => multOf(slotsJ[s] ?? []));
-  let att = 0, ben = 0;
-  for (const { s, u, j, g } of attG) att += (uM[s].get(u) ?? 0) * (jM[s].get(j) ?? 0) * g.count;
-  for (const { s, u, g } of benG) ben += (uM[s].get(u) ?? 0) * g.count;
-  return { att, ben };
+  let F3 = 0, TP3 = 0, F2 = 0, TP2 = 0, Pos = 0, att = 0, ben = 0;
+  for (const { s, u, j, g } of attG) { const w = (uM[s].get(u) ?? 0) * (jM[s].get(j) ?? 0); if (!w) continue; F3 += w * g.F3; TP3 += w * g.TP3; F2 += w * g.F2; TP2 += w * g.TP2; Pos += w * g.Pos; att += w * g.count; }
+  for (const { s, u, g } of benG) { const w = uM[s].get(u) ?? 0; if (!w) continue; F3 += w * g.F3; TP3 += w * g.TP3; F2 += w * g.F2; TP2 += w * g.TP2; Pos += w * g.Pos; ben += w * g.count; }
+  return { att, ben, runs: att + ben, F2, TP2, F3, TP3, Pos };
 }
 
 /** Exact allocation of `total` across suites proportional to `weights` (largest remainder). */
@@ -181,8 +189,8 @@ function buildS1(o: PowerOpts, diag: any): Pool {
   return makePool(labels, l => ({ suite: l.suite, base: baseOf(l.pipeline), u: l.user_task, j: l.injection_task, fV2: fV2.get(l.run_id)!, fV3: fV3.get(l.run_id)! }), diag, d => d.q5?.S1?.q1);
 }
 
-function fitSE(points: Array<{ U: number; sd: number }>): { a: number; r2: number } {
-  const xs = points.filter(p => p.U > 0 && Number.isFinite(p.sd)).map(p => ({ inv: 1 / Math.sqrt(p.U), y: p.sd }));
+function fitSE(points: Array<{ U: number; sd: number | null }>): { a: number; r2: number } {
+  const xs = points.filter(p => p.U > 0 && Number.isFinite(p.sd)).map(p => ({ inv: 1 / Math.sqrt(p.U), y: p.sd as number }));
   if (!xs.length) return { a: 0, r2: 0 };
   const a = xs.reduce((s, p) => s + p.y * p.inv, 0) / xs.reduce((s, p) => s + p.inv * p.inv, 0);
   const ybar = mean(xs.map(p => p.y));
@@ -198,15 +206,15 @@ export function runPower(o: PowerOpts): Record<string, unknown> {
   const built: Array<[string, Pool]> = [['S2', buildS2(o, diag)]];
   if (o.s1Pool) built.push(['S1', buildS1(o, diag)]);
   for (const [key, pool] of built) {
-    const designs: any[] = [], fitPts: Array<{ U: number; sd: number }> = [];
+    const designs: any[] = [], fitPts: Array<{ U: number; sd: number | null }> = [];
     const distinctTasks = pool.suites.reduce((a, s) => a + pool.userTasks[s].length, 0);
     for (const K of grid.K) for (const U of grid.U) for (const J of grid.J) {
       const r = oneDesign(pool, K, U, J, N, R);
-      const defIdx = r.diff.map((d, i) => Number.isFinite(d) ? i : -1).filter(i => i >= 0);
-      const diffs = defIdx.map(i => r.diff[i]), outerSd = std(diffs);
+      const diffs = r.diff.filter(d => Number.isFinite(d));
+      const meanDiff = diffs.length ? mean(diffs) : null, outerSd = diffs.length >= 2 ? std(diffs) : null;
       const power = mean(r.success), powerPrec = mean(r.precSuccess);
       designs.push({ K, U, J, repeats_tasks: U > distinctTasks, expected_runs: mean(r.runs), expected_positives: mean(r.pos),
-        mean_precision_diff: mean(diffs), outer_sd: outerSd, power, power_precision_only: powerPrec,
+        mean_precision_diff: meanDiff, outer_sd: outerSd, power, power_precision_only: powerPrec,
         power_mc_se: Math.sqrt(power * (1 - power) / N), power_precision_mc_se: Math.sqrt(powerPrec * (1 - powerPrec) / N),
         n_valid: r.status.filter(s => s === 0).length, n_inconclusive: r.status.filter(s => s === 1).length, n_undefined: r.status.filter(s => s === 2).length });
       fitPts.push({ U, sd: outerSd });
