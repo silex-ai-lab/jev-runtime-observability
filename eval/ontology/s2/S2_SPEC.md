@@ -58,15 +58,18 @@ parameters.
 
 1. **Seal check.** The full dependency closure is verified: S2 files, imported S1/PR/v2/arms code, `cohorts.json`,
    `manifest-s2.json`, the binding, the snapshot and the selected source tarball with its per-file manifest.
-2. **Raw conversion.** `convert-s2.ts` writes:
+2. **Raw conversion.** `convert-s2.ts --seal <fetch seal>` parses only the sealed, manifest-selected paths. It
+   validates each envelope's structure, and checks the converted per-cell counts against the manifest and the seal.
+   It writes:
    - `observations.jsonl`, the S1 raw schema;
    - `labels.jsonl`, the S1 label schema plus `group` and `base`;
    - `labels-pr.jsonl`, the frozen label-only `injectionOverlap` for every run;
    - `labels-d5.jsonl`, label-side only: `{run_id, error_present, utility, security}`.
-3. **Baseline.** `baseline.sha256` records the sha256 of every file from step 2. It is written once; its own sha256
-   goes to `baseline.self.sha256`.
+3. **Baseline.** `baseline.sha256` records the sha256 of every file from step 2, including `counts.json`. It is
+   written once and made read-only; its own sha256 goes to `baseline.self.sha256`.
 4. **Sanitize.** `node eval/ontology/pr/sanitize.ts --in observations.jsonl --out observations.sanitized.jsonl`.
-   The sanitized file's sha256 is appended to the baseline as a second record. The baseline is never regenerated.
+   Its sha256 goes to a **separate** immutable `baseline-sanitized.sha256`, with its own `baseline-sanitized.self.sha256`.
+   No baseline is ever appended to or regenerated.
 5. **Verify** the baseline, the self-hash and the inputs, then run `stats-s2.ts` on the sanitized observations and
    labels.
 6. **Verify again**, then run `recheck_s2.py` on the **raw** observations. It sanitizes independently and requires an

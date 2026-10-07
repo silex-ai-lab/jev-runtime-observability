@@ -31,11 +31,12 @@ hook() { [ -n "${S2_TEST_HOOK:-}" ] && [ "${S2_TEST_HOOK%%:*}" = "$1" ] && eval 
 
 # (1)
 seal; echo "seal verified"
+python3 -c 'import json,sys;c=json.load(open(sys.argv[1]));m=json.load(open(sys.argv[2]));bad=[e["pipeline"] for e in c if e["pipeline"] not in m["pipelines"]];sys.exit("cohort pipelines missing from manifest: %s"%bad if bad else 0)' "$COHORTS" "$MANIFEST" || die "cohorts and manifest disagree"
 [ -e "$IN/baseline.sha256" ] && die "$IN already holds a baseline; S2 inputs are written once"
 # (2)
-node $S2/convert-s2.ts --mode s2 --cohorts "$COHORTS" --manifest "$MANIFEST" --binding "$BINDING" --archive "$TAR" --out "$IN"
+node $S2/convert-s2.ts --mode s2 --cohorts "$COHORTS" --manifest "$MANIFEST" --binding "$BINDING" --archive "$TAR" --seal "$TAR_SEAL" --out "$IN"
 # (3)
-(cd "$IN" && shasum -a 256 observations.jsonl labels.jsonl labels-pr.jsonl labels-d5.jsonl > baseline.sha256)
+(cd "$IN" && shasum -a 256 observations.jsonl labels.jsonl labels-pr.jsonl labels-d5.jsonl counts.json > baseline.sha256)
 shasum -a 256 "$IN/baseline.sha256" | cut -d' ' -f1 > "$IN/baseline.self.sha256"
 chmod a-w "$IN/baseline.sha256" "$IN/baseline.self.sha256"
 hook after-baseline

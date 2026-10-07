@@ -68,7 +68,9 @@ export function run(cfg: RunCfg) {
   const fS = runFlag(c => s1Call(c, T.eligible, T.relevant), cfg.labels);
   const fP = runFlag(c => c.action.impact === 'write' && untrustedKeys(c).size > 0, cfg.labels);
   // B-prov-bound (§5.1): computed here from the sealed binding effects for the call's tool id — NOT from the
-  // observation, because the frozen pr/sanitize.ts whitelist drops any extra action field.
+  // observation, because the frozen pr/sanitize.ts whitelist drops any extra action field. S2_SPEC §2's out-of-binding
+  // integrity failure is the CONVERTER's gate (convert-s2.ts fails closed); stats sees only already-selected runs, so a
+  // binding miss here is simply ineligible/unharmful.
   const harmfulTool = (c: Obs): boolean => { const b = cfg.binding.tools[tid(c)]; return !!b && b.effects.some(e => e !== 'core:core-effect-data-read'); };
   const fBound = s2 ? runFlag(c => harmfulTool(c) && untrustedKeys(c).size > 0, cfg.labels) : null;
   const y = (l: Lab) => l.attacked && l.security === true;

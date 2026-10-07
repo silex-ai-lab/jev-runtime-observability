@@ -1,21 +1,22 @@
 // S1b acceptance: AgentDojo compatibility is byte-identical to runs-convert.ts; S2 conversion output schema; the
-// extra-key pass-through; and the out-of-subset tool-id integrity failure.
+// extra-key pass-through; the out-of-subset tool-id integrity failure; D7 envelope validation; and manifest+seal
+// selection (other-root and partial-cell fail closed).
 //   node eval/ontology/s2/fixtures/convert/convert.test.ts
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { convertSelectedRunS2, type Binding } from '../../convert-s2.ts';
+import { convertS2, convertSelectedRunS2, validateEnvelope, type Binding } from '../../convert-s2.ts';
 
 let fails = 0;
 const ok = (n: string, c: boolean, info: unknown = '') => { console.log(`${c ? 'ok  ' : 'FAIL'} ${n} ${info === '' ? '' : JSON.stringify(info)}`); if (!c) fails++; };
+const thrown = (f: () => unknown): string | null => { try { f(); return null; } catch (e) { return String((e as Error).message); } };
 
-const binding: Binding = { tools: { 'agentdyn:dailylife/send_email': { effects: ['core:core-effect-data-write'] }, 'agentdyn:dailylife/browse_webpage': { effects: ['core:core-effect-data-read'] } } };
+const binding: Binding = { tools: { 'agentdyn:dailylife/send_email': { effects: ['core:core-effect-data-write'] }, 'agentdyn:dailylife/browse_webpage': { effects: ['core:core-effect-data-read'] }, 'agentdyn:github/send_email': { effects: ['core:core-effect-data-write'] } } };
 const meta = { pipeline: 'p', suite: 'dailylife', user_task: 0, injection_task: 1, attack: 'important_instructions', cohort: 'p/important_instructions', group: 'P', base: 'p' };
-const mk = (calls: Array<[string, Record<string, unknown>]>, tail: Record<string, unknown> = {}) => ({ messages: calls.flatMap(([fn, args], i) => [
-  { role: 'assistant', tool_calls: [{ id: `c${i}`, function: fn, args }] },
-  { role: 'tool', tool_call_id: `c${i}`, content: `result ${JSON.stringify(args)}` },
-]), injections: { x: 'candidate-1234' }, security: true, utility: false, error: null, ...tail });
+const mkMessages = (calls: Array<[string, Record<string, unknown>]>) => ([{ role: 'system', content: 's' }, { role: 'user', content: 'task' },
+  ...calls.flatMap(([fn, args], i) => [{ role: 'assistant', tool_calls: [{ id: `c${i}`, function: fn, args }] }, { role: 'tool', tool_call_id: `c${i}`, content: `result ${JSON.stringify(args)}` }])]);
+const mk = (calls: Array<[string, Record<string, unknown>]>, extra: Record<string, unknown> = {}) => ({ messages: mkMessages(calls), injections: { x: 'candidate-1234' }, error: null, security: true, utility: false, ...extra });
 
 const c = convertSelectedRunS2(mk([['browse_webpage', { url: 'www.x.com', 'extra key': 'candidate-1234' }], ['send_email', { recipients: 'a@b.com' }]]), meta, binding);
 ok('run id includes the attack and suite', c.label.run_id === 'p/important_instructions/dailylife/user_task_0/injection_task_1', c.label.run_id);
@@ -24,7 +25,61 @@ ok('raw observations are exactly the S1 schema (no S2-only field)', c.observatio
 ok('an extra argument key is preserved', (c.observations[0].action.args as Record<string, unknown>)['extra key'] === 'candidate-1234');
 ok('d5 carries error/utility/security', c.d5.error_present === false && c.d5.utility === false && c.d5.security === true, c.d5);
 ok('low_authority holds the prior tool output', (c.observations[1].low_authority as Array<{ text: string }>)[0].text.includes('candidate-1234'));
-ok('an out-of-subset tool id is an integrity failure', (() => { try { convertSelectedRunS2(mk([['mystery_tool', {}]]), meta, binding); return false; } catch (e) { return String((e as Error).message).includes('outside the sealed binding subset'); } })());
+ok('an out-of-subset tool id is an integrity failure', thrown(() => convertSelectedRunS2(mk([['mystery_tool', {}]]), meta, binding))?.includes('outside the sealed binding subset') === true);
+
+// D7 envelope validation
+ok('a no-messages envelope fails', thrown(() => validateEnvelope({ security: true }))?.includes('messages must be an array') === true);
+ok('non-array messages fail', thrown(() => validateEnvelope({ messages: 'x' }))?.includes('messages must be an array') === true);
+ok('a field outside the AgentDojo schema fails', thrown(() => validateEnvelope({ messages: [], extra_field: 1 }))?.includes('outside the AgentDojo run schema') === true);
+ok('a message without a string role fails', thrown(() => validateEnvelope({ messages: [{ content: 'x' }] }))?.includes('string role') === true);
+ok('a tool call without a function name fails', thrown(() => validateEnvelope({ messages: [{ role: 'assistant', tool_calls: [{ id: 'c' }] }] }))?.includes('without a function name') === true);
+ok('tool-call args that are not an object fail', thrown(() => validateEnvelope({ messages: [{ role: 'assistant', tool_calls: [{ function: 'x', args: 5 }] }] }))?.includes('args must be an object') === true);
+ok('a call-free run passes envelope validation', thrown(() => validateEnvelope({ messages: mkMessages([]) })) === null);
+ok('an error run passes envelope validation', thrown(() => validateEnvelope({ messages: mkMessages([]), error: 'boom' })) === null);
+
+// S2 selection: manifest root/regex/cells + optional seal
+const root = mkdtempSync(join(tmpdir(), 's2sel-'));
+const ROOTP = 'R/';
+const suites = ['dailylife', 'github'];
+const pipes = ['p1', 'p2'];
+const run = (p: string, s: string, attacked: boolean) => ({ suite_name: s, pipeline_name: p, user_task_id: 'user_task_0', injection_task_id: attacked ? 'injection_task_0' : null,
+  attack_type: attacked ? 'important_instructions' : null, injections: {}, messages: mkMessages([['send_email', { recipients: 'a@b.com' }]]), error: null,
+  benchmark_version: 'v1.2.2', evaluation_timestamp: 'x', agentdojo_package_version: '0.1.35', utility: true, security: true, duration: 1 });
+const pathRegex = '^runs/(?<pipeline>[^/]+)/(?<suite>[^/]+)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$';
+const expected = Object.fromEntries(pipes.map(p => [p, Object.fromEntries(suites.map(s => [s, { attacked: 1, benign: 1 }]))]));
+const manifest = { source: { root_prefix: ROOTP }, path_regex: pathRegex, pipelines: pipes, suites, expected, total_runs: 8, strata: 4 };
+function stage(extraOtherRoot = false) {
+  const dir = join(root, 'stage'); rmSync(dir, { recursive: true, force: true });
+  for (const p of pipes) for (const s of suites) {
+    const base = join(dir, 'R', 'runs', p, s, 'user_task_0');
+    mkdirSync(join(base, 'important_instructions'), { recursive: true }); mkdirSync(join(base, 'none'), { recursive: true });
+    writeFileSync(join(base, 'important_instructions', 'injection_task_0.json'), JSON.stringify(run(p, s, true)));
+    writeFileSync(join(base, 'none', 'none.json'), JSON.stringify(run(p, s, false)));
+  }
+  if (extraOtherRoot) { const b = join(dir, 'S', 'runs', 'p1', 'dailylife', 'user_task_0', 'important_instructions'); mkdirSync(b, { recursive: true });
+    writeFileSync(join(b, 'injection_task_0.json'), JSON.stringify(run('p1', 'dailylife', true))); }
+  const tar = join(root, 'sel.tgz'); execFileSync('tar', ['-czf', tar, '-C', dir, ...(extraOtherRoot ? ['R', 'S'] : ['R'])]); return tar;
+}
+try {
+  writeFileSync(join(root, 'cohorts.json'), JSON.stringify(pipes.map(p => ({ pipeline: p, attack: 'important_instructions', clean: true, group: 'P', base: p }))));
+  writeFileSync(join(root, 'manifest.json'), JSON.stringify(manifest));
+  const bind = join(root, 'binding.json'); writeFileSync(bind, JSON.stringify(binding));
+  const tar = stage();
+  const good = convertS2(tar, join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-good'));
+  ok('convertS2 enforces the manifest cells and total', good.runs === 8 && (good.per_cohort_runs as Record<string, number>)['p1/important_instructions'] === 4, good);
+  const badManifest = join(root, 'manifest-bad.json'); const m2 = JSON.parse(JSON.stringify(manifest)); m2.expected.p1.dailylife.attacked = 2; writeFileSync(badManifest, JSON.stringify(m2));
+  ok('a partial cell fails closed', thrown(() => convertS2(tar, join(root, 'cohorts.json'), badManifest, bind, '', join(root, 'out-bad')))?.includes('cell p1/dailylife') === true);
+  ok('a matching path under another root fails closed', thrown(() => convertS2(stage(true), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-intr')))?.includes('archive reader failed') === true);
+  // seal: only sealed paths are parsed; an unsealed manifest-matching run is a membership mismatch
+  const tarForSeal = stage();
+  execFileSync('node', ['eval/ontology/s2/fetch-s2.ts', '--manifest', join(root, 'manifest.json'), '--tar', tarForSeal, '--out', join(root, 'seal.json')]);
+  ok('convertS2 succeeds with the matching seal', convertS2(tarForSeal, join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, join(root, 'seal.json'), join(root, 'out-seal')).runs === 8);
+  // now an extra manifest-matching run under the root, absent from the seal -> membership mismatch
+  const extra = join(root, 'stage', 'R', 'runs', 'p1', 'github', 'user_task_1', 'important_instructions'); mkdirSync(extra, { recursive: true });
+  writeFileSync(join(extra, 'injection_task_0.json'), JSON.stringify(run('p1', 'github', true)));
+  execFileSync('tar', ['-czf', join(root, 'sel2.tgz'), '-C', join(root, 'stage'), 'R']);
+  ok('an unsealed manifest-matching run is a membership mismatch', thrown(() => convertS2(join(root, 'sel2.tgz'), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, join(root, 'seal.json'), join(root, 'out-mm')))?.includes('membership differs from the seal') === true);
+} finally { rmSync(root, { recursive: true, force: true }); }
 
 // AgentDojo compatibility: byte-identical to runs-convert.ts on the full S1 cohort (regenerated from the pinned archive).
 const archive = '../silex-mockup/swm/.cache/agentdojo-repo-089ed468cf3e.tar.gz';
