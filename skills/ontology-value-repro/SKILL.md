@@ -5,7 +5,7 @@ description: Reproduce, verify or extend the ontology-value experiments for agen
 
 # Reproduce the ontology-value experiments
 
-These experiments ask whether the Silex ontology makes agent runtime observation better. All data are published AgentDojo agent runs. As of 2026-10-04, five pre-registered tests had run. Only the last one, Stage-1 (H15), is confirmed, and only on held-out AgentDojo cohorts. On 2026-10-06 a pre-registered replication on AgentDyn (S2) did not reproduce Stage-1's precision gain. Stage-1's generality beyond the AgentDojo suites is therefore not supported. Recall in both pools is an observation, not a guarantee.
+These experiments ask whether the Silex ontology makes agent runtime observation better. All data are published AgentDojo agent runs. As of 2026-10-04, five pre-registered tests had run. Only the last one, Stage-1 (H15), is confirmed, and only on held-out AgentDojo cohorts. On 2026-10-06 a pre-registered replication on AgentDyn (S2) did not reproduce Stage-1's precision gain. Stage-1's generality beyond the AgentDojo suites is therefore not supported. Recall in both pools is an observation, not a guarantee. S2 also differed from S1 beyond its suites: the binding procedure changed, and its primary pool has only undefended models, where S1 pooled defended and attack variants too. Both share the AgentDojo harness, so neither is evidence from an independent framework. S2 does not show that typing is harmful in general.
 
 | Test | Question | Held-out data | Judge model? | Result |
 |---|---|---|---|---|
