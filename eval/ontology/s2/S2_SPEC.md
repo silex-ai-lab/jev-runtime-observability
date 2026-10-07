@@ -163,3 +163,8 @@ written. D7 made this case fatal, which is stricter than S1.
 - The rule is the same for every pool. It does not depend on where the case falls.
 
 All other integrity categories remain fatal.
+- **`secondary.label_errors` schema** (CG-S2d clarification): `{total: int, per_pool: {P: int, X1: int}, per_base:
+  {<base>: int}, run_ids: [..]}`.
+  - `per_base` lists **every** selected base, using 0 when it has no error.
+  - `per_pool` always has both keys.
+  - `run_ids` is sorted in JS default string order.
