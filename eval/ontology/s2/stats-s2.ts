@@ -5,7 +5,7 @@
 // weights use the explicit suite list. In agentdojo mode the base/group map is S1's and the output schema is S1's.
 //   node eval/ontology/s2/stats-s2.ts --mode s2 --sanitized <san> --labels <l> --labels-pr <lpr> --labels-d5 <d5> --out <json>
 //   node eval/ontology/s2/stats-s2.ts --mode agentdojo --sanitized <san> --labels <l> --labels-pr <lpr> --frozen <dir> --out <json>
-import { readFileSync, writeFileSync } from 'node:fs';
+import { closeSync, openSync, readFileSync, readSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { mulberry } from '../arms.ts';
 import { typing, untrustedKeys, type Obs } from '../v2/typing.ts';
@@ -170,7 +170,37 @@ export function run(cfg: RunCfg) {
   };
 }
 
-const readJsonl = <T>(p: string): T[] => readFileSync(p, 'utf8').split('\n').filter(Boolean).map(l => JSON.parse(l) as T);
+/** A-S2-4: reads a JSONL file line by line (never one whole-file string). Empty lines are skipped, exactly as the old
+ *  `readFileSync(...).split('\n').filter(Boolean)` did; parsed values are identical. */
+export function readJsonl<T>(p: string): T[] {
+  const out: T[] = [];
+  for (const line of readLines(p)) if (line !== '') out.push(JSON.parse(line) as T);
+  return out;
+}
+
+/** Yields each line of `path` without the trailing '\n', holding at most one line as a string. */
+function* readLines(path: string): Generator<string> {
+  const fd = openSync(path, 'r');
+  try {
+    const buf = Buffer.alloc(1 << 16);
+    let pieces: Buffer[] = [];
+    for (;;) {
+      const n = readSync(fd, buf, 0, buf.length, null);
+      if (n <= 0) break;
+      let start = 0;
+      for (;;) {
+        const nl = buf.indexOf(0x0a, start);
+        if (nl < 0 || nl >= n) break;
+        const line = pieces.length ? Buffer.concat([...pieces, buf.subarray(start, nl)]) : buf.subarray(start, nl);
+        yield line.toString('utf8');
+        pieces = [];
+        start = nl + 1;
+      }
+      if (start < n) pieces.push(Buffer.from(buf.subarray(start, n)));
+    }
+    if (pieces.length) yield Buffer.concat(pieces).toString('utf8');
+  } finally { closeSync(fd); }
+}
 function flag(k: string): string | undefined { const i = process.argv.indexOf(`--${k}`); return i > 0 ? process.argv[i + 1] : undefined; }
 if (process.argv[1] != null && import.meta.url === `file://${process.argv[1]}`) {
   const mode = (flag('mode') ?? 's2') as 's2' | 'agentdojo';

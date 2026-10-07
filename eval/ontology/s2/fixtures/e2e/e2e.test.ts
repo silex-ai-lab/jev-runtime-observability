@@ -60,7 +60,7 @@ cpSync('eval/ontology/s2/binding-agentdyn.json', join(root, 'binding.json'));
 execFileSync('node', ['eval/ontology/s2/fetch-s2.ts', '--manifest', join(root, 'manifest.json'), '--tar', tar, '--out', join(root, 'tar-seal.json')]);
 
 // --- dependency seal: the S2 code, the imported frozen code, and the run inputs
-const deps = ['eval/ontology/s2/convert-s2.ts', 'eval/ontology/s2/stats-s2.ts', 'eval/ontology/s2/recheck_s2.py', 'eval/ontology/s2/run-s2.sh',
+const deps = ['eval/ontology/s2/convert-s2.ts', 'eval/ontology/s2/stats-s2.ts', 'eval/ontology/s2/sanitize-s2.ts', 'eval/ontology/s2/recheck_s2.py', 'eval/ontology/s2/run-s2.sh',
   'eval/ontology/pr/sanitize.ts', 'eval/ontology/pr/values.ts', 'eval/ontology/v2/typing.ts', 'eval/ontology/v2/frozen/snapshot.json',
   'eval/ontology/s1/compare-outputs.mjs', 'eval/kev-onto/binding/manifest-agentdyn.json', join(root, 'binding.json'), join(root, 'cohorts.json'), join(root, 'manifest.json')];
 const sealLines = () => deps.map(f => execFileSync('shasum', ['-a', '256', f], { encoding: 'utf8' }).trim()).join('\n') + '\n';

@@ -22,7 +22,7 @@
 //     --binding eval/ontology/s2/binding-agentdyn.json [--registered eval/kev-onto/binding/manifest-agentdyn.json] \
 //     [--seal <fetch-seal.json>] --archive <tar.gz> --out <dir>
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { closeSync, mkdirSync, openSync, readFileSync, writeFileSync, writeSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { convertRun, convertSelectedRun, injectionOverlap, selectedCohort, validateCohorts, type SelectedCohort } from '../runs-convert.ts';
@@ -127,7 +127,16 @@ export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding, r
   return { observations, label, d5, extraFields, unregistered, labelError };
 }
 
-const jl = (rows: any[]): string => rows.map(r => JSON.stringify(r)).join('\n') + '\n';
+/** A-S2-4 streaming JSONL writer: one row at a time, never one big string. Byte-identical to the old
+ *  `rows.map(JSON.stringify).join('\n') + '\n'` — including the empty file, which is the single byte `\n` (what
+ *  `jl([])` wrote). Rows are written only by callers that have already passed the one-pass integrity check. */
+export function writeJsonl(path: string, rows: readonly unknown[]): void {
+  const fd = openSync(path, 'w');
+  try {
+    if (rows.length === 0) writeSync(fd, '\n');
+    else for (const r of rows) writeSync(fd, JSON.stringify(r) + '\n');
+  } finally { closeSync(fd); }
+}
 
 /** S1 (runs-convert) reader, used only by the AgentDojo compatibility mode. */
 export function readSelected(archive: string, entries: { pipeline: string; attack: string; clean: boolean }[], suiteAlt: string): { expected: Record<string, number>; lines: string[] } {
@@ -263,10 +272,10 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
     pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs,
     extra_envelope_fields: extraEnvelopeFields, unregistered_tool_calls: unregisteredToolCalls, label_errors: labelErrors };
   mkdirSync(out, { recursive: true });
-  writeFileSync(join(out, 'observations.jsonl'), jl(observations));
-  writeFileSync(join(out, 'labels.jsonl'), jl(labels));
-  writeFileSync(join(out, 'labels-pr.jsonl'), jl(overlaps));
-  writeFileSync(join(out, 'labels-d5.jsonl'), jl(d5));
+  writeJsonl(join(out, 'observations.jsonl'), observations);
+  writeJsonl(join(out, 'labels.jsonl'), labels);
+  writeJsonl(join(out, 'labels-pr.jsonl'), overlaps);
+  writeJsonl(join(out, 'labels-d5.jsonl'), d5);
   writeFileSync(join(out, 'counts.json'), JSON.stringify(counts, null, 2) + '\n');
   return counts;
 }
@@ -296,9 +305,9 @@ export function convertAgentDojo(archive: string, cohortsFile: string, out: stri
   const counts = { runs: labels.length, calls: observations.length, parse_failures: 0,
     pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs };
   mkdirSync(out, { recursive: true });
-  writeFileSync(join(out, 'observations.jsonl'), jl(observations));
-  writeFileSync(join(out, 'labels.jsonl'), jl(labels));
-  writeFileSync(join(out, 'labels-pr.jsonl'), jl(overlaps));
+  writeJsonl(join(out, 'observations.jsonl'), observations);
+  writeJsonl(join(out, 'labels.jsonl'), labels);
+  writeJsonl(join(out, 'labels-pr.jsonl'), overlaps);
   writeFileSync(join(out, 'counts.json'), JSON.stringify(counts, null, 2) + '\n');
   return counts;
 }
