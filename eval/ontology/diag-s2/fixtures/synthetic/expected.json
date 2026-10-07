@@ -1,0 +1,38 @@
+{
+ "q1": {
+  "P": {
+   "regexxV1": {"F": 8, "TP": 8, "Pos": 12, "precision": 1, "recall": 0.6666666666666666},
+   "regexxV2": {"F": 8, "TP": 8, "Pos": 12, "precision": 1, "recall": 0.6666666666666666},
+   "regexxV3": {"F": 4, "TP": 4, "Pos": 12, "precision": 1, "recall": 0.3333333333333333},
+   "boundxV1": {"F": 12, "TP": 8, "Pos": 12, "precision": 0.6666666666666666, "recall": 0.6666666666666666},
+   "boundxV2": {"F": 16, "TP": 10, "Pos": 12, "precision": 0.625, "recall": 0.8333333333333334},
+   "boundxV3": {"F": 8, "TP": 6, "Pos": 12, "precision": 0.75, "recall": 0.5},
+   "typedxV1": {"F": 12, "TP": 8, "Pos": 12, "precision": 0.6666666666666666, "recall": 0.6666666666666666},
+   "typedxV2": {"F": 16, "TP": 10, "Pos": 12, "precision": 0.625, "recall": 0.8333333333333334},
+   "typedxV3": {"F": 8, "TP": 6, "Pos": 12, "precision": 0.75, "recall": 0.5}
+  },
+  "X1": {
+   "regexxV1": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "regexxV2": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "regexxV3": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "boundxV1": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "boundxV2": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "boundxV3": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "typedxV1": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "typedxV2": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null},
+   "typedxV3": {"F": 0, "TP": 0, "Pos": 0, "precision": null, "recall": null}
+  }
+ },
+ "pool": {
+  "P": {"runs": 30, "positives": 12},
+  "X1": {"runs": 0, "positives": 0}
+ },
+ "categories": {
+  "regex-only writes": ["synthetic/R/0", "synthetic/R/1", "synthetic/R/2", "synthetic/R/3"],
+  "bound-only writes": ["synthetic/B/0", "synthetic/B/1", "synthetic/B/2", "synthetic/B/3"],
+  "typed-only eligible": ["synthetic/T/0", "synthetic/T/1", "synthetic/T/2", "synthetic/T/3"],
+  "untrusted-but-not-qualifying": ["synthetic/U/0", "synthetic/U/1", "synthetic/U/2", "synthetic/U/3"],
+  "qualifying via substring route": ["synthetic/T/0", "synthetic/T/1", "synthetic/T/2", "synthetic/T/3", "synthetic/Q/0", "synthetic/Q/1", "synthetic/Q/2", "synthetic/Q/3"],
+  "qualifying whole value on a non-relevant param": ["synthetic/R/0", "synthetic/R/1", "synthetic/R/2", "synthetic/R/3", "synthetic/B/0", "synthetic/B/1", "synthetic/B/2", "synthetic/B/3"]
+ }
+}

@@ -1,0 +1,57 @@
+{
+  "_comment": "Closed schema for runs/onto-s2-diag/diag-s2.json (B0). Every object is closed; string keys/values are only enum members, binding tool ids, registered parameter names (or <unregistered-key>), or the crosstab pattern. Interpreted by validate-diag.ts.",
+  "enums": {
+    "pool": ["P", "X1", "S1"],
+    "suite": ["dailylife", "github", "shopping"],
+    "base": ["google_gemini-2.5-flash", "google_gemini-2.5-pro", "gpt-4o-2024-08-06", "gpt-4o-mini-2024-07-18", "gpt-5-mini-2025-08-07"],
+    "panel": ["google_gemini-2.5-flash-drift", "google_gemini-2.5-flash-piguard_detector", "google_gemini-2.5-flash-progent", "google_gemini-2.5-flash-prompt_guard_2_detector", "google_gemini-2.5-flash-repeat_user_prompt", "google_gemini-2.5-flash-spotlighting_with_delimiting", "google_gemini-2.5-flash-tool_filter", "google_gemini-2.5-flash-transformers_pi_detector", "google_gemini-2.5-pro-drift", "google_gemini-2.5-pro-piguard_detector", "google_gemini-2.5-pro-progent", "google_gemini-2.5-pro-prompt_guard_2_detector", "google_gemini-2.5-pro-repeat_user_prompt", "google_gemini-2.5-pro-spotlighting_with_delimiting", "google_gemini-2.5-pro-tool_filter", "google_gemini-2.5-pro-transformers_pi_detector", "gpt-4o-2024-08-06-drift", "gpt-4o-2024-08-06-piguard_detector", "gpt-4o-2024-08-06-progent", "gpt-4o-2024-08-06-prompt_guard_2_detector", "gpt-4o-2024-08-06-repeat_user_prompt", "gpt-4o-2024-08-06-spotlighting_with_delimiting", "gpt-4o-2024-08-06-tool_filter", "gpt-4o-2024-08-06-transformers_pi_detector", "gpt-4o-mini-2024-07-18-drift", "gpt-4o-mini-2024-07-18-piguard_detector", "gpt-4o-mini-2024-07-18-progent", "gpt-4o-mini-2024-07-18-prompt_guard_2_detector", "gpt-4o-mini-2024-07-18-repeat_user_prompt", "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting", "gpt-4o-mini-2024-07-18-tool_filter", "gpt-4o-mini-2024-07-18-transformers_pi_detector", "gpt-5-mini-2025-08-07-drift", "gpt-5-mini-2025-08-07-piguard_detector", "gpt-5-mini-2025-08-07-progent", "gpt-5-mini-2025-08-07-prompt_guard_2_detector", "gpt-5-mini-2025-08-07-repeat_user_prompt", "gpt-5-mini-2025-08-07-spotlighting_with_delimiting", "gpt-5-mini-2025-08-07-transformers_pi_detector"],
+    "tier": ["irreversible", "other"],
+    "group": ["P", "X1", "X2"],
+    "route": ["whole", "party", "account", "resource"],
+    "cell": ["regexxV1", "regexxV2", "regexxV3", "boundxV1", "boundxV2", "boundxV3", "typedxV1", "typedxV2", "typedxV3"]
+  },
+  "crosstabPattern": "^prov=[01]\\|s1=[01]\\|cells=(none|(regexxV[123]|boundxV[123]|typedxV[123])(,(regexxV[123]|boundxV[123]|typedxV[123]))*)$",
+  "defs": {
+    "ep": { "k": "obj", "keys": { "F": { "k": "int" }, "TP": { "k": "int" }, "Pos": { "k": "int" } } },
+    "tbl": { "k": "obj", "keys": { "s1": { "$ref": "ep" }, "prov": { "$ref": "ep" } } },
+    "cell": { "k": "obj", "keys": { "F": { "k": "int" }, "TP": { "k": "int" }, "Pos": { "k": "int" }, "precision": { "k": "nullnum" }, "recall": { "k": "nullnum" } } }
+  },
+  "root": {
+    "k": "obj",
+    "keys": {
+      "reference": { "k": "obj", "keys": {
+        "P": { "k": "obj", "keys": {
+          "pooled": { "$ref": "tbl" },
+          "per_base": { "k": "map", "key": "enum:base", "val": { "$ref": "tbl" } },
+          "tiers": { "k": "map", "key": "enum:tier", "val": { "$ref": "tbl" } },
+          "b_prov_bound": { "k": "obj", "keys": { "prov": { "$ref": "ep" } } } } },
+        "X1": { "k": "obj", "keys": {
+          "pooled": { "$ref": "tbl" },
+          "per_panel": { "k": "map", "key": "enum:panel", "val": { "$ref": "tbl" } } } } } },
+      "q1": { "k": "obj", "keys": {
+        "P": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } },
+        "X1": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } } } },
+      "q2": { "k": "obj", "keys": {
+        "tools": { "k": "map", "key": "toolIdOrUnregistered", "val": { "k": "obj", "keys": {
+          "calls": { "k": "int" },
+          "added": { "k": "obj", "keys": { "alerts": { "k": "int" }, "tp": { "k": "int" }, "fp": { "k": "int" } } },
+          "lost": { "k": "obj", "keys": { "alerts": { "k": "int" } } } } } },
+        "cover80": { "k": "arr", "items": { "k": "str", "kind": "toolId" } },
+        "added_fp_routes": { "k": "map", "key": "enum:route", "val": { "k": "int" } },
+        "added_fp_params": { "k": "map", "key": "param", "val": { "k": "int" } } } },
+      "q3": { "k": "obj", "keys": {
+        "crosstab": { "k": "map", "key": "crosstab", "val": { "k": "int" } },
+        "first_tool": { "k": "map", "key": "toolOrNone", "val": { "k": "int" } } } },
+      "q4": { "k": "obj", "keys": {
+        "by_suite": { "k": "map", "key": "enum:suite", "val": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } } },
+        "by_base": { "k": "map", "key": "enum:base", "val": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } } },
+        "excl_gpt5mini": { "k": "obj", "keys": { "prov": { "$ref": "cell" }, "s1": { "$ref": "cell" } } } } },
+      "q5": { "k": "obj", "opt": true, "keys": {
+        "S1": { "k": "obj", "keys": {
+          "q1": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } },
+          "q1_by_group": { "k": "map", "key": "enum:group", "val": { "k": "map", "key": "enum:cell", "val": { "$ref": "cell" } } },
+          "removed": { "k": "map", "key": "agentdojoToolIdOrUnregistered", "val": { "k": "obj", "keys": { "alerts": { "k": "int" }, "tp": { "k": "int" }, "fp": { "k": "int" } } } },
+          "added": { "k": "map", "key": "agentdojoToolIdOrUnregistered", "val": { "k": "obj", "keys": { "alerts": { "k": "int" }, "tp": { "k": "int" }, "fp": { "k": "int" } } } } } } } }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "_comment": "Closed schema for runs/onto-s2-diag/static-tools.json (CG-B defect 3). Every object is closed; tool rows must use a binding tool id, that tool's registered parameter names and frozen snapshot effect ids; suites are a fixed enum; the summary counts are the fixed 8 cells. Interpreted by validate-static.ts.",
+  "enums": {
+    "suite": ["dailylife", "github", "shopping", "banking", "slack", "travel", "workspace"],
+    "cell": ["r0b0t0", "r0b0t1", "r0b1t0", "r0b1t1", "r1b0t0", "r1b0t1", "r1b1t0", "r1b1t1"]
+  },
+  "legend": "r{regex_write}b{bound_write}t{typed_eligible}: tool count in that 2x2x2 cell; all 8 keys are present (0 when empty)",
+  "root": {
+    "k": "obj",
+    "keys": {
+      "tools": { "k": "arr", "items": { "k": "toolRow" } },
+      "summary": {
+        "k": "obj",
+        "keys": {
+          "legend": { "k": "str", "const": "legend" },
+          "total": { "k": "map", "key": "enum:cell", "val": { "k": "int" } },
+          "per_suite": { "k": "map", "key": "enum:suite", "val": { "k": "map", "key": "enum:cell", "val": { "k": "int" } } }
+        }
+      }
+    }
+  }
+}
