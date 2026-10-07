@@ -121,3 +121,29 @@ a call.
   - The frozen `pr/sanitize.ts` whitelist drops unknown action fields. An observation field would therefore never reach
     the TS statistics.
   - `convert-s2.ts` does not emit `bound_impact`, so the raw observations keep exactly the S1 schema.
+
+## 6. Amendment A-S2-2 (post-freeze, 2026-10-06): calls to unregistered tools
+
+**Why.** The F-S2b run stopped fail-closed in conversion, on a call to `download_file` in dailylife. That name is not in
+the dailylife suite's registered `TOOLS`, which the pinned source registers as `download_file_through_url` and
+`download_file_through_id`. It is a call by the agent to a tool that does not exist in the suite, recorded by the
+benchmark like any other call. No output was written, and no outcome was seen.
+
+**Rule (both implementations).**
+- **Registered tools.** A tool is registered iff `agentdyn:<suite>/<name>` is in `eval/kev-onto/binding/manifest-agentdyn.json`,
+  i.e. the suite's registered `TOOLS` at the pinned commit. The binding subset covers exactly those 100 ids.
+- **A call to an unregistered tool is not an integrity failure.** It is handled exactly as S1 handles a tool absent from
+  its binding:
+  - the observation is kept with tool id `agentdyn:<suite>/<name>`;
+  - it is **ineligible** for M-S1, since it has no binding effects;
+  - its primary B-prov impact is the `IMPACT_WRITE` name regex, as in S1;
+  - its B-prov-bound impact is read, since it has no harmful effect;
+  - it is not part of the random-typing tool universe, which stays the 100 registered tools.
+- **Counting.** The converter counts unregistered calls by name per suite in `counts.json`
+  (`unregistered_tool_calls: {<suite>: {<name>: count}}`), without reading anything else from the call.
+- **What still fails.** A registered tool that is missing from the binding remains an integrity failure. It cannot occur
+  while the binding equals the manifest; that equality is checked at freeze.
+
+**One-pass integrity report.** The converter checks every selected run before aborting. If any integrity failure
+exists, it writes `integrity-report.json` and exits non-zero without writing observations or labels. The report holds
+categories, counts and identifier names only; it contains no labels, security/utility values or message text.
