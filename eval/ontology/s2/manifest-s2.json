@@ -1,0 +1,740 @@
+{
+ "id": "agentdyn-s2",
+ "source": {
+  "repo": "github.com/SaFo-Lab/AgentDyn",
+  "commit": "5353cf7615b135cace8d07c8f12dac53a16b6db3",
+  "tarball_url": "https://codeload.github.com/SaFo-Lab/AgentDyn/tar.gz/5353cf7615b135cace8d07c8f12dac53a16b6db3",
+  "licence": "MIT",
+  "root_prefix": "AgentDyn-5353cf7615b135cace8d07c8f12dac53a16b6db3/"
+ },
+ "pipelines": [
+  "google_gemini-2.5-flash",
+  "google_gemini-2.5-pro",
+  "gpt-4o-2024-08-06",
+  "gpt-4o-mini-2024-07-18",
+  "gpt-5-mini-2025-08-07",
+  "google_gemini-2.5-flash-drift",
+  "google_gemini-2.5-flash-piguard_detector",
+  "google_gemini-2.5-flash-progent",
+  "google_gemini-2.5-flash-prompt_guard_2_detector",
+  "google_gemini-2.5-flash-repeat_user_prompt",
+  "google_gemini-2.5-flash-spotlighting_with_delimiting",
+  "google_gemini-2.5-flash-tool_filter",
+  "google_gemini-2.5-flash-transformers_pi_detector",
+  "google_gemini-2.5-pro-drift",
+  "google_gemini-2.5-pro-piguard_detector",
+  "google_gemini-2.5-pro-progent",
+  "google_gemini-2.5-pro-prompt_guard_2_detector",
+  "google_gemini-2.5-pro-repeat_user_prompt",
+  "google_gemini-2.5-pro-spotlighting_with_delimiting",
+  "google_gemini-2.5-pro-tool_filter",
+  "google_gemini-2.5-pro-transformers_pi_detector",
+  "gpt-4o-2024-08-06-drift",
+  "gpt-4o-2024-08-06-piguard_detector",
+  "gpt-4o-2024-08-06-progent",
+  "gpt-4o-2024-08-06-prompt_guard_2_detector",
+  "gpt-4o-2024-08-06-repeat_user_prompt",
+  "gpt-4o-2024-08-06-spotlighting_with_delimiting",
+  "gpt-4o-2024-08-06-tool_filter",
+  "gpt-4o-2024-08-06-transformers_pi_detector",
+  "gpt-4o-mini-2024-07-18-drift",
+  "gpt-4o-mini-2024-07-18-piguard_detector",
+  "gpt-4o-mini-2024-07-18-progent",
+  "gpt-4o-mini-2024-07-18-prompt_guard_2_detector",
+  "gpt-4o-mini-2024-07-18-repeat_user_prompt",
+  "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting",
+  "gpt-4o-mini-2024-07-18-tool_filter",
+  "gpt-4o-mini-2024-07-18-transformers_pi_detector",
+  "gpt-5-mini-2025-08-07-drift",
+  "gpt-5-mini-2025-08-07-piguard_detector",
+  "gpt-5-mini-2025-08-07-progent",
+  "gpt-5-mini-2025-08-07-prompt_guard_2_detector",
+  "gpt-5-mini-2025-08-07-repeat_user_prompt",
+  "gpt-5-mini-2025-08-07-spotlighting_with_delimiting",
+  "gpt-5-mini-2025-08-07-transformers_pi_detector"
+ ],
+ "suites": [
+  "dailylife",
+  "github",
+  "shopping"
+ ],
+ "attack": "important_instructions",
+ "path_regex": "^runs/(?<pipeline>[^/]+)/(?<suite>[^/]+)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$",
+ "expected": {
+  "google_gemini-2.5-flash": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-drift": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-piguard_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-progent": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-prompt_guard_2_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-repeat_user_prompt": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-spotlighting_with_delimiting": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-tool_filter": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-flash-transformers_pi_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-drift": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-piguard_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-progent": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-prompt_guard_2_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-repeat_user_prompt": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-spotlighting_with_delimiting": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-tool_filter": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "google_gemini-2.5-pro-transformers_pi_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-drift": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-piguard_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-progent": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-prompt_guard_2_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-repeat_user_prompt": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-spotlighting_with_delimiting": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-tool_filter": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-2024-08-06-transformers_pi_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-drift": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-piguard_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-progent": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-prompt_guard_2_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-repeat_user_prompt": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-tool_filter": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-4o-mini-2024-07-18-transformers_pi_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-drift": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-piguard_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-progent": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-prompt_guard_2_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-repeat_user_prompt": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-spotlighting_with_delimiting": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  },
+  "gpt-5-mini-2025-08-07-transformers_pi_detector": {
+   "dailylife": {
+    "attacked": 200,
+    "benign": 20
+   },
+   "github": {
+    "attacked": 180,
+    "benign": 20
+   },
+   "shopping": {
+    "attacked": 180,
+    "benign": 20
+   }
+  }
+ },
+ "user_tasks_per_suite": {
+  "dailylife": 20,
+  "github": 20,
+  "shopping": 20
+ },
+ "total_runs": 27280,
+ "strata": 132,
+ "primary_pipelines": [
+  "google_gemini-2.5-flash",
+  "google_gemini-2.5-pro",
+  "gpt-4o-2024-08-06",
+  "gpt-4o-mini-2024-07-18",
+  "gpt-5-mini-2025-08-07"
+ ],
+ "x1_pipelines": [
+  "google_gemini-2.5-flash-drift",
+  "google_gemini-2.5-flash-piguard_detector",
+  "google_gemini-2.5-flash-progent",
+  "google_gemini-2.5-flash-prompt_guard_2_detector",
+  "google_gemini-2.5-flash-repeat_user_prompt",
+  "google_gemini-2.5-flash-spotlighting_with_delimiting",
+  "google_gemini-2.5-flash-tool_filter",
+  "google_gemini-2.5-flash-transformers_pi_detector",
+  "google_gemini-2.5-pro-drift",
+  "google_gemini-2.5-pro-piguard_detector",
+  "google_gemini-2.5-pro-progent",
+  "google_gemini-2.5-pro-prompt_guard_2_detector",
+  "google_gemini-2.5-pro-repeat_user_prompt",
+  "google_gemini-2.5-pro-spotlighting_with_delimiting",
+  "google_gemini-2.5-pro-tool_filter",
+  "google_gemini-2.5-pro-transformers_pi_detector",
+  "gpt-4o-2024-08-06-drift",
+  "gpt-4o-2024-08-06-piguard_detector",
+  "gpt-4o-2024-08-06-progent",
+  "gpt-4o-2024-08-06-prompt_guard_2_detector",
+  "gpt-4o-2024-08-06-repeat_user_prompt",
+  "gpt-4o-2024-08-06-spotlighting_with_delimiting",
+  "gpt-4o-2024-08-06-tool_filter",
+  "gpt-4o-2024-08-06-transformers_pi_detector",
+  "gpt-4o-mini-2024-07-18-drift",
+  "gpt-4o-mini-2024-07-18-piguard_detector",
+  "gpt-4o-mini-2024-07-18-progent",
+  "gpt-4o-mini-2024-07-18-prompt_guard_2_detector",
+  "gpt-4o-mini-2024-07-18-repeat_user_prompt",
+  "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting",
+  "gpt-4o-mini-2024-07-18-tool_filter",
+  "gpt-4o-mini-2024-07-18-transformers_pi_detector",
+  "gpt-5-mini-2025-08-07-drift",
+  "gpt-5-mini-2025-08-07-piguard_detector",
+  "gpt-5-mini-2025-08-07-progent",
+  "gpt-5-mini-2025-08-07-prompt_guard_2_detector",
+  "gpt-5-mini-2025-08-07-repeat_user_prompt",
+  "gpt-5-mini-2025-08-07-spotlighting_with_delimiting",
+  "gpt-5-mini-2025-08-07-transformers_pi_detector"
+ ],
+ "excluded_partial": [
+  "gpt-4o-mini-2024-07-18-camel",
+  "gpt-5-mini-2025-08-07-tool_filter"
+ ]
+}
