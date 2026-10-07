@@ -22,7 +22,8 @@
 //     --binding eval/ontology/s2/binding-agentdyn.json [--registered eval/kev-onto/binding/manifest-agentdyn.json] \
 //     [--seal <fetch-seal.json>] --archive <tar.gz> --out <dir>
 import { createHash } from 'node:crypto';
-import { closeSync, mkdirSync, openSync, readFileSync, writeFileSync, writeSync } from 'node:fs';
+import { closeSync, mkdirSync, mkdtempSync, openSync, readFileSync, readSync, rmSync, writeFileSync, writeSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { convertRun, convertSelectedRun, injectionOverlap, selectedCohort, validateCohorts, type SelectedCohort } from '../runs-convert.ts';
@@ -138,6 +139,44 @@ export function writeJsonl(path: string, rows: readonly unknown[]): void {
   } finally { closeSync(fd); }
 }
 
+/** A-S2-4: runs `cmd args`, spooling the child's stdout to a temp file — the child's rows are never collected into one
+ *  JS string — then reads that file back line by line. The temp dir is removed in `finally`; a non-zero exit aborts. */
+function spoolReader(cmd: string, args: string[]): { lines: string[] } {
+  const dir = mkdtempSync(join(tmpdir(), 's2-read-'));
+  try {
+    const fd = openSync(join(dir, 'out.jsonl'), 'w');
+    let res;
+    try { res = spawnSync(cmd, args, { stdio: ['ignore', fd, 'pipe'], encoding: 'utf8' }); }
+    finally { closeSync(fd); }
+    if (res.status !== 0) throw new Error(`archive reader failed: ${res.stderr}`);
+    return { lines: readLinesSync(join(dir, 'out.jsonl')).filter(Boolean) };
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+}
+
+/** Yields each line of `path` without the trailing '\n' as one string at a time (never a whole-file string). */
+function readLinesSync(path: string): string[] {
+  const out: string[] = [];
+  const fd = openSync(path, 'r');
+  try {
+    const buf = Buffer.alloc(1 << 16);
+    let pieces: Buffer[] = [];
+    for (;;) {
+      const n = readSync(fd, buf, 0, buf.length, null);
+      if (n <= 0) break;
+      let start = 0;
+      for (;;) {
+        const nl = buf.indexOf(0x0a, start);
+        if (nl < 0 || nl >= n) break;
+        out.push((pieces.length ? Buffer.concat([...pieces, buf.subarray(start, nl)]) : buf.subarray(start, nl)).toString('utf8'));
+        pieces = []; start = nl + 1;
+      }
+      if (start < n) pieces.push(Buffer.from(buf.subarray(start, n)));
+    }
+    if (pieces.length) out.push(Buffer.concat(pieces).toString('utf8'));
+  } finally { closeSync(fd); }
+  return out;
+}
+
 /** S1 (runs-convert) reader, used only by the AgentDojo compatibility mode. */
 export function readSelected(archive: string, entries: { pipeline: string; attack: string; clean: boolean }[], suiteAlt: string): { expected: Record<string, number>; lines: string[] } {
   const script = `import tarfile,json,re,sys
@@ -155,9 +194,7 @@ with tarfile.open(sys.argv[1]) as t:
   try: print(json.dumps({'path':m.name,'run':json.load(t.extractfile(m))}))
   except Exception as e: print(json.dumps({'path':m.name,'error':str(e)}))
 `;
-  const res = spawnSync('python3', ['-c', script, archive, JSON.stringify(entries)], { encoding: 'utf8', maxBuffer: 1024 * 1024 * 1024 });
-  if (res.status !== 0) throw new Error(`archive reader failed: ${res.stderr}`);
-  const lines = res.stdout.trim().split('\n').filter(Boolean);
+  const { lines } = spoolReader('python3', ['-c', script, archive, JSON.stringify(entries)]);
   const expected = JSON.parse(lines.shift()!).expected as Record<string, number>;
   return { expected, lines };
 }
@@ -194,9 +231,7 @@ with tarfile.open(archive) as t:
   try: print(json.dumps({'path':m.name,'rel':rel,'run':json.load(t.extractfile(m))}))
   except Exception as e: print(json.dumps({'path':m.name,'error':str(e)}))
 `;
-  const res = spawnSync('python3', ['-c', script, archive, root, pathRegex.replace(/\(\?<([A-Za-z_]\w*)>/g, '(?P<$1>'), JSON.stringify(suites), JSON.stringify(pipelines), sealPath], { encoding: 'utf8', maxBuffer: 1024 * 1024 * 1024 });
-  if (res.status !== 0) throw new Error(`archive reader failed: ${res.stderr}`);
-  const lines = res.stdout.trim().split('\n').filter(Boolean);
+  const { lines } = spoolReader('python3', ['-c', script, archive, root, pathRegex.replace(/\(\?<([A-Za-z_]\w*)>/g, '(?P<$1>'), JSON.stringify(suites), JSON.stringify(pipelines), sealPath]);
   const head = JSON.parse(lines.shift()!) as { error?: string; candidates: string[]; selected: string[] | null };
   if (head.error) throw new Error(`archive reader: ${head.error} ${JSON.stringify((head as never as { paths?: string[] }).paths)}`);
   return { candidates: head.candidates, selected: head.selected, lines };
