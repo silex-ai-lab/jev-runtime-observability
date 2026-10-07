@@ -11,8 +11,10 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '../../..');
 const schema = JSON.parse(readFileSync(resolve(HERE, 'diag-schema.json'), 'utf8'));
 const binding = JSON.parse(readFileSync(resolve(ROOT, 'eval/ontology/s2/binding-agentdyn.json'), 'utf8')) as BindingShape;
+const agentdojo = JSON.parse(readFileSync(resolve(ROOT, 'eval/ontology/v2/frozen/binding-v2.json'), 'utf8')) as BindingShape;
 const ep = () => ({ F: 0, TP: 0, Pos: 0 });
 const cell = () => ({ F: 0, TP: 0, Pos: 0, precision: null, recall: null });
+const row = () => ({ alerts: 0, tp: 0, fp: 0 });
 const valid = () => ({
   reference: { P: { pooled: { s1: ep(), prov: ep() }, per_base: {}, tiers: {}, b_prov_bound: { prov: ep() } }, X1: { pooled: { s1: ep(), prov: ep() }, per_panel: {} } },
   q1: { P: {}, X1: {} },
@@ -31,3 +33,22 @@ test('rejects an unregistered key', () => { bad(d => { d.q2.extra = 1; }, /unexp
 test('rejects an unexpected nested field', () => { bad(d => { d.reference.P.pooled.s1.extra = 1; }, /unexpected field/); });
 test('rejects a bad crosstab key', () => { bad(d => { d.q3.crosstab['prov=1|s1=0|cells=V3'] = 1; }, /not a crosstab key/); });
 test('rejects a non-integer count', () => { bad(d => { d.q1.P['typedxV3'] = { F: 1.5, TP: 0, Pos: 0, precision: null, recall: null }; }, /expected integer/); });
+
+const withQ5 = () => ({ ...valid(), q5: { S1: { q1: {}, q1_by_group: {}, removed: {}, added: {} } } });
+test('q5 accepts AgentDojo tool ids and the <unregistered-tool> bucket', () => {
+  const d: any = withQ5();
+  d.q5.S1.removed['agentdojo:banking/get_balance'] = row();
+  d.q5.S1.added['<unregistered-tool>'] = row();
+  validateDiag(d, binding, schema, agentdojo);
+});
+test('q5 rejects an AgentDyn tool id', () => {
+  const d: any = withQ5();
+  d.q5.S1.added['agentdyn:dailylife/send_email'] = row();
+  assert.throws(() => validateDiag(d, binding, schema, agentdojo), /not an AgentDojo tool id/);
+});
+test('q2 rejects an AgentDojo tool id and accepts <unregistered-tool>', () => {
+  const bad: any = valid(); bad.q2.tools['agentdojo:banking/get_balance'] = { calls: 0, added: row(), lost: { alerts: 0 } };
+  assert.throws(() => validateDiag(bad, binding, schema, agentdojo), /tool id not in binding/);
+  const ok: any = valid(); ok.q2.tools['<unregistered-tool>'] = { calls: 0, added: row(), lost: { alerts: 1 } };
+  validateDiag(ok, binding, schema, agentdojo);
+});

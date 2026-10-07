@@ -7,9 +7,10 @@ import { readFileSync } from 'node:fs';
 export interface BindingShape { tools: Record<string, { params?: Record<string, string> }> }
 type Node = { $ref?: string; k?: string; [x: string]: unknown };
 
-export function validateDiag(data: unknown, binding: BindingShape, schema: { enums: Record<string, string[]>; crosstabPattern: string; defs: Record<string, Node>; root: Node }): void {
+export function validateDiag(data: unknown, binding: BindingShape, schema: { enums: Record<string, string[]>; crosstabPattern: string; defs: Record<string, Node>; root: Node }, agentdojoBinding?: BindingShape): void {
   const enums = schema.enums;
   const toolIds = new Set(Object.keys(binding.tools));
+  const agentdojoIds = new Set(Object.keys(agentdojoBinding?.tools ?? {}));
   const params = new Set<string>(['<unregistered-key>']);
   for (const t of Object.values(binding.tools)) for (const p of Object.keys(t.params ?? {})) params.add(p);
   const crosstab = new RegExp(schema.crosstabPattern);
@@ -17,7 +18,9 @@ export function validateDiag(data: unknown, binding: BindingShape, schema: { enu
   const keyOk = (kind: string, key: string, path: string): void => {
     if (kind.startsWith('enum:')) { const e = kind.slice(5); if (!enums[e]?.includes(key)) throw new Error(`${path}: key not in enum ${e}: ${key}`); return; }
     if (kind === 'toolId') { if (!toolIds.has(key)) throw new Error(`${path}: tool id not in binding: ${key}`); return; }
+    if (kind === 'toolIdOrUnregistered') { if (key !== '<unregistered-tool>' && !toolIds.has(key)) throw new Error(`${path}: tool id not in binding: ${key}`); return; }
     if (kind === 'toolOrNone') { if (key !== '<none>' && !toolIds.has(key)) throw new Error(`${path}: not a binding tool id or <none>: ${key}`); return; }
+    if (kind === 'agentdojoToolIdOrUnregistered') { if (key !== '<unregistered-tool>' && !agentdojoIds.has(key)) throw new Error(`${path}: not an AgentDojo tool id or <unregistered-tool>: ${key}`); return; }
     if (kind === 'param') { if (!params.has(key)) throw new Error(`${path}: parameter name not registered: ${key}`); return; }
     if (kind === 'crosstab') { if (!crosstab.test(key)) throw new Error(`${path}: not a crosstab key: ${key}`); return; }
     throw new Error(`${path}: unknown key rule ${kind}`);
@@ -29,7 +32,7 @@ export function validateDiag(data: unknown, binding: BindingShape, schema: { enu
         if (v === null || typeof v !== 'object' || Array.isArray(v)) throw new Error(`${path}: expected object`);
         const obj = v as Record<string, unknown>, keys = node.keys as Record<string, Node>;
         for (const key of Object.keys(obj)) if (!(key in keys)) throw new Error(`${path}.${key}: unexpected field`);
-        for (const key of Object.keys(keys)) { if (!(key in obj)) throw new Error(`${path}.${key}: missing field`); walk(keys[key], obj[key], `${path}.${key}`); }
+        for (const key of Object.keys(keys)) { if (!(key in obj)) { if ((keys[key] as Node & { opt?: boolean }).opt) continue; throw new Error(`${path}.${key}: missing field`); } walk(keys[key], obj[key], `${path}.${key}`); }
         return;
       }
       case 'map': {
@@ -57,7 +60,8 @@ if (process.argv[1] != null && import.meta.url === `file://${process.argv[1]}`) 
   const inPath = arg('--in');
   if (!inPath) throw new Error('need --in <json>');
   const binding = JSON.parse(readFileSync(arg('--binding') ?? 'eval/ontology/s2/binding-agentdyn.json', 'utf8')) as BindingShape;
+  const agentdojo = JSON.parse(readFileSync(arg('--agentdojo-binding') ?? 'eval/ontology/v2/frozen/binding-v2.json', 'utf8')) as BindingShape;
   const schema = JSON.parse(readFileSync(arg('--schema') ?? 'eval/ontology/diag-s2/diag-schema.json', 'utf8'));
-  validateDiag(JSON.parse(readFileSync(inPath, 'utf8')), binding, schema);
+  validateDiag(JSON.parse(readFileSync(inPath, 'utf8')), binding, schema, agentdojo);
   console.log(`validate-diag: ${inPath} OK`);
 }
