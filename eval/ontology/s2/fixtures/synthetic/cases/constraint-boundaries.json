@@ -1,0 +1,278 @@
+{
+ "rows": [
+  {
+   "name": "margin-equal-holds",
+   "per_base": {
+    "base-a": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-b": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-c": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-d": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-e": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    }
+   },
+   "pooled": {
+    "Pos": 500,
+    "TP_s1": 0,
+    "TP_prov": 15
+   },
+   "expected": {
+    "K": 5,
+    "dropped": [],
+    "theta": -0.03,
+    "pooled_d": -0.03,
+    "holds": true,
+    "p_signflip": 1.0,
+    "inconclusive": false
+   },
+   "derivation": "d_k = 0/100 - 3/100 = -0.03 exactly per base; theta = fl(sum of five -0.03)/5 = -0.03; pooled_d = 0/500 - 15/500 = -0.03. Both limbs compare >= -0.03 as plain doubles -> holds. e_k = -0.03 + 0.03 = 0, so every one of the 2^5 sign flips equals the observed sum -> p_signflip = 32/32 = 1."
+  },
+  {
+   "name": "margin-just-below-fails",
+   "per_base": {
+    "base-a": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 4
+    },
+    "base-b": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 4
+    },
+    "base-c": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 4
+    },
+    "base-d": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 4
+    },
+    "base-e": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 4
+    }
+   },
+   "pooled": {
+    "Pos": 500,
+    "TP_s1": 0,
+    "TP_prov": 20
+   },
+   "expected": {
+    "K": 5,
+    "dropped": [],
+    "theta": -0.04,
+    "pooled_d": -0.04,
+    "holds": false,
+    "p_signflip": 1.0,
+    "inconclusive": false
+   },
+   "derivation": "d_k = -0.04 per base, theta = pooled_d = -0.04 < -0.03 -> fails both limbs. e_k = -0.01, observed = -0.05; every flip sum >= observed -> p_signflip = 1."
+  },
+  {
+   "name": "pooled-below-fails",
+   "per_base": {
+    "base-a": {
+     "Pos": 460,
+     "TP_s1": 0,
+     "TP_prov": 23
+    },
+    "base-b": {
+     "Pos": 10,
+     "TP_s1": 10,
+     "TP_prov": 10
+    },
+    "base-c": {
+     "Pos": 10,
+     "TP_s1": 10,
+     "TP_prov": 10
+    },
+    "base-d": {
+     "Pos": 10,
+     "TP_s1": 10,
+     "TP_prov": 10
+    },
+    "base-e": {
+     "Pos": 10,
+     "TP_s1": 10,
+     "TP_prov": 10
+    }
+   },
+   "pooled": {
+    "Pos": 500,
+    "TP_s1": 40,
+    "TP_prov": 63
+   },
+   "expected": {
+    "K": 5,
+    "dropped": [],
+    "theta": -0.01,
+    "pooled_d": -0.046,
+    "holds": false,
+    "p_signflip": 0.0625,
+    "inconclusive": false
+   },
+   "derivation": "base-a d = 0/460 - 23/460 = -0.05, base-b..e d = 1 - 1 = 0; theta = -0.05/5 = -0.01 >= -0.03 but pooled_d = 40/500 - 63/500 = -0.046 < -0.03 (pooled_d is the Pos-weighted mean of d_k) -> holds = false. e = [-0.02, 0.03 x 4], observed ~ 0.1; exactly 2 of 32 masks reach it -> p_signflip = 2/32 = 0.0625."
+  },
+  {
+   "name": "k4-inconclusive",
+   "per_base": {
+    "base-a": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-b": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-c": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-d": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    }
+   },
+   "pooled": {
+    "Pos": 400,
+    "TP_s1": 0,
+    "TP_prov": 12
+   },
+   "expected": {
+    "K": 4,
+    "dropped": [],
+    "theta": -0.03,
+    "pooled_d": -0.03,
+    "holds": true,
+    "p_signflip": 1.0,
+    "inconclusive": true
+   },
+   "derivation": "Four bases with Pos > 0 -> K = 4 < 5: the run-level gate is inconclusive (this row pins K)."
+  },
+  {
+   "name": "zero-base-dropped",
+   "per_base": {
+    "base-a": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-b": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-c": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-d": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-e": {
+     "Pos": 0,
+     "TP_s1": 0,
+     "TP_prov": 0
+    }
+   },
+   "pooled": {
+    "Pos": 500,
+    "TP_s1": 0,
+    "TP_prov": 12
+   },
+   "expected": {
+    "K": 4,
+    "dropped": [
+     "base-e"
+    ],
+    "theta": -0.03,
+    "pooled_d": -0.024,
+    "holds": true,
+    "p_signflip": 1.0,
+    "inconclusive": true
+   },
+   "derivation": "base-e has Pos = 0 -> dropped (K = 4 of 5 entries, dropped = [\"base-e\"]) -> inconclusive. theta over the remaining four bases = -0.03 holds; pooled_d = -0.024 holds."
+  },
+  {
+   "name": "drop-keeps-k5",
+   "per_base": {
+    "base-a": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-b": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-c": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-d": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-e": {
+     "Pos": 100,
+     "TP_s1": 0,
+     "TP_prov": 3
+    },
+    "base-f": {
+     "Pos": 0,
+     "TP_s1": 0,
+     "TP_prov": 0
+    }
+   },
+   "pooled": {
+    "Pos": 500,
+    "TP_s1": 0,
+    "TP_prov": 15
+   },
+   "expected": {
+    "K": 5,
+    "dropped": [
+     "base-f"
+    ],
+    "theta": -0.03,
+    "pooled_d": -0.03,
+    "holds": true,
+    "p_signflip": 1.0,
+    "inconclusive": false
+   },
+   "derivation": "Six entries, base-f dropped (Pos = 0) -> K = 5 remains -> the K gate still passes."
+  }
+ ]
+}

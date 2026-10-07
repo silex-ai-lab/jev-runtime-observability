@@ -93,7 +93,12 @@ It is counted per base and per suite.
 - `secondary.x1` (per panel and pooled);
 - `secondary.d5`.
 
-`counts.json`, the only file read before F-S2, holds aggregate counts only: runs per cohort, calls, parse failures.
+**Before F-S2** only the fetch seal is read: filename and byte counts per cell, from paths and tar entries, with no
+parsing (CG-S2 clarification 3). `counts.json` (calls, parse failures) is written by conversion, which runs only
+after F-S2.
+
+**Out-of-binding tool ids** are rejected by `convert-s2.ts`, which is the integrity gate. The statistics never see such
+a call.
 
 ### 5.1 Secondary schema (CG-S2 clarification, 2026-10-06)
 

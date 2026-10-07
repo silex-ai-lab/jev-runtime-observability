@@ -1,0 +1,9 @@
+[
+ {
+  "pipeline": "synth-x",
+  "attack": "important_instructions",
+  "clean": true,
+  "group": "P",
+  "base": "synth-x"
+ }
+]
