@@ -108,3 +108,8 @@ It is counted per base and per suite.
 - **`secondary.d5`:** `{per_base: {<base>: {attacked, error_present, utility_false_security_true}}, per_suite: {…}}`.
   These are counts over all selected attacked runs: P and X1, grouped by `base` and by suite.
 - **Ratios.** Every ratio with a zero denominator is `null`.
+- **B-prov-bound input** (CG-S2 clarification 2). The bound write is computed **at statistics time** in both
+  implementations: write ⇔ `harmful(binding-agentdyn.json tools[<tool id>].effects)`. No observation field carries it.
+  - The frozen `pr/sanitize.ts` whitelist drops unknown action fields. An observation field would therefore never reach
+    the TS statistics.
+  - `convert-s2.ts` does not emit `bound_impact`, so the raw observations keep exactly the S1 schema.
