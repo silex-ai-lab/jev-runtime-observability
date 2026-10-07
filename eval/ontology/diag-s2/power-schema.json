@@ -1,5 +1,5 @@
 {
-  "_comment": "Closed schema for runs/onto-c-power/power-hc1.json (P-HC1). Reuses the validate-diag interpreter: every object is closed, keys/values are only fixed enums, numbers or the endpoint constant. Aggregate-only: no run ids, task text or argument values.",
+  "_comment": "Closed schema for runs/onto-c-power/power-hc1.json (P-HC1, CG-P r1 fixes). Interpreted by validatePower (Object.hasOwn, every own field traversed). Aggregate-only: no run ids, task text or argument values.",
   "endpoint": "one-sided paired task-crossed bootstrap: precision(V3-V2) > 0 and recall(V3-V2) > -3 points",
   "enums": {},
   "crosstabPattern": "^$",
@@ -8,28 +8,25 @@
       "precision_v2": { "k": "num" }, "precision_v3": { "k": "num" }, "precision_diff": { "k": "num" },
       "recall_v2": { "k": "num" }, "recall_v3": { "k": "num" }, "recall_diff": { "k": "num" },
       "positives": { "k": "int" }, "runs": { "k": "int" } } },
+    "fit": { "k": "obj", "keys": { "a": { "k": "num" }, "r2": { "k": "num" } } },
     "design": { "k": "obj", "keys": {
-      "K": { "k": "int" }, "U": { "k": "int" }, "J": { "k": "int" },
-      "expected_runs": { "k": "num" }, "expected_positives": { "k": "num" },
-      "mean_precision_diff": { "k": "num" }, "power": { "k": "num" }, "power_precision_only": { "k": "num" },
-      "se_precision_diff": { "k": "num" } } },
+      "K": { "k": "int" }, "U": { "k": "int" }, "J": { "k": "int" }, "repeats_tasks": { "k": "bool" },
+      "expected_runs": { "k": "num" }, "expected_positives": { "k": "num" }, "mean_precision_diff": { "k": "num" }, "outer_sd": { "k": "num" },
+      "power": { "k": "num" }, "power_precision_only": { "k": "num" }, "power_mc_se": { "k": "num" }, "power_precision_mc_se": { "k": "num" },
+      "n_valid": { "k": "int" }, "n_inconclusive": { "k": "int" }, "n_undefined": { "k": "int" } } },
     "analytic": { "k": "obj", "keys": {
       "K": { "k": "int" }, "U": { "k": "int" }, "J": { "k": "int" },
-      "se": { "k": "num" }, "power_delta_2": { "k": "num" }, "power_delta_4": { "k": "num" }, "power_delta_6": { "k": "num" } } },
+      "se_fit": { "k": "num" }, "power_delta_2": { "k": "num" }, "power_delta_4": { "k": "num" }, "power_delta_6": { "k": "num" } } },
     "pool": { "k": "obj", "keys": {
-      "observed": { "$ref": "observed" },
+      "observed": { "$ref": "observed" }, "fit": { "$ref": "fit" },
       "designs": { "k": "arr", "items": { "$ref": "design" } },
       "analytic": { "k": "arr", "items": { "$ref": "analytic" } } } }
   },
   "root": { "k": "obj", "keys": {
     "endpoint": { "k": "str", "const": "endpoint" },
-    "alpha": { "k": "num" },
-    "recall_margin": { "k": "num" },
+    "alpha": { "k": "num" }, "recall_margin": { "k": "num" },
     "sim": { "k": "obj", "keys": { "N": { "k": "int" }, "R": { "k": "int" }, "seed": { "k": "int" } } },
-    "grid": { "k": "obj", "keys": {
-      "K": { "k": "arr", "items": { "k": "int" } },
-      "U": { "k": "arr", "items": { "k": "int" } },
-      "J": { "k": "arr", "items": { "k": "int" } } } },
+    "grid": { "k": "obj", "keys": { "K": { "k": "arr", "items": { "k": "int" } }, "U": { "k": "arr", "items": { "k": "int" } }, "J": { "k": "arr", "items": { "k": "int" } } } },
     "pools": { "k": "obj", "keys": { "S2": { "$ref": "pool" }, "S1": { "$ref": "pool", "opt": true } } }
   } }
 }
