@@ -1,0 +1,107 @@
+{
+ "version": 2,
+ "source": "eval/kev-onto/binding/resolved.json (wave-1 blind binding, planner-resolved; Silex subset, entries copied whole)",
+ "tools": {
+  "silex:ap/email.send": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "body": "none",
+    "subject": "none",
+    "to": "core:core-party"
+   }
+  },
+  "silex:ap/erp.get_invoice": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "invoice_id": "core:core-record"
+   }
+  },
+  "silex:ap/erp.get_po": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "po_id": "core:core-commitment"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:ap/payments.execute": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "account_ref": "core:core-account",
+    "amount_usd": "none",
+    "invoice_id": "core:core-record",
+    "payee": "core:core-party",
+    "po_id": "core:core-commitment",
+    "remit_domain": "none"
+   },
+   "reason": "param po_id: core-commitment because an order/PO/scheduled payment is an obligation to deliver or pay (Commitment definition)"
+  },
+  "silex:ap/vendor.lookup": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "vendor_id": "core:core-party"
+   }
+  },
+  "silex:soc/firewall.allowlist_ip": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/firewall.block_ip": {
+   "effects": [
+    "core:core-effect-configuration-change"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/identity.suspend_user": {
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "params": {
+    "user_id": "core:core-account"
+   }
+  },
+  "silex:soc/siem.search": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "alert_id": "core:core-telemetry"
+   },
+   "reason": "param alert_id: core-telemetry because an alert is part of the observed record of events"
+  },
+  "silex:soc/ticket.get": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "ticket_id": "core:core-record"
+   }
+  },
+  "silex:soc/ticket.update": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "note": "none",
+    "status": "none",
+    "ticket_id": "core:core-record"
+   }
+  }
+ }
+}

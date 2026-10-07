@@ -1,0 +1,85 @@
+{
+ "schema": "c-pilot-inventory/1",
+ "envelope": {
+  "agentdojo_package_version": [
+   "string"
+  ],
+  "attack_type": [
+   "null",
+   "string"
+  ],
+  "duration": [
+   "number"
+  ],
+  "error": [
+   "null"
+  ],
+  "evaluation_timestamp": [
+   "string"
+  ],
+  "injection_task_id": [
+   "null",
+   "string"
+  ],
+  "injections": [
+   "object"
+  ],
+  "messages": [
+   "array"
+  ],
+  "pipeline_name": [
+   "string"
+  ],
+  "suite_name": [
+   "string"
+  ],
+  "user_task_id": [
+   "string"
+  ]
+ },
+ "message": {
+  "content": [
+   "array",
+   "null",
+   "string"
+  ],
+  "error": [
+   "boolean",
+   "null"
+  ],
+  "role": [
+   "number",
+   "string"
+  ],
+  "tool_call": [
+   "object"
+  ],
+  "tool_call_id": [
+   "string"
+  ],
+  "tool_calls": [
+   "array",
+   "null"
+  ]
+ },
+ "tool_call": {
+  "args": [
+   "object"
+  ],
+  "function": [
+   "string"
+  ],
+  "id": [
+   "string"
+  ]
+ },
+ "roles": [
+  "assistant",
+  "other",
+  "system",
+  "tool",
+  "user"
+ ],
+ "unlisted_key_exists": false,
+ "all_tool_names_registered": true
+}

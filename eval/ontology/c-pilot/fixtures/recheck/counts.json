@@ -1,0 +1,17 @@
+{
+ "runs": 8,
+ "attacked": 4,
+ "clean": 4,
+ "calls": 6,
+ "call_free_runs": 2,
+ "label_error": 1,
+ "unregistered_tool_calls": {
+  "ap": {},
+  "soc": {
+   "send_unknown": 1
+  }
+ },
+ "envelope_extra_fields": {
+  "fixture_only": 1
+ }
+}
