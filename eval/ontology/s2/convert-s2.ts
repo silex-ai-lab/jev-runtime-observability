@@ -32,26 +32,41 @@ export function validateS2Cohorts(value: unknown): S2Entry[] {
   return entries as S2Entry[];
 }
 
-/** S2_SPEC D7: structural envelope validation before legacy conversion. Rejects a field set outside the AgentDojo run
- *  schema, missing/non-array `messages`, and malformed message/tool-call structures. Call-free and error runs pass. */
+/** A well-formed AgentDyn/AgentDojo tool call: `{function: string, args: object|JSON-string, id?}`. */
+function validateCall(c: unknown): void {
+  if (!c || typeof c !== 'object' || Array.isArray(c)) throw new Error('malformed envelope: tool call must be an object');
+  const fn = (c as { function?: unknown }).function;
+  const name = typeof fn === 'string' ? fn : (fn && typeof fn === 'object' ? (fn as { name?: unknown }).name : undefined);
+  if (typeof name !== 'string' || name.length === 0) throw new Error('malformed envelope: tool call without a function name');
+  let args = (c as { args?: unknown }).args ?? (fn && typeof fn === 'object' ? (fn as { arguments?: unknown }).arguments : undefined);
+  if (typeof args === 'string') { try { args = JSON.parse(args); } catch { throw new Error('malformed envelope: tool-call args are not valid JSON'); } }
+  if (args !== undefined && args !== null && (typeof args !== 'object' || Array.isArray(args))) throw new Error('malformed envelope: tool-call args must be an object');
+}
+
+/** S2_SPEC D7: structural envelope validation before legacy conversion, following the pinned AgentDyn message types
+ *  (types.py). Supported roles only; assistant tool_calls may be absent, null or an array of well-formed calls; only
+ *  assistant messages may carry tool_calls (a non-null list elsewhere fails rather than being silently discarded);
+ *  content may be a string, null or a content-block array. Call-free and error runs pass. */
 export function validateEnvelope(run: unknown): void {
+  const ROLES = new Set(['system', 'user', 'assistant', 'tool']);
   if (!run || typeof run !== 'object' || Array.isArray(run)) throw new Error('malformed envelope: not an object');
   for (const k of Object.keys(run as object)) if (!(ENVELOPE_FIELDS as readonly string[]).includes(k)) throw new Error(`malformed envelope: field outside the AgentDojo run schema: ${k}`);
   const messages = (run as { messages?: unknown }).messages;
   if (!Array.isArray(messages)) throw new Error('malformed envelope: messages must be an array');
   for (const m of messages) {
-    if (!m || typeof m !== 'object' || Array.isArray(m) || typeof (m as { role?: unknown }).role !== 'string') throw new Error('malformed envelope: message must be an object with a string role');
+    if (!m || typeof m !== 'object' || Array.isArray(m)) throw new Error('malformed envelope: message must be an object');
+    const role = (m as { role?: unknown }).role;
+    if (typeof role !== 'string' || !ROLES.has(role)) throw new Error(`malformed envelope: unsupported message role: ${String(role)}`);
+    const content = (m as { content?: unknown }).content;
+    if (content !== undefined && content !== null && typeof content !== 'string' && !Array.isArray(content)) throw new Error('malformed envelope: message content must be a string, null or a content-block array');
     const calls = (m as { tool_calls?: unknown }).tool_calls;
-    if (calls === undefined) continue;
-    if (!Array.isArray(calls)) throw new Error('malformed envelope: tool_calls must be an array');
-    for (const c of calls) {
-      if (!c || typeof c !== 'object' || Array.isArray(c)) throw new Error('malformed envelope: tool call must be an object');
-      const fn = (c as { function?: unknown }).function;
-      const name = typeof fn === 'string' ? fn : (fn && typeof fn === 'object' ? (fn as { name?: unknown }).name : undefined);
-      if (typeof name !== 'string' || name.length === 0) throw new Error('malformed envelope: tool call without a function name');
-      let args = (c as { args?: unknown }).args ?? (fn && typeof fn === 'object' ? (fn as { arguments?: unknown }).arguments : undefined);
-      if (typeof args === 'string') { try { args = JSON.parse(args); } catch { throw new Error('malformed envelope: tool-call args are not valid JSON'); } }
-      if (args !== undefined && args !== null && (typeof args !== 'object' || Array.isArray(args))) throw new Error('malformed envelope: tool-call args must be an object');
+    if (role === 'assistant') {
+      if (calls === undefined || calls === null) continue;
+      if (!Array.isArray(calls)) throw new Error('malformed envelope: assistant tool_calls must be null or an array');
+      for (const c of calls) validateCall(c);
+    } else {
+      if (calls !== undefined && calls !== null) throw new Error(`malformed envelope: only assistant messages may carry tool_calls (role ${role})`);
+      if (role === 'tool') { const id = (m as { tool_call_id?: unknown }).tool_call_id; if (id !== undefined && id !== null && typeof id !== 'string') throw new Error('malformed envelope: tool_call_id must be a string or null'); }
     }
   }
 }
@@ -129,8 +144,8 @@ with tarfile.open(archive) as t:
     if sel is None or rel in sel: chosen.append((rel,m))
   else:
    i=name.find('/runs/')
-   if i>=0:
-    rel=name[i+1:]
+   rel=name[i+1:] if i>=0 else (name if name.startswith('runs/') else None)
+   if rel is not None:
     mm=rx.match(rel)
     if mm and mm.group('pipeline') in pipes and mm.group('suite') in suites: intr.append(name)
  if intr:

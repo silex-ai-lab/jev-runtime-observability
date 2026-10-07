@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { convertS2, convertSelectedRunS2, validateEnvelope, type Binding } from '../../convert-s2.ts';
+import { convertRun } from '../../../runs-convert.ts';
 
 let fails = 0;
 const ok = (n: string, c: boolean, info: unknown = '') => { console.log(`${c ? 'ok  ' : 'FAIL'} ${n} ${info === '' ? '' : JSON.stringify(info)}`); if (!c) fails++; };
@@ -31,11 +32,20 @@ ok('an out-of-subset tool id is an integrity failure', thrown(() => convertSelec
 ok('a no-messages envelope fails', thrown(() => validateEnvelope({ security: true }))?.includes('messages must be an array') === true);
 ok('non-array messages fail', thrown(() => validateEnvelope({ messages: 'x' }))?.includes('messages must be an array') === true);
 ok('a field outside the AgentDojo schema fails', thrown(() => validateEnvelope({ messages: [], extra_field: 1 }))?.includes('outside the AgentDojo run schema') === true);
-ok('a message without a string role fails', thrown(() => validateEnvelope({ messages: [{ content: 'x' }] }))?.includes('string role') === true);
+ok('a bogus role fails', thrown(() => validateEnvelope({ messages: [{ role: 'bogus', content: 'x' }] }))?.includes('unsupported message role: bogus') === true);
+ok('a message without a role fails', thrown(() => validateEnvelope({ messages: [{ content: 'x' }] }))?.includes('unsupported message role') === true);
+ok('a user message carrying tool_calls fails', thrown(() => validateEnvelope({ messages: [{ role: 'user', content: 'x', tool_calls: [{ function: 'f', args: {} }] }] }))?.includes('only assistant messages may carry tool_calls') === true);
 ok('a tool call without a function name fails', thrown(() => validateEnvelope({ messages: [{ role: 'assistant', tool_calls: [{ id: 'c' }] }] }))?.includes('without a function name') === true);
 ok('tool-call args that are not an object fail', thrown(() => validateEnvelope({ messages: [{ role: 'assistant', tool_calls: [{ function: 'x', args: 5 }] }] }))?.includes('args must be an object') === true);
+ok('assistant tool_calls:null is accepted', thrown(() => validateEnvelope({ messages: [{ role: 'assistant', content: null, tool_calls: null }] })) === null);
 ok('a call-free run passes envelope validation', thrown(() => validateEnvelope({ messages: mkMessages([]) })) === null);
 ok('an error run passes envelope validation', thrown(() => validateEnvelope({ messages: mkMessages([]), error: 'boom' })) === null);
+{
+  const nullCalls = { messages: [...mkMessages([]), { role: 'assistant', content: null, tool_calls: null }], error: null, security: true, utility: true, injections: {} };
+  const viaLegacy = convertRun(nullCalls as never, { model: 'p', suite: 'dailylife', user_task: 0, injection_task: 1 } as never);
+  const viaS2 = convertSelectedRunS2(nullCalls, meta, binding);
+  ok('assistant tool_calls:null converts like runs-convert.ts (0 calls)', viaS2.observations.length === 0 && viaS2.observations.length === viaLegacy.observations.length);
+}
 
 // S2 selection: manifest root/regex/cells + optional seal
 const root = mkdtempSync(join(tmpdir(), 's2sel-'));
@@ -48,7 +58,7 @@ const run = (p: string, s: string, attacked: boolean) => ({ suite_name: s, pipel
 const pathRegex = '^runs/(?<pipeline>[^/]+)/(?<suite>[^/]+)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$';
 const expected = Object.fromEntries(pipes.map(p => [p, Object.fromEntries(suites.map(s => [s, { attacked: 1, benign: 1 }]))]));
 const manifest = { source: { root_prefix: ROOTP }, path_regex: pathRegex, pipelines: pipes, suites, expected, total_runs: 8, strata: 4 };
-function stage(extraOtherRoot = false) {
+function stage(extraOtherRoot = false, topLevel = false) {
   const dir = join(root, 'stage'); rmSync(dir, { recursive: true, force: true });
   for (const p of pipes) for (const s of suites) {
     const base = join(dir, 'R', 'runs', p, s, 'user_task_0');
@@ -58,7 +68,9 @@ function stage(extraOtherRoot = false) {
   }
   if (extraOtherRoot) { const b = join(dir, 'S', 'runs', 'p1', 'dailylife', 'user_task_0', 'important_instructions'); mkdirSync(b, { recursive: true });
     writeFileSync(join(b, 'injection_task_0.json'), JSON.stringify(run('p1', 'dailylife', true))); }
-  const tar = join(root, 'sel.tgz'); execFileSync('tar', ['-czf', tar, '-C', dir, ...(extraOtherRoot ? ['R', 'S'] : ['R'])]); return tar;
+  if (topLevel) { const b = join(dir, 'runs', 'p1', 'dailylife', 'user_task_0', 'important_instructions'); mkdirSync(b, { recursive: true });
+    writeFileSync(join(b, 'injection_task_0.json'), JSON.stringify(run('p1', 'dailylife', true))); }
+  const tar = join(root, 'sel.tgz'); execFileSync('tar', ['-czf', tar, '-C', dir, ...['R', ...(extraOtherRoot ? ['S'] : []), ...(topLevel ? ['runs'] : [])]]); return tar;
 }
 try {
   writeFileSync(join(root, 'cohorts.json'), JSON.stringify(pipes.map(p => ({ pipeline: p, attack: 'important_instructions', clean: true, group: 'P', base: p }))));
@@ -70,6 +82,7 @@ try {
   const badManifest = join(root, 'manifest-bad.json'); const m2 = JSON.parse(JSON.stringify(manifest)); m2.expected.p1.dailylife.attacked = 2; writeFileSync(badManifest, JSON.stringify(m2));
   ok('a partial cell fails closed', thrown(() => convertS2(tar, join(root, 'cohorts.json'), badManifest, bind, '', join(root, 'out-bad')))?.includes('cell p1/dailylife') === true);
   ok('a matching path under another root fails closed', thrown(() => convertS2(stage(true), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-intr')))?.includes('archive reader failed') === true);
+  ok('a top-level runs/ path is a root mismatch', thrown(() => convertS2(stage(false, true), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-top')))?.includes('archive reader failed') === true);
   // seal: only sealed paths are parsed; an unsealed manifest-matching run is a membership mismatch
   const tarForSeal = stage();
   execFileSync('node', ['eval/ontology/s2/fetch-s2.ts', '--manifest', join(root, 'manifest.json'), '--tar', tarForSeal, '--out', join(root, 'seal.json')]);
