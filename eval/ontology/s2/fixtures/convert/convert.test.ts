@@ -31,7 +31,7 @@ ok('an out-of-subset tool id is an integrity failure', thrown(() => convertSelec
 // D7 envelope validation
 ok('a no-messages envelope fails', thrown(() => validateEnvelope({ security: true }))?.includes('messages must be an array') === true);
 ok('non-array messages fail', thrown(() => validateEnvelope({ messages: 'x' }))?.includes('messages must be an array') === true);
-ok('a field outside the AgentDojo schema fails', thrown(() => validateEnvelope({ messages: [], extra_field: 1 }))?.includes('outside the AgentDojo run schema') === true);
+ok('a top-level field outside the schema is accepted and returned by name (A-S2-1)', (() => { const e = validateEnvelope({ messages: [], build_constraints: { x: 1 } }); return Array.isArray(e) && e.includes('build_constraints'); })());
 ok('a bogus role fails', thrown(() => validateEnvelope({ messages: [{ role: 'bogus', content: 'x' }] }))?.includes('unsupported message role: bogus') === true);
 ok('a message without a role fails', thrown(() => validateEnvelope({ messages: [{ content: 'x' }] }))?.includes('unsupported message role') === true);
 ok('a user message carrying tool_calls fails', thrown(() => validateEnvelope({ messages: [{ role: 'user', content: 'x', tool_calls: [{ function: 'f', args: {} }] }] }))?.includes('only assistant messages may carry tool_calls') === true);
@@ -46,15 +46,22 @@ ok('an error run passes envelope validation', thrown(() => validateEnvelope({ me
   const viaS2 = convertSelectedRunS2(nullCalls, meta, binding);
   ok('assistant tool_calls:null converts like runs-convert.ts (0 calls)', viaS2.observations.length === 0 && viaS2.observations.length === viaLegacy.observations.length);
 }
+{
+  const withExtra = mk([['send_email', { recipients: 'a@b.com' }]], { build_constraints: { secret: 'ZZ_SENTINEL_BUILD' } });
+  const conv = convertSelectedRunS2(withExtra, meta, binding);
+  const blob = JSON.stringify({ o: conv.observations, l: conv.label, d: conv.d5 });
+  ok('an extra top-level field is accepted and its name returned (A-S2-1)', conv.extraFields.includes('build_constraints'), conv.extraFields);
+  ok('the extra field value never appears in any output', !blob.includes('ZZ_SENTINEL_BUILD'));
+}
 
 // S2 selection: manifest root/regex/cells + optional seal
 const root = mkdtempSync(join(tmpdir(), 's2sel-'));
 const ROOTP = 'R/';
 const suites = ['dailylife', 'github'];
 const pipes = ['p1', 'p2'];
-const run = (p: string, s: string, attacked: boolean) => ({ suite_name: s, pipeline_name: p, user_task_id: 'user_task_0', injection_task_id: attacked ? 'injection_task_0' : null,
+const run = (p: string, s: string, attacked: boolean, extra?: Record<string, unknown>) => ({ suite_name: s, pipeline_name: p, user_task_id: 'user_task_0', injection_task_id: attacked ? 'injection_task_0' : null,
   attack_type: attacked ? 'important_instructions' : null, injections: {}, messages: mkMessages([['send_email', { recipients: 'a@b.com' }]]), error: null,
-  benchmark_version: 'v1.2.2', evaluation_timestamp: 'x', agentdojo_package_version: '0.1.35', utility: true, security: true, duration: 1 });
+  benchmark_version: 'v1.2.2', evaluation_timestamp: 'x', agentdojo_package_version: '0.1.35', utility: true, security: true, duration: 1, ...extra });
 const pathRegex = '^runs/(?<pipeline>[^/]+)/(?<suite>[^/]+)/user_task_(?<user_task>\\d+)/(?:important_instructions/injection_task_(?<injection_task>\\d+)|none/none)\\.json$';
 const expected = Object.fromEntries(pipes.map(p => [p, Object.fromEntries(suites.map(s => [s, { attacked: 1, benign: 1 }]))]));
 const manifest = { source: { root_prefix: ROOTP }, path_regex: pathRegex, pipelines: pipes, suites, expected, total_runs: 8, strata: 4 };
@@ -63,8 +70,9 @@ function stage(extraOtherRoot = false, topLevel = false) {
   for (const p of pipes) for (const s of suites) {
     const base = join(dir, 'R', 'runs', p, s, 'user_task_0');
     mkdirSync(join(base, 'important_instructions'), { recursive: true }); mkdirSync(join(base, 'none'), { recursive: true });
-    writeFileSync(join(base, 'important_instructions', 'injection_task_0.json'), JSON.stringify(run(p, s, true)));
-    writeFileSync(join(base, 'none', 'none.json'), JSON.stringify(run(p, s, false)));
+    const p1extra = p === 'p1' ? { build_constraints: { secret: 'ZZ_SENTINEL_BUILD' } } : undefined;
+    writeFileSync(join(base, 'important_instructions', 'injection_task_0.json'), JSON.stringify(run(p, s, true, p1extra)));
+    writeFileSync(join(base, 'none', 'none.json'), JSON.stringify(run(p, s, false, p1extra)));
   }
   if (extraOtherRoot) { const b = join(dir, 'S', 'runs', 'p1', 'dailylife', 'user_task_0', 'important_instructions'); mkdirSync(b, { recursive: true });
     writeFileSync(join(b, 'injection_task_0.json'), JSON.stringify(run('p1', 'dailylife', true))); }
@@ -79,6 +87,9 @@ try {
   const tar = stage();
   const good = convertS2(tar, join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-good'));
   ok('convertS2 enforces the manifest cells and total', good.runs === 8 && (good.per_cohort_runs as Record<string, number>)['p1/important_instructions'] === 4, good);
+  ok('extra envelope field names are counted per pipeline (A-S2-1)', (good.extra_envelope_fields as Record<string, Record<string, number>>).p1.build_constraints === 4 && !('p2' in (good.extra_envelope_fields as Record<string, unknown>)), good.extra_envelope_fields);
+  const goodOut = ['observations.jsonl', 'labels.jsonl', 'labels-d5.jsonl'].map(f => readFileSync(join(root, 'out-good', f), 'utf8')).join('');
+  ok('the extra field value never appears in the converted outputs', !goodOut.includes('ZZ_SENTINEL_BUILD'));
   const badManifest = join(root, 'manifest-bad.json'); const m2 = JSON.parse(JSON.stringify(manifest)); m2.expected.p1.dailylife.attacked = 2; writeFileSync(badManifest, JSON.stringify(m2));
   ok('a partial cell fails closed', thrown(() => convertS2(tar, join(root, 'cohorts.json'), badManifest, bind, '', join(root, 'out-bad')))?.includes('cell p1/dailylife') === true);
   ok('a matching path under another root fails closed', thrown(() => convertS2(stage(true), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, '', join(root, 'out-intr')))?.includes('archive reader failed') === true);

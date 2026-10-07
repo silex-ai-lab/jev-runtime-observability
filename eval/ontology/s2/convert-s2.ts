@@ -4,8 +4,10 @@
 //              when given, a fetch seal: only sealed paths are parsed, and converted membership plus per-cell
 //              attacked/clean counts must equal the manifest's expected cells and the seal (a matching path under another
 //              root, or a partial cell, fails closed). A structural envelope check runs BEFORE legacy conversion:
-//              missing/non-array `messages`, malformed message/tool-call structures, or any field outside the AgentDojo
-//              run schema fail. Legitimate call-free and error runs, and extra/missing argument keys, are kept. Output is
+//              missing/non-array `messages`, unsupported roles, role-specific tool_calls and malformed structures fail.
+//              Top-level fields outside the AgentDojo run schema (e.g. progent's `build_constraints`) are ignored — their
+//              values are never read — and their NAMES are counted per pipeline in counts.json (amendment A-S2-1).
+//              Legitimate call-free and error runs, and extra/missing argument keys, are kept. Output is
 //              the exact S1 raw observation schema; labels add group/base; labels-pr is the frozen label-only
 //              `injectionOverlap`; labels-d5 is label-side. A tool id outside the sealed binding subset is an integrity
 //              failure.
@@ -43,14 +45,16 @@ function validateCall(c: unknown): void {
   if (args !== undefined && args !== null && (typeof args !== 'object' || Array.isArray(args))) throw new Error('malformed envelope: tool-call args must be an object');
 }
 
-/** S2_SPEC D7: structural envelope validation before legacy conversion, following the pinned AgentDyn message types
- *  (types.py). Supported roles only; assistant tool_calls may be absent, null or an array of well-formed calls; only
- *  assistant messages may carry tool_calls (a non-null list elsewhere fails rather than being silently discarded);
- *  content may be a string, null or a content-block array. Call-free and error runs pass. */
-export function validateEnvelope(run: unknown): void {
+/** S2_SPEC D7 (+ amendment A-S2-1): structural envelope validation before legacy conversion, following the pinned
+ *  AgentDyn message types (types.py). Supported roles only; assistant tool_calls may be absent, null or an array of
+ *  well-formed calls; only assistant messages may carry tool_calls (a non-null list elsewhere fails rather than being
+ *  silently discarded); content may be a string, null or a content-block array. Call-free and error runs pass.
+ *  Top-level fields outside the AgentDojo run schema are NOT failures (e.g. progent's `build_constraints`): they are
+ *  ignored — their values are never read — and their NAMES are returned so the caller can count them per pipeline. */
+export function validateEnvelope(run: unknown): string[] {
   const ROLES = new Set(['system', 'user', 'assistant', 'tool']);
   if (!run || typeof run !== 'object' || Array.isArray(run)) throw new Error('malformed envelope: not an object');
-  for (const k of Object.keys(run as object)) if (!(ENVELOPE_FIELDS as readonly string[]).includes(k)) throw new Error(`malformed envelope: field outside the AgentDojo run schema: ${k}`);
+  const extras = Object.keys(run as object).filter(k => !(ENVELOPE_FIELDS as readonly string[]).includes(k));
   const messages = (run as { messages?: unknown }).messages;
   if (!Array.isArray(messages)) throw new Error('malformed envelope: messages must be an array');
   for (const m of messages) {
@@ -69,6 +73,7 @@ export function validateEnvelope(run: unknown): void {
       if (role === 'tool') { const id = (m as { tool_call_id?: unknown }).tool_call_id; if (id !== undefined && id !== null && typeof id !== 'string') throw new Error('malformed envelope: tool_call_id must be a string or null'); }
     }
   }
+  return extras;
 }
 
 /** S2 selection: AgentDyn suites; mirrors runs-convert.ts selectedCohort but with the S2 suite set and group/base. */
@@ -83,7 +88,7 @@ export function selectedCohortS2(path: string, entries: S2Entry[]): S2Meta | nul
 }
 
 export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding) {
-  validateEnvelope(run);
+  const extraFields = validateEnvelope(run);
   const converted = convertRun(run, { model: meta.pipeline, suite: meta.suite, user_task: meta.user_task, injection_task: meta.injection_task } as never);
   const run_id = `${meta.pipeline}/${meta.attack ?? 'none'}/${meta.suite}/user_task_${meta.user_task}/${meta.injection_task == null ? 'none' : `injection_task_${meta.injection_task}`}`;
   const observations = converted.observations.map((o: any, i: number) => {
@@ -94,7 +99,7 @@ export function convertSelectedRunS2(run: any, meta: S2Meta, binding: Binding) {
   const label = { ...converted.label, run_id, pipeline: meta.pipeline, attack: meta.attack, cohort: meta.cohort, group: meta.group, base: meta.base };
   const d5 = { run_id, error_present: run.error != null, utility: typeof run.utility === 'boolean' ? run.utility : null,
     security: typeof run.security === 'boolean' ? run.security : null };
-  return { observations, label, d5 };
+  return { observations, label, d5, extraFields };
 }
 
 const jl = (rows: any[]): string => rows.map(r => JSON.stringify(r)).join('\n') + '\n';
@@ -180,6 +185,7 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
   const observations: any[] = [], labels: any[] = [], overlaps: any[] = [], d5: any[] = [], seen = new Set<string>();
   const per_cohort_runs = Object.fromEntries(entries.map(e => [`${e.pipeline}/${e.attack}`, 0]));
   const cell: Record<string, Record<string, { attacked: number; benign: number }>> = {};
+  const extraEnvelopeFields: Record<string, Record<string, number>> = {};
   for (const line of lines) {
     const row = JSON.parse(line);
     if (row.error) throw new Error(`cohort parse failure: ${row.path}: ${row.error}`);
@@ -194,6 +200,7 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
     d5.push(converted.d5); per_cohort_runs[meta.cohort]++;
     const c = ((cell[meta.pipeline] ??= {})[meta.suite] ??= { attacked: 0, benign: 0 });
     c[converted.label.attacked ? 'attacked' : 'benign']++;
+    for (const f of converted.extraFields) { const m = (extraEnvelopeFields[meta.pipeline] ??= {}); m[f] = (m[f] ?? 0) + 1; }   // A-S2-1: names only, never values
   }
   // membership and per-cell counts must equal the manifest expected cells and, when given, the seal.
   for (const p of manifest.pipelines) for (const s of manifest.suites) {
@@ -208,7 +215,7 @@ export function convertS2(archive: string, cohortsFile: string, manifestPath: st
   if (labels.length !== manifest.total_runs) throw new Error(`total runs ${labels.length} != manifest ${manifest.total_runs}`);
   if (seal && labels.length !== seal.total) throw new Error(`total runs ${labels.length} != seal ${seal.total}`);
   const counts = { runs: labels.length, calls: observations.length, parse_failures: 0,
-    pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs };
+    pooled_positives: labels.filter(l => l.attacked && l.security === true).length, per_cohort_runs, extra_envelope_fields: extraEnvelopeFields };
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, 'observations.jsonl'), jl(observations));
   writeFileSync(join(out, 'labels.jsonl'), jl(labels));
