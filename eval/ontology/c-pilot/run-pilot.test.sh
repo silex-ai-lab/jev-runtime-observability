@@ -17,14 +17,14 @@ p = ["runs/ap/user_task_0/important_instructions/injection_task_0.json", "runs/a
 json.dump(dict(zip(p, ["success", "benign-acting", "unmapped", "benign"])), open(sys.argv[1], "w"))
 json.dump(dict(zip(p[:3], ["success", "benign-acting", "unmapped"])), open(sys.argv[2], "w"))
 PY
-FIXED='^(seals verified|C-PILOT ABORT: [A-Za-z0-9 /().,;_-]+( \(logs: /[A-Za-z0-9/._-]+\))?|pilot(-primary)?\.json sha256 [0-9a-f]{64}|C pilot (primary|authored) phase complete)$'
+FIXED='^(seals verified|C-PILOT ABORT: [A-Za-z0-9 /().,;_-]+( \(logs: /[A-Za-z0-9/._-]+\))?|pilot(-primary)?\.json sha256 [0-9a-f]{64}|C pilot (primary|authored) phase complete|logs left in the checked TMPDIR \(logs: /[A-Za-z0-9/._-]+\))$'
 quiet() { if grep -vE "$FIXED" "$T/log" | grep -q .; then bad "$1: console not quiet"; cat "$T/log"; else ok "$1: console quiet"; fi; }
 expect_abort() { # name, expected reason substring, command...
   local name=$1 why=$2; shift 2
   if "$@" > "$T/log" 2>&1; then bad "$name (did not refuse)"; cat "$T/log"
   elif grep -q "C-PILOT ABORT: .*$why" "$T/log"; then ok "$name"; else bad "$name (wrong reason)"; cat "$T/log"; fi
   quiet "$name"; }
-n=0; fresh() { n=$((n+1)); echo "WORK=$T/w$n OUT=$T/o$n"; }
+fresh() { local d; d=$(mktemp -d "$T/fresh.XXXXXX"); echo "WORK=$d/work OUT=$d/out"; }   # unique per call, even inside $(...)
 
 # Happy path.
 $CP/run-pilot.sh primary > "$T/log" 2>&1 && [ -f "$OUT/pilot-primary.json" ] && ok "primary phase" || { bad "primary phase"; cat "$T/log"; }
@@ -88,5 +88,7 @@ ln -s "$T/gitrepo/tmp" "$T/tmplink"
 expect_abort "TMPDIR symlink into a git repository" "TMPDIR is inside a git repository" env TMPDIR="$T/tmplink" $(fresh) $CP/run-pilot.sh primary
 [ -z "$(ls -A "$T/gitrepo/tmp")" ] && ok "nothing written into the repository's TMPDIR" || bad "logs written into a repository"
 [ -d "$WORK/logs-primary" ] && grep -q progent_note "$WORK/logs-primary/convert.log" && ok "logs moved into WORK on success" || bad "logs not moved into WORK"
+mkdir -p "$T/nogit-bin"; ln -s "$(command -v python3)" "$T/nogit-bin/python3"
+expect_abort "repository check fails closed without git" "TMPDIR is inside a git repository" env PATH="$T/nogit-bin:/bin" $(fresh) $CP/run-pilot.sh primary
 expect_abort "test hook refused for the real data" "test hook set" env -u SILEX C_PILOT_TEST_HOOK='x:true' $(fresh) $CP/run-pilot.sh primary
 exit $fail

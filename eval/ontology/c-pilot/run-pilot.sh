@@ -16,7 +16,15 @@
 set -euo pipefail
 exec 3>&2
 real() { python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$1"; }
-in_repo() { local d; d=$(real "$1"); while [ ! -d "$d" ]; do d=$(dirname "$d"); done; (cd "$d" && git rev-parse --is-inside-work-tree >/dev/null 2>&1); }
+# in_repo: true if the resolved path is inside a git work tree or git directory. Fails closed: only git's own "not a git
+# repository" answer counts as outside. git runs with a clean environment (no TMPDIR, so tool caches never land in the
+# directory under test; no caller GIT_* overrides) and safe.directory=* (ownership checks cannot fail open).
+in_repo() {
+  local d err; d=$(real "$1"); while [ ! -d "$d" ]; do d=$(dirname "$d"); done
+  if err=$(cd / && env -u TMPDIR -u GIT_DIR -u GIT_WORK_TREE -u GIT_CEILING_DIRECTORIES -u GIT_DISCOVERY_ACROSS_FILESYSTEM \
+      git -c safe.directory='*' -C "$d" rev-parse --git-dir 2>&1 >/dev/null); then return 0; fi
+  case "$err" in *"not a git repository"*) return 1 ;; *) return 0 ;; esac
+}
 # The private log directory: its resolved parent must be outside every repository before anything is written there.
 LOGROOT=$(real "${TMPDIR:-/tmp}" 2>/dev/null) && [ -d "$LOGROOT" ] || { echo "C-PILOT ABORT: no usable TMPDIR for logs" >&3; exit 1; }
 if in_repo "$LOGROOT" 2>/dev/null; then echo "C-PILOT ABORT: TMPDIR is inside a git repository" >&3; exit 1; fi
@@ -128,7 +136,7 @@ case "$PHASE" in
     absent "$OUT/pilot-primary.json" && absent "$OUT/pilot.json" || die "OUT already holds results"
     publish "$WORK/pilot.json" "$OUT/pilot-primary.json"
     say "pilot-primary.json sha256 $(shasum -a 256 "$OUT/pilot-primary.json" | cut -d' ' -f1)"
-    mv "$LOG" "$WORK/logs-primary" 2>/dev/null && LOG="$WORK/logs-primary"
+    if mv "$LOG" "$WORK/logs-primary"; then LOG="$WORK/logs-primary"; else say "logs left in the checked TMPDIR (logs: $LOG)"; fi
     say "C pilot primary phase complete" ;;
   authored)
     [ -n "${MANIFEST_LABELS:-}" ] || die "MANIFEST_LABELS is required"
@@ -146,7 +154,7 @@ case "$PHASE" in
     absent "$OUT/pilot.json" || die "OUT already holds the authored results"
     publish "$WORK/pilot-authored.json" "$OUT/pilot.json"
     say "pilot.json sha256 $(shasum -a 256 "$OUT/pilot.json" | cut -d' ' -f1)"
-    mv "$LOG" "$WORK/logs-authored" 2>/dev/null && LOG="$WORK/logs-authored"
+    if mv "$LOG" "$WORK/logs-authored"; then LOG="$WORK/logs-authored"; else say "logs left in the checked TMPDIR (logs: $LOG)"; fi
     say "C pilot authored phase complete" ;;
   *) die "phase must be primary or authored" ;;
 esac
