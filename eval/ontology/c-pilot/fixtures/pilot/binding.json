@@ -1,0 +1,98 @@
+{
+ "version": 2,
+ "source": "synthetic for the C pilot unit fixture (11 Silex names)",
+ "tools": {
+  "silex:ap/email.send": {
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": {
+    "to": "core:core-party",
+    "body": "none"
+   }
+  },
+  "silex:ap/erp.get_invoice": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "invoice_id": "core:core-record"
+   }
+  },
+  "silex:ap/erp.get_po": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "po_id": "core:core-record"
+   }
+  },
+  "silex:ap/payments.execute": {
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": {
+    "payee": "core:core-party",
+    "amount_usd": "none"
+   }
+  },
+  "silex:ap/vendor.lookup": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "vendor_id": "core:core-party"
+   }
+  },
+  "silex:soc/firewall.allowlist_ip": {
+   "effects": [
+    "syn:effect-layer-two"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/firewall.block_ip": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "ip": "none"
+   }
+  },
+  "silex:soc/identity.suspend_user": {
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "params": {
+    "user_id": "core:core-account"
+   }
+  },
+  "silex:soc/siem.search": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "alert_id": "core:core-record"
+   }
+  },
+  "silex:soc/ticket.get": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "ticket_id": "core:core-record"
+   }
+  },
+  "silex:soc/ticket.update": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "ticket_id": "core:core-record",
+    "status": "none"
+   }
+  }
+ }
+}

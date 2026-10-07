@@ -1,0 +1,46 @@
+{
+ "nodes": [
+  {
+   "id": "core:core-effect-data-read",
+   "kind": "effect",
+   "layer": 1
+  },
+  {
+   "id": "core:core-effect-data-write",
+   "kind": "effect",
+   "layer": 1
+  },
+  {
+   "id": "extension:effect-other",
+   "kind": "effect",
+   "layer": 2
+  },
+  {
+   "id": "core:record",
+   "kind": "core",
+   "layer": 1
+  },
+  {
+   "id": "entity:record",
+   "kind": "entity",
+   "layer": 2
+  },
+  {
+   "id": "hazard:record",
+   "kind": "hazard",
+   "layer": 2
+  }
+ ],
+ "links": [
+  {
+   "s": "entity:record",
+   "t": "core:record",
+   "pred": "SUBCLASS_OF"
+  },
+  {
+   "s": "hazard:record",
+   "t": "entity:record",
+   "pred": "HAZARD_FOR"
+  }
+ ]
+}

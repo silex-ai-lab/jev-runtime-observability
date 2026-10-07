@@ -1,0 +1,15 @@
+{
+ "runs": 12,
+ "attacked": 7,
+ "clean": 5,
+ "calls": 11,
+ "call_free_runs": 1,
+ "label_error": 1,
+ "unregistered_tool_calls": {
+  "ap": {
+   "crm.create_lead": 1
+  },
+  "soc": {}
+ },
+ "envelope_extra_fields": {}
+}

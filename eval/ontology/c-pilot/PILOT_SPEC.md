@@ -46,7 +46,8 @@ Suites, in this order everywhere: `ap`, `soc`.
    non-zero with no observations or labels.
 9. **Outputs** (to the local scratch directory only): `observations.jsonl`, `labels.jsonl`, `counts.json`
    (`{runs, attacked, clean, calls, call_free_runs, label_error, unregistered_tool_calls: {ap: {<name>: n}, soc: {…}},
-   envelope_extra_fields: {<name>: n}}`). JSONL is written row by row (A-S2-4 writer).
+   envelope_extra_fields: {<name>: n}}`). Both suite keys of `unregistered_tool_calls` are always present (`{}` when a
+   suite has none); `envelope_extra_fields` is `{}` when there are none. JSONL is written row by row (A-S2-4 writer).
 
 Sanitization: `node eval/ontology/s2/sanitize-s2.ts` on `observations.jsonl`, unchanged.
 

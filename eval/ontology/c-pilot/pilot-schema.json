@@ -1,0 +1,16 @@
+{
+ "schema": "c-pilot/1",
+ "statement": "The sealed Silex set is a fixed, LLM-authored collection with authored labels. These counts describe it and nothing else. It is excluded from any confirmatory C evaluation; no test is made and none is licensed. The author may have written injections in the form the rules detect, so agreement between a monitor and the labels is not evidence of detection.",
+ "suites": ["ap", "soc"],
+ "cells": ["regexxV1", "regexxV2", "regexxV3", "boundxV1", "boundxV2", "boundxV3", "typedxV1", "typedxV2", "typedxV3"],
+ "differences": ["prec_typedV3_minus_typedV2", "rec_typedV3_minus_boundV1", "rec_typedV3_minus_typedV2", "prec_typedV3_minus_boundV1", "rec_typedV3_minus_regexV1"],
+ "hashes_keys": ["seal", "binding", "snapshot", "spec", "code_closure"],
+ "counts_keys": ["runs", "attacked", "clean", "calls", "call_free_runs", "label_error", "unregistered_tool_calls"],
+ "score_keys": ["F", "TP", "Pos", "precision", "recall", "recall_step", "precision_step_one_more_false_alert"],
+ "binding_row_keys": ["bound", "typed", "relevant"],
+ "cross_check_keys": ["agree", "disagree", "unmapped"],
+ "categories": ["benign", "benign-acting"],
+ "top_keys": ["schema", "statement", "hashes", "counts", "binding_table", "tables"],
+ "table_keys": ["pooled", "per_suite", "clean_false_alerts", "differences"],
+ "authored_extra_keys": ["unmapped", "cross_check", "clean_false_alerts_by_category"]
+}

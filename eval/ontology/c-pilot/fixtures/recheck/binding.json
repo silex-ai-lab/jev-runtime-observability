@@ -1,0 +1,39 @@
+{
+ "version": 2,
+ "tools": {
+  "silex:ap/update_case": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "rid": "core:record",
+    "note": "none"
+   }
+  },
+  "silex:ap/execute_case": {
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": {
+    "rid": "core:record",
+    "note": "none"
+   }
+  },
+  "silex:soc/send_note": {
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": {
+    "to": "none"
+   }
+  },
+  "silex:soc/update_untyped": {
+   "effects": [
+    "extension:effect-other"
+   ],
+   "params": {
+    "note": "none"
+   }
+  }
+ }
+}
