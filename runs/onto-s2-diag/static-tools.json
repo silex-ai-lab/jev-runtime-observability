@@ -1,0 +1,1706 @@
+{
+ "binding": "eval/ontology/s2/binding-agentdyn.json",
+ "impact_write_regex": "/(send|update|schedule|add|delete|create|remove|post|transfer|reset|rename|modify|revoke|block|grant|set|remove|rename|delete|unsubscribe|subscribe|share|write|insert|append)/i",
+ "snapshot": "eval/ontology/v2/frozen/snapshot.json",
+ "summary": {
+  "legend": "r{regex_write}b{bound_write}t{typed_eligible}: tool count in that 2x2x2 cell; all 8 keys are present (0 when empty)",
+  "per_suite": {
+   "dailylife": {
+    "r0b0t0": 9,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 9,
+    "r1b0t0": 0,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 9
+   },
+   "github": {
+    "r0b0t0": 10,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 14,
+    "r1b0t0": 0,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 10
+   },
+   "shopping": {
+    "r0b0t0": 15,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 12,
+    "r1b0t0": 0,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 12
+   }
+  },
+  "total": {
+   "r0b0t0": 34,
+   "r0b0t1": 0,
+   "r0b1t0": 0,
+   "r0b1t1": 35,
+   "r1b0t0": 0,
+   "r1b0t1": 0,
+   "r1b1t0": 0,
+   "r1b1t1": 31
+  }
+ },
+ "tools": [
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "participants"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id",
+    "participants"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/add_calendar_event_participants",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/browse_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/cancel_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/copy_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "description",
+    "end_time",
+    "location",
+    "participants",
+    "start_time",
+    "title"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "participants"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/create_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/create_dir",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/create_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "email_id"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "email_id"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/delete_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/delete_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "file_id",
+    "save_dir"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "file_id",
+    "save_dir"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/download_file_through_id",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "save_dir",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "save_dir",
+    "url"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/download_file_through_url",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_balance",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_current_day",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "day"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_day_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_received_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_sent_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/get_unread_emails",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "input_ids",
+    "input_values",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/input_to_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/list_directory",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/move_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/read_file",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "new_end_time",
+    "new_start_time"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/reschedule_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "date",
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/search_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "query",
+    "sender"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "sender"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/search_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": [
+    "attachments",
+    "bcc",
+    "body",
+    "cc",
+    "recipients",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bcc",
+    "cc",
+    "recipients"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/send_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": [
+    "amount",
+    "date",
+    "recipient",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "recipient"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/send_money",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": [
+    "otp"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "otp"
+   ],
+   "suite": "dailylife",
+   "tool_id": "agentdyn:dailylife/verify_transaction",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/browse_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/copy_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/create_dir",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/create_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/delete_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "file_id",
+    "save_dir"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "file_id",
+    "save_dir"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/download_file_through_id",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "save_dir",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "save_dir",
+    "url"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/download_file_through_url",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "email",
+    "username"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "email"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_github_account_user_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_github_linked_unread_emails",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_github_repository_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_logged_in_github_user_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_received_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "github",
+   "tool_id": "agentdyn:github/get_sent_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "ssh_key"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "ssh_key"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_add_ssh_key",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "local_dir_path",
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "local_dir_path",
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_clone",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "repo_name"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_create_repo",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "repo_name"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_delete_repo",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "ssh_key"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "ssh_key"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_delete_ssh_key",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_get_linked_ssh_keys",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "collaborator_email",
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "collaborator_email",
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_invite_collaborators",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "comment_body",
+    "repo_name",
+    "title"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_issue",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "local_path",
+    "overwrite_local",
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "local_path",
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_pull",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "force",
+    "local_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "local_path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_push",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_star",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant",
+    "core:core-effect-authority-removal",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "new_owner_email",
+    "new_owner_username",
+    "repo_name"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "new_owner_email",
+    "new_owner_username",
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_transfer_repo_ownership",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "repo_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "repo_name"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/git_unstar",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "inputs",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/input_to_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/list_directory",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [
+    "password",
+    "username"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "password",
+    "username"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/login_github_account",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/move_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/read_file",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": [
+    "attachments",
+    "bcc",
+    "body",
+    "cc",
+    "recipients",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bcc",
+    "cc",
+    "recipients"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/send_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "password"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "password"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/update_github_account_password",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [
+    "otp"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "otp"
+   ],
+   "suite": "github",
+   "tool_id": "agentdyn:github/verify_github_account",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "participants"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id",
+    "participants"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/add_calendar_event_participants",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/browse_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/cancel_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "product_id",
+    "quantity"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "product_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/cart_add_product",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "product_id"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "product_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/cart_remove_product",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/cart_total",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": [
+    "discount_code",
+    "product_ids"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "discount_code",
+    "product_ids"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/checkout_selected_cart",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/clear_cart",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/copy_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "description",
+    "end_time",
+    "location",
+    "participants",
+    "start_time",
+    "title"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "participants"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/create_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/create_dir",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/create_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/delete_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "file_id",
+    "save_dir"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "file_id",
+    "save_dir"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/download_file_through_id",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "save_dir",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "save_dir",
+    "url"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/download_file_through_url",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_balance",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_current_day",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "day"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_day_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "order_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "order_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_invoice",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_shopping_account_user_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_shopping_linked_received_emails",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/get_shopping_linked_unread_emails",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "input_ids",
+    "input_values",
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/input_to_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/list_directory",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [
+    "password",
+    "username"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "password",
+    "username"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/login_shopping_account",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "destination_path",
+    "source_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "destination_path",
+    "source_path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/move_node",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "path"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/read_file",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": [
+    "order_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "order_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/refund_order",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure",
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "new_end_time",
+    "new_start_time"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/reschedule_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "date",
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/search_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "brand",
+    "category",
+    "price",
+    "price_max",
+    "price_min",
+    "product_id",
+    "product_name",
+    "rating_max",
+    "rating_min"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "product_id"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/search_product",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-disclosure"
+   ],
+   "params": [
+    "attachments",
+    "bcc",
+    "body",
+    "cc",
+    "recipients",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bcc",
+    "cc",
+    "recipients"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/send_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": [
+    "amount",
+    "date",
+    "recipient",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "recipient"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/send_money",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "password"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "password"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/update_shopping_account_password",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "address",
+    "bank_account_number",
+    "email",
+    "first_name",
+    "id_number",
+    "last_name",
+    "passport_number",
+    "phone_number"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bank_account_number",
+    "email",
+    "id_number",
+    "passport_number"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/update_shopping_account_user_info",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [],
+   "params": [
+    "otp"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "otp"
+   ],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/verify_shopping_account",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/view_available_discounts",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/view_cart",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "shopping",
+   "tool_id": "agentdyn:shopping/view_order_history",
+   "typed_eligible": false
+  }
+ ]
+}
