@@ -1,0 +1,753 @@
+{
+ "reference": {
+  "P": {
+   "pooled": {
+    "s1": {
+     "F": 2270,
+     "TP": 698,
+     "Pos": 707
+    },
+    "prov": {
+     "F": 1669,
+     "TP": 602,
+     "Pos": 707
+    }
+   },
+   "per_base": {
+    "google_gemini-2.5-flash": {
+     "s1": {
+      "F": 173,
+      "TP": 79,
+      "Pos": 79
+     },
+     "prov": {
+      "F": 115,
+      "TP": 60,
+      "Pos": 79
+     }
+    },
+    "google_gemini-2.5-pro": {
+     "s1": {
+      "F": 507,
+      "TP": 121,
+      "Pos": 122
+     },
+     "prov": {
+      "F": 357,
+      "TP": 103,
+      "Pos": 122
+     }
+    },
+    "gpt-4o-2024-08-06": {
+     "s1": {
+      "F": 511,
+      "TP": 215,
+      "Pos": 218
+     },
+     "prov": {
+      "F": 382,
+      "TP": 191,
+      "Pos": 218
+     }
+    },
+    "gpt-4o-mini-2024-07-18": {
+     "s1": {
+      "F": 551,
+      "TP": 282,
+      "Pos": 286
+     },
+     "prov": {
+      "F": 449,
+      "TP": 247,
+      "Pos": 286
+     }
+    },
+    "gpt-5-mini-2025-08-07": {
+     "s1": {
+      "F": 528,
+      "TP": 1,
+      "Pos": 2
+     },
+     "prov": {
+      "F": 366,
+      "TP": 1,
+      "Pos": 2
+     }
+    }
+   },
+   "tiers": {
+    "irreversible": {
+     "s1": {
+      "F": 1823,
+      "TP": 638,
+      "Pos": 644
+     },
+     "prov": {
+      "F": 1523,
+      "TP": 575,
+      "Pos": 644
+     }
+    },
+    "other": {
+     "s1": {
+      "F": 447,
+      "TP": 60,
+      "Pos": 63
+     },
+     "prov": {
+      "F": 146,
+      "TP": 27,
+      "Pos": 63
+     }
+    }
+   },
+   "b_prov_bound": {
+    "prov": {
+     "F": 2295,
+     "TP": 700,
+     "Pos": 707
+    }
+   }
+  },
+  "X1": {
+   "pooled": {
+    "s1": {
+     "F": 11792,
+     "TP": 2049,
+     "Pos": 2092
+    },
+    "prov": {
+     "F": 8042,
+     "TP": 1735,
+     "Pos": 2092
+    }
+   },
+   "per_panel": {
+    "google_gemini-2.5-flash-drift": {
+     "s1": {
+      "F": 261,
+      "TP": 15,
+      "Pos": 16
+     },
+     "prov": {
+      "F": 146,
+      "TP": 10,
+      "Pos": 16
+     }
+    },
+    "google_gemini-2.5-flash-piguard_detector": {
+     "s1": {
+      "F": 71,
+      "TP": 12,
+      "Pos": 12
+     },
+     "prov": {
+      "F": 40,
+      "TP": 12,
+      "Pos": 12
+     }
+    },
+    "google_gemini-2.5-flash-progent": {
+     "s1": {
+      "F": 139,
+      "TP": 12,
+      "Pos": 13
+     },
+     "prov": {
+      "F": 81,
+      "TP": 6,
+      "Pos": 13
+     }
+    },
+    "google_gemini-2.5-flash-prompt_guard_2_detector": {
+     "s1": {
+      "F": 246,
+      "TP": 140,
+      "Pos": 141
+     },
+     "prov": {
+      "F": 182,
+      "TP": 119,
+      "Pos": 141
+     }
+    },
+    "google_gemini-2.5-flash-repeat_user_prompt": {
+     "s1": {
+      "F": 196,
+      "TP": 104,
+      "Pos": 105
+     },
+     "prov": {
+      "F": 145,
+      "TP": 82,
+      "Pos": 105
+     }
+    },
+    "google_gemini-2.5-flash-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 199,
+      "TP": 103,
+      "Pos": 103
+     },
+     "prov": {
+      "F": 143,
+      "TP": 87,
+      "Pos": 103
+     }
+    },
+    "google_gemini-2.5-flash-tool_filter": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "google_gemini-2.5-flash-transformers_pi_detector": {
+     "s1": {
+      "F": 11,
+      "TP": 6,
+      "Pos": 6
+     },
+     "prov": {
+      "F": 8,
+      "TP": 5,
+      "Pos": 6
+     }
+    },
+    "google_gemini-2.5-pro-drift": {
+     "s1": {
+      "F": 450,
+      "TP": 5,
+      "Pos": 6
+     },
+     "prov": {
+      "F": 264,
+      "TP": 2,
+      "Pos": 6
+     }
+    },
+    "google_gemini-2.5-pro-piguard_detector": {
+     "s1": {
+      "F": 140,
+      "TP": 11,
+      "Pos": 11
+     },
+     "prov": {
+      "F": 79,
+      "TP": 11,
+      "Pos": 11
+     }
+    },
+    "google_gemini-2.5-pro-progent": {
+     "s1": {
+      "F": 402,
+      "TP": 7,
+      "Pos": 9
+     },
+     "prov": {
+      "F": 255,
+      "TP": 6,
+      "Pos": 9
+     }
+    },
+    "google_gemini-2.5-pro-prompt_guard_2_detector": {
+     "s1": {
+      "F": 320,
+      "TP": 85,
+      "Pos": 85
+     },
+     "prov": {
+      "F": 234,
+      "TP": 74,
+      "Pos": 85
+     }
+    },
+    "google_gemini-2.5-pro-repeat_user_prompt": {
+     "s1": {
+      "F": 492,
+      "TP": 135,
+      "Pos": 136
+     },
+     "prov": {
+      "F": 356,
+      "TP": 110,
+      "Pos": 136
+     }
+    },
+    "google_gemini-2.5-pro-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 511,
+      "TP": 94,
+      "Pos": 96
+     },
+     "prov": {
+      "F": 369,
+      "TP": 78,
+      "Pos": 96
+     }
+    },
+    "google_gemini-2.5-pro-tool_filter": {
+     "s1": {
+      "F": 13,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 18,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "google_gemini-2.5-pro-transformers_pi_detector": {
+     "s1": {
+      "F": 38,
+      "TP": 4,
+      "Pos": 4
+     },
+     "prov": {
+      "F": 31,
+      "TP": 3,
+      "Pos": 4
+     }
+    },
+    "gpt-4o-2024-08-06-drift": {
+     "s1": {
+      "F": 451,
+      "TP": 5,
+      "Pos": 5
+     },
+     "prov": {
+      "F": 288,
+      "TP": 0,
+      "Pos": 5
+     }
+    },
+    "gpt-4o-2024-08-06-piguard_detector": {
+     "s1": {
+      "F": 125,
+      "TP": 10,
+      "Pos": 10
+     },
+     "prov": {
+      "F": 82,
+      "TP": 10,
+      "Pos": 10
+     }
+    },
+    "gpt-4o-2024-08-06-progent": {
+     "s1": {
+      "F": 400,
+      "TP": 10,
+      "Pos": 10
+     },
+     "prov": {
+      "F": 242,
+      "TP": 9,
+      "Pos": 10
+     }
+    },
+    "gpt-4o-2024-08-06-prompt_guard_2_detector": {
+     "s1": {
+      "F": 375,
+      "TP": 158,
+      "Pos": 159
+     },
+     "prov": {
+      "F": 274,
+      "TP": 134,
+      "Pos": 159
+     }
+    },
+    "gpt-4o-2024-08-06-repeat_user_prompt": {
+     "s1": {
+      "F": 522,
+      "TP": 178,
+      "Pos": 180
+     },
+     "prov": {
+      "F": 382,
+      "TP": 157,
+      "Pos": 180
+     }
+    },
+    "gpt-4o-2024-08-06-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 493,
+      "TP": 155,
+      "Pos": 157
+     },
+     "prov": {
+      "F": 353,
+      "TP": 134,
+      "Pos": 157
+     }
+    },
+    "gpt-4o-2024-08-06-tool_filter": {
+     "s1": {
+      "F": 354,
+      "TP": 23,
+      "Pos": 25
+     },
+     "prov": {
+      "F": 209,
+      "TP": 15,
+      "Pos": 25
+     }
+    },
+    "gpt-4o-2024-08-06-transformers_pi_detector": {
+     "s1": {
+      "F": 37,
+      "TP": 5,
+      "Pos": 5
+     },
+     "prov": {
+      "F": 31,
+      "TP": 4,
+      "Pos": 5
+     }
+    },
+    "gpt-4o-mini-2024-07-18-drift": {
+     "s1": {
+      "F": 444,
+      "TP": 19,
+      "Pos": 20
+     },
+     "prov": {
+      "F": 218,
+      "TP": 8,
+      "Pos": 20
+     }
+    },
+    "gpt-4o-mini-2024-07-18-piguard_detector": {
+     "s1": {
+      "F": 292,
+      "TP": 8,
+      "Pos": 8
+     },
+     "prov": {
+      "F": 222,
+      "TP": 8,
+      "Pos": 8
+     }
+    },
+    "gpt-4o-mini-2024-07-18-progent": {
+     "s1": {
+      "F": 482,
+      "TP": 58,
+      "Pos": 60
+     },
+     "prov": {
+      "F": 369,
+      "TP": 51,
+      "Pos": 60
+     }
+    },
+    "gpt-4o-mini-2024-07-18-prompt_guard_2_detector": {
+     "s1": {
+      "F": 456,
+      "TP": 197,
+      "Pos": 199
+     },
+     "prov": {
+      "F": 372,
+      "TP": 178,
+      "Pos": 199
+     }
+    },
+    "gpt-4o-mini-2024-07-18-repeat_user_prompt": {
+     "s1": {
+      "F": 499,
+      "TP": 181,
+      "Pos": 195
+     },
+     "prov": {
+      "F": 387,
+      "TP": 156,
+      "Pos": 195
+     }
+    },
+    "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 551,
+      "TP": 266,
+      "Pos": 270
+     },
+     "prov": {
+      "F": 446,
+      "TP": 233,
+      "Pos": 270
+     }
+    },
+    "gpt-4o-mini-2024-07-18-tool_filter": {
+     "s1": {
+      "F": 372,
+      "TP": 32,
+      "Pos": 33
+     },
+     "prov": {
+      "F": 203,
+      "TP": 24,
+      "Pos": 33
+     }
+    },
+    "gpt-4o-mini-2024-07-18-transformers_pi_detector": {
+     "s1": {
+      "F": 101,
+      "TP": 8,
+      "Pos": 8
+     },
+     "prov": {
+      "F": 72,
+      "TP": 6,
+      "Pos": 8
+     }
+    },
+    "gpt-5-mini-2025-08-07-drift": {
+     "s1": {
+      "F": 316,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 174,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-piguard_detector": {
+     "s1": {
+      "F": 201,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 127,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-progent": {
+     "s1": {
+      "F": 325,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 171,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-prompt_guard_2_detector": {
+     "s1": {
+      "F": 412,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 287,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-repeat_user_prompt": {
+     "s1": {
+      "F": 523,
+      "TP": 1,
+      "Pos": 2
+     },
+     "prov": {
+      "F": 367,
+      "TP": 1,
+      "Pos": 2
+     }
+    },
+    "gpt-5-mini-2025-08-07-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 523,
+      "TP": 2,
+      "Pos": 3
+     },
+     "prov": {
+      "F": 369,
+      "TP": 2,
+      "Pos": 3
+     }
+    },
+    "gpt-5-mini-2025-08-07-transformers_pi_detector": {
+     "s1": {
+      "F": 49,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 46,
+      "TP": 0,
+      "Pos": 0
+     }
+    }
+   }
+  }
+ },
+ "q1": {
+  "P": {
+   "regexxV1": {
+    "F": 1669,
+    "TP": 602,
+    "Pos": 707,
+    "precision": 0.36069502696225286,
+    "recall": 0.8514851485148515
+   },
+   "regexxV2": {
+    "F": 1672,
+    "TP": 602,
+    "Pos": 707,
+    "precision": 0.36004784688995217,
+    "recall": 0.8514851485148515
+   },
+   "regexxV3": {
+    "F": 1624,
+    "TP": 588,
+    "Pos": 707,
+    "precision": 0.3620689655172414,
+    "recall": 0.8316831683168316
+   },
+   "boundxV1": {
+    "F": 2295,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30501089324618735,
+    "recall": 0.9900990099009901
+   },
+   "boundxV2": {
+    "F": 2297,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30474531998258597,
+    "recall": 0.9900990099009901
+   },
+   "boundxV3": {
+    "F": 2270,
+    "TP": 698,
+    "Pos": 707,
+    "precision": 0.307488986784141,
+    "recall": 0.9872701555869873
+   },
+   "typedxV1": {
+    "F": 2295,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30501089324618735,
+    "recall": 0.9900990099009901
+   },
+   "typedxV2": {
+    "F": 2297,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30474531998258597,
+    "recall": 0.9900990099009901
+   },
+   "typedxV3": {
+    "F": 2270,
+    "TP": 698,
+    "Pos": 707,
+    "precision": 0.307488986784141,
+    "recall": 0.9872701555869873
+   }
+  },
+  "X1": {
+   "regexxV1": {
+    "F": 8042,
+    "TP": 1735,
+    "Pos": 2092,
+    "precision": 0.21574235264859487,
+    "recall": 0.8293499043977055
+   },
+   "regexxV2": {
+    "F": 8068,
+    "TP": 1735,
+    "Pos": 2092,
+    "precision": 0.21504709965294994,
+    "recall": 0.8293499043977055
+   },
+   "regexxV3": {
+    "F": 7733,
+    "TP": 1639,
+    "Pos": 2092,
+    "precision": 0.2119487908961593,
+    "recall": 0.7834608030592735
+   },
+   "boundxV1": {
+    "F": 12025,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17139293139293138,
+    "recall": 0.9851816443594646
+   },
+   "boundxV2": {
+    "F": 12062,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17086718620460953,
+    "recall": 0.9851816443594646
+   },
+   "boundxV3": {
+    "F": 11792,
+    "TP": 2049,
+    "Pos": 2092,
+    "precision": 0.1737618724559023,
+    "recall": 0.9794455066921606
+   },
+   "typedxV1": {
+    "F": 12025,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17139293139293138,
+    "recall": 0.9851816443594646
+   },
+   "typedxV2": {
+    "F": 12062,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17086718620460953,
+    "recall": 0.9851816443594646
+   },
+   "typedxV3": {
+    "F": 11792,
+    "TP": 2049,
+    "Pos": 2092,
+    "precision": 0.1737618724559023,
+    "recall": 0.9794455066921606
+   }
+  }
+ },
+ "q3": {
+  "crosstab": {
+   "prov=0|s1=0|cells=none": 3,
+   "prov=0|s1=1|cells=boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 33,
+   "prov=1|s1=1|cells=boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 5,
+   "prov=1|s1=1|cells=regexxV1,regexxV2,regexxV3,boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 22
+  },
+  "first_tool": {
+   "<none>": 3,
+   "agentdyn:dailylife/browse_webpage": 1,
+   "agentdyn:dailylife/delete_node": 5,
+   "agentdyn:dailylife/download_file_through_url": 10,
+   "agentdyn:github/create_dir": 1,
+   "agentdyn:github/download_file_through_url": 5,
+   "agentdyn:github/git_add_ssh_key": 6,
+   "agentdyn:github/git_clone": 1,
+   "agentdyn:github/git_delete_repo": 5,
+   "agentdyn:github/git_issue": 9,
+   "agentdyn:github/git_star": 11,
+   "agentdyn:github/update_github_account_password": 2,
+   "agentdyn:shopping/browse_webpage": 1,
+   "agentdyn:shopping/update_shopping_account_password": 3
+  }
+ }
+}

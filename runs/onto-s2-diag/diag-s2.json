@@ -1,0 +1,2822 @@
+{
+ "reference": {
+  "P": {
+   "pooled": {
+    "s1": {
+     "F": 2270,
+     "TP": 698,
+     "Pos": 707
+    },
+    "prov": {
+     "F": 1669,
+     "TP": 602,
+     "Pos": 707
+    }
+   },
+   "per_base": {
+    "google_gemini-2.5-flash": {
+     "s1": {
+      "F": 173,
+      "TP": 79,
+      "Pos": 79
+     },
+     "prov": {
+      "F": 115,
+      "TP": 60,
+      "Pos": 79
+     }
+    },
+    "google_gemini-2.5-pro": {
+     "s1": {
+      "F": 507,
+      "TP": 121,
+      "Pos": 122
+     },
+     "prov": {
+      "F": 357,
+      "TP": 103,
+      "Pos": 122
+     }
+    },
+    "gpt-4o-2024-08-06": {
+     "s1": {
+      "F": 511,
+      "TP": 215,
+      "Pos": 218
+     },
+     "prov": {
+      "F": 382,
+      "TP": 191,
+      "Pos": 218
+     }
+    },
+    "gpt-4o-mini-2024-07-18": {
+     "s1": {
+      "F": 551,
+      "TP": 282,
+      "Pos": 286
+     },
+     "prov": {
+      "F": 449,
+      "TP": 247,
+      "Pos": 286
+     }
+    },
+    "gpt-5-mini-2025-08-07": {
+     "s1": {
+      "F": 528,
+      "TP": 1,
+      "Pos": 2
+     },
+     "prov": {
+      "F": 366,
+      "TP": 1,
+      "Pos": 2
+     }
+    }
+   },
+   "tiers": {
+    "irreversible": {
+     "s1": {
+      "F": 1823,
+      "TP": 638,
+      "Pos": 644
+     },
+     "prov": {
+      "F": 1523,
+      "TP": 575,
+      "Pos": 644
+     }
+    },
+    "other": {
+     "s1": {
+      "F": 447,
+      "TP": 60,
+      "Pos": 63
+     },
+     "prov": {
+      "F": 146,
+      "TP": 27,
+      "Pos": 63
+     }
+    }
+   },
+   "b_prov_bound": {
+    "prov": {
+     "F": 2295,
+     "TP": 700,
+     "Pos": 707
+    }
+   }
+  },
+  "X1": {
+   "pooled": {
+    "s1": {
+     "F": 11792,
+     "TP": 2049,
+     "Pos": 2092
+    },
+    "prov": {
+     "F": 8042,
+     "TP": 1735,
+     "Pos": 2092
+    }
+   },
+   "per_panel": {
+    "google_gemini-2.5-flash-drift": {
+     "s1": {
+      "F": 261,
+      "TP": 15,
+      "Pos": 16
+     },
+     "prov": {
+      "F": 146,
+      "TP": 10,
+      "Pos": 16
+     }
+    },
+    "google_gemini-2.5-flash-piguard_detector": {
+     "s1": {
+      "F": 71,
+      "TP": 12,
+      "Pos": 12
+     },
+     "prov": {
+      "F": 40,
+      "TP": 12,
+      "Pos": 12
+     }
+    },
+    "google_gemini-2.5-flash-progent": {
+     "s1": {
+      "F": 139,
+      "TP": 12,
+      "Pos": 13
+     },
+     "prov": {
+      "F": 81,
+      "TP": 6,
+      "Pos": 13
+     }
+    },
+    "google_gemini-2.5-flash-prompt_guard_2_detector": {
+     "s1": {
+      "F": 246,
+      "TP": 140,
+      "Pos": 141
+     },
+     "prov": {
+      "F": 182,
+      "TP": 119,
+      "Pos": 141
+     }
+    },
+    "google_gemini-2.5-flash-repeat_user_prompt": {
+     "s1": {
+      "F": 196,
+      "TP": 104,
+      "Pos": 105
+     },
+     "prov": {
+      "F": 145,
+      "TP": 82,
+      "Pos": 105
+     }
+    },
+    "google_gemini-2.5-flash-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 199,
+      "TP": 103,
+      "Pos": 103
+     },
+     "prov": {
+      "F": 143,
+      "TP": 87,
+      "Pos": 103
+     }
+    },
+    "google_gemini-2.5-flash-tool_filter": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "google_gemini-2.5-flash-transformers_pi_detector": {
+     "s1": {
+      "F": 11,
+      "TP": 6,
+      "Pos": 6
+     },
+     "prov": {
+      "F": 8,
+      "TP": 5,
+      "Pos": 6
+     }
+    },
+    "google_gemini-2.5-pro-drift": {
+     "s1": {
+      "F": 450,
+      "TP": 5,
+      "Pos": 6
+     },
+     "prov": {
+      "F": 264,
+      "TP": 2,
+      "Pos": 6
+     }
+    },
+    "google_gemini-2.5-pro-piguard_detector": {
+     "s1": {
+      "F": 140,
+      "TP": 11,
+      "Pos": 11
+     },
+     "prov": {
+      "F": 79,
+      "TP": 11,
+      "Pos": 11
+     }
+    },
+    "google_gemini-2.5-pro-progent": {
+     "s1": {
+      "F": 402,
+      "TP": 7,
+      "Pos": 9
+     },
+     "prov": {
+      "F": 255,
+      "TP": 6,
+      "Pos": 9
+     }
+    },
+    "google_gemini-2.5-pro-prompt_guard_2_detector": {
+     "s1": {
+      "F": 320,
+      "TP": 85,
+      "Pos": 85
+     },
+     "prov": {
+      "F": 234,
+      "TP": 74,
+      "Pos": 85
+     }
+    },
+    "google_gemini-2.5-pro-repeat_user_prompt": {
+     "s1": {
+      "F": 492,
+      "TP": 135,
+      "Pos": 136
+     },
+     "prov": {
+      "F": 356,
+      "TP": 110,
+      "Pos": 136
+     }
+    },
+    "google_gemini-2.5-pro-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 511,
+      "TP": 94,
+      "Pos": 96
+     },
+     "prov": {
+      "F": 369,
+      "TP": 78,
+      "Pos": 96
+     }
+    },
+    "google_gemini-2.5-pro-tool_filter": {
+     "s1": {
+      "F": 13,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 18,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "google_gemini-2.5-pro-transformers_pi_detector": {
+     "s1": {
+      "F": 38,
+      "TP": 4,
+      "Pos": 4
+     },
+     "prov": {
+      "F": 31,
+      "TP": 3,
+      "Pos": 4
+     }
+    },
+    "gpt-4o-2024-08-06-drift": {
+     "s1": {
+      "F": 451,
+      "TP": 5,
+      "Pos": 5
+     },
+     "prov": {
+      "F": 288,
+      "TP": 0,
+      "Pos": 5
+     }
+    },
+    "gpt-4o-2024-08-06-piguard_detector": {
+     "s1": {
+      "F": 125,
+      "TP": 10,
+      "Pos": 10
+     },
+     "prov": {
+      "F": 82,
+      "TP": 10,
+      "Pos": 10
+     }
+    },
+    "gpt-4o-2024-08-06-progent": {
+     "s1": {
+      "F": 400,
+      "TP": 10,
+      "Pos": 10
+     },
+     "prov": {
+      "F": 242,
+      "TP": 9,
+      "Pos": 10
+     }
+    },
+    "gpt-4o-2024-08-06-prompt_guard_2_detector": {
+     "s1": {
+      "F": 375,
+      "TP": 158,
+      "Pos": 159
+     },
+     "prov": {
+      "F": 274,
+      "TP": 134,
+      "Pos": 159
+     }
+    },
+    "gpt-4o-2024-08-06-repeat_user_prompt": {
+     "s1": {
+      "F": 522,
+      "TP": 178,
+      "Pos": 180
+     },
+     "prov": {
+      "F": 382,
+      "TP": 157,
+      "Pos": 180
+     }
+    },
+    "gpt-4o-2024-08-06-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 493,
+      "TP": 155,
+      "Pos": 157
+     },
+     "prov": {
+      "F": 353,
+      "TP": 134,
+      "Pos": 157
+     }
+    },
+    "gpt-4o-2024-08-06-tool_filter": {
+     "s1": {
+      "F": 354,
+      "TP": 23,
+      "Pos": 25
+     },
+     "prov": {
+      "F": 209,
+      "TP": 15,
+      "Pos": 25
+     }
+    },
+    "gpt-4o-2024-08-06-transformers_pi_detector": {
+     "s1": {
+      "F": 37,
+      "TP": 5,
+      "Pos": 5
+     },
+     "prov": {
+      "F": 31,
+      "TP": 4,
+      "Pos": 5
+     }
+    },
+    "gpt-4o-mini-2024-07-18-drift": {
+     "s1": {
+      "F": 444,
+      "TP": 19,
+      "Pos": 20
+     },
+     "prov": {
+      "F": 218,
+      "TP": 8,
+      "Pos": 20
+     }
+    },
+    "gpt-4o-mini-2024-07-18-piguard_detector": {
+     "s1": {
+      "F": 292,
+      "TP": 8,
+      "Pos": 8
+     },
+     "prov": {
+      "F": 222,
+      "TP": 8,
+      "Pos": 8
+     }
+    },
+    "gpt-4o-mini-2024-07-18-progent": {
+     "s1": {
+      "F": 482,
+      "TP": 58,
+      "Pos": 60
+     },
+     "prov": {
+      "F": 369,
+      "TP": 51,
+      "Pos": 60
+     }
+    },
+    "gpt-4o-mini-2024-07-18-prompt_guard_2_detector": {
+     "s1": {
+      "F": 456,
+      "TP": 197,
+      "Pos": 199
+     },
+     "prov": {
+      "F": 372,
+      "TP": 178,
+      "Pos": 199
+     }
+    },
+    "gpt-4o-mini-2024-07-18-repeat_user_prompt": {
+     "s1": {
+      "F": 499,
+      "TP": 181,
+      "Pos": 195
+     },
+     "prov": {
+      "F": 387,
+      "TP": 156,
+      "Pos": 195
+     }
+    },
+    "gpt-4o-mini-2024-07-18-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 551,
+      "TP": 266,
+      "Pos": 270
+     },
+     "prov": {
+      "F": 446,
+      "TP": 233,
+      "Pos": 270
+     }
+    },
+    "gpt-4o-mini-2024-07-18-tool_filter": {
+     "s1": {
+      "F": 372,
+      "TP": 32,
+      "Pos": 33
+     },
+     "prov": {
+      "F": 203,
+      "TP": 24,
+      "Pos": 33
+     }
+    },
+    "gpt-4o-mini-2024-07-18-transformers_pi_detector": {
+     "s1": {
+      "F": 101,
+      "TP": 8,
+      "Pos": 8
+     },
+     "prov": {
+      "F": 72,
+      "TP": 6,
+      "Pos": 8
+     }
+    },
+    "gpt-5-mini-2025-08-07-drift": {
+     "s1": {
+      "F": 316,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 174,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-piguard_detector": {
+     "s1": {
+      "F": 201,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 127,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-progent": {
+     "s1": {
+      "F": 325,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 171,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-prompt_guard_2_detector": {
+     "s1": {
+      "F": 412,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 287,
+      "TP": 0,
+      "Pos": 0
+     }
+    },
+    "gpt-5-mini-2025-08-07-repeat_user_prompt": {
+     "s1": {
+      "F": 523,
+      "TP": 1,
+      "Pos": 2
+     },
+     "prov": {
+      "F": 367,
+      "TP": 1,
+      "Pos": 2
+     }
+    },
+    "gpt-5-mini-2025-08-07-spotlighting_with_delimiting": {
+     "s1": {
+      "F": 523,
+      "TP": 2,
+      "Pos": 3
+     },
+     "prov": {
+      "F": 369,
+      "TP": 2,
+      "Pos": 3
+     }
+    },
+    "gpt-5-mini-2025-08-07-transformers_pi_detector": {
+     "s1": {
+      "F": 49,
+      "TP": 0,
+      "Pos": 0
+     },
+     "prov": {
+      "F": 46,
+      "TP": 0,
+      "Pos": 0
+     }
+    }
+   }
+  }
+ },
+ "q1": {
+  "P": {
+   "regexxV1": {
+    "F": 1669,
+    "TP": 602,
+    "Pos": 707,
+    "precision": 0.36069502696225286,
+    "recall": 0.8514851485148515
+   },
+   "regexxV2": {
+    "F": 1672,
+    "TP": 602,
+    "Pos": 707,
+    "precision": 0.36004784688995217,
+    "recall": 0.8514851485148515
+   },
+   "regexxV3": {
+    "F": 1624,
+    "TP": 588,
+    "Pos": 707,
+    "precision": 0.3620689655172414,
+    "recall": 0.8316831683168316
+   },
+   "boundxV1": {
+    "F": 2295,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30501089324618735,
+    "recall": 0.9900990099009901
+   },
+   "boundxV2": {
+    "F": 2297,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30474531998258597,
+    "recall": 0.9900990099009901
+   },
+   "boundxV3": {
+    "F": 2270,
+    "TP": 698,
+    "Pos": 707,
+    "precision": 0.307488986784141,
+    "recall": 0.9872701555869873
+   },
+   "typedxV1": {
+    "F": 2295,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30501089324618735,
+    "recall": 0.9900990099009901
+   },
+   "typedxV2": {
+    "F": 2297,
+    "TP": 700,
+    "Pos": 707,
+    "precision": 0.30474531998258597,
+    "recall": 0.9900990099009901
+   },
+   "typedxV3": {
+    "F": 2270,
+    "TP": 698,
+    "Pos": 707,
+    "precision": 0.307488986784141,
+    "recall": 0.9872701555869873
+   }
+  },
+  "X1": {
+   "regexxV1": {
+    "F": 8042,
+    "TP": 1735,
+    "Pos": 2092,
+    "precision": 0.21574235264859487,
+    "recall": 0.8293499043977055
+   },
+   "regexxV2": {
+    "F": 8068,
+    "TP": 1735,
+    "Pos": 2092,
+    "precision": 0.21504709965294994,
+    "recall": 0.8293499043977055
+   },
+   "regexxV3": {
+    "F": 7733,
+    "TP": 1639,
+    "Pos": 2092,
+    "precision": 0.2119487908961593,
+    "recall": 0.7834608030592735
+   },
+   "boundxV1": {
+    "F": 12025,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17139293139293138,
+    "recall": 0.9851816443594646
+   },
+   "boundxV2": {
+    "F": 12062,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17086718620460953,
+    "recall": 0.9851816443594646
+   },
+   "boundxV3": {
+    "F": 11792,
+    "TP": 2049,
+    "Pos": 2092,
+    "precision": 0.1737618724559023,
+    "recall": 0.9794455066921606
+   },
+   "typedxV1": {
+    "F": 12025,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17139293139293138,
+    "recall": 0.9851816443594646
+   },
+   "typedxV2": {
+    "F": 12062,
+    "TP": 2061,
+    "Pos": 2092,
+    "precision": 0.17086718620460953,
+    "recall": 0.9851816443594646
+   },
+   "typedxV3": {
+    "F": 11792,
+    "TP": 2049,
+    "Pos": 2092,
+    "precision": 0.1737618724559023,
+    "recall": 0.9794455066921606
+   }
+  }
+ },
+ "q2": {
+  "tools": {
+   "agentdyn:dailylife/add_calendar_event_participants": {
+    "calls": 3,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/browse_webpage": {
+    "calls": 1450,
+    "added": {
+     "alerts": 64,
+     "tp": 12,
+     "fp": 52
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/cancel_calendar_event": {
+    "calls": 1,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/copy_node": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/create_calendar_event": {
+    "calls": 424,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 4
+    }
+   },
+   "agentdyn:dailylife/create_dir": {
+    "calls": 162,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/create_file": {
+    "calls": 55,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/delete_email": {
+    "calls": 3,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/delete_node": {
+    "calls": 36,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/download_file_through_id": {
+    "calls": 354,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/download_file_through_url": {
+    "calls": 578,
+    "added": {
+     "alerts": 58,
+     "tp": 18,
+     "fp": 40
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_balance": {
+    "calls": 195,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_current_day": {
+    "calls": 483,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_day_calendar_events": {
+    "calls": 116,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_received_emails": {
+    "calls": 162,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_sent_emails": {
+    "calls": 16,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/get_unread_emails": {
+    "calls": 439,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/input_to_webpage": {
+    "calls": 779,
+    "added": {
+     "alerts": 29,
+     "tp": 2,
+     "fp": 27
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/list_directory": {
+    "calls": 168,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/move_node": {
+    "calls": 4,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/read_file": {
+    "calls": 1098,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/reschedule_calendar_event": {
+    "calls": 1,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/search_calendar_events": {
+    "calls": 60,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/search_emails": {
+    "calls": 465,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/send_email": {
+    "calls": 467,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/send_money": {
+    "calls": 371,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:dailylife/verify_transaction": {
+    "calls": 150,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/browse_webpage": {
+    "calls": 193,
+    "added": {
+     "alerts": 84,
+     "tp": 0,
+     "fp": 84
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/copy_node": {
+    "calls": 114,
+    "added": {
+     "alerts": 2,
+     "tp": 0,
+     "fp": 2
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/create_dir": {
+    "calls": 101,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/create_file": {
+    "calls": 31,
+    "added": {
+     "alerts": 1,
+     "tp": 0,
+     "fp": 1
+    },
+    "lost": {
+     "alerts": 7
+    }
+   },
+   "agentdyn:github/delete_node": {
+    "calls": 14,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/download_file_through_id": {
+    "calls": 198,
+    "added": {
+     "alerts": 2,
+     "tp": 0,
+     "fp": 2
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/download_file_through_url": {
+    "calls": 83,
+    "added": {
+     "alerts": 14,
+     "tp": 11,
+     "fp": 3
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_github_account_user_information": {
+    "calls": 51,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_github_linked_unread_emails": {
+    "calls": 335,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_github_repository_information": {
+    "calls": 587,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_logged_in_github_user_information": {
+    "calls": 250,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_received_emails": {
+    "calls": 721,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/get_sent_emails": {
+    "calls": 5,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_add_ssh_key": {
+    "calls": 123,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_clone": {
+    "calls": 445,
+    "added": {
+     "alerts": 31,
+     "tp": 0,
+     "fp": 31
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_create_repo": {
+    "calls": 124,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_delete_repo": {
+    "calls": 46,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_delete_ssh_key": {
+    "calls": 33,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_get_linked_ssh_keys": {
+    "calls": 105,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_invite_collaborators": {
+    "calls": 367,
+    "added": {
+     "alerts": 112,
+     "tp": 19,
+     "fp": 93
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_issue": {
+    "calls": 37,
+    "added": {
+     "alerts": 16,
+     "tp": 16,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_pull": {
+    "calls": 76,
+    "added": {
+     "alerts": 3,
+     "tp": 0,
+     "fp": 3
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_push": {
+    "calls": 370,
+    "added": {
+     "alerts": 6,
+     "tp": 0,
+     "fp": 6
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_star": {
+    "calls": 164,
+    "added": {
+     "alerts": 70,
+     "tp": 19,
+     "fp": 51
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_transfer_repo_ownership": {
+    "calls": 127,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/git_unstar": {
+    "calls": 51,
+    "added": {
+     "alerts": 41,
+     "tp": 0,
+     "fp": 41
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/input_to_webpage": {
+    "calls": 6,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/list_directory": {
+    "calls": 418,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/login_github_account": {
+    "calls": 115,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/move_node": {
+    "calls": 144,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/read_file": {
+    "calls": 426,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/send_email": {
+    "calls": 202,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/update_github_account_password": {
+    "calls": 5,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:github/verify_github_account": {
+    "calls": 695,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/add_calendar_event_participants": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/browse_webpage": {
+    "calls": 72,
+    "added": {
+     "alerts": 5,
+     "tp": 1,
+     "fp": 4
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/cancel_calendar_event": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/cart_add_product": {
+    "calls": 558,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/cart_remove_product": {
+    "calls": 191,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/cart_total": {
+    "calls": 243,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/checkout_selected_cart": {
+    "calls": 476,
+    "added": {
+     "alerts": 6,
+     "tp": 0,
+     "fp": 6
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/clear_cart": {
+    "calls": 23,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/copy_node": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/create_calendar_event": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/create_dir": {
+    "calls": 41,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/create_file": {
+    "calls": 4,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/delete_node": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/download_file_through_id": {
+    "calls": 427,
+    "added": {
+     "alerts": 15,
+     "tp": 0,
+     "fp": 15
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/download_file_through_url": {
+    "calls": 7,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_balance": {
+    "calls": 126,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_current_day": {
+    "calls": 354,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_day_calendar_events": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_invoice": {
+    "calls": 565,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_shopping_account_user_information": {
+    "calls": 180,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_shopping_linked_received_emails": {
+    "calls": 220,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/get_shopping_linked_unread_emails": {
+    "calls": 860,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/input_to_webpage": {
+    "calls": 83,
+    "added": {
+     "alerts": 6,
+     "tp": 0,
+     "fp": 6
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/list_directory": {
+    "calls": 77,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/login_shopping_account": {
+    "calls": 162,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/move_node": {
+    "calls": 2,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/read_file": {
+    "calls": 438,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/refund_order": {
+    "calls": 151,
+    "added": {
+     "alerts": 48,
+     "tp": 0,
+     "fp": 48
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/reschedule_calendar_event": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/search_calendar_events": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/search_product": {
+    "calls": 925,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/send_email": {
+    "calls": 94,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/send_money": {
+    "calls": 64,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/update_shopping_account_password": {
+    "calls": 69,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/update_shopping_account_user_info": {
+    "calls": 0,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/verify_shopping_account": {
+    "calls": 663,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/view_available_discounts": {
+    "calls": 265,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/view_cart": {
+    "calls": 182,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "agentdyn:shopping/view_order_history": {
+    "calls": 517,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 0
+    }
+   },
+   "<unregistered-tool>": {
+    "calls": 151,
+    "added": {
+     "alerts": 0,
+     "tp": 0,
+     "fp": 0
+    },
+    "lost": {
+     "alerts": 1
+    }
+   }
+  },
+  "cover80": [
+   "agentdyn:github/git_invite_collaborators",
+   "agentdyn:github/browse_webpage",
+   "agentdyn:dailylife/browse_webpage",
+   "agentdyn:github/git_star",
+   "agentdyn:shopping/refund_order",
+   "agentdyn:github/git_unstar",
+   "agentdyn:dailylife/download_file_through_url",
+   "agentdyn:github/git_clone"
+  ],
+  "added_fp_routes": {
+   "whole": 607,
+   "resource": 100,
+   "party": 190
+  },
+  "added_fp_params": {
+   "url": 355,
+   "repo_name": 136,
+   "local_dir_path": 7,
+   "collaborator_email": 184,
+   "input_ids": 52,
+   "input_values": 73,
+   "save_dir": 10,
+   "order_id": 48,
+   "destination_path": 1,
+   "source_path": 2,
+   "local_path": 9,
+   "content": 1,
+   "file_id": 8,
+   "discount_code": 5,
+   "product_ids": 6
+  }
+ },
+ "q3": {
+  "crosstab": {
+   "prov=1|s1=1|cells=regexxV1,regexxV2,regexxV3,boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 22,
+   "prov=0|s1=1|cells=boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 33,
+   "prov=1|s1=1|cells=boundxV1,boundxV2,boundxV3,typedxV1,typedxV2,typedxV3": 5,
+   "prov=0|s1=0|cells=none": 3
+  },
+  "first_tool": {
+   "agentdyn:dailylife/delete_node": 5,
+   "agentdyn:dailylife/download_file_through_url": 10,
+   "agentdyn:github/git_star": 11,
+   "agentdyn:github/git_add_ssh_key": 6,
+   "agentdyn:github/git_issue": 9,
+   "agentdyn:github/download_file_through_url": 5,
+   "agentdyn:shopping/update_shopping_account_password": 3,
+   "agentdyn:github/git_delete_repo": 5,
+   "agentdyn:github/git_clone": 1,
+   "agentdyn:shopping/browse_webpage": 1,
+   "agentdyn:dailylife/browse_webpage": 1,
+   "agentdyn:github/create_dir": 1,
+   "agentdyn:github/update_github_account_password": 2,
+   "<none>": 3
+  }
+ },
+ "q4": {
+  "by_suite": {
+   "dailylife": {
+    "regexxV1": {
+     "F": 729,
+     "TP": 385,
+     "Pos": 417,
+     "precision": 0.5281207133058985,
+     "recall": 0.9232613908872902
+    },
+    "regexxV2": {
+     "F": 731,
+     "TP": 385,
+     "Pos": 417,
+     "precision": 0.5266757865937073,
+     "recall": 0.9232613908872902
+    },
+    "regexxV3": {
+     "F": 691,
+     "TP": 371,
+     "Pos": 417,
+     "precision": 0.5369030390738061,
+     "recall": 0.8896882494004796
+    },
+    "boundxV1": {
+     "F": 895,
+     "TP": 417,
+     "Pos": 417,
+     "precision": 0.4659217877094972,
+     "recall": 1
+    },
+    "boundxV2": {
+     "F": 896,
+     "TP": 417,
+     "Pos": 417,
+     "precision": 0.4654017857142857,
+     "recall": 1
+    },
+    "boundxV3": {
+     "F": 876,
+     "TP": 415,
+     "Pos": 417,
+     "precision": 0.4737442922374429,
+     "recall": 0.9952038369304557
+    },
+    "typedxV1": {
+     "F": 895,
+     "TP": 417,
+     "Pos": 417,
+     "precision": 0.4659217877094972,
+     "recall": 1
+    },
+    "typedxV2": {
+     "F": 896,
+     "TP": 417,
+     "Pos": 417,
+     "precision": 0.4654017857142857,
+     "recall": 1
+    },
+    "typedxV3": {
+     "F": 876,
+     "TP": 415,
+     "Pos": 417,
+     "precision": 0.4737442922374429,
+     "recall": 0.9952038369304557
+    }
+   },
+   "github": {
+    "regexxV1": {
+     "F": 406,
+     "TP": 87,
+     "Pos": 157,
+     "precision": 0.21428571428571427,
+     "recall": 0.554140127388535
+    },
+    "regexxV2": {
+     "F": 407,
+     "TP": 87,
+     "Pos": 157,
+     "precision": 0.21375921375921375,
+     "recall": 0.554140127388535
+    },
+    "regexxV3": {
+     "F": 399,
+     "TP": 87,
+     "Pos": 157,
+     "precision": 0.21804511278195488,
+     "recall": 0.554140127388535
+    },
+    "boundxV1": {
+     "F": 786,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.19338422391857507,
+     "recall": 0.9681528662420382
+    },
+    "boundxV2": {
+     "F": 787,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.193138500635324,
+     "recall": 0.9681528662420382
+    },
+    "boundxV3": {
+     "F": 780,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.19487179487179487,
+     "recall": 0.9681528662420382
+    },
+    "typedxV1": {
+     "F": 786,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.19338422391857507,
+     "recall": 0.9681528662420382
+    },
+    "typedxV2": {
+     "F": 787,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.193138500635324,
+     "recall": 0.9681528662420382
+    },
+    "typedxV3": {
+     "F": 780,
+     "TP": 152,
+     "Pos": 157,
+     "precision": 0.19487179487179487,
+     "recall": 0.9681528662420382
+    }
+   },
+   "shopping": {
+    "regexxV1": {
+     "F": 534,
+     "TP": 130,
+     "Pos": 133,
+     "precision": 0.24344569288389514,
+     "recall": 0.9774436090225563
+    },
+    "regexxV2": {
+     "F": 534,
+     "TP": 130,
+     "Pos": 133,
+     "precision": 0.24344569288389514,
+     "recall": 0.9774436090225563
+    },
+    "regexxV3": {
+     "F": 534,
+     "TP": 130,
+     "Pos": 133,
+     "precision": 0.24344569288389514,
+     "recall": 0.9774436090225563
+    },
+    "boundxV1": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    },
+    "boundxV2": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    },
+    "boundxV3": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    },
+    "typedxV1": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    },
+    "typedxV2": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    },
+    "typedxV3": {
+     "F": 614,
+     "TP": 131,
+     "Pos": 133,
+     "precision": 0.21335504885993486,
+     "recall": 0.9849624060150376
+    }
+   }
+  },
+  "by_base": {
+   "google_gemini-2.5-flash": {
+    "regexxV1": {
+     "F": 115,
+     "TP": 60,
+     "Pos": 79,
+     "precision": 0.5217391304347826,
+     "recall": 0.759493670886076
+    },
+    "regexxV2": {
+     "F": 115,
+     "TP": 60,
+     "Pos": 79,
+     "precision": 0.5217391304347826,
+     "recall": 0.759493670886076
+    },
+    "regexxV3": {
+     "F": 112,
+     "TP": 58,
+     "Pos": 79,
+     "precision": 0.5178571428571429,
+     "recall": 0.7341772151898734
+    },
+    "boundxV1": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    },
+    "boundxV2": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    },
+    "boundxV3": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    },
+    "typedxV1": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    },
+    "typedxV2": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    },
+    "typedxV3": {
+     "F": 173,
+     "TP": 79,
+     "Pos": 79,
+     "precision": 0.45664739884393063,
+     "recall": 1
+    }
+   },
+   "google_gemini-2.5-pro": {
+    "regexxV1": {
+     "F": 357,
+     "TP": 103,
+     "Pos": 122,
+     "precision": 0.28851540616246496,
+     "recall": 0.8442622950819673
+    },
+    "regexxV2": {
+     "F": 357,
+     "TP": 103,
+     "Pos": 122,
+     "precision": 0.28851540616246496,
+     "recall": 0.8442622950819673
+    },
+    "regexxV3": {
+     "F": 348,
+     "TP": 98,
+     "Pos": 122,
+     "precision": 0.28160919540229884,
+     "recall": 0.8032786885245902
+    },
+    "boundxV1": {
+     "F": 507,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23865877712031558,
+     "recall": 0.9918032786885246
+    },
+    "boundxV2": {
+     "F": 509,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23772102161100198,
+     "recall": 0.9918032786885246
+    },
+    "boundxV3": {
+     "F": 507,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23865877712031558,
+     "recall": 0.9918032786885246
+    },
+    "typedxV1": {
+     "F": 507,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23865877712031558,
+     "recall": 0.9918032786885246
+    },
+    "typedxV2": {
+     "F": 509,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23772102161100198,
+     "recall": 0.9918032786885246
+    },
+    "typedxV3": {
+     "F": 507,
+     "TP": 121,
+     "Pos": 122,
+     "precision": 0.23865877712031558,
+     "recall": 0.9918032786885246
+    }
+   },
+   "gpt-4o-2024-08-06": {
+    "regexxV1": {
+     "F": 382,
+     "TP": 191,
+     "Pos": 218,
+     "precision": 0.5,
+     "recall": 0.8761467889908257
+    },
+    "regexxV2": {
+     "F": 382,
+     "TP": 191,
+     "Pos": 218,
+     "precision": 0.5,
+     "recall": 0.8761467889908257
+    },
+    "regexxV3": {
+     "F": 374,
+     "TP": 185,
+     "Pos": 218,
+     "precision": 0.4946524064171123,
+     "recall": 0.8486238532110092
+    },
+    "boundxV1": {
+     "F": 518,
+     "TP": 217,
+     "Pos": 218,
+     "precision": 0.4189189189189189,
+     "recall": 0.9954128440366973
+    },
+    "boundxV2": {
+     "F": 518,
+     "TP": 217,
+     "Pos": 218,
+     "precision": 0.4189189189189189,
+     "recall": 0.9954128440366973
+    },
+    "boundxV3": {
+     "F": 511,
+     "TP": 215,
+     "Pos": 218,
+     "precision": 0.4207436399217221,
+     "recall": 0.9862385321100917
+    },
+    "typedxV1": {
+     "F": 518,
+     "TP": 217,
+     "Pos": 218,
+     "precision": 0.4189189189189189,
+     "recall": 0.9954128440366973
+    },
+    "typedxV2": {
+     "F": 518,
+     "TP": 217,
+     "Pos": 218,
+     "precision": 0.4189189189189189,
+     "recall": 0.9954128440366973
+    },
+    "typedxV3": {
+     "F": 511,
+     "TP": 215,
+     "Pos": 218,
+     "precision": 0.4207436399217221,
+     "recall": 0.9862385321100917
+    }
+   },
+   "gpt-4o-mini-2024-07-18": {
+    "regexxV1": {
+     "F": 449,
+     "TP": 247,
+     "Pos": 286,
+     "precision": 0.5501113585746102,
+     "recall": 0.8636363636363636
+    },
+    "regexxV2": {
+     "F": 450,
+     "TP": 247,
+     "Pos": 286,
+     "precision": 0.5488888888888889,
+     "recall": 0.8636363636363636
+    },
+    "regexxV3": {
+     "F": 445,
+     "TP": 246,
+     "Pos": 286,
+     "precision": 0.5528089887640449,
+     "recall": 0.8601398601398601
+    },
+    "boundxV1": {
+     "F": 554,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5090252707581228,
+     "recall": 0.986013986013986
+    },
+    "boundxV2": {
+     "F": 554,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5090252707581228,
+     "recall": 0.986013986013986
+    },
+    "boundxV3": {
+     "F": 551,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5117967332123412,
+     "recall": 0.986013986013986
+    },
+    "typedxV1": {
+     "F": 554,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5090252707581228,
+     "recall": 0.986013986013986
+    },
+    "typedxV2": {
+     "F": 554,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5090252707581228,
+     "recall": 0.986013986013986
+    },
+    "typedxV3": {
+     "F": 551,
+     "TP": 282,
+     "Pos": 286,
+     "precision": 0.5117967332123412,
+     "recall": 0.986013986013986
+    }
+   },
+   "gpt-5-mini-2025-08-07": {
+    "regexxV1": {
+     "F": 366,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.00273224043715847,
+     "recall": 0.5
+    },
+    "regexxV2": {
+     "F": 368,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.002717391304347826,
+     "recall": 0.5
+    },
+    "regexxV3": {
+     "F": 345,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.002898550724637681,
+     "recall": 0.5
+    },
+    "boundxV1": {
+     "F": 543,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001841620626151013,
+     "recall": 0.5
+    },
+    "boundxV2": {
+     "F": 543,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001841620626151013,
+     "recall": 0.5
+    },
+    "boundxV3": {
+     "F": 528,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001893939393939394,
+     "recall": 0.5
+    },
+    "typedxV1": {
+     "F": 543,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001841620626151013,
+     "recall": 0.5
+    },
+    "typedxV2": {
+     "F": 543,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001841620626151013,
+     "recall": 0.5
+    },
+    "typedxV3": {
+     "F": 528,
+     "TP": 1,
+     "Pos": 2,
+     "precision": 0.001893939393939394,
+     "recall": 0.5
+    }
+   }
+  },
+  "excl_gpt5mini": {
+   "prov": {
+    "F": 1303,
+    "TP": 601,
+    "Pos": 705,
+    "precision": 0.4612432847275518,
+    "recall": 0.8524822695035461
+   },
+   "s1": {
+    "F": 1742,
+    "TP": 697,
+    "Pos": 705,
+    "precision": 0.40011481056257175,
+    "recall": 0.9886524822695035
+   }
+  }
+ },
+ "q5": {
+  "S1": {
+   "q1": {
+    "regexxV1": {
+     "F": 5015,
+     "TP": 2065,
+     "Pos": 2469,
+     "precision": 0.4117647058823529,
+     "recall": 0.8363710004050223
+    },
+    "regexxV2": {
+     "F": 5309,
+     "TP": 2190,
+     "Pos": 2469,
+     "precision": 0.41250706347711436,
+     "recall": 0.8869987849331713
+    },
+    "regexxV3": {
+     "F": 4668,
+     "TP": 2112,
+     "Pos": 2469,
+     "precision": 0.4524421593830334,
+     "recall": 0.8554070473876063
+    },
+    "boundxV1": {
+     "F": 4713,
+     "TP": 2157,
+     "Pos": 2469,
+     "precision": 0.4576702737110121,
+     "recall": 0.8736330498177399
+    },
+    "boundxV2": {
+     "F": 4951,
+     "TP": 2235,
+     "Pos": 2469,
+     "precision": 0.45142395475661484,
+     "recall": 0.905224787363305
+    },
+    "boundxV3": {
+     "F": 4000,
+     "TP": 2139,
+     "Pos": 2469,
+     "precision": 0.53475,
+     "recall": 0.8663426488456865
+    },
+    "typedxV1": {
+     "F": 4713,
+     "TP": 2157,
+     "Pos": 2469,
+     "precision": 0.4576702737110121,
+     "recall": 0.8736330498177399
+    },
+    "typedxV2": {
+     "F": 4951,
+     "TP": 2235,
+     "Pos": 2469,
+     "precision": 0.45142395475661484,
+     "recall": 0.905224787363305
+    },
+    "typedxV3": {
+     "F": 4000,
+     "TP": 2139,
+     "Pos": 2469,
+     "precision": 0.53475,
+     "recall": 0.8663426488456865
+    }
+   },
+   "q1_by_group": {
+    "P": {
+     "regexxV1": {
+      "F": 1142,
+      "TP": 375,
+      "Pos": 474,
+      "precision": 0.3283712784588441,
+      "recall": 0.7911392405063291
+     },
+     "regexxV2": {
+      "F": 1209,
+      "TP": 382,
+      "Pos": 474,
+      "precision": 0.3159636062861869,
+      "recall": 0.8059071729957806
+     },
+     "regexxV3": {
+      "F": 1051,
+      "TP": 355,
+      "Pos": 474,
+      "precision": 0.33777354900095147,
+      "recall": 0.7489451476793249
+     },
+     "boundxV1": {
+      "F": 1095,
+      "TP": 397,
+      "Pos": 474,
+      "precision": 0.36255707762557077,
+      "recall": 0.8375527426160337
+     },
+     "boundxV2": {
+      "F": 1161,
+      "TP": 404,
+      "Pos": 474,
+      "precision": 0.3479758828596038,
+      "recall": 0.8523206751054853
+     },
+     "boundxV3": {
+      "F": 968,
+      "TP": 375,
+      "Pos": 474,
+      "precision": 0.38739669421487605,
+      "recall": 0.7911392405063291
+     },
+     "typedxV1": {
+      "F": 1095,
+      "TP": 397,
+      "Pos": 474,
+      "precision": 0.36255707762557077,
+      "recall": 0.8375527426160337
+     },
+     "typedxV2": {
+      "F": 1161,
+      "TP": 404,
+      "Pos": 474,
+      "precision": 0.3479758828596038,
+      "recall": 0.8523206751054853
+     },
+     "typedxV3": {
+      "F": 968,
+      "TP": 375,
+      "Pos": 474,
+      "precision": 0.38739669421487605,
+      "recall": 0.7911392405063291
+     }
+    },
+    "X1": {
+     "regexxV1": {
+      "F": 1152,
+      "TP": 448,
+      "Pos": 530,
+      "precision": 0.3888888888888889,
+      "recall": 0.8452830188679246
+     },
+     "regexxV2": {
+      "F": 1203,
+      "TP": 475,
+      "Pos": 530,
+      "precision": 0.3948462177888612,
+      "recall": 0.8962264150943396
+     },
+     "regexxV3": {
+      "F": 1065,
+      "TP": 462,
+      "Pos": 530,
+      "precision": 0.43380281690140843,
+      "recall": 0.8716981132075472
+     },
+     "boundxV1": {
+      "F": 1055,
+      "TP": 465,
+      "Pos": 530,
+      "precision": 0.44075829383886256,
+      "recall": 0.8773584905660378
+     },
+     "boundxV2": {
+      "F": 1092,
+      "TP": 481,
+      "Pos": 530,
+      "precision": 0.44047619047619047,
+      "recall": 0.9075471698113208
+     },
+     "boundxV3": {
+      "F": 870,
+      "TP": 466,
+      "Pos": 530,
+      "precision": 0.535632183908046,
+      "recall": 0.879245283018868
+     },
+     "typedxV1": {
+      "F": 1055,
+      "TP": 465,
+      "Pos": 530,
+      "precision": 0.44075829383886256,
+      "recall": 0.8773584905660378
+     },
+     "typedxV2": {
+      "F": 1092,
+      "TP": 481,
+      "Pos": 530,
+      "precision": 0.44047619047619047,
+      "recall": 0.9075471698113208
+     },
+     "typedxV3": {
+      "F": 870,
+      "TP": 466,
+      "Pos": 530,
+      "precision": 0.535632183908046,
+      "recall": 0.879245283018868
+     }
+    },
+    "X2": {
+     "regexxV1": {
+      "F": 2721,
+      "TP": 1242,
+      "Pos": 1465,
+      "precision": 0.4564498346196251,
+      "recall": 0.8477815699658703
+     },
+     "regexxV2": {
+      "F": 2897,
+      "TP": 1333,
+      "Pos": 1465,
+      "precision": 0.46013117017604416,
+      "recall": 0.9098976109215017
+     },
+     "regexxV3": {
+      "F": 2552,
+      "TP": 1295,
+      "Pos": 1465,
+      "precision": 0.5074451410658307,
+      "recall": 0.8839590443686007
+     },
+     "boundxV1": {
+      "F": 2563,
+      "TP": 1295,
+      "Pos": 1465,
+      "precision": 0.5052672649239173,
+      "recall": 0.8839590443686007
+     },
+     "boundxV2": {
+      "F": 2698,
+      "TP": 1350,
+      "Pos": 1465,
+      "precision": 0.5003706449221645,
+      "recall": 0.9215017064846417
+     },
+     "boundxV3": {
+      "F": 2162,
+      "TP": 1298,
+      "Pos": 1465,
+      "precision": 0.6003700277520814,
+      "recall": 0.8860068259385665
+     },
+     "typedxV1": {
+      "F": 2563,
+      "TP": 1295,
+      "Pos": 1465,
+      "precision": 0.5052672649239173,
+      "recall": 0.8839590443686007
+     },
+     "typedxV2": {
+      "F": 2698,
+      "TP": 1350,
+      "Pos": 1465,
+      "precision": 0.5003706449221645,
+      "recall": 0.9215017064846417
+     },
+     "typedxV3": {
+      "F": 2162,
+      "TP": 1298,
+      "Pos": 1465,
+      "precision": 0.6003700277520814,
+      "recall": 0.8860068259385665
+     }
+    }
+   },
+   "removed": {
+    "agentdojo:banking/update_user_info": {
+     "alerts": 74,
+     "tp": 0,
+     "fp": 74
+    },
+    "agentdojo:banking/schedule_transaction": {
+     "alerts": 46,
+     "tp": 0,
+     "fp": 46
+    },
+    "agentdojo:slack/send_channel_message": {
+     "alerts": 29,
+     "tp": 7,
+     "fp": 22
+    },
+    "agentdojo:travel/create_calendar_event": {
+     "alerts": 196,
+     "tp": 71,
+     "fp": 125
+    },
+    "agentdojo:travel/get_restaurants_address": {
+     "alerts": 428,
+     "tp": 8,
+     "fp": 420
+    },
+    "agentdojo:travel/get_hotels_address": {
+     "alerts": 459,
+     "tp": 9,
+     "fp": 450
+    },
+    "agentdojo:workspace/create_calendar_event": {
+     "alerts": 31,
+     "tp": 0,
+     "fp": 31
+    },
+    "agentdojo:workspace/send_email": {
+     "alerts": 135,
+     "tp": 10,
+     "fp": 125
+    },
+    "agentdojo:banking/send_money": {
+     "alerts": 138,
+     "tp": 1,
+     "fp": 137
+    },
+    "agentdojo:slack/send_direct_message": {
+     "alerts": 1,
+     "tp": 0,
+     "fp": 1
+    },
+    "agentdojo:travel/get_car_rental_address": {
+     "alerts": 4,
+     "tp": 0,
+     "fp": 4
+    },
+    "agentdojo:workspace/reschedule_calendar_event": {
+     "alerts": 1,
+     "tp": 0,
+     "fp": 1
+    },
+    "agentdojo:banking/update_scheduled_transaction": {
+     "alerts": 2,
+     "tp": 2,
+     "fp": 0
+    }
+   },
+   "added": {
+    "agentdojo:slack/send_direct_message": {
+     "alerts": 43,
+     "tp": 5,
+     "fp": 38
+    },
+    "agentdojo:slack/send_channel_message": {
+     "alerts": 104,
+     "tp": 10,
+     "fp": 94
+    },
+    "agentdojo:slack/invite_user_to_slack": {
+     "alerts": 156,
+     "tp": 30,
+     "fp": 126
+    },
+    "agentdojo:slack/post_webpage": {
+     "alerts": 120,
+     "tp": 105,
+     "fp": 15
+    },
+    "agentdojo:travel/reserve_hotel": {
+     "alerts": 59,
+     "tp": 30,
+     "fp": 29
+    },
+    "agentdojo:travel/reserve_car_rental": {
+     "alerts": 1,
+     "tp": 0,
+     "fp": 1
+    },
+    "agentdojo:travel/reserve_restaurant": {
+     "alerts": 22,
+     "tp": 0,
+     "fp": 22
+    },
+    "agentdojo:workspace/create_calendar_event": {
+     "alerts": 2,
+     "tp": 1,
+     "fp": 1
+    },
+    "agentdojo:slack/add_user_to_channel": {
+     "alerts": 22,
+     "tp": 1,
+     "fp": 21
+    }
+   }
+  }
+ }
+}

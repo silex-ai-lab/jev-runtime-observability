@@ -1,0 +1,1237 @@
+{
+ "summary": {
+  "legend": "r{regex_write}b{bound_write}t{typed_eligible}: tool count in that 2x2x2 cell; all 8 keys are present (0 when empty)",
+  "per_suite": {
+   "banking": {
+    "r0b0t0": 5,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 0,
+    "r1b0t0": 1,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 5
+   },
+   "slack": {
+    "r0b0t0": 5,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 1,
+    "r1b0t0": 0,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 5
+   },
+   "travel": {
+    "r0b0t0": 19,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 4,
+    "r1b0t0": 3,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 2
+   },
+   "workspace": {
+    "r0b0t0": 13,
+    "r0b0t1": 0,
+    "r0b1t0": 0,
+    "r0b1t1": 2,
+    "r1b0t0": 0,
+    "r1b0t1": 0,
+    "r1b1t0": 0,
+    "r1b1t1": 9
+   }
+  },
+  "total": {
+   "r0b0t0": 42,
+   "r0b0t1": 0,
+   "r0b1t0": 0,
+   "r0b1t1": 7,
+   "r1b0t0": 4,
+   "r1b0t1": 0,
+   "r1b1t0": 0,
+   "r1b1t1": 21
+  }
+ },
+ "tools": [
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/get_balance",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/get_iban",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "n"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/get_most_recent_transactions",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": true,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/get_scheduled_transactions",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/get_user_info",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "file_path"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "file_path"
+   ],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/read_file",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "amount",
+    "date",
+    "recipient",
+    "recurring",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "recipient"
+   ],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/schedule_transaction",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write",
+    "core:financial-value-transfer"
+   ],
+   "params": [
+    "amount",
+    "date",
+    "recipient",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "recipient"
+   ],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/send_money",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "password"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "password"
+   ],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/update_password",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "amount",
+    "date",
+    "id",
+    "recipient",
+    "recurring",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "id",
+    "recipient"
+   ],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/update_scheduled_transaction",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "city",
+    "first_name",
+    "last_name",
+    "street"
+   ],
+   "regex_write": true,
+   "relevant_params": [],
+   "suite": "banking",
+   "tool_id": "agentdojo:banking/update_user_info",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": [
+    "channel",
+    "user"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "channel",
+    "user"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/add_user_to_channel",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/get_channels",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "channel"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "channel"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/get_users_in_channel",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "url"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/get_webpage",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": [
+    "user",
+    "user_email"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "user",
+    "user_email"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/invite_user_to_slack",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "url"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "url"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/post_webpage",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "channel"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "channel"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/read_channel_messages",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "user"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "user"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/read_inbox",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-removal"
+   ],
+   "params": [
+    "user"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "user"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/remove_user_from_slack",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "body",
+    "channel"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "channel"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/send_channel_message",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "body",
+    "recipient"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "recipient"
+   ],
+   "suite": "slack",
+   "tool_id": "agentdojo:slack/send_direct_message",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/cancel_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/check_restaurant_opening_hours",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "description",
+    "end_time",
+    "location",
+    "participants",
+    "start_time",
+    "title"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "participants"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/create_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "city"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_all_car_rental_companies_in_city",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "city"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_all_hotels_in_city",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "city"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_all_restaurants_in_city",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "company_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "company_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_car_fuel_options",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "company_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "company_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_car_price_per_day",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "company_name"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "company_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_car_rental_address",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "company_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "company_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_car_types_available",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_contact_information_for_restaurants",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_cuisine_type_for_restaurants",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "day"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_day_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_dietary_restrictions_for_all_restaurants",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "arrival_city",
+    "departure_city"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_flight_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "hotel_name"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "hotel_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_hotels_address",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "hotel_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "hotel_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_hotels_prices",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_price_for_restaurants",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "company_name"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "company_name"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_rating_reviews_for_car_rental",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "hotel_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "hotel_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_rating_reviews_for_hotels",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_rating_reviews_for_restaurants",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "restaurant_names"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "restaurant_names"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_restaurants_address",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/get_user_information",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "company",
+    "end_time",
+    "start_time"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "company"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/reserve_car_rental",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "end_day",
+    "hotel",
+    "start_day"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "hotel"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/reserve_hotel",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "restaurant",
+    "start_time"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "restaurant"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/reserve_restaurant",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "date",
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/search_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "attachments",
+    "bcc",
+    "body",
+    "cc",
+    "recipients",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bcc",
+    "cc",
+    "recipients"
+   ],
+   "suite": "travel",
+   "tool_id": "agentdojo:travel/send_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "participants"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id",
+    "participants"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/add_calendar_event_participants",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "file_id"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "file_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/append_to_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/cancel_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "description",
+    "end_time",
+    "location",
+    "participants",
+    "start_time",
+    "title"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "participants"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/create_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "content",
+    "filename"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "filename"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/create_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "email_id"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "email_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/delete_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "file_id"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "file_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/delete_file",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_current_day",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "day"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_day_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_draft_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "file_id"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "file_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_file_by_id",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_received_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_sent_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-read",
+    "core:core-effect-data-write"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/get_unread_emails",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/list_files",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "event_id",
+    "new_end_time",
+    "new_start_time"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "event_id"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/reschedule_calendar_event",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "date",
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_calendar_events",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_contacts_by_email",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_contacts_by_name",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "query",
+    "sender"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "sender"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_emails",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "query"
+   ],
+   "regex_write": false,
+   "relevant_params": [],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_files",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": false,
+   "effects": [
+    "core:core-effect-data-read"
+   ],
+   "params": [
+    "filename"
+   ],
+   "regex_write": false,
+   "relevant_params": [
+    "filename"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/search_files_by_filename",
+   "typed_eligible": false
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-data-write"
+   ],
+   "params": [
+    "attachments",
+    "bcc",
+    "body",
+    "cc",
+    "recipients",
+    "subject"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "bcc",
+    "cc",
+    "recipients"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/send_email",
+   "typed_eligible": true
+  },
+  {
+   "bound_write": true,
+   "effects": [
+    "core:core-effect-authority-grant"
+   ],
+   "params": [
+    "email",
+    "file_id",
+    "permission"
+   ],
+   "regex_write": true,
+   "relevant_params": [
+    "email",
+    "file_id",
+    "permission"
+   ],
+   "suite": "workspace",
+   "tool_id": "agentdojo:workspace/share_file",
+   "typed_eligible": true
+  }
+ ]
+}
