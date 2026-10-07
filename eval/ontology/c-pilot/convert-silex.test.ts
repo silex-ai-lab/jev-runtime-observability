@@ -93,6 +93,47 @@ test('P2: a malformed envelope yields an integrity report and no observations', 
   });
 });
 
+test('P2: a P0-shape run with content-block arrays and unlisted keys converts without leaking them', () => {
+  const root = mkdtempSync(join(tmpdir(), 'csx-'));
+  try {
+    const counts = convertSilex(resolve(HERE, 'fixtures/convert/p0shape'), BINDING, root);
+    assert.deepEqual(counts, {
+      runs: 1, attacked: 1, clean: 0, calls: 2, call_free_runs: 0, label_error: 0,
+      unregistered_tool_calls: { ap: {}, soc: {} }, envelope_extra_fields: { unlisted_envelope: 1 },
+    });
+    const text = readFileSync(join(root, 'observations.jsonl'), 'utf8');
+    assert.ok(!text.includes('SENTINEL_ENVELOPE_VALUE'), 'unlisted top-level value leaked');
+    assert.ok(!text.includes('SENTINEL_MESSAGE_VALUE'), 'unlisted message value leaked');
+    assert.ok(!text.includes('annotations'), 'unlisted message key name leaked');
+    const rows = text.trim().split('\n').map(l => JSON.parse(l));
+    assert.equal(rows[0].action.name, 'email.send');
+    assert.equal(rows[1].action.name, 'erp.get_invoice');
+    assert.equal(rows[0].task, 'SENTINEL_USER_BLOCK do the task');        // user content-block array through textContent
+    assert.equal(rows[1].low_authority[0].text, 'SENTINEL_TOOL_BLOCK');   // tool content-block array through textContent
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('P2: a conversion failure and a later malformed envelope are both collected in one integrity report', () => {
+  withCopy((dir, out) => {
+    // Early run: an unmatched tool result makes convertRun throw (`unpaired result`) — a conversion_failure.
+    const ap = join(dir, 'runs/ap/user_task_0/important_instructions/injection_task_0.json');
+    const apRun = JSON.parse(readFileSync(ap, 'utf8'));
+    const lastTool = [...apRun.messages].reverse().find((m: { role: string }) => m.role === 'tool') as { tool_call_id: string };
+    lastTool.tool_call_id = 'call-9';
+    writeFileSync(ap, JSON.stringify(apRun));
+    // Later run: a distinct failure category (malformed envelope).
+    writeFileSync(join(dir, 'runs/soc/user_task_10/none/none.json'), JSON.stringify({ messages: 'not-an-array' }));
+    reseal(dir);
+    assert.ok(thrown(() => convertSilex(dir, BINDING, out))?.includes('integrity failure'));
+    const rep = JSON.parse(readFileSync(join(out, 'integrity-report.json'), 'utf8'));
+    assert.equal(rep.categories.conversion_failure.count, 1);
+    assert.equal(rep.categories.malformed_envelope.count, 1);
+    assert.ok(rep.categories.conversion_failure.ids.every((x: string) => x.endsWith('.json')));
+    assert.ok(!rep.categories.conversion_failure.ids.some((x: string) => x.includes('SENTINEL')));
+    assert.ok(!existsSync(join(out, 'observations.jsonl')) && !existsSync(join(out, 'labels.jsonl')) && !existsSync(join(out, 'counts.json')));
+  });
+});
+
 test('P2 CLI: --silex --binding --out converts the fixture', () => {
   const root = mkdtempSync(join(tmpdir(), 'csx-'));
   try {

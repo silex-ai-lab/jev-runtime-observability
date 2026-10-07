@@ -36,8 +36,7 @@ const ROOT = resolve(HERE, '../../..');
 const FIX = resolve(HERE, 'fixtures/pilot');
 const expected = JSON.parse(readFileSync(resolve(FIX, 'expected.json'), 'utf8'));
 const schema = JSON.parse(readFileSync(resolve(HERE, 'pilot-schema.json'), 'utf8')) as PilotSchema;
-const binding = JSON.parse(readFileSync(resolve(FIX, 'binding.json'), 'utf8')) as { tools: Record<string, unknown> };
-const toolIds = Object.keys(binding.tools);
+const binding = JSON.parse(readFileSync(resolve(FIX, 'binding.json'), 'utf8')) as { tools: Record<string, { params?: Record<string, unknown> }> };
 
 const opts = (over: Record<string, unknown> = {}) => ({
   sanitized: resolve(FIX, 'observations.sanitized.jsonl'), labels: resolve(FIX, 'labels.jsonl'),
@@ -105,13 +104,37 @@ test('P3(a): a manifest-labels transcription error yields authored=null, not a c
 test('P3(c): the validator rejects an extra key, a missing key, a run-id-like string and a changed statement', () => {
   const base = runPilot(opts()) as any;
   const clone = () => JSON.parse(JSON.stringify(base));
-  validatePilot(base, schema, toolIds);
-  { const o = clone(); o.counts.extra = 1; assert.throws(() => validatePilot(o, schema, toolIds), /unexpected field/); }
-  { const o = clone(); delete o.counts.runs; assert.throws(() => validatePilot(o, schema, toolIds), /missing field/); }
-  { const o = clone(); o.hashes.seal = 'silex-authored/important_instructions/ap/user_task_0/injection_task_0'; assert.throws(() => validatePilot(o, schema, toolIds), /run-id-like/); }
-  { const o = clone(); o.statement = o.statement + 'x'; assert.throws(() => validatePilot(o, schema, toolIds), /differs from STATEMENT/); }
-  { const o = clone(); o.tables.primary.pooled.regexxV1.F = 1.5; assert.throws(() => validatePilot(o, schema, toolIds), /expected integer/); }
-  { const o = clone(); o.tables.primary.pooled.regexxV1.precision = Infinity; assert.throws(() => validatePilot(o, schema, toolIds), /number or null/); }
+  validatePilot(base, schema, binding);
+  { const o = clone(); o.counts.extra = 1; assert.throws(() => validatePilot(o, schema, binding), /unexpected field/); }
+  { const o = clone(); delete o.counts.runs; assert.throws(() => validatePilot(o, schema, binding), /missing field/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.ap['silex-authored/important_instructions/ap/user_task_0/injection_task_0'] = 1; assert.throws(() => validatePilot(o, schema, binding), /run-id-like/); }
+  { const o = clone(); o.statement = o.statement + 'x'; assert.throws(() => validatePilot(o, schema, binding), /differs from STATEMENT/); }
+  { const o = clone(); o.tables.primary.pooled.regexxV1.F = 1.5; assert.throws(() => validatePilot(o, schema, binding), /expected integer/); }
+  { const o = clone(); o.tables.primary.pooled.regexxV1.precision = Infinity; assert.throws(() => validatePilot(o, schema, binding), /number or null/); }
+});
+
+test('P3(c): the closed validator enforces hash form, the exact suite maps and the binding parameter vocabulary', () => {
+  const base = runPilot(opts()) as any;
+  const clone = () => JSON.parse(JSON.stringify(base));
+  // hashes must be 64 lowercase hex
+  { const o = clone(); o.hashes.seal = 'not-hex'; assert.throws(() => validatePilot(o, schema, binding), /64-char lowercase hex/); }
+  { const o = clone(); o.hashes.binding = 'A'.repeat(64); assert.throws(() => validatePilot(o, schema, binding), /64-char lowercase hex/); }
+  { const o = clone(); o.hashes.spec = o.hashes.spec.slice(0, 63); assert.throws(() => validatePilot(o, schema, binding), /64-char lowercase hex/); }
+  // unregistered_tool_calls: exactly ap and soc, object-valued, non-negative integer counts, scanned names
+  { const o = clone(); delete o.counts.unregistered_tool_calls.soc; assert.throws(() => validatePilot(o, schema, binding), /missing field/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.zz = {}; assert.throws(() => validatePilot(o, schema, binding), /unexpected field/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.ap = []; assert.throws(() => validatePilot(o, schema, binding), /expected object/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.ap['crm.create_lead'] = 1.5; assert.throws(() => validatePilot(o, schema, binding), /expected integer/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.ap['crm.create_lead'] = -1; assert.throws(() => validatePilot(o, schema, binding), /non-negative/); }
+  { const o = clone(); o.counts.unregistered_tool_calls.ap['silex-authored/x'] = 1; assert.throws(() => validatePilot(o, schema, binding), /run-id-like/); }
+  // binding_table.relevant must be a parameter name of that tool, and pass the privacy scan
+  { const o = clone(); o.binding_table['silex:ap/email.send'].relevant = ['not_a_parameter']; assert.throws(() => validatePilot(o, schema, binding), /not a parameter/); }
+  {
+    const o = clone(); const b2 = JSON.parse(JSON.stringify(binding));
+    b2.tools['silex:ap/email.send'].params['runs/ap/user_task_0/none/none.json'] = 'core:core-party';
+    o.binding_table['silex:ap/email.send'].relevant = ['runs/ap/user_task_0/none/none.json'];
+    assert.throws(() => validatePilot(o, schema, b2), /run-id-like/);
+  }
 });
 
 test('P3 CLI: --mode silex writes a schema-valid pilot.json', () => {

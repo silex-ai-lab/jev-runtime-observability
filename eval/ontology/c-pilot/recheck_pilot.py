@@ -455,7 +455,10 @@ def main():
         if Path(args.out).resolve() in {Path(p).resolve() for p in inputs}:
             raise ValueError('output would overwrite an input')
         # Small inputs are authenticated again after the streaming computation.
-        small_inputs = {str(p): sha256(p) for p in inputs if str(p) != args.raw}
+        # A missing/unreadable optional transcription invalidates only authored.
+        # Authenticate readable transcription bytes below, including invalid JSON.
+        small_inputs = {str(p): sha256(p) for p in inputs
+                        if str(p) not in (args.raw, args.manifest_labels)}
         labels, binding, snapshot = list(jsonl(args.labels)), read_json(args.binding), read_json(snapshot_path)
         if args.mode == 'agentdyn':
             result = compute_agentdyn(jsonl(args.raw), labels, binding, snapshot)
@@ -464,10 +467,12 @@ def main():
             errors, manifest = [], None
             if args.manifest_labels:
                 try:
-                    manifest = read_json(args.manifest_labels)
+                    data = Path(args.manifest_labels).read_bytes()
+                    small_inputs[args.manifest_labels] = hashlib.sha256(data).hexdigest()
+                    manifest = loads(data.decode('utf-8'))
                     if manifest is None:
                         manifest = []
-                except ValueError:
+                except (OSError, ValueError, UnicodeError):
                     manifest = []  # Invalid transcription, not an absent optional map.
             paths = seal_paths(args.seal)
             hashes = {k: sha256(p) for k, p in (
@@ -475,8 +480,8 @@ def main():
                 ('spec', args.spec), ('code_closure', args.code_closure))}
             result = compute_pilot(jsonl(args.raw), labels, read_json(args.counts), binding,
                                    snapshot, paths, hashes, manifest, errors)
-            for error in errors:
-                print(error + '; authored table is null', file=sys.stderr)
+            if errors:
+                print('recheck: authored table not computed (transcription error)', file=sys.stderr)
         if any(sha256(p) != digest for p, digest in small_inputs.items()):
             raise ValueError('input changed during computation')
         encoded = json.dumps(result, indent=1, allow_nan=False) + '\n'

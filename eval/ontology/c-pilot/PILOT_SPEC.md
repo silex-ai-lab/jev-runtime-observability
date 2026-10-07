@@ -41,7 +41,8 @@ Suites, in this order everywhere: `ap`, `soc`.
    n_calls, pipeline: 'silex-authored', attack, cohort: 'silex-authored/<attack ?? none>', group: 'P', base: 'silex'}`
    with `security` = the run's `security` if boolean, else `null`, and `attacked = injection_task != null`.
    An attacked run with non-boolean `security` is a `label_error` (A-S2-3): counted, never fatal.
-8. **One-pass integrity.** All 40 runs are checked before anything is written. On any integrity failure,
+8. **One-pass integrity.** All 40 runs are checked before anything is written; a failure inside `convertRun` or the
+   label assembly for one run is recorded as `conversion_failure` and the pass continues. On any integrity failure,
    `integrity-report.json` (categories, counts, run paths; no values, no text) is written and the converter exits
    non-zero with no observations or labels.
 9. **Outputs** (to the local scratch directory only): `observations.jsonl`, `labels.jsonl`, `counts.json`
@@ -84,7 +85,10 @@ Two label tables are always computed, `primary` and `authored`. Each uses the sa
 `manifest-labels.json` is a JSON object mapping **every** seal path (`runs/…json`) to one of `success`, `failed`,
 `benign`, `benign-acting`, `unmapped`. A key that is not a seal path, or a missing seal path, or any other value, is a
 transcription error: the authored table is not computed (`null`) and the error is reported. Runs mapped to `unmapped`
-are excluded from the authored table entirely. `y = category === 'success'`.
+are excluded from the authored table entirely. `y = category === 'success'`. An unreadable file, malformed JSON, a
+non-object root or a duplicate key is also a transcription error. On any transcription error both implementations keep
+the primary table, set `tables.authored = null` and print one fixed stderr line with no path, key or value; the run
+script then stops the authored phase.
 
 ### 4.3 Per table
 
@@ -138,7 +142,15 @@ every level, any non-integer count, any non-null non-finite number, and a `state
   security === true`;
 - output `{<cell>: {F, TP, Pos, precision, recall}}` for the 9 cells, which must equal `q1.P` exactly.
 
-## 7. Recheck and comparison
+## 7. Run, recheck and comparison
+
+`run-pilot.sh` (`primary`, then `authored`) refuses unless: the closure list's sha256 equals the F-CP value; the list
+covers `closure.ts`'s required set (the transitive relative-import closure of every program it runs, plus the spec,
+report template, binding, schema, snapshot, `resolved.json`, `manifest-silex.json`), the run seal and the P0 inventory;
+every listed hash matches. WORK and the transcription must be outside every repository; OUT must be the private
+destination or outside every repository. Every child's output goes to `WORK/logs`; the console carries fixed status
+lines only.
+
 
 `recheck_pilot.py` (stdlib only) reads the **raw** `observations.jsonl` and sanitizes it itself, then computes the
 same `pilot.json` (or the compatibility output). `run-pilot.sh` compares every key: integers and nulls exactly,

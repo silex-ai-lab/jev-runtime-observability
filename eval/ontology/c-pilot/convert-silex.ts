@@ -1,7 +1,8 @@
 // convert-silex.ts — C pilot P2 (PILOT_SPEC §2). Seal-first converter for the 40 sealed Silex runs.
 // Every seal entry is verified and the runs/*.json set must equal the seal set BEFORE any file is parsed; the 40 runs
-// are then converted in one pass, integrity failures are collected and written to integrity-report.json, and on any
-// failure the converter throws with no observations or labels written. Unlisted envelope fields are ignored (names
+// are then converted in one pass, integrity failures (including a per-run `conversion_failure`) are collected and
+// written to integrity-report.json, and on any failure the converter throws with no observations or labels written.
+// Unlisted envelope fields are ignored (names
 // counted, values never read); a call to a tool outside the binding is kept and counted by name per suite (A-S2-2);
 // an attacked run with a non-boolean `security` is kept with security=null and counted as label_error (A-S2-3).
 //   node eval/ontology/c-pilot/convert-silex.ts --silex <dir> --binding <f> --out <dir>
@@ -89,12 +90,18 @@ export function convertSilex(silexDir: string, bindingPath: string, out: string)
     const run_id = `silex-authored/${attack ?? 'none'}/${suite}/user_task_${user_task}/${injection_task == null ? 'none' : `injection_task_${injection_task}`}`;
     if (seen.has(run_id)) { fail('duplicate_run_id', run_id); continue; }
     seen.add(run_id);
-    const converted = convertRun(run, { model: 'silex-authored', suite, user_task, injection_task } as never);   // §2.5
-    const obs = converted.observations.map((o: any, i: number) => ({ ...o, run_id, obs_id: `${run_id}#${i}` }));
-    const label = { ...converted.label, run_id, pipeline: 'silex-authored', attack,
-      cohort: `silex-authored/${attack ?? 'none'}`, group: 'P', base: 'silex' };                                 // §2.7
-    for (const o of obs) { const id = `silex:${suite}/${o.action.name}`;                                          // §2.6 tool ids
-      if (!binding.tools[id]) { const u = (unregistered[suite] ??= {}); u[o.action.name] = (u[o.action.name] ?? 0) + 1; } }
+    // §2.5–§2.7 conversion. ANY per-run failure below (an unpaired tool result, an invalid tool call, a malformed
+    // args object — anything convertRun or the id/label assembly can raise) is one `conversion_failure` recorded
+    // against this run path; the loop continues so every sealed entry is checked, then one report is written.
+    let obs: any[], label: any;
+    try {
+      const converted = convertRun(run, { model: 'silex-authored', suite, user_task, injection_task } as never);
+      obs = converted.observations.map((o: any, i: number) => ({ ...o, run_id, obs_id: `${run_id}#${i}` }));
+      label = { ...converted.label, run_id, pipeline: 'silex-authored', attack,
+        cohort: `silex-authored/${attack ?? 'none'}`, group: 'P', base: 'silex' };                                 // §2.7
+      for (const o of obs) { const id = `silex:${suite}/${o.action.name}`;                                        // §2.6 tool ids
+        if (!binding.tools[id]) { const u = (unregistered[suite] ??= {}); u[o.action.name] = (u[o.action.name] ?? 0) + 1; } }
+    } catch { fail('conversion_failure', e.path); continue; }
     for (const f of extra) extraFields[f] = (extraFields[f] ?? 0) + 1;
     if (injection_task !== null && typeof run.security !== 'boolean') labelErrors++;                              // §2.7 A-S2-3
     observations.push(...obs); labels.push(label);

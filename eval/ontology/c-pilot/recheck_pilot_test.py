@@ -227,22 +227,51 @@ class RecheckTests(unittest.TestCase):
         if manifest: args += ['--manifest-labels', str(manifest)]
         return subprocess.run(args, capture_output=True, text=True)
 
-    def test_cli_complete_output_and_duplicate_transcription(self):
+    def test_cli_complete_output_and_input_overwrite(self):
         with tempfile.TemporaryDirectory(prefix='pilot-recheck-test-') as tmp:
             out = Path(tmp) / 'pilot.json'
             result = self.cli(out, FIX / 'manifest-labels.json')
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(checker.read_json(out), self.expected())
-            bad = Path(tmp) / 'duplicate.json'
-            bad.write_text('{"SECRET_PATH":"success","SECRET_PATH":"failed"}')
-            result = self.cli(out, bad)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(checker.read_json(out), self.expected(False))
-            self.assertIn('authored transcription error', result.stderr)
-            self.assertNotIn('SECRET_PATH', result.stderr)
+            self.assertEqual(result.stderr, '')
         result = self.cli(FIX / 'counts.json')
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('overwrite', result.stderr)
+
+    def test_cli_invalid_transcriptions_preserve_primary_and_fixed_stderr(self):
+        missing = dict(self.manifest)
+        missing.pop(next(iter(missing)))
+        extra = dict(self.manifest, SECRET_KEY='success')
+        unknown = dict(self.manifest)
+        unknown[next(iter(unknown))] = 'SECRET_CATEGORY'
+        non_string = dict(self.manifest)
+        non_string[next(iter(non_string))] = {'SECRET_VALUE': True}
+        # Duplicate an actual seal path with conflicting categories in a total map.
+        key = next(iter(self.manifest))
+        duplicate = json.dumps(self.manifest)[:-1] + ',' + json.dumps(key) + ':"failed"}'
+        cases = {'missing-file': None, 'unreadable-directory': None,
+                 'malformed': '{"SECRET_KEY":', 'duplicate': duplicate,
+                 'missing-path': json.dumps(missing), 'extra-path': json.dumps(extra),
+                 'unknown-category': json.dumps(unknown), 'non-string-category': json.dumps(non_string),
+                 'null-root': 'null', 'array-root': '[]', 'string-root': '"SECRET_VALUE"',
+                 'number-root': '1', 'boolean-root': 'true', 'invalid-utf8': b'\xffSECRET_VALUE'}
+        with tempfile.TemporaryDirectory(prefix='pilot-transcription-test-') as tmp:
+            directory = Path(tmp)
+            for name, data in cases.items():
+                with self.subTest(case=name):
+                    manifest = directory / (name + '-SECRET_PATH')
+                    if name == 'unreadable-directory':
+                        manifest.mkdir()
+                    elif isinstance(data, bytes):
+                        manifest.write_bytes(data)
+                    elif data is not None:
+                        manifest.write_text(data, encoding='utf-8')
+                    out = directory / 'pilot.json'
+                    result = self.cli(out, manifest)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(checker.read_json(out), self.expected(False))
+                    self.assertEqual(result.stderr,
+                                     'recheck: authored table not computed (transcription error)\n')
 
     def test_baseline_integrity_failures(self):
         with tempfile.TemporaryDirectory(prefix='pilot-baseline-test-') as tmp:

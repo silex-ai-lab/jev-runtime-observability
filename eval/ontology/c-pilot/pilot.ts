@@ -98,18 +98,67 @@ function buildTable(cellFlags: Record<string, Map<string, number>>, ls: SilexLab
 const sealPathOf = (l: SilexLab): string =>
   `runs/${l.suite}/user_task_${l.user_task}/${l.attack ?? 'none'}/${l.injection_task == null ? 'none' : `injection_task_${l.injection_task}`}.json`;
 
-/** The authored table plus its extras, or null with a reported error if the transcription is not a total map. */
-function authoredPart(ls: SilexLab[], cellFlags: Record<string, Map<string, number>>, manifestFile: string) {
-  const raw = JSON.parse(readFileSync(manifestFile, 'utf8')) as Record<string, unknown>;
-  const want = new Set(ls.map(sealPathOf));
-  const errs: string[] = [];
-  for (const k of Object.keys(raw)) if (!want.has(k)) errs.push(`not a seal path: ${k}`);
-  for (const p of want) if (!Object.hasOwn(raw, p)) errs.push(`missing seal path: ${p}`);
-  for (const [k, v] of Object.entries(raw)) if (typeof v !== 'string' || !AUTHORED_CATEGORIES.includes(v)) errs.push(`bad category at ${k}`);
-  if (errs.length) {
-    console.error(`pilot: authored table not computed (transcription error): ${errs.join('; ')}`);
-    return null;
+// One fixed diagnostic, no path/key/value (PILOT_SPEC §4.2, plan r4 §11).
+const AUTHORED_ERROR = 'pilot: authored table not computed (transcription error)';
+const isPlainObject = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
+
+/** Decode one JSON string literal starting at `start` (an opening quote). */
+function readJsonString(text: string, start: number): { value: string; end: number } {
+  let i = start + 1, out = '';
+  while (i < text.length) {
+    const c = text[i];
+    if (c === '"') return { value: out, end: i + 1 };
+    if (c === '\\') {
+      const e = text[i + 1];
+      const decoded = e === 'b' ? '\b' : e === 'f' ? '\f' : e === 'n' ? '\n' : e === 'r' ? '\r' : e === 't' ? '\t' : e;
+      if (e === 'u') { out += String.fromCharCode(parseInt(text.slice(i + 2, i + 6), 16)); i += 6; }
+      else { out += decoded; i += 2; }
+    } else { out += c; i++; }
   }
+  throw new Error('unterminated JSON string');
+}
+
+/** `JSON.parse` rejects syntax errors; this additionally rejects a duplicate object key at any depth, which
+ *  `JSON.parse` would silently collapse to the last value, so a transcript cannot be a total map. */
+function parseManifest(text: string): unknown {
+  const value = JSON.parse(text);   // syntax errors propagate
+  type Frame = { kind: 'object' | 'array'; keys: Set<string> };
+  const stack: Frame[] = [];
+  let i = 0;
+  const n = text.length;
+  const ws = (): void => { while (i < n && (text[i] === ' ' || text[i] === '\t' || text[i] === '\n' || text[i] === '\r')) i++; };
+  while (i < n) {
+    const c = text[i];
+    if (c === '"') {
+      const s = readJsonString(text, i); i = s.end; ws();
+      const top = stack[stack.length - 1];
+      if (text[i] === ':' && top && top.kind === 'object') {
+        if (top.keys.has(s.value)) throw new Error('duplicate JSON key');
+        top.keys.add(s.value);
+      }
+      continue;
+    }
+    if (c === '{') stack.push({ kind: 'object', keys: new Set() });
+    else if (c === '[') stack.push({ kind: 'array', keys: new Set() });
+    else if (c === '}' || c === ']') stack.pop();
+    i++;
+  }
+  return value;
+}
+
+/** The authored table plus its extras, or null with one fixed diagnostic if the transcription is not a total map:
+ *  unreadable file, malformed JSON, a duplicate key, a non-object root, a missing/extra seal path, or a bad category. */
+function authoredPart(ls: SilexLab[], cellFlags: Record<string, Map<string, number>>, manifestFile: string) {
+  const reject = (): null => { console.error(AUTHORED_ERROR); return null; };
+  let text: string;
+  try { text = readFileSync(manifestFile, 'utf8'); } catch { return reject(); }
+  let raw: unknown;
+  try { raw = parseManifest(text); } catch { return reject(); }
+  if (!isPlainObject(raw)) return reject();
+  const want = new Set(ls.map(sealPathOf));
+  for (const k of Object.keys(raw)) if (!want.has(k)) return reject();
+  for (const p of want) if (!Object.hasOwn(raw, p)) return reject();
+  for (const v of Object.values(raw)) if (typeof v !== 'string' || !AUTHORED_CATEGORIES.includes(v)) return reject();
   const catOf = (l: SilexLab): string => raw[sealPathOf(l)] as string;
   const mapped = ls.filter(l => catOf(l) !== 'unmapped');
   const yAuth = (l: SilexLab) => catOf(l) === 'success';
@@ -159,7 +208,7 @@ export function runPilot(o: PilotOpts): Record<string, unknown> {
     binding_table: boundTypedTable(binding, snap),
     tables: { primary, authored },
   };
-  validatePilot(out, SCHEMA, Object.keys(binding.tools));
+  validatePilot(out, SCHEMA, binding);
   if (o.out) { mkdirSync(dirname(o.out), { recursive: true }); writeFileSync(o.out, JSON.stringify(out, null, 1) + '\n'); }
   return out as unknown as Record<string, unknown>;
 }
