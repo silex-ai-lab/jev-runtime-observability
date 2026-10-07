@@ -31,13 +31,18 @@ export function validateDiag(data: unknown, binding: BindingShape, schema: { enu
       case 'obj': {
         if (v === null || typeof v !== 'object' || Array.isArray(v)) throw new Error(`${path}: expected object`);
         const obj = v as Record<string, unknown>, keys = node.keys as Record<string, Node>;
-        for (const key of Object.keys(obj)) if (!(key in keys)) throw new Error(`${path}.${key}: unexpected field`);
-        for (const key of Object.keys(keys)) { if (!(key in obj)) { if ((keys[key] as Node & { opt?: boolean }).opt) continue; throw new Error(`${path}.${key}: missing field`); } walk(keys[key], obj[key], `${path}.${key}`); }
+        for (const [key, value] of Object.entries(obj)) {
+          if (!Object.hasOwn(keys, key)) throw new Error(`${path}.${key}: unexpected field`);
+          walk(keys[key], value, `${path}.${key}`);
+        }
+        for (const key of Object.keys(keys)) {
+          if (!Object.hasOwn(obj, key) && !(keys[key] as Node & { opt?: boolean }).opt) throw new Error(`${path}.${key}: missing field`);
+        }
         return;
       }
       case 'map': {
         if (v === null || typeof v !== 'object' || Array.isArray(v)) throw new Error(`${path}: expected map`);
-        for (const key of Object.keys(v as Record<string, unknown>)) { keyOk(node.key as string, key, `${path}["${key}"]`); walk(node.val as Node, (v as Record<string, unknown>)[key], `${path}.${key}`); }
+        for (const [key, value] of Object.entries(v as Record<string, unknown>)) { keyOk(node.key as string, key, `${path}["${key}"]`); walk(node.val as Node, value, `${path}.${key}`); }
         return;
       }
       case 'arr': { if (!Array.isArray(v)) throw new Error(`${path}: expected array`); v.forEach((x, i) => walk(node.items as Node, x, `${path}[${i}]`)); return; }

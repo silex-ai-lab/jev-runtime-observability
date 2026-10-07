@@ -6,7 +6,7 @@
 //     --baseline-dir runs/onto-s2-input --out runs/onto-s2-diag/diag-s2.json
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { typing, untrustedKeys, type Obs } from '../v2/typing.ts';
 import { qualifying } from '../pr/values.ts';
 import { sanitizeObs } from '../pr/sanitize.ts';
@@ -26,31 +26,51 @@ const sha256 = (b: Buffer | string): string => createHash('sha256').update(b).di
 
 interface Lab { run_id: string; suite: string; pipeline: string; cohort: string; user_task: number; injection_task: number | null; attacked: boolean; security: boolean | null; group: string; base: string }
 interface Binding extends BindingShape { tools: Record<string, { effects: string[]; params?: Record<string, string> }> }
-export interface DiagOpts { sanitized: string; labels: string; binding: string; frozen: string; stats: string; baselineDir: string; out?: string; s1Pool?: string; s1Manifest?: string; s1Stats?: string }
+export interface DiagOpts { sanitized: string; labels: string; binding: string; frozen: string; stats: string; baselineDir: string; out?: string; s1Pool?: string; s1Manifest?: string; s1Stats?: string; expectedBaseline?: { baseline: string[]; sanitized: string[] } }
 
-/** Verify both input baselines exactly as run-s2.sh verify_baseline does; abort on any mismatch. */
-function verifyBaselines(dir: string): void {
-  const check = (listFile: string, selfFile: string): void => {
+/** The real S2 input layout written by run-s2.sh (baseline.sha256 covers the raw outputs, baseline-sanitized the sanitized one). */
+export const REAL_BASELINE = { baseline: ['observations.jsonl', 'labels.jsonl', 'labels-pr.jsonl', 'labels-d5.jsonl', 'counts.json'], sanitized: ['observations.sanitized.jsonl'] };
+
+/** Verify both input baselines exactly as run-s2.sh verify_baseline does, require the expected layout is covered with no
+ *  missing/duplicate/extra entry, and require the consumed inputs to be the baseline-pinned files. Aborts on any mismatch. */
+export function verifyBaselines(dir: string, sanitized: string, labels: string, expected: { baseline: string[]; sanitized: string[] }): void {
+  const check = (listFile: string, selfFile: string, want: string[]): void => {
     const text = readFileSync(join(dir, listFile));
     if (sha256(text) !== readFileSync(join(dir, selfFile), 'utf8').trim()) throw new Error(`baseline file changed: ${selfFile}`);
+    const names: string[] = [];
     for (const line of text.toString('utf8').split('\n')) {
       if (!line.trim()) continue;
       const m = line.match(/^([0-9a-f]{64})\s+\*?(.+)$/);
       if (!m) throw new Error(`bad baseline line: ${line}`);
       if (sha256(readFileSync(join(dir, m[2]))) !== m[1]) throw new Error(`raw/label input changed after baseline: ${m[2]}`);
+      names.push(m[2]);
     }
+    const set = new Set(names);
+    if (set.size !== names.length) throw new Error(`duplicate baseline entry in ${listFile}`);
+    for (const n of want) if (!set.has(n)) throw new Error(`baseline ${listFile} is missing ${n}`);
+    for (const n of set) if (!want.includes(n)) throw new Error(`baseline ${listFile} has an unexpected entry: ${n}`);
   };
-  check('baseline.sha256', 'baseline.self.sha256');
-  check('baseline-sanitized.sha256', 'baseline-sanitized.self.sha256');
+  check('baseline.sha256', 'baseline.self.sha256', expected.baseline);
+  check('baseline-sanitized.sha256', 'baseline-sanitized.self.sha256', expected.sanitized);
+  if (resolve(sanitized) !== resolve(join(dir, expected.sanitized[0]))) throw new Error(`--sanitized must be the baseline-pinned ${join(dir, expected.sanitized[0])}`);
+  if (resolve(labels) !== resolve(join(dir, 'labels.jsonl'))) throw new Error(`--labels must be the baseline-pinned ${join(dir, 'labels.jsonl')}`);
+}
+
+/** Reject duplicate identities before computing (defect 2). */
+function assertUnique(rows: Array<Record<string, unknown>>, key: string, what: string): void {
+  const seen = new Set<unknown>();
+  for (const r of rows) { const v = r[key]; if (seen.has(v)) throw new Error(`duplicate ${what}: ${String(v)}`); seen.add(v); }
 }
 
 export function runDiagnose(o: DiagOpts): Record<string, unknown> {
-  verifyBaselines(o.baselineDir);
+  verifyBaselines(o.baselineDir, o.sanitized, o.labels, o.expectedBaseline ?? REAL_BASELINE);
   const binding = JSON.parse(readFileSync(o.binding, 'utf8')) as Binding;
   const snap = JSON.parse(readFileSync(join(o.frozen, 'snapshot.json'), 'utf8'));
   const stats = JSON.parse(readFileSync(o.stats, 'utf8')) as any;
   const obs = readJsonl<Obs>(o.sanitized);
   const labels = readJsonl<Lab>(o.labels);
+  assertUnique(obs as unknown as Array<Record<string, unknown>>, 'obs_id', 'observation id');
+  assertUnique(labels as unknown as Array<Record<string, unknown>>, 'run_id', 'label run_id');
 
   const T = typing(snap as never, binding as never, manifestFromBinding(binding as never) as never);
   const tid = (c: Obs): string => `agentdyn:${c.suite}/${c.action.name}`;
@@ -155,17 +175,26 @@ export function runDiagnose(o: DiagOpts): Record<string, unknown> {
   let agentdojoBinding: Binding | undefined;
   if (o.s1Pool) {
     if (!o.s1Manifest || !o.s1Stats) throw new Error('--s1-pool needs --s1-manifest and --s1-stats');
-    // 1. verify the raw S1 files against the pinned manifest
+    // 1. verify the raw S1 files against the pinned manifest: exact, unique coverage of the expected layout
+    const S1_FILES = ['observations.jsonl', 'labels.jsonl', 'labels-pr.jsonl', 'counts.json'];
+    const s1names: string[] = [];
     for (const line of readFileSync(o.s1Manifest, 'utf8').split('\n')) {
       if (!line.trim()) continue;
       const m = line.match(/^([0-9a-f]{64})\s+\*?(.+)$/);
       if (!m) throw new Error(`bad S1 manifest line: ${line}`);
       const name = m[2].split('/').pop()!;
       if (sha256(readFileSync(join(o.s1Pool, name))) !== m[1]) throw new Error(`S1 input differs from the manifest: ${name}`);
+      s1names.push(name);
     }
-    // 2. sanitize the raw observations in memory with the frozen sanitizer (streamed read)
+    const s1set = new Set(s1names);
+    if (s1set.size !== s1names.length) throw new Error('duplicate S1 manifest entry');
+    for (const n of S1_FILES) if (!s1set.has(n)) throw new Error(`S1 manifest is missing ${n}`);
+    for (const n of s1set) if (!S1_FILES.includes(n)) throw new Error(`S1 manifest has an unexpected entry: ${n}`);
+    // 2. the consumed files are the manifest-pinned ones; sanitize the raw observations in memory (streamed read)
     const obs1 = readJsonl<Record<string, unknown>>(join(o.s1Pool, 'observations.jsonl')).map(r => sanitizeObs(r as never) as unknown as Obs);
     const labels1 = readJsonl<any>(join(o.s1Pool, 'labels.jsonl'));
+    assertUnique(obs1 as unknown as Array<Record<string, unknown>>, 'obs_id', 'S1 observation id');
+    assertUnique(labels1 as unknown as Array<Record<string, unknown>>, 'run_id', 'S1 label run_id');
     // 3. AgentDojo binding + tool manifest, as stats-s1.ts uses
     agentdojoBinding = JSON.parse(readFileSync(join(o.frozen, 'binding-v2.json'), 'utf8')) as Binding;
     const manifestV2 = JSON.parse(readFileSync(join(o.frozen, 'tool-manifest-v2.json'), 'utf8')).tools;

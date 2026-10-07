@@ -52,3 +52,22 @@ test('q2 rejects an AgentDojo tool id and accepts <unregistered-tool>', () => {
   const ok: any = valid(); ok.q2.tools['<unregistered-tool>'] = { calls: 0, added: row(), lost: { alerts: 1 } };
   validateDiag(ok, binding, schema, agentdojo);
 });
+
+// JSON-parsed fields named after Object.prototype members must be closed out, at the root and nested.
+const LEAK_NAMES = ['constructor', '__proto__', 'toString', 'hasOwnProperty'];
+const injectRoot = (name: string): any => JSON.parse(JSON.stringify(valid()).replace(/^\{/, `{"${name}":"ZZ_PRIVATE_TEXT",`));
+const injectNested = (name: string): any => JSON.parse(JSON.stringify(valid()).replace('"reference":{', `"reference":{"${name}":"ZZ_PRIVATE_TEXT",`));
+test('rejects prototype-named fields carrying private text at the root', () => {
+  for (const name of LEAK_NAMES) {
+    const d = injectRoot(name);
+    assert.ok(Object.hasOwn(d, name), `injected own root field ${name}`);
+    assert.throws(() => validateDiag(d, binding, schema, agentdojo), /unexpected field/, name);
+  }
+});
+test('rejects prototype-named fields carrying private text nested under reference', () => {
+  for (const name of LEAK_NAMES) {
+    const d = injectNested(name);
+    assert.ok(Object.hasOwn(d.reference, name), `injected own nested field ${name}`);
+    assert.throws(() => validateDiag(d, binding, schema, agentdojo), /unexpected field/, name);
+  }
+});
