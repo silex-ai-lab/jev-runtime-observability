@@ -29,8 +29,8 @@ ok('d5 carries error/utility/security', c.d5.error_present === false && c.d5.uti
 ok('low_authority holds the prior tool output', (c.observations[1].low_authority as Array<{ text: string }>)[0].text.includes('candidate-1234'));
 ok('an unregistered tool call is kept and reported by name (A-S2-2)', (() => { const k = convertSelectedRunS2(mk([['download_file', {}]]), meta, binding, registered); return k.observations.length === 1 && k.observations[0].action.name === 'download_file' && k.unregistered.includes('download_file'); })());
 ok('a registered-but-unbound tool id is an integrity failure (A-S2-2)', thrown(() => convertSelectedRunS2(mk([['ghost_tool', {}]]), meta, binding, new Set([...registered, 'agentdyn:dailylife/ghost_tool'])))?.includes('registered_unbound_tool') === true);
-ok('an attacked run with a non-boolean security label is a label_error (S2 only)', thrown(() => convertSelectedRunS2(mk([['send_email', {}]], { security: undefined }), meta, binding, registered))?.includes('label_error') === true);
-ok('a clean run with a missing security label is accepted (S1 unchanged)', thrown(() => convertSelectedRunS2(mk([['send_email', {}]], { security: null }), { ...meta, injection_task: null, attack: null }, binding, registered)) === null);
+ok('an attacked run with a missing security label is kept, flagged labelError and not positive (A-S2-3)', (() => { const k = convertSelectedRunS2(mk([['send_email', {}]], { security: undefined }), meta, binding, registered); return k.labelError === true && k.label.attacked === true && k.label.security === null; })());
+ok('a clean run with a missing security label is accepted and not a labelError (S1 unchanged)', (() => { const k = convertSelectedRunS2(mk([['send_email', {}]], { security: null }), { ...meta, injection_task: null, attack: null }, binding, registered); return k.labelError === false && k.label.attacked === false; })());
 
 // D7 envelope validation
 ok('a no-messages envelope fails', thrown(() => validateEnvelope({ security: true }))?.includes('messages must be an array') === true);
@@ -139,27 +139,30 @@ try {
     && twoRep.categories.registered_unbound_tool?.count >= 1 && twoRep.categories.malformed_envelope?.count >= 1, twoRep.categories);
   ok('the integrity report carries categories, counts and identifier names only', twoRep.categories.malformed_envelope.ids.every((x: string) => x.endsWith('.json'))
     && !/security|utility|ZZ_SENTINEL/.test(JSON.stringify(twoRep)) && !existsSync(join(root, 'out-two', 'observations.jsonl')));
-  // one pass: a valid archive plus one attacked security:null run plus one other (malformed-envelope) failure
-  function stageLabelError() {
-    const dir = join(root, 'stagel'); rmSync(dir, { recursive: true, force: true });
+  // A-S2-3: an attacked security:null run converts (not fatal), is not positive, and is counted. Other failures abort.
+  function stageLabelCount(corrupt = false) {
+    const dir = join(root, 'stagelc'); rmSync(dir, { recursive: true, force: true });
     for (const p of pipes) for (const s of suites) {
       const base = join(dir, 'R', 'runs', p, s, 'user_task_0');
       mkdirSync(join(base, 'important_instructions'), { recursive: true }); mkdirSync(join(base, 'none'), { recursive: true });
       let att = run(p, s, true);
-      if (p === 'p1' && s === 'dailylife') att = run(p, s, true, { security: null });        // attacked security:null -> label_error
-      if (p === 'p1' && s === 'github') att = run(p, s, true, { messages: 'not-an-array' }); // malformed envelope
+      if (p === 'p1' && s === 'dailylife') att = run(p, s, true, { security: null });                 // label_error: kept, not fatal
+      if (corrupt && p === 'p1' && s === 'github') att = run(p, s, true, { messages: 'not-an-array' }); // fatal
       writeFileSync(join(base, 'important_instructions', 'injection_task_0.json'), JSON.stringify(att));
       writeFileSync(join(base, 'none', 'none.json'), JSON.stringify(run(p, s, false)));
     }
-    const tar = join(root, 'label.tgz'); execFileSync('tar', ['-czf', tar, '-C', dir, 'R']); return tar;
+    const tar = join(root, 'labelcount.tgz'); execFileSync('tar', ['-czf', tar, '-C', dir, 'R']); return tar;
   }
-  const labErr = thrown(() => convertS2(stageLabelError(), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, regPath, '', join(root, 'out-label')));
+  const lc = convertS2(stageLabelCount(), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, regPath, '', join(root, 'out-lc'));
+  ok('an attacked security:null run converts and is counted as label_errors (A-S2-3)', lc.runs === 8 && lc.label_errors === 1, lc);
+  const lcLabels = readFileSync(join(root, 'out-lc', 'labels.jsonl'), 'utf8').trim().split('\n').map(x => JSON.parse(x));
+  const lcRun = lcLabels.find((l: any) => l.run_id === 'p1/important_instructions/dailylife/user_task_0/injection_task_0');
+  ok('the label_error run is attacked with a null security label (S1 endpoint, not positive)', lcRun.attacked === true && lcRun.security === null);
+  const labErr = thrown(() => convertS2(stageLabelCount(true), join(root, 'cohorts.json'), join(root, 'manifest.json'), bind, regPath, '', join(root, 'out-label')));
   const labRep = JSON.parse(readFileSync(join(root, 'out-label', 'integrity-report.json'), 'utf8'));
-  ok('an attacked security:null run is a label_error reported alongside the other failure in one pass', labErr?.includes('integrity failure') === true
-    && labRep.categories.label_error?.count === 1 && labRep.categories.malformed_envelope?.count === 1, labRep.categories);
-  ok('the label_error report names the run and exposes no security values or message text', labRep.categories.label_error.ids.every((x: string) => x.includes('user_task_0'))
-    && !/security|utility|not-an-array|null/.test(JSON.stringify(labRep)));
-  ok('a label_error writes only the report (no observations/labels/counts)', !existsSync(join(root, 'out-label', 'observations.jsonl'))
+  ok('label_error is not an integrity category; other failures still abort', labErr?.includes('integrity failure') === true
+    && !('label_error' in labRep.categories) && labRep.categories.malformed_envelope?.count === 1, labRep.categories);
+  ok('an aborted conversion writes only the report (no observations/labels/counts)', !existsSync(join(root, 'out-label', 'observations.jsonl'))
     && !existsSync(join(root, 'out-label', 'labels.jsonl')) && !existsSync(join(root, 'out-label', 'counts.json')));
 } finally { rmSync(root, { recursive: true, force: true }); }
 

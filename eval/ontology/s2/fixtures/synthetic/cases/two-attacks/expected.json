@@ -56,6 +56,132 @@
   "failed": [],
   "redraws": 0,
   "secondary": {
+   "b_prov_bound": {
+    "s1": {
+     "F": 36,
+     "TP": 36,
+     "Pos": 36,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "prov": {
+     "F": 36,
+     "TP": 36,
+     "Pos": 36,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "p_a": null
+   },
+   "d5": {
+    "per_base": {
+     "synth-a": {
+      "attacked": 24,
+      "error_present": 6,
+      "utility_false_security_true": 12
+     },
+     "synth-b": {
+      "attacked": 12,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     }
+    },
+    "per_suite": {
+     "dailylife": {
+      "attacked": 12,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     },
+     "github": {
+      "attacked": 12,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     },
+     "shopping": {
+      "attacked": 12,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     }
+    }
+   },
+   "groups": {
+    "P": {
+     "s1": {
+      "F": 36,
+      "TP": 36,
+      "Pos": 36,
+      "precision": 1.0,
+      "recall": 1.0
+     },
+     "prov": {
+      "F": 36,
+      "TP": 36,
+      "Pos": 36,
+      "precision": 1.0,
+      "recall": 1.0
+     }
+    },
+    "X1": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     }
+    },
+    "X2": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     }
+    }
+   },
+   "label_errors": {
+    "total": 0,
+    "per_pool": {
+     "P": 0,
+     "X1": 0
+    },
+    "per_base": {
+     "synth-a": 0,
+     "synth-b": 0
+    },
+    "run_ids": []
+   },
+   "overlap": {
+    "s1": {
+     "F": 36,
+     "TP": 18,
+     "Pos": 18,
+     "precision": 0.5,
+     "recall": 1.0
+    },
+    "prov": {
+     "F": 36,
+     "TP": 18,
+     "Pos": 18,
+     "precision": 0.5,
+     "recall": 1.0
+    }
+   },
    "p_rec3": null,
    "p_rec5": null,
    "p_signflip": 0.25,
@@ -143,72 +269,6 @@
      }
     }
    },
-   "groups": {
-    "P": {
-     "s1": {
-      "F": 36,
-      "TP": 36,
-      "Pos": 36,
-      "precision": 1.0,
-      "recall": 1.0
-     },
-     "prov": {
-      "F": 36,
-      "TP": 36,
-      "Pos": 36,
-      "precision": 1.0,
-      "recall": 1.0
-     }
-    },
-    "X1": {
-     "s1": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     },
-     "prov": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     }
-    },
-    "X2": {
-     "s1": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     },
-     "prov": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     }
-    }
-   },
-   "overlap": {
-    "s1": {
-     "F": 36,
-     "TP": 18,
-     "Pos": 18,
-     "precision": 0.5,
-     "recall": 1.0
-    },
-    "prov": {
-     "F": 36,
-     "TP": 18,
-     "Pos": 18,
-     "precision": 0.5,
-     "recall": 1.0
-    }
-   },
    "tiers": {
     "irreversible": {
      "s1": {
@@ -243,23 +303,6 @@
      }
     }
    },
-   "b_prov_bound": {
-    "s1": {
-     "F": 36,
-     "TP": 36,
-     "Pos": 36,
-     "precision": 1.0,
-     "recall": 1.0
-    },
-    "prov": {
-     "F": 36,
-     "TP": 36,
-     "Pos": 36,
-     "precision": 1.0,
-     "recall": 1.0
-    },
-    "p_a": null
-   },
    "x1": {
     "per_panel": {},
     "pooled": {
@@ -276,37 +319,6 @@
       "Pos": 0,
       "precision": null,
       "recall": null
-     }
-    }
-   },
-   "d5": {
-    "per_base": {
-     "synth-a": {
-      "attacked": 24,
-      "error_present": 6,
-      "utility_false_security_true": 12
-     },
-     "synth-b": {
-      "attacked": 12,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     }
-    },
-    "per_suite": {
-     "dailylife": {
-      "attacked": 12,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     },
-     "github": {
-      "attacked": 12,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     },
-     "shopping": {
-      "attacked": 12,
-      "error_present": 3,
-      "utility_false_security_true": 6
      }
     }
    }

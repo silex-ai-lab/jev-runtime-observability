@@ -286,7 +286,7 @@ def evaluate_pool(raw, labels, overlap_rows, snapshot, manifest, binding, reps=1
         tid = source + ':' + o['suite'] + '/' + o['action']['name']
         bound_flags[i] |= int(any(e != 'core:core-effect-data-read' for e in binding['tools'].get(tid, {}).get('effects', [])) and any(v['route'] == 'whole' for v in q))
         if IRREVERSIBLE.intersection(binding['tools'].get(tid, {}).get('effects', [])): tiers[i] = 'irreversible'
-    positive = [int(l['attacked'] and l['security'] is True) for l in labels]
+    positive = [int(l['attacked'] and l.get('security') is True) for l in labels]
     weights = [1] * len(labels)
     observed = {k: endpoint(flags[k], positive, weights) for k in NAMES}
     bases = base_ids if base_ids is not None else [base_model(l['pipeline']) for l in labels]
@@ -431,8 +431,6 @@ def validate_inputs(raw, labels, overlap_rows, suites, binding, source, strict, 
         if label['suite'] not in suites or not isinstance(label.get('pipeline'), str) or not isinstance(label.get('cohort'), str):
             raise ValueError('invalid suite/pipeline/cohort')
         if type(label['attacked']) is not bool: raise ValueError('invalid attacked label')
-        if strict and label['attacked'] and type(label.get('security')) is not bool:
-            raise ValueError('attacked run has non-boolean security')
         for key in ('user_task', 'injection_task'):
             v = label[key]
             if key == 'injection_task' and v is None: continue
@@ -472,7 +470,7 @@ def descriptive_tables(raw, labels, snapshot, manifest, binding, source):
     index = {l['run_id']: i for i,l in enumerate(labels)}
     for obs,q in calls:
         prov[index[obs['run_id']]] |= int(obs['action']['impact'] == 'write' and any(v['route'] == 'whole' for v in q))
-    positive = [int(l['attacked'] and l['security'] is True) for l in labels]
+    positive = [int(l['attacked'] and l.get('security') is True) for l in labels]
     def table(weights):
         return {'s1': endpoint(s1, positive, weights), 'prov': endpoint(prov, positive, weights)}
     return {'per_panel': {p: table([int(l['pipeline'] == p) for l in labels])
@@ -522,6 +520,18 @@ def evaluate(raw, labels, overlap_rows, snapshot, manifest, binding, reps=10000,
     x1_ids = {l['run_id'] for l in x1}
     result['secondary']['x1'] = descriptive_tables([o for o in raw if o['run_id'] in x1_ids], x1, snapshot, manifest, binding, mode)
     result['secondary']['d5'] = d5_tables(labels, bases, d5_rows)
+    # A-S2-3: retain attacked runs with missing/non-boolean security as negatives.
+    # Report errors over all selected pools, independently of primary statistics.
+    errors = {'total': 0, 'per_pool': {'P': 0, 'X1': 0},
+              'per_base': dict.fromkeys(sorted({c['base'] for c in cohorts}, key=js_key), 0), 'run_ids': []}
+    for label,base,pool in zip(labels,bases,groups):
+        if label['attacked'] and type(label.get('security')) is not bool:
+            errors['total'] += 1
+            errors['per_pool'][pool] += 1
+            errors['per_base'][base] = errors['per_base'].get(base, 0) + 1
+            errors['run_ids'].append(label['run_id'])
+    errors['run_ids'].sort(key=js_key)
+    result['secondary']['label_errors'] = errors
     return result
 
 

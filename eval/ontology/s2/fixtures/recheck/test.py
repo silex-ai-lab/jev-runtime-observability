@@ -59,6 +59,7 @@ def run(f, **kw): return s2.evaluate(**f,reps=20,draws=12,**kw)
 def primary(result):
     r=copy.deepcopy(result)
     del r['secondary']['x1']; del r['secondary']['d5']
+    del r['secondary']['label_errors']
     return json.dumps(r,sort_keys=False)
 
 
@@ -250,12 +251,70 @@ class RecheckTests(unittest.TestCase):
             s2.validate_inputs(f['raw'],f['labels'],f['overlap_rows'],s2.SUITES,f['binding'],
                                'agentdyn',True,f['manifest'])
 
+    def test_nonboolean_security_is_kept_and_not_positive(self):
+        for security in (None, 1, 'true', {}, [], '', False, True):
+            with self.subTest(security=security):
+                f=fixture(k=1)
+                baseline=run(copy.deepcopy(f))
+                label=f['labels'][0]; label['security']=security
+                f['d5_rows'][0].update(security=security,utility=False)
+                r=run(f)
+                invalid=type(security) is not bool
+                self.assertEqual(r['counts']['runs'],baseline['counts']['runs'])
+                self.assertEqual(r['counts']['positives'],baseline['counts']['positives']-(security is not True))
+                for monitor in ('s1','prov'):
+                    self.assertEqual(r['observed'][monitor]['F'],baseline['observed'][monitor]['F'])
+                    self.assertEqual(r['observed'][monitor]['TP'],baseline['observed'][monitor]['TP']-(security is not True))
+                self.assertEqual(r['secondary']['label_errors'],
+                                 {'total':int(invalid),'per_pool':{'P':int(invalid),'X1':0},
+                                  'per_base':{'model0':int(invalid)},
+                                  'run_ids':[label['run_id']] if invalid else []})
+                self.assertEqual(r['secondary']['d5']['per_base']['model0']['utility_false_security_true'],
+                                 3+int(security is True))
+        f=fixture(k=1)
+        f['labels'][0].pop('security');f['d5_rows'][0]['security']=None
+        r=run(f)
+        self.assertEqual(r['counts']['positives'],59)
+        self.assertEqual(r['secondary']['label_errors']['total'],1)
+
+    def test_label_error_pools_bases_and_primary_isolation(self):
+        f=fixture(x1=True)
+        baseline=run(copy.deepcopy(f))
+        x1=next(l for l in f['labels'] if l['group']=='X1' and l['attacked'])
+        x1['security']=None
+        next(d for d in f['d5_rows'] if d['run_id']==x1['run_id'])['security']=None
+        r=run(f)
+        self.assertEqual(primary(r),primary(baseline))
+        self.assertEqual(r['secondary']['x1']['pooled']['s1']['Pos'],59)
+        p0=next(l for l in f['labels'] if l['group']=='P' and l['base']=='model0' and l['attacked'])
+        p1=next(l for l in f['labels'] if l['group']=='P' and l['base']=='model1' and l['attacked'])
+        for label in (p0,p1):
+            label['security']=1
+            next(d for d in f['d5_rows'] if d['run_id']==label['run_id'])['security']=1
+        clean=next(l for l in f['labels'] if not l['attacked'])
+        clean['security']=None
+        next(d for d in f['d5_rows'] if d['run_id']==clean['run_id'])['security']=None
+        r=run(f)
+        self.assertEqual(r['secondary']['label_errors'],
+                         {'total':3,'per_pool':{'P':2,'X1':1},
+                          'per_base':{'model0':2,'model1':1,'model2':0,'model3':0,'model4':0},
+                          'run_ids':sorted([x1['run_id'],p0['run_id'],p1['run_id']],key=s2.js_key)})
+        self.assertEqual(r['counts']['runs'],5*3*31)
+        self.assertEqual(r['counts']['positives'],5*3*20-2)
+
+    def test_label_error_summary_includes_zero_error_selected_bases(self):
+        f=fixture(k=1)
+        f['cohorts'].append({'pipeline':'empty-defense','attack':'important_instructions',
+                             'clean':True,'group':'X1','base':'empty-base'})
+        self.assertEqual(run(f)['secondary']['label_errors'],
+                         {'total':0,'per_pool':{'P':0,'X1':0},
+                          'per_base':{'empty-base':0,'model0':0},'run_ids':[]})
+
     def test_integrity_failures(self):
         edits=[lambda f:f['overlap_rows'].pop(),
                lambda f:f['overlap_rows'].append(copy.deepcopy(f['overlap_rows'][0])),
                lambda f:f['labels'].append(copy.deepcopy(f['labels'][0])),
                lambda f:f['raw'].append(copy.deepcopy(f['raw'][0])),
-               lambda f:f['labels'][0].update(security=None),
                lambda f:f['labels'][0].update(base='invented'),
                lambda f:f['binding']['tools'].pop('agentdyn:github/read_file'),
                lambda f:f['d5_rows'].pop(),
@@ -279,6 +338,7 @@ class RecheckTests(unittest.TestCase):
         self.assertEqual(r['counts']['runs'],6*3*31)
         self.assertNotIn('x1',r['secondary'])
         self.assertNotIn('b_prov_bound',r['secondary'])
+        self.assertNotIn('label_errors',r['secondary'])
         self.assertEqual(s2.base_model('gpt-4o-2024-05-13-tool_filter'),'gpt-4o-2024-05-13')
         self.assertEqual(s2.group('gpt-4o-2024-05-13'),'X2')
 

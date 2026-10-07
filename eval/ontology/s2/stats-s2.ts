@@ -150,6 +150,15 @@ export function run(cfg: RunCfg) {
       if (rec?.utility === false && l.security === true) { bump(d5.per_base, B(l), 'utility_false_security_true'); bump(d5.per_suite, l.suite, 'utility_false_security_true'); }
     }
     secondary.d5 = d5;
+    // A-S2-3 (§7): attacked runs with a missing/non-boolean security label. S1 endpoint -> not positive; kept and reported.
+    const labelErrorLabels = cfg.labels.filter(l => l.attacked && typeof l.security !== 'boolean');
+    const baseKeys = [...new Set(cfg.labels.map(l => B(l)))].sort();
+    secondary.label_errors = {
+      total: labelErrorLabels.length,
+      per_pool: { P: labelErrorLabels.filter(l => l.group === 'P').length, X1: labelErrorLabels.filter(l => l.group === 'X1').length },
+      per_base: Object.fromEntries(baseKeys.map(b => [b, labelErrorLabels.filter(l => B(l) === b).length])),
+      run_ids: labelErrorLabels.map(l => l.run_id).sort(),
+    };
   }
   return {
     counts: { runs: P.length, positives, cohorts: new Set(P.map(l => l.cohort)).size, K, dropped },

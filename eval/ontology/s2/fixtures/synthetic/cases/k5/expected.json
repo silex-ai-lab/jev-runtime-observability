@@ -69,6 +69,150 @@
   "failed": [],
   "redraws": 0,
   "secondary": {
+   "b_prov_bound": {
+    "s1": {
+     "F": 60,
+     "TP": 60,
+     "Pos": 60,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "prov": {
+     "F": 120,
+     "TP": 60,
+     "Pos": 60,
+     "precision": 0.5,
+     "recall": 1.0
+    },
+    "p_a": 0.004975124378109453
+   },
+   "d5": {
+    "per_base": {
+     "synth-a": {
+      "attacked": 27,
+      "error_present": 6,
+      "utility_false_security_true": 6
+     },
+     "synth-b": {
+      "attacked": 24,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     },
+     "synth-c": {
+      "attacked": 24,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     },
+     "synth-d": {
+      "attacked": 24,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     },
+     "synth-e": {
+      "attacked": 24,
+      "error_present": 3,
+      "utility_false_security_true": 6
+     }
+    },
+    "per_suite": {
+     "dailylife": {
+      "attacked": 41,
+      "error_present": 6,
+      "utility_false_security_true": 10
+     },
+     "github": {
+      "attacked": 41,
+      "error_present": 6,
+      "utility_false_security_true": 10
+     },
+     "shopping": {
+      "attacked": 41,
+      "error_present": 6,
+      "utility_false_security_true": 10
+     }
+    }
+   },
+   "groups": {
+    "P": {
+     "s1": {
+      "F": 60,
+      "TP": 60,
+      "Pos": 60,
+      "precision": 1.0,
+      "recall": 1.0
+     },
+     "prov": {
+      "F": 90,
+      "TP": 60,
+      "Pos": 60,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+     }
+    },
+    "X1": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     }
+    },
+    "X2": {
+     "s1": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     },
+     "prov": {
+      "F": 0,
+      "TP": 0,
+      "Pos": 0,
+      "precision": null,
+      "recall": null
+     }
+    }
+   },
+   "label_errors": {
+    "total": 0,
+    "per_pool": {
+     "P": 0,
+     "X1": 0
+    },
+    "per_base": {
+     "synth-a": 0,
+     "synth-b": 0,
+     "synth-c": 0,
+     "synth-d": 0,
+     "synth-e": 0
+    },
+    "run_ids": []
+   },
+   "overlap": {
+    "s1": {
+     "F": 60,
+     "TP": 30,
+     "Pos": 30,
+     "precision": 0.5,
+     "recall": 1.0
+    },
+    "prov": {
+     "F": 90,
+     "TP": 30,
+     "Pos": 30,
+     "precision": 0.3333333333333333,
+     "recall": 1.0
+    }
+   },
    "p_rec3": 0.004975124378109453,
    "p_rec5": 0.004975124378109453,
    "p_signflip": 0.03125,
@@ -236,72 +380,6 @@
      }
     }
    },
-   "groups": {
-    "P": {
-     "s1": {
-      "F": 60,
-      "TP": 60,
-      "Pos": 60,
-      "precision": 1.0,
-      "recall": 1.0
-     },
-     "prov": {
-      "F": 90,
-      "TP": 60,
-      "Pos": 60,
-      "precision": 0.6666666666666666,
-      "recall": 1.0
-     }
-    },
-    "X1": {
-     "s1": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     },
-     "prov": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     }
-    },
-    "X2": {
-     "s1": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     },
-     "prov": {
-      "F": 0,
-      "TP": 0,
-      "Pos": 0,
-      "precision": null,
-      "recall": null
-     }
-    }
-   },
-   "overlap": {
-    "s1": {
-     "F": 60,
-     "TP": 30,
-     "Pos": 30,
-     "precision": 0.5,
-     "recall": 1.0
-    },
-    "prov": {
-     "F": 90,
-     "TP": 30,
-     "Pos": 30,
-     "precision": 0.3333333333333333,
-     "recall": 1.0
-    }
-   },
    "tiers": {
     "irreversible": {
      "s1": {
@@ -336,23 +414,6 @@
      }
     }
    },
-   "b_prov_bound": {
-    "s1": {
-     "F": 60,
-     "TP": 60,
-     "Pos": 60,
-     "precision": 1.0,
-     "recall": 1.0
-    },
-    "prov": {
-     "F": 120,
-     "TP": 60,
-     "Pos": 60,
-     "precision": 0.5,
-     "recall": 1.0
-    },
-    "p_a": 0.004975124378109453
-   },
    "x1": {
     "per_panel": {
      "synth-a-def": {
@@ -386,52 +447,6 @@
       "Pos": 0,
       "precision": null,
       "recall": null
-     }
-    }
-   },
-   "d5": {
-    "per_base": {
-     "synth-a": {
-      "attacked": 27,
-      "error_present": 6,
-      "utility_false_security_true": 6
-     },
-     "synth-b": {
-      "attacked": 24,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     },
-     "synth-c": {
-      "attacked": 24,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     },
-     "synth-d": {
-      "attacked": 24,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     },
-     "synth-e": {
-      "attacked": 24,
-      "error_present": 3,
-      "utility_false_security_true": 6
-     }
-    },
-    "per_suite": {
-     "dailylife": {
-      "attacked": 41,
-      "error_present": 6,
-      "utility_false_security_true": 10
-     },
-     "github": {
-      "attacked": 41,
-      "error_present": 6,
-      "utility_false_security_true": 10
-     },
-     "shopping": {
-      "attacked": 41,
-      "error_present": 6,
-      "utility_false_security_true": 10
      }
     }
    }
