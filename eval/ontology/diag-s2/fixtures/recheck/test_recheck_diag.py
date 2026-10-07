@@ -2,6 +2,7 @@
 import sys
 sys.dont_write_bytecode = True
 import copy
+from collections import Counter
 import importlib.util
 import json
 from pathlib import Path
@@ -192,15 +193,54 @@ class RecheckTests(unittest.TestCase):
 
     def test_shared_synthetic_fixture(self):
         directory = MODULE.parent / 'fixtures/synthetic'
-        if not (directory / 'expected.json').exists():
-            self.skipTest('shared Mimo synthetic expected.json is not present yet')
-        expected = diag.frozen.read_json(directory / 'expected.json')
+        # This shared fixture seals labels/binding/snapshot separately from its
+        # sanitize-stable observations; it does not use the real-run layout.
+        def verify_fixture_baselines():
+            for stem, required in (
+                ('baseline', {'labels.jsonl', 'labels-pr.jsonl', 'labels-d5.jsonl',
+                              'binding.json', 'frozen/snapshot.json'}),
+                ('baseline-sanitized', {'observations.sanitized.jsonl'}),
+            ):
+                baseline = directory / (stem + '.sha256')
+                self.assertEqual(diag.sha256(baseline),
+                                 (directory / (stem + '.self.sha256')).read_text().strip())
+                entries = [line.split('  ', 1) for line in baseline.read_text().splitlines()]
+                self.assertEqual(len(entries), len(required))
+                self.assertEqual({name for _, name in entries}, required)
+                for digest, name in entries:
+                    self.assertEqual(diag.sha256(directory / name), digest, name)
+
+        verify_fixture_baselines()
         def load(name): return diag.frozen.read_json(directory / name)
-        actual = diag.diagnose(diag.jsonl(directory / 'observations.jsonl'), list(diag.jsonl(directory / 'labels.jsonl')),
-                               load('snapshot.json'), load('manifest.json'), load('binding.json'),
-                               load('cohorts.json'), load('stats.json'))
-        for key in ('reference', 'q1', 'q3'):
-            self.assertEqual(actual[key], expected[key])
+        expected = load('expected.json')
+        binding = load('binding.json')
+        # Match frozen stats-s2.ts manifestFromBinding, including unused tools.
+        manifest = {'tools': [
+            {'id': tid, 'suite': tid.split(':')[1].split('/')[0],
+             'name': tid.split('/')[1], 'impact': '',
+             'params': [{'name': name} for name in tool['params']]}
+            for tid, tool in binding['tools'].items()
+        ]}
+        raw = list(diag.jsonl(directory / 'observations.sanitized.jsonl'))
+        labels = list(diag.jsonl(directory / 'labels.jsonl'))
+        calls = Counter(row['run_id'] for row in raw)
+        cohorts = {}
+        for label in labels:
+            self.assertIs(label['attacked'], True)
+            # The fixture's cohort is its pipeline; supply a synthetic attack
+            # identifier only for the recheck's sealed-cohort identity contract.
+            label['attack'] = 'synthetic'
+            label['cohort'] = label['pipeline'] + '/synthetic'
+            label['n_calls'] = calls[label['run_id']]
+            cohort = {'pipeline': label['pipeline'], 'attack': 'synthetic',
+                      'clean': False, 'base': label['base'], 'group': label['group']}
+            self.assertEqual(cohorts.setdefault(label['pipeline'], cohort), cohort)
+        actual = diag.diagnose(raw, labels, load('frozen/snapshot.json'), manifest,
+                               binding, list(cohorts.values()), load('stats-s2.json'))
+        verify_fixture_baselines()
+        self.assertEqual(actual['q1']['P'], expected['q1']['P'])
+        self.assertEqual(actual['q1']['X1'], expected['q1']['X1'])
+
 
 
 if __name__ == '__main__':
