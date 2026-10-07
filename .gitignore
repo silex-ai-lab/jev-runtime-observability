@@ -26,4 +26,4 @@ runs/onto-pr-items/
 runs/onto-pr-judge/predictions-*.jsonl
 # Ontology S2 (AgentDyn): the sealed tarball and all run-text inputs stay local; only aggregates and seals are committed
 runs/onto-s2-src/
-runs/onto-s2-input/*.jsonl
+runs/onto-s2-input/
