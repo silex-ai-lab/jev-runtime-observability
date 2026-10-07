@@ -148,8 +148,9 @@ every level, any non-integer count, any non-null non-finite number, and a `state
 covers `closure.ts`'s required set (the transitive relative-import closure of every program it runs, plus the spec,
 report template, binding, schema, snapshot, `resolved.json`, `manifest-silex.json`), the run seal and the P0 inventory;
 every listed hash matches. WORK and the transcription must be outside every repository; OUT must be the private
-destination or outside every repository. Every child's output goes to `WORK/logs`; the console carries fixed status
-lines only.
+destination or outside every repository. The script's own output and every child's output go to a private log
+directory created under `TMPDIR`, whose resolved path must be outside every repository (the run refuses otherwise);
+on success the directory is moved into WORK. The console carries fixed status lines only.
 
 
 `recheck_pilot.py` (stdlib only) reads the **raw** `observations.jsonl` and sanitizes it itself, then computes the

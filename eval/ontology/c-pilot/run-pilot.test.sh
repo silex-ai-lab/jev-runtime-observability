@@ -17,7 +17,7 @@ p = ["runs/ap/user_task_0/important_instructions/injection_task_0.json", "runs/a
 json.dump(dict(zip(p, ["success", "benign-acting", "unmapped", "benign"])), open(sys.argv[1], "w"))
 json.dump(dict(zip(p[:3], ["success", "benign-acting", "unmapped"])), open(sys.argv[2], "w"))
 PY
-FIXED='^(seals verified|C-PILOT ABORT: [A-Za-z0-9 /().,;_-]+ \(logs: /[A-Za-z0-9/._-]+\)|pilot(-primary)?\.json sha256 [0-9a-f]{64}|C pilot (primary|authored) phase complete)$'
+FIXED='^(seals verified|C-PILOT ABORT: [A-Za-z0-9 /().,;_-]+( \(logs: /[A-Za-z0-9/._-]+\))?|pilot(-primary)?\.json sha256 [0-9a-f]{64}|C pilot (primary|authored) phase complete)$'
 quiet() { if grep -vE "$FIXED" "$T/log" | grep -q .; then bad "$1: console not quiet"; cat "$T/log"; else ok "$1: console quiet"; fi; }
 expect_abort() { # name, expected reason substring, command...
   local name=$1 why=$2; shift 2
@@ -82,5 +82,11 @@ expect_abort "primary with a stale authored result in OUT" "OUT already holds re
 echo x > "$T/o-file"
 expect_abort "OUT is a regular file" "could not create WORK or OUT" env WORK="$T/w-of" OUT="$T/o-file" $CP/run-pilot.sh primary
 expect_abort "pilot/recheck disagreement" "step compare failed" env C_PILOT_TEST_HOOK='after-recheck:python3 -c "import json,sys;p=sys.argv[1];d=json.load(open(p));d[\"tables\"][\"primary\"][\"pooled\"][\"typedxV3\"][\"F\"]+=7;json.dump(d,open(p,\"w\"))" "$WORK/recheck.json"' $(fresh) $CP/run-pilot.sh primary
+mkdir -p "$T/gitrepo/tmp" && git -C "$T/gitrepo" init -q
+expect_abort "TMPDIR inside a git repository" "TMPDIR is inside a git repository" env TMPDIR="$T/gitrepo/tmp" $(fresh) $CP/run-pilot.sh primary
+ln -s "$T/gitrepo/tmp" "$T/tmplink"
+expect_abort "TMPDIR symlink into a git repository" "TMPDIR is inside a git repository" env TMPDIR="$T/tmplink" $(fresh) $CP/run-pilot.sh primary
+[ -z "$(ls -A "$T/gitrepo/tmp")" ] && ok "nothing written into the repository's TMPDIR" || bad "logs written into a repository"
+[ -d "$WORK/logs-primary" ] && grep -q progent_note "$WORK/logs-primary/convert.log" && ok "logs moved into WORK on success" || bad "logs not moved into WORK"
 expect_abort "test hook refused for the real data" "test hook set" env -u SILEX C_PILOT_TEST_HOOK='x:true' $(fresh) $CP/run-pilot.sh primary
 exit $fail

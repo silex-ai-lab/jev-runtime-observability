@@ -9,12 +9,19 @@
 #           (5) pilot.ts; (6) independent recheck on RAW observations; (7) compare; (8) verify again; publish.
 # authored: verify everything again, recompute both tables with the transcribed labels, recheck, compare; require a
 #           non-null authored table and a primary table identical to the primary phase; publish.
-# Console: the script's own stdout/stderr go to a private log directory (mktemp, outside every repo) from the first line;
-# only fixed status lines reach the console, on fd 3. Locations are checked on resolved targets; results are published
+# Console: the script's own stdout/stderr go to a private log directory (mktemp under TMPDIR, whose resolved path must be
+# outside every repository; refused otherwise) from the first lines; on success it is moved into WORK. Only
+# fixed status lines reach the console, on fd 3. Locations are checked on resolved targets; results are published
 # with O_CREAT|O_EXCL (never through or over an existing path or symlink).
 set -euo pipefail
 exec 3>&2
-LOG=$(mktemp -d "${TMPDIR:-/tmp}/c-pilot-logs.XXXXXX" 2>/dev/null) || { echo "C-PILOT ABORT: cannot create a log directory" >&3; exit 1; }
+real() { python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$1"; }
+in_repo() { local d; d=$(real "$1"); while [ ! -d "$d" ]; do d=$(dirname "$d"); done; (cd "$d" && git rev-parse --is-inside-work-tree >/dev/null 2>&1); }
+# The private log directory: its resolved parent must be outside every repository before anything is written there.
+LOGROOT=$(real "${TMPDIR:-/tmp}" 2>/dev/null) && [ -d "$LOGROOT" ] || { echo "C-PILOT ABORT: no usable TMPDIR for logs" >&3; exit 1; }
+if in_repo "$LOGROOT" 2>/dev/null; then echo "C-PILOT ABORT: TMPDIR is inside a git repository" >&3; exit 1; fi
+LOG=$(mktemp -d "$LOGROOT/c-pilot-logs.XXXXXX" 2>/dev/null) || { echo "C-PILOT ABORT: cannot create a log directory" >&3; exit 1; }
+in_repo "$LOG" 2>/dev/null && { rmdir "$LOG"; echo "C-PILOT ABORT: TMPDIR is inside a git repository" >&3; exit 1; }
 exec >>"$LOG/script.log" 2>&1
 say() { echo "$*" >&3; }
 die() { say "C-PILOT ABORT: $1 (logs: $LOG)"; exit 1; }
@@ -28,8 +35,6 @@ P0="${P0:-$PRIVATE_OUT/P0-inventory.json}"
 OUT="${OUT:-$PRIVATE_OUT}"
 [ -n "${CODE_SEAL:-}" ] && [ -n "${CODE_SEAL_SHA256:-}" ] && [ -n "${WORK:-}" ] || die "CODE_SEAL, CODE_SEAL_SHA256 and WORK are required"
 EXPECT_RUNS="${EXPECT_RUNS:-40}"
-real() { python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$1"; }
-in_repo() { local d; d=$(real "$1"); while [ ! -d "$d" ]; do d=$(dirname "$d"); done; (cd "$d" && git rev-parse --is-inside-work-tree >/dev/null 2>&1); }
 hook() { [ -n "${C_PILOT_TEST_HOOK:-}" ] && [ "${C_PILOT_TEST_HOOK%%:*}" = "$1" ] && eval "${C_PILOT_TEST_HOOK#*:}" || true; }   # tests only
 step() { local name=$1; shift; "$@" > "$LOG/$name.log" 2>&1 || die "step $name failed"; }
 publish() {   # src dest: exclusive create, never follows or replaces an existing path or symlink
@@ -123,6 +128,7 @@ case "$PHASE" in
     absent "$OUT/pilot-primary.json" && absent "$OUT/pilot.json" || die "OUT already holds results"
     publish "$WORK/pilot.json" "$OUT/pilot-primary.json"
     say "pilot-primary.json sha256 $(shasum -a 256 "$OUT/pilot-primary.json" | cut -d' ' -f1)"
+    mv "$LOG" "$WORK/logs-primary" 2>/dev/null && LOG="$WORK/logs-primary"
     say "C pilot primary phase complete" ;;
   authored)
     [ -n "${MANIFEST_LABELS:-}" ] || die "MANIFEST_LABELS is required"
@@ -140,6 +146,7 @@ case "$PHASE" in
     absent "$OUT/pilot.json" || die "OUT already holds the authored results"
     publish "$WORK/pilot-authored.json" "$OUT/pilot.json"
     say "pilot.json sha256 $(shasum -a 256 "$OUT/pilot.json" | cut -d' ' -f1)"
+    mv "$LOG" "$WORK/logs-authored" 2>/dev/null && LOG="$WORK/logs-authored"
     say "C pilot authored phase complete" ;;
   *) die "phase must be primary or authored" ;;
 esac
